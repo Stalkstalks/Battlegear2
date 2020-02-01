@@ -16,6 +16,7 @@ import java.util.List;
 public final class CraftingHandeler {
 
     public static void onCrafting(EntityPlayer player, ItemStack item, IInventory craftMatrix) {
+        if(item == null) return;
 
         if(item.getItem() instanceof IArrowDisplay){
             ItemStack shield = null;
