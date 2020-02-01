@@ -3,15 +3,8 @@
 
 #Don't ignore the battlegear mod src folder
 !battlegear mod src/
-
-!battlegear api/
-
 !battlegear gimp files
-
-!battlegear dist/
-
 !mods/
-
 !src/
 
 #Also don't ignore the install scripts
