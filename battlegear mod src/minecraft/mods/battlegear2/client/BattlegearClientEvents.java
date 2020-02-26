@@ -5,6 +5,7 @@ import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import mods.battlegear2.Battlegear;
+import static mods.battlegear2.utils.BattlegearConfig.displayDamageDealt;
 import mods.battlegear2.api.EnchantmentHelper;
 import mods.battlegear2.api.IDyable;
 import mods.battlegear2.api.RenderItemBarEvent;
@@ -71,7 +72,9 @@ public final class BattlegearClientEvents {
     
     @SubscribeEvent
 	public void displayDamage(LivingUpdateEvent event) {
-		Battlegear.proxy.displayDamageDealt(event.entityLiving);
+    	if(displayDamageDealt == true) {
+    		Battlegear.proxy.displayDamageDealt(event.entityLiving);
+    	}
 	}
     
     /**

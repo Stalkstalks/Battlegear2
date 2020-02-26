@@ -39,8 +39,8 @@ public class BattlegearInGameGUI extends Gui {
     }
 
     public void renderGameOverlay(float frame, int mouseX, int mouseY) {
-
-        if(Battlegear.battlegearEnabled && !this.mc.playerController.enableEverythingIsScrewedUpMode()){
+    	
+		if(((Battlegear.battlegearEnabled && !this.mc.playerController.enableEverythingIsScrewedUpMode()))){
 
                 ScaledResolution scaledresolution = new ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
                 int width = scaledresolution.getScaledWidth();
