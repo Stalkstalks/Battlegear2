@@ -20,6 +20,8 @@ import mods.battlegear2.packet.BattlegearAnimationPacket;
 import mods.battlegear2.packet.SpecialActionPacket;
 import mods.battlegear2.utils.BattlegearConfig;
 import mods.battlegear2.utils.EnumBGAnimations;
+import mods.overloadedarmorbar.OverlayEventHandler;
+import mods.torohealth.DamageParticles;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.Entity;
@@ -29,10 +31,12 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagInt;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -62,10 +66,45 @@ public final class ClientProxy extends CommonProxy {
     @Override
     public void registerTickHandelers() {
         super.registerTickHandelers();
+        MinecraftForge.EVENT_BUS.register(OverlayEventHandler.INSTANCE);
         MinecraftForge.EVENT_BUS.register(BattlegearClientEvents.INSTANCE);
         FMLCommonHandler.instance().bus().register(BattlegearClientTickHandeler.INSTANCE);
         BattlegearUtils.RENDER_BUS.register(new BattlegearClientUtils());
     }
+    
+    @Override
+	public void displayDamageDealt(EntityLivingBase entity) {
+		
+		if (!entity.worldObj.isRemote) {
+			return;
+		}
+		
+		int currentHealth = (int) Math.ceil(entity.getHealth());
+
+		if (entity.getEntityData().hasKey("health")) {
+			int entityHealth = ((NBTTagInt) entity.getEntityData().getTag("health")).func_150287_d();
+
+			if (entityHealth != currentHealth) {
+				displayParticle(entity, (int) entityHealth - currentHealth);
+			}
+		}
+
+		entity.getEntityData().setTag("health", new NBTTagInt(currentHealth));
+	}
+
+	private void displayParticle(Entity entity, int damage) {
+		if (damage == 0) {
+			return;
+		}
+		
+		World world = entity.worldObj;
+		double motionX = world.rand.nextGaussian() * 0.02;
+		double motionY = 0.5f;
+		double motionZ = world.rand.nextGaussian() * 0.02;
+		DamageParticles damageIndicator = new DamageParticles(damage, world, entity.posX, entity.posY + entity.height, entity.posZ, motionX, motionY, motionZ);
+		Minecraft.getMinecraft().effectRenderer.addEffect(damageIndicator);
+	}
+	
 
     @Override
     public void sendAnimationPacket(EnumBGAnimations animation, EntityPlayer entityPlayer) {

@@ -48,18 +48,6 @@ public class Battlegear {
         //Set up the Translator
         knightArmourMaterial = EnumHelper.addArmorMaterial("knights.armour", 25, new int[]{3, 7, 5, 3}, 15);
         BattlegearConfig.getConfig(new Configuration(event.getSuggestedConfigurationFile()));
-
-        if((event.getSourceFile().getName().endsWith(".jar") || debug) && event.getSide().isClient()){
-            try {
-                Class.forName("mods.mud.ModUpdateDetector").getDeclaredMethod("registerMod", ModContainer.class, String.class, String.class).invoke(null,
-                        FMLCommonHandler.instance().findContainerFor(this),
-                        "https://raw.github.com/Mine-and-blade-admin/Battlegear2/master/battlegear_update.xml",
-                        "https://raw.github.com/Mine-and-blade-admin/Battlegear2/master/changelog.md"
-                );
-            } catch (Throwable e) {
-                e.printStackTrace();
-            }
-        }
         logger = event.getModLog();
         proxy.registerKeyHandelers();
         proxy.registerTickHandelers();

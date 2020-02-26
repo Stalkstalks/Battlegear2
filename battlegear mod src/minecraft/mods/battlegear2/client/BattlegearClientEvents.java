@@ -43,6 +43,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.*;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import org.lwjgl.opengl.GL11;
 
@@ -67,7 +68,12 @@ public final class BattlegearClientEvents {
         quiverDetails = new ResourceLocation("battlegear2", "textures/armours/quiver/QuiverDetails.png");
         quiverBase = new ResourceLocation("battlegear2", "textures/armours/quiver/QuiverBase.png");
     }
-
+    
+    @SubscribeEvent
+	public void displayDamage(LivingUpdateEvent event) {
+		Battlegear.proxy.displayDamageDealt(event.entityLiving);
+	}
+    
     /**
      * Offset battle slots rendering according to config values
      */

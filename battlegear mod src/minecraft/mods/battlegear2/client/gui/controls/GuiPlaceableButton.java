@@ -1,5 +1,6 @@
 package mods.battlegear2.client.gui.controls;
 
+import static mods.battlegear2.client.ClientProxy.tconstructEnabled;
 import cpw.mods.fml.client.config.GuiUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -59,7 +60,7 @@ public abstract class GuiPlaceableButton extends GuiButton {
 
     @Override
     public void drawButton(Minecraft mc, int mouseX, int mouseY){
-        if (this.visible)
+        if (this.visible && tconstructEnabled == false)
         {
             if(mc.currentScreen instanceof InventoryEffectRenderer) {
                 if (deltaY != 0) {

@@ -23,6 +23,7 @@ item.battlegear2:chain.name=Chain
 item.battlegear2:quiver.name=Quiver
 
 item.battlegear2:mb.arrow.ender.name=Ender Arrow
+item.battlegear2:mb.arrow.ice.name=Ice Packed Arrow
 item.battlegear2:mb.arrow.explosive.name=Explosive Arrow
 item.battlegear2:mb.arrow.flame.name=Flaming Arrow
 item.battlegear2:mb.arrow.piercing.name=Piercing Arrow
@@ -112,6 +113,7 @@ attribute.quiver.arrow.empty=Empty
 attribute.quiver.arrow.count=Arrows
 
 lore.base.arrow.explosive=Packs some explosive power
+lore.base.arrow.ice=Effective agains ? ice blaze?
 lore.base.arrow.ender=This Ender Eye seems in pain...
 lore.base.arrow.flame=Flint and Steel ? No need
 lore.base.arrow.piercing=Uncommon cutting ability

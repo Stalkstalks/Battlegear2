@@ -50,14 +50,19 @@ public class BattlegearInGameGUI extends Gui {
                 zLevel = -90.0F;
 
                 RenderItemBarEvent event = new RenderItemBarEvent.BattleSlots(renderEvent, true);
-                if(!MinecraftForge.EVENT_BUS.post(event)){
-                    renderBattleSlots(width / 2 + 121 + event.xOffset, height - 22 + event.yOffset, frame, true);
+                
+                if (mc.thePlayer!=null){
+                    if(((IBattlePlayer) mc.thePlayer).isBattlemode()) {
+		                if(!MinecraftForge.EVENT_BUS.post(event)){
+		                    renderBattleSlots(width / 2 + 121 + event.xOffset, height - 22 + event.yOffset, frame, true);
+		                }
+		                event = new RenderItemBarEvent.BattleSlots(renderEvent, false);
+		                if(!MinecraftForge.EVENT_BUS.post(event)){
+		                    renderBattleSlots(width / 2 - 184 + event.xOffset, height - 22 + event.yOffset, frame, false);
+		                }
+                    }
                 }
-                event = new RenderItemBarEvent.BattleSlots(renderEvent, false);
-                if(!MinecraftForge.EVENT_BUS.post(event)){
-                    renderBattleSlots(width / 2 - 184 + event.xOffset, height - 22 + event.yOffset, frame, false);
-                }
-
+                
                 ItemStack offhand = ((InventoryPlayerBattle) mc.thePlayer.inventory).getCurrentOffhandWeapon();
                 if(offhand!= null && offhand.getItem() instanceof IShield){
                     event = new RenderItemBarEvent.ShieldBar(renderEvent, offhand);
