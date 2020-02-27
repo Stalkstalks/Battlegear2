@@ -18,6 +18,8 @@ flag.design.save=Save
 flag.design.load=Load
 flag.design.load.sections=Load Section
 
+key.categories.battlegear=Battlegear
+
 item.battlegear2:heraldric.name=Heraldic Icon
 item.battlegear2:chain.name=Chain
 item.battlegear2:quiver.name=Quiver

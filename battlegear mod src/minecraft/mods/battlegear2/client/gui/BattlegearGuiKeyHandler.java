@@ -15,8 +15,8 @@ public final class BattlegearGuiKeyHandler {
     public static final BattlegearGuiKeyHandler INSTANCE = new BattlegearGuiKeyHandler();
 
     private BattlegearGuiKeyHandler() {
-        battleInv = new KeyBinding("Battle Inventory", Keyboard.KEY_I, "key.categories.inventory");
-        openSigilEditor = new KeyBinding("Open Sigil Editor", Keyboard.KEY_P, "key.categories.misc");
+        battleInv = new KeyBinding("Battle Inventory", Keyboard.KEY_I, "key.categories.battlegear");
+        openSigilEditor = new KeyBinding("Open Sigil Editor", Keyboard.KEY_P, "key.categories.battlegear");
 		ClientRegistry.registerKeyBinding(battleInv);
         ClientRegistry.registerKeyBinding(openSigilEditor);
 	}

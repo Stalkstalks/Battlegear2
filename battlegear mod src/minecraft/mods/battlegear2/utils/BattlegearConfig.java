@@ -49,7 +49,7 @@ public class BattlegearConfig {
 	public static Sheath forceSheath = Sheath.HIP;
     public static int updateRate = 20;
     public static boolean arrowForceRendered = true, enableSkeletonQuiver = true;
-	public static boolean enableGUIKeys = false, enableGuiButtons = true, forceHUD = false;
+	public static boolean enableGUIKeys = true, enableGuiButtons = true, forceHUD = false;
 	public static final String[] itemNames = {"heraldric","chain","quiver","dagger","waraxe","mace","spear","shield","knight.armour", "mb.arrow", "flagpole"};
 	public static final String[] renderNames = {"spear", "shield", "bow", "quiver", "flagpole"};
     public static final String[] toolTypes = {"wood", "stone", "iron", "diamond", "gold"};
@@ -72,14 +72,14 @@ public class BattlegearConfig {
 	public static void getConfig(Configuration config) {
         file = config;
         
-        // TorohealtDmgIndicator config
+        // TorohealthDmgIndicators config
         displayDamageDealt=config.get(config.CATEGORY_GENERAL, "Enable Damage Particles", displayDamageDealt).getBoolean();
         // OverloadedArmorBar config
-        alwaysShowArmorBar=config.get(config.CATEGORY_GENERAL, "Always Show Armor Bar?", alwaysShowArmorBar).getBoolean();
+        alwaysShowArmorBar=config.get(config.CATEGORY_GENERAL, "Always Show Armor Bar", alwaysShowArmorBar).getBoolean();
         showEmptyArmorIcons=config.get(config.CATEGORY_GENERAL, "Show Empty Armor Icons", showEmptyArmorIcons).getBoolean();
         colorValues=config.get(config.CATEGORY_GENERAL, "Armor Icon Colors", colorValues).getStringList();
         // Battlegear config
-        alwaysShowBattleBar=config.get(config.CATEGORY_GENERAL, "Always Show Battle Bar?", alwaysShowBattleBar).getBoolean();
+        alwaysShowBattleBar=config.get(config.CATEGORY_GENERAL, "Always Show Battlegear Slots", alwaysShowBattleBar).getBoolean();
         enableGUIKeys=config.get(config.CATEGORY_GENERAL, "Enable GUI Keys", enableGUIKeys).getBoolean();
         enableGuiButtons=config.get(config.CATEGORY_GENERAL, "Enable GUI Buttons", enableGuiButtons).getBoolean();
         updateRate=config.getInt("Update packet rate", "Server", updateRate, 1, 20000, "How often packets are sent over the network to update the battle inventory slots. Lower for faster updates, but more packets to deal for each client.");
