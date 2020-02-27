@@ -19,7 +19,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
 /**
- * 
+ * An arrow which is effective agains fire immune creatures
  * @author Seitenca
  *
  */

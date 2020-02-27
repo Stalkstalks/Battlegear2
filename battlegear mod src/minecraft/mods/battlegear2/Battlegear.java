@@ -39,7 +39,7 @@ public class Battlegear {
 
     public static boolean battlegearEnabled = true;
     public static boolean debug = false;
-
+    
 	public static org.apache.logging.log4j.Logger logger;
     public static BattlegearPacketHandeler packetHandler;
 

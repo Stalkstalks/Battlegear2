@@ -40,6 +40,7 @@ public class BattlegearConfig {
     public static final String MODID = "battlegear2:";
     private static Configuration file;
     public static String[] colorValues = new String[]{ "#FFFFFF", "#FF5500", "#FFC747", "#27FFE3",  "#00FF00", "#7F00FF"};
+    public static boolean alwaysShowBattleBar = false;
     public static boolean alwaysShowArmorBar = false;
     public static boolean showEmptyArmorIcons = false;
     public static boolean displayDamageDealt = true;
@@ -74,9 +75,11 @@ public class BattlegearConfig {
         // TorohealtDmgIndicator config
         displayDamageDealt=config.get(config.CATEGORY_GENERAL, "Enable Damage Particles", displayDamageDealt).getBoolean();
         // OverloadedArmorBar config
-        alwaysShowArmorBar=config.get(config.CATEGORY_GENERAL, "Always Show Armor Bar", alwaysShowArmorBar).getBoolean();
+        alwaysShowArmorBar=config.get(config.CATEGORY_GENERAL, "Always Show Armor Bar?", alwaysShowArmorBar).getBoolean();
         showEmptyArmorIcons=config.get(config.CATEGORY_GENERAL, "Show Empty Armor Icons", showEmptyArmorIcons).getBoolean();
+        colorValues=config.get(config.CATEGORY_GENERAL, "Armor Icon Colors", colorValues).getStringList();
         // Battlegear config
+        alwaysShowBattleBar=config.get(config.CATEGORY_GENERAL, "Always Show Battle Bar?", alwaysShowBattleBar).getBoolean();
         enableGUIKeys=config.get(config.CATEGORY_GENERAL, "Enable GUI Keys", enableGUIKeys).getBoolean();
         enableGuiButtons=config.get(config.CATEGORY_GENERAL, "Enable GUI Buttons", enableGuiButtons).getBoolean();
         updateRate=config.getInt("Update packet rate", "Server", updateRate, 1, 20000, "How often packets are sent over the network to update the battle inventory slots. Lower for faster updates, but more packets to deal for each client.");

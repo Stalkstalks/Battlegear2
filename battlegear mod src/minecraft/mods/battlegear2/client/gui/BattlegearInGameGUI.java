@@ -9,6 +9,7 @@ import mods.battlegear2.api.quiver.IArrowContainer2;
 import mods.battlegear2.api.quiver.QuiverArrowRegistry;
 import mods.battlegear2.api.shield.IShield;
 import mods.battlegear2.client.BattlegearClientTickHandeler;
+import mods.battlegear2.utils.BattlegearConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
@@ -39,8 +40,8 @@ public class BattlegearInGameGUI extends Gui {
     }
 
     public void renderGameOverlay(float frame, int mouseX, int mouseY) {
-    	
-		if(((Battlegear.battlegearEnabled && !this.mc.playerController.enableEverythingIsScrewedUpMode()))){
+    				
+		if(Battlegear.battlegearEnabled && !this.mc.playerController.enableEverythingIsScrewedUpMode()){
 
                 ScaledResolution scaledresolution = new ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
                 int width = scaledresolution.getScaledWidth();
@@ -52,7 +53,7 @@ public class BattlegearInGameGUI extends Gui {
                 RenderItemBarEvent event = new RenderItemBarEvent.BattleSlots(renderEvent, true);
                 
                 if (mc.thePlayer!=null){
-                    if(((IBattlePlayer) mc.thePlayer).isBattlemode()) {
+                    if(((IBattlePlayer) mc.thePlayer).isBattlemode() || BattlegearConfig.alwaysShowBattleBar == true) {
 		                if(!MinecraftForge.EVENT_BUS.post(event)){
 		                    renderBattleSlots(width / 2 + 121 + event.xOffset, height - 22 + event.yOffset, frame, true);
 		                }
