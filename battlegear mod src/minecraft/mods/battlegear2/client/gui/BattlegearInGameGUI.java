@@ -53,7 +53,7 @@ public class BattlegearInGameGUI extends Gui {
                 RenderItemBarEvent event = new RenderItemBarEvent.BattleSlots(renderEvent, true);
                 
                 if (mc.thePlayer!=null){
-                    if(((IBattlePlayer) mc.thePlayer).isBattlemode() || BattlegearConfig.alwaysShowBattleBar == true) {
+                    if(((IBattlePlayer) mc.thePlayer).isBattlemode() || BattlegearConfig.alwaysShowBattleBar) {
 		                if(!MinecraftForge.EVENT_BUS.post(event)){
 		                    renderBattleSlots(width / 2 + 121 + event.xOffset, height - 22 + event.yOffset, frame, true);
 		                }
