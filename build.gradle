@@ -40,7 +40,7 @@ minecraft {
     version = config.mcversion + "-" + config.forgeversion
     replace '$version', version
 }
-archivesBaseName = config.mcversion + "-" + config.distname
+archivesBaseName = config.distname + "-" + config.mcversion
 //Set the workspace
 sourceSets {
     main {

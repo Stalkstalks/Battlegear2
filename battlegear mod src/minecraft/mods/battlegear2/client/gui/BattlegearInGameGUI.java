@@ -9,6 +9,7 @@ import mods.battlegear2.api.quiver.IArrowContainer2;
 import mods.battlegear2.api.quiver.QuiverArrowRegistry;
 import mods.battlegear2.api.shield.IShield;
 import mods.battlegear2.client.BattlegearClientTickHandeler;
+import mods.battlegear2.utils.BattlegearConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
@@ -39,8 +40,8 @@ public class BattlegearInGameGUI extends Gui {
     }
 
     public void renderGameOverlay(float frame, int mouseX, int mouseY) {
-
-        if(Battlegear.battlegearEnabled && !this.mc.playerController.enableEverythingIsScrewedUpMode()){
+    				
+		if(Battlegear.battlegearEnabled && !this.mc.playerController.enableEverythingIsScrewedUpMode()){
 
                 ScaledResolution scaledresolution = new ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
                 int width = scaledresolution.getScaledWidth();
@@ -50,14 +51,19 @@ public class BattlegearInGameGUI extends Gui {
                 zLevel = -90.0F;
 
                 RenderItemBarEvent event = new RenderItemBarEvent.BattleSlots(renderEvent, true);
-                if(!MinecraftForge.EVENT_BUS.post(event)){
-                    renderBattleSlots(width / 2 + 121 + event.xOffset, height - 22 + event.yOffset, frame, true);
+                
+                if (mc.thePlayer!=null){
+                    if(((IBattlePlayer) mc.thePlayer).isBattlemode() || BattlegearConfig.alwaysShowBattleBar) {
+		                if(!MinecraftForge.EVENT_BUS.post(event)){
+		                    renderBattleSlots(width / 2 + 121 + event.xOffset, height - 22 + event.yOffset, frame, true);
+		                }
+		                event = new RenderItemBarEvent.BattleSlots(renderEvent, false);
+		                if(!MinecraftForge.EVENT_BUS.post(event)){
+		                    renderBattleSlots(width / 2 - 184 + event.xOffset, height - 22 + event.yOffset, frame, false);
+		                }
+                    }
                 }
-                event = new RenderItemBarEvent.BattleSlots(renderEvent, false);
-                if(!MinecraftForge.EVENT_BUS.post(event)){
-                    renderBattleSlots(width / 2 - 184 + event.xOffset, height - 22 + event.yOffset, frame, false);
-                }
-
+                
                 ItemStack offhand = ((InventoryPlayerBattle) mc.thePlayer.inventory).getCurrentOffhandWeapon();
                 if(offhand!= null && offhand.getItem() instanceof IShield){
                     event = new RenderItemBarEvent.ShieldBar(renderEvent, offhand);

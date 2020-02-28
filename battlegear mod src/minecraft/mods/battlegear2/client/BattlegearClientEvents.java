@@ -5,6 +5,7 @@ import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import mods.battlegear2.Battlegear;
+import static mods.battlegear2.utils.BattlegearConfig.displayDamageDealt;
 import mods.battlegear2.api.EnchantmentHelper;
 import mods.battlegear2.api.IDyable;
 import mods.battlegear2.api.RenderItemBarEvent;
@@ -43,6 +44,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.*;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import org.lwjgl.opengl.GL11;
 
@@ -67,7 +69,14 @@ public final class BattlegearClientEvents {
         quiverDetails = new ResourceLocation("battlegear2", "textures/armours/quiver/QuiverDetails.png");
         quiverBase = new ResourceLocation("battlegear2", "textures/armours/quiver/QuiverBase.png");
     }
-
+    
+    @SubscribeEvent
+	public void displayDamage(LivingUpdateEvent event) {
+    	if(displayDamageDealt == true) {
+    		Battlegear.proxy.displayDamageDealt(event.entityLiving);
+    	}
+	}
+    
     /**
      * Offset battle slots rendering according to config values
      */

@@ -3,6 +3,7 @@ package mods.battlegear2;
 import cpw.mods.fml.common.FMLCommonHandler;
 import mods.battlegear2.utils.EnumBGAnimations;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
@@ -20,6 +21,9 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(BowHookContainerClass2.INSTANCE);
         MinecraftForge.EVENT_BUS.register(MobHookContainerClass.INSTANCE);
     }
+    
+    public void displayDamageDealt(EntityLivingBase entity) {
+	}
 
     public void sendAnimationPacket(EnumBGAnimations animation, EntityPlayer entityPlayer) {}
 

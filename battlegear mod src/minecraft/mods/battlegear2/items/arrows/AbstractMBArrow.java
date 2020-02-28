@@ -16,7 +16,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 public abstract class AbstractMBArrow extends EntityArrow {
-
+		
 	public AbstractMBArrow(World par1World){
 		super(par1World);
 	}
