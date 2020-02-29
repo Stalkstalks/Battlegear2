@@ -47,7 +47,6 @@ public class OverlayEventHandler {
 
 	private Minecraft mc = Minecraft.getMinecraft();
 	private ArmorIcon[] armorIcons;
-	private EntityPlayer player = mc.thePlayer;
 
 	@SubscribeEvent(receiveCanceled = true)
 	public void onRenderGameOverlayEventPre(RenderGameOverlayEvent event) {
@@ -81,7 +80,7 @@ public class OverlayEventHandler {
 
 	    //Push to avoid lasting changes
 	    GL11.glPushMatrix();
-	    GL11.glEnable(GL11.GL_BLEND);
+	    GL11.glEnable(3042);
 
 	    int armorIconCounter = 0;
 	    for (ArmorIcon icon : armorIcons) {
@@ -90,7 +89,7 @@ public class OverlayEventHandler {
 	    	switch (icon.armorIconType) {
 	    	case NONE:
 	    		ArmorIconColor color = icon.primaryArmorIconColor;
-	    		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+	    		GL11.glColor4f(color.Red, color.Green, color.Blue, color.Alpha);
 	    		if (currentArmorValue > 20) {
 	    			//Draw the full icon as we have wrapped
 	    			drawTexturedModalRect(xPosition, yPosition , 34, 9, ARMOR_ICON_SIZE, ARMOR_ICON_SIZE);
