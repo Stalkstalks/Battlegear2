@@ -27,7 +27,7 @@ public class OverlayEventHandler {
 	
 	public static void drawTexturedModalRect(int x, int y, int textureX, int textureY, int width, int height) {
 		Minecraft.getMinecraft().ingameGUI.drawTexturedModalRect(x, y, textureX, textureY, width, height);
-	  }
+	}
 	  
 	public static final OverlayEventHandler INSTANCE = new OverlayEventHandler();
 	private OverlayEventHandler() {}
@@ -129,10 +129,10 @@ public class OverlayEventHandler {
 	    //Revert our state back
 	    GL11.glColor4f(1, 1, 1, 1);
 	    GL11.glPopMatrix();
-	  }
+	}
 	
 	public void forceUpdate() {
 		//Setting to unknown value will cause a refresh next render
 		INSTANCE.previousArmorValue = UNKNOWN_ARMOR_VALUE;
-		}
 	}
+}
