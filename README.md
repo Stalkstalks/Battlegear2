@@ -2,7 +2,7 @@ Mine and Blade : Battlegear - 2
 ===============================
 	
 Minecraft version: 1.7.10  
-Forge Version: 1.7.10-10.13.2.1230
+Forge Version: 1.7.10-10.13.4.1614
 
 This is the second iteration of Mine & Blade: Battlegear, the popular dual-wielding and combat mod for Minecraft.
 The mod has a heavy dependency on the use of ASM (coremod) to edit the bytecode of the minecraft base classes. 
@@ -83,3 +83,10 @@ Some Notes for Texture Pack Makers
 Some of the rendering capabilities of the mod are still in development, especially concerning the heraldry. The following are a few notes.
 * The patterns should only have white. The white section will determine the secondary colour. The primary colour will be the alpha section. Semi transparent sections should also work for better blending.
 * The icons should be greyscale and alpha values. They also require at least 1 pixal border around the whole image that should be kept black. This is the reason all of them are 18x18 pixals (16x16 plus a 1px border all around)
+
+This fork includes code from:
+------------------------------
+
+Torohealth Damage Indicators -> https://github.com/ToroCraft/ToroHealth
+
+OverloadedArmorBar -> https://github.com/Tfarcenim/OverloadedArmorBar
