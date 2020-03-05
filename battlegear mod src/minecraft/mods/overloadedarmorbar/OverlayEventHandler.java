@@ -1,25 +1,14 @@
 package mods.overloadedarmorbar;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import mods.battlegear2.utils.BattlegearConfig;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.common.ForgeHooks;
 import org.lwjgl.opengl.GL11;
 
 import static mods.battlegear2.utils.BattlegearConfig.alwaysShowArmorBar;
-import mods.battlegear2.utils.BattlegearConfig;
-
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
-import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.common.ISpecialArmor;
 /*
     Class which handles the render event and hides the vanilla armor bar
  */
@@ -59,12 +48,12 @@ public class OverlayEventHandler {
 	    event.setCanceled(true);
 	    INSTANCE.renderArmorBar(scaledWidth, scaledHeight);
 	}
-	
+
 	private int calculateArmorValue() {
 		int currentArmorValue = ForgeHooks.getTotalArmorValue(mc.thePlayer);
 	    return currentArmorValue;
 	}
-		
+
 	public void renderArmorBar(int screenWidth, int screenHeight) {
 		int currentArmorValue = calculateArmorValue();
 	    int xStart = screenWidth / 2 - 91;
@@ -130,7 +119,7 @@ public class OverlayEventHandler {
 	    GL11.glColor4f(1, 1, 1, 1);
 	    GL11.glPopMatrix();
 	}
-	
+
 	public void forceUpdate() {
 		//Setting to unknown value will cause a refresh next render
 		INSTANCE.previousArmorValue = UNKNOWN_ARMOR_VALUE;

@@ -53,8 +53,7 @@ public final class ClientProxy extends CommonProxy {
     private static Object dynLightPlayerMod;
     private static Method dynLightFromItemStack, refresh;
     public static ItemStack heldCache;
-    public static IIcon[] backgroundIcon;
-    public static IIcon[] bowIcons;
+    public static IIcon[] backgroundIcon, bowIcons, bowIronIcons, bowDiamondIcons, bowGoldIcons; //bowGregIcons,;
 
     @Override
     public void registerKeyHandelers() {
@@ -144,7 +143,11 @@ public final class ClientProxy extends CommonProxy {
         }
 
         if(Arrays.binarySearch(BattlegearConfig.disabledRenderers, "bow")  < 0)
-        	MinecraftForgeClient.registerItemRenderer(Items.bow, new BowRenderer());
+            MinecraftForgeClient.registerItemRenderer(Items.bow, new BowRenderer());
+        	MinecraftForgeClient.registerItemRenderer(BattlegearConfig.mobBowIron, new BowRendererIron());
+            //MinecraftForgeClient.registerItemRenderer(BattlegearConfig.modBowGold, new BowRendererGold());
+            MinecraftForgeClient.registerItemRenderer(BattlegearConfig.modBowDiamond, new BowRendererDiamond());
+            //MinecraftForgeClient.registerItemRenderer(BattlegearConfig.modBowGreg, new BowRendererGold());
         if(BattlegearConfig.quiver!=null && Arrays.binarySearch(BattlegearConfig.disabledRenderers, "quiver")  < 0)
         	MinecraftForgeClient.registerItemRenderer(BattlegearConfig.quiver, new QuiverItremRenderer());
         if(BattlegearConfig.banner!=null && Arrays.binarySearch(BattlegearConfig.disabledRenderers, "flagpole")  < 0){
@@ -307,8 +310,8 @@ public final class ClientProxy extends CommonProxy {
         if(dynLightFromItemStack!=null && refresh!=null){
             if(!ItemStack.areItemStacksEqual(stack, heldCache)) {
                 try {
-                    int lightNew = Integer.class.cast(dynLightFromItemStack.invoke(dynLightPlayerMod, stack));
-                    int lightOld = Integer.class.cast(dynLightFromItemStack.invoke(dynLightPlayerMod, heldCache));
+                    int lightNew = (Integer) dynLightFromItemStack.invoke(dynLightPlayerMod, stack);
+                    int lightOld = (Integer) dynLightFromItemStack.invoke(dynLightPlayerMod, heldCache);
                     if (lightNew != lightOld) {
                         refresh.invoke(null, player, lightNew, lightOld);
                     }

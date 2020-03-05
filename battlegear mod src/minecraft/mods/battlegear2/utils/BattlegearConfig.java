@@ -24,6 +24,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.config.Configuration;
@@ -50,15 +51,17 @@ public class BattlegearConfig {
     public static int updateRate = 20;
     public static boolean arrowForceRendered = true, enableSkeletonQuiver = true;
 	public static boolean enableGUIKeys = true, enableGuiButtons = true, forceHUD = false;
-	public static final String[] itemNames = {"heraldric","chain","quiver","dagger","waraxe","mace","spear","shield","knight.armour", "mb.arrow", "flagpole"};
+	public static final String[] itemNames = {"heraldric","chain","quiver","dagger","waraxe","mace","spear","shield","knight.armour", "mb.arrow", "flagpole", "bow"};
+    public static final String[] materials = {"iron", "gold", "diamond", "greg"};
 	public static final String[] renderNames = {"spear", "shield", "bow", "quiver", "flagpole"};
     public static final String[] toolTypes = {"wood", "stone", "iron", "diamond", "gold"};
     public static final String[] shieldTypes = {"wood", "hide", "iron", "diamond", "gold"};
 	public static final String[] armourTypes = {"helmet", "plate", "legs", "boots"};
 	public static final String[] enchantsName = {"BashWeight", "BashPower", "BashDamage", "ShieldUsage", "ShieldRecovery", "BowLoot", "BowCharge"};
 	public static ItemWeapon[] dagger=new ItemWeapon[toolTypes.length],warAxe=new ItemWeapon[toolTypes.length],mace=new ItemWeapon[toolTypes.length],spear=new ItemWeapon[toolTypes.length];
-    public static ItemShield[] shield=new ItemShield[shieldTypes.length];
+	public static ItemShield[] shield=new ItemShield[shieldTypes.length];
 	public static Item chain,quiver,heradricItem,MbArrows;
+    public static ItemBow mobBowIron, modBowDiamond; //modBowGold ,modBowGreg;
 	public static BlockFlagPole banner;
 	public static ItemArmor[] knightArmor=new ItemArmor[armourTypes.length];
     private static String[] comments = new String[4];
@@ -68,20 +71,20 @@ public class BattlegearConfig {
 
     public static double[] skeletonArrowSpawnRate = new double[ItemMBArrow.names.length];
 	public static int[] quiverBarOffset = new int[2], shieldBarOffset = new int[2], battleBarOffset = new int[4];
-	
-	public static void getConfig(Configuration config) {
+
+    public static void getConfig(Configuration config) {
         file = config;
         
         // TorohealthDmgIndicators config
-        displayDamageDealt=config.get(config.CATEGORY_GENERAL, "Enable Damage Particles", displayDamageDealt).getBoolean();
+        displayDamageDealt=config.get(Configuration.CATEGORY_GENERAL, "Enable Damage Particles", displayDamageDealt).getBoolean();
         // OverloadedArmorBar config
-        alwaysShowArmorBar=config.get(config.CATEGORY_GENERAL, "Always Show Armor Bar", alwaysShowArmorBar).getBoolean();
-        showEmptyArmorIcons=config.get(config.CATEGORY_GENERAL, "Show Empty Armor Icons", showEmptyArmorIcons).getBoolean();
-        colorValues=config.get(config.CATEGORY_GENERAL, "Armor Icon Colors", colorValues).getStringList();
+        alwaysShowArmorBar=config.get(Configuration.CATEGORY_GENERAL, "Always Show Armor Bar", alwaysShowArmorBar).getBoolean();
+        showEmptyArmorIcons=config.get(Configuration.CATEGORY_GENERAL, "Show Empty Armor Icons", showEmptyArmorIcons).getBoolean();
+        colorValues=config.get(Configuration.CATEGORY_GENERAL, "Armor Icon Colors", colorValues).getStringList();
         // Battlegear config
-        alwaysShowBattleBar=config.get(config.CATEGORY_GENERAL, "Always Show Battlegear Slots", alwaysShowBattleBar).getBoolean();
-        enableGUIKeys=config.get(config.CATEGORY_GENERAL, "Enable GUI Keys", enableGUIKeys).getBoolean();
-        enableGuiButtons=config.get(config.CATEGORY_GENERAL, "Enable GUI Buttons", enableGuiButtons).getBoolean();
+        alwaysShowBattleBar=config.get(Configuration.CATEGORY_GENERAL, "Always Show Battlegear Slots", alwaysShowBattleBar).getBoolean();
+        enableGUIKeys=config.get(Configuration.CATEGORY_GENERAL, "Enable GUI Keys", enableGUIKeys).getBoolean();
+        enableGuiButtons=config.get(Configuration.CATEGORY_GENERAL, "Enable GUI Buttons", enableGuiButtons).getBoolean();
         updateRate=config.getInt("Update packet rate", "Server", updateRate, 1, 20000, "How often packets are sent over the network to update the battle inventory slots. Lower for faster updates, but more packets to deal for each client.");
         config.get("Coremod", "ASM debug Mode", false, "Only use for advanced bug reporting when asked by a dev.").setRequiresMcRestart(true);
 
@@ -89,7 +92,7 @@ public class BattlegearConfig {
         config.addCustomCategoryComment(category, "This category is client side, you don't have to sync its values with server in multiplayer.");
         StringBuffer sb = new StringBuffer();
         sb.append("This will disable the special rendering for the provided item.\n");
-        sb.append("These should all be placed on separate lines between the provided \'<\' and \'>\'.  \n");
+        sb.append("These should all be placed on separate lines between the provided '<' and '>'.  \n");
         sb.append("The valid values are: \n");
         for (String renderName : renderNames) {
             sb.append(renderName);
@@ -122,7 +125,7 @@ public class BattlegearConfig {
 
 		sb = new StringBuffer();
         sb.append("This will disable completely the provided item, along with their renderers and recipes including them.\n");
-        sb.append("These should all be placed on separate lines between the provided \'<\' and \'>\'.  \n");
+        sb.append("These should all be placed on separate lines between the provided '<' and '>'.  \n");
         sb.append("The valid values are: \n");
         int count = 0;
         for (String itemName : itemNames) {
@@ -134,7 +137,7 @@ public class BattlegearConfig {
             }
         }
         comments[0] = sb.toString();
-        disabledItems = config.get(config.CATEGORY_GENERAL, "Disabled Items", new String[0], comments[0]).setRequiresMcRestart(true).getStringList();
+        disabledItems = config.get(Configuration.CATEGORY_GENERAL, "Disabled Items", new String[0], comments[0]).setRequiresMcRestart(true).getStringList();
 
         if(Arrays.deepEquals(disabledItems, itemNames)){
             return;//No point in going further if all items are disabled
@@ -151,7 +154,12 @@ public class BattlegearConfig {
             GameRegistry.registerBlock(banner, ItemBlockFlagPole.class, itemNames[10]);
             GameRegistry.registerTileEntity(TileEntityFlagPole.class, MODID+itemNames[10]);
         }
-
+        if(Arrays.binarySearch(disabledItems, itemNames[11]) < 0){
+            mobBowIron = (ItemBow) new ItemBowIron().setUnlocalizedName(MODID+itemNames[11]+ "." + materials[0]).setTextureName(MODID+itemNames[11]+ "." + materials[0]).setCreativeTab(customTab);
+            modBowDiamond = (ItemBow) new ItemBowDiamond().setUnlocalizedName(MODID+itemNames[11]+ "." + materials[2]).setTextureName(MODID+itemNames[11]+ "." + materials[2]).setCreativeTab(customTab);
+            //modBowGold = (ItemBow) new ItemBowGold().setUnlocalizedName(MODID+itemNames[11]+ "." + materials[1]).setTextureName(MODID+itemNames[11]+ "." + materials[1]).setCreativeTab(customTab);
+            //modBowGreg = (ItemBow) new ItemBowGreg().setUnlocalizedName(MODID+itemNames[11]+ "." + materials[1]).setTextureName(MODID+itemNames[11]+ "." + materials[1]).setCreativeTab(customTab);
+        }
         if(Arrays.binarySearch(disabledItems, itemNames[1]) < 0){
         	chain = new Item().setUnlocalizedName(MODID+itemNames[1]).setTextureName(MODID+itemNames[1]).setCreativeTab(customTab);
         }
@@ -160,6 +168,7 @@ public class BattlegearConfig {
         	quiver = new ItemQuiver().setUnlocalizedName(MODID+itemNames[2]).setTextureName(MODID+"quiver/"+itemNames[2]).setCreativeTab(customTab);
             BlockDispenser.dispenseBehaviorRegistry.putObject(quiver, new DispenseQuiverArrow(Items.bow, 1.0F));
         }
+
         if(Arrays.binarySearch(disabledItems, itemNames[9]) < 0){
         	MbArrows = new ItemMBArrow().setUnlocalizedName(MODID+itemNames[9]).setTextureName(MODID + itemNames[9]).setCreativeTab(customTab).setContainerItem(Items.arrow);
             for(int i = 0; i < ItemMBArrow.arrows.length; i++){
@@ -172,7 +181,7 @@ public class BattlegearConfig {
         sb.append("This will disable the crafting recipe for the provided item/blocks.\n");
         sb.append("It should be noted that this WILL NOT remove the item from the game, it will only disable the recipe.\n");
         sb.append("In this way the items may still be obtained through creative mode and cheats, but players will be unable to craft them.\n");
-        sb.append("These should all be placed on separate lines between the provided \'<\' and \'>\'. The valid values are: \n");
+        sb.append("These should all be placed on separate lines between the provided '<' and '>'. The valid values are: \n");
         count = 0;
         for(int i = 1; i < itemNames.length; i++){
             if(i != 9){
@@ -196,7 +205,7 @@ public class BattlegearConfig {
         }
         sb.append("chain.armour");
         comments[1] = sb.toString();
-        disabledRecipies = config.get(config.CATEGORY_GENERAL, "Disabled Recipies", new String[0], comments[1]).setRequiresMcRestart(true).getStringList();
+        disabledRecipies = config.get(Configuration.CATEGORY_GENERAL, "Disabled Recipies", new String[0], comments[1]).setRequiresMcRestart(true).getStringList();
         Arrays.sort(disabledRecipies);
 
         ShieldType[] types = {ShieldType.WOOD, ShieldType.HIDE, ShieldType.IRON, ShieldType.DIAMOND, ShieldType.GOLD};
@@ -214,6 +223,10 @@ public class BattlegearConfig {
         	if(Arrays.binarySearch(disabledItems, itemNames[6]) < 0){
 	    		spear[i]=new ItemSpear(material, itemNames[6], 3, 2.0F);
         	}
+            //if(Arrays.binarySearch(disabledItems, itemNames[11]) < 0){
+            //    mobBow =new ItemModBow(material, itemNames[11]);
+                //quiver = new ItemQuiver().setUnlocalizedName(MODID+itemNames[2]).setTextureName(MODID+"quiver/"+itemNames[2]).setCreativeTab(customTab);
+            //}
         	if(Arrays.binarySearch(disabledItems, itemNames[7]) < 0){
                 shield[i] = new ItemShield(types[i]);
                 if(i==0)
@@ -279,6 +292,14 @@ public class BattlegearConfig {
 		}
         RecipeSorter.register("battlegear:dyeing", DyeRecipie.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
         GameRegistry.addRecipe(new DyeRecipie());
+
+        //Bow Recipes
+        if(mobBowIron!=null && Arrays.binarySearch(disabledRecipies, itemNames[11])  < 0){
+            GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(mobBowIron), " #I", "# I", " #I", '#', Items.iron_ingot, 'I', Items.string));
+        }
+        if(modBowDiamond!=null && Arrays.binarySearch(disabledRecipies, itemNames[11])  < 0){
+            GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(modBowDiamond), " #I", "# I", " #I", '#', Items.diamond, 'I', Items.string));
+        }
 
 		//Weapon recipes
 		String woodStack = "plankWood";
@@ -395,8 +416,8 @@ public class BattlegearConfig {
             file.get("Rendering", "Default Sheath", Sheath.HIP.toString()).set(forceSheath.toString());
             file.get("Rendering", "Render quiver on skeleton back", true).set(enableSkeletonQuiver);
             file.get("Rendering", "Force screen components rendering", false).set(forceHUD);
-            file.get(file.CATEGORY_GENERAL, "Enable GUI Keys", false).set(enableGUIKeys);
-            file.get(file.CATEGORY_GENERAL, "Enable GUI Buttons", true).set(enableGuiButtons);
+            file.get(Configuration.CATEGORY_GENERAL, "Enable GUI Keys", false).set(enableGUIKeys);
+            file.get(Configuration.CATEGORY_GENERAL, "Enable GUI Buttons", true).set(enableGuiButtons);
             file.save();
             Battlegear.proxy.registerItemRenderers();
         }catch (Exception e){

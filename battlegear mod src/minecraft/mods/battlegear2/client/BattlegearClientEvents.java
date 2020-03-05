@@ -384,6 +384,23 @@ public final class BattlegearClientEvents {
             for(int i = 0; i < ClientProxy.bowIcons.length; i++) {
                 ClientProxy.bowIcons[i] = event.map.registerIcon("battlegear2:bow_pulling_"+i);
             }
+            ClientProxy.bowIronIcons = new IIcon[3];
+            for(int i = 0; i < ClientProxy.bowIronIcons.length; i++) {
+                ClientProxy.bowIronIcons[i] = event.map.registerIcon("battlegear2:bow.iron_pulling_"+i);
+            }
+            ClientProxy.bowDiamondIcons = new IIcon[3];
+            for(int i = 0; i < ClientProxy.bowDiamondIcons.length; i++) {
+                ClientProxy.bowDiamondIcons[i] = event.map.registerIcon("battlegear2:bow.diamond_pulling_"+i);
+            }
+            //ClientProxy.bowGregIcons = new IIcon[3];
+            //for(int i = 0; i < ClientProxy.bowGregIcons.length; i++) {
+            //    ClientProxy.bowGregIcons[i] = event.map.registerIcon("battlegear2:bow.greg_pulling_"+i);
+            //}
+
+            //ClientProxy.bowGoldIcons = new IIcon[3];
+            //for(int i = 0; i < ClientProxy.bowGoldIcons.length; i++) {
+            //    ClientProxy.bowGoldIcons[i] = event.map.registerIcon("battlegear2:bow.gold_pulling_"+i);
+            //}
 
             //storageIndex = PatternStore.DEFAULT.buildPatternAndStore(patterns);
             /*CrestImages.initialise(Minecraft.getMinecraft().getResourceManager());
@@ -392,6 +409,28 @@ public final class BattlegearClientEvents {
             }*/
 		}
 	}
+
+    @SubscribeEvent
+    public void onUpdateFOV(FOVUpdateEvent event) {
+        float fov = event.fov;
+
+        if( event.entity.isUsingItem() &&
+                ((event.entity.getItemInUse().getItem() == BattlegearConfig.mobBowIron) ||
+                        (event.entity.getItemInUse().getItem() == BattlegearConfig.modBowDiamond))) {
+            int duration = event.entity.getItemInUseDuration();
+            float multiplier = duration / 10.0F;
+
+            if( multiplier > 1.0F ) {
+                multiplier = 1.0F;
+            } else {
+                multiplier *= multiplier;
+            }
+
+            fov *= 1.0F - multiplier * 0.3F;
+        }
+
+        event.newfov = fov;
+    }
 
     @SubscribeEvent
     public void onItemTooltip(ItemTooltipEvent event){
