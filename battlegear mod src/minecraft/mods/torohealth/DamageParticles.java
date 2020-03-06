@@ -17,6 +17,7 @@ public class DamageParticles extends EntityFX {
 	protected static final float GRAVITY = 0.1F;
 	protected static final float SIZE = 3.0F;
 	protected static final int LIFESPAN = 12;
+	protected static final double BOUNCE_STRENGTH = 1.5F;
 
 	protected String text;
 	protected boolean shouldOnTop = true;
@@ -33,6 +34,10 @@ public class DamageParticles extends EntityFX {
 		particleMaxAge = LIFESPAN;
 		this.damage = damage;
 		this.text = Integer.toString(Math.abs(damage));
+	}
+
+	protected DamageParticles(World worldIn, double posXIn, double posYIn, double posZIn) {
+		this(0, worldIn, posXIn, posYIn, posZIn, 0, 0, 0);
 	}
 
 	@Override

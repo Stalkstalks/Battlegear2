@@ -30,6 +30,7 @@ item.battlegear2:chain.name=Chain
 item.battlegear2:quiver.name=Quiver
 
 item.battlegear2:mb.arrow.ender.name=Ender Arrow
+item.battlegear2:mb.arrow.holy.name=Holy Torch Arrow
 item.battlegear2:mb.arrow.ice.name=Ice Packed Arrow
 item.battlegear2:mb.arrow.explosive.name=Explosive Arrow
 item.battlegear2:mb.arrow.flame.name=Flaming Arrow
@@ -120,6 +121,7 @@ attribute.quiver.arrow.empty=Empty
 attribute.quiver.arrow.count=Arrows
 
 lore.base.arrow.explosive=Packs some explosive power
+lore.base.arrow.holy=It helps you face the darkness
 lore.base.arrow.ice=Effective against hot creatures like blazes and lava monsters
 lore.base.arrow.ender=This Ender Eye seems in pain...
 lore.base.arrow.flame=Flint and Steel ? No need
@@ -127,6 +129,9 @@ lore.base.arrow.piercing=Uncommon cutting ability
 lore.base.arrow.poison=Expensive, heh ?
 lore.base.arrow.mystery=Everyone loves a cookie !
 lore.base.arrow.leech=Makes you feel weak and sad
+
+lore.advanced.arrow.holy=Put a torch where it falls
+lore.advanced.arrow.ice=Is effective against creatures immune to fire
 lore.advanced.arrow.explosive=Explosion strength depends on arrow critical hit
 lore.advanced.arrow.ender=Instant travel or block transportation
 lore.advanced.arrow.flame=Set mobs, players and blocks on fire

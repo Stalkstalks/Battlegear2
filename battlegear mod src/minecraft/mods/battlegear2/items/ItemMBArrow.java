@@ -18,9 +18,9 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public class ItemMBArrow extends Item {
-    public static final String[] names = {"ice", "explosive", "ender", "flame", "piercing", "poison", "mystery", "leech"};
-    public static final Class<? extends AbstractMBArrow> arrows[] = new Class[]{EntityIceArrow.class, EntityExplossiveArrow.class, EntityEnderArrow.class, EntityFlameArrow.class, EntityPiercingArrow.class, EntityPoisonArrow.class, EntityLoveArrow.class, EntityLeechArrow.class};
-    public static final Item[] component = {Items.snowball, Items.gunpowder, Items.ender_pearl, Items.flint, Items.diamond, Items.nether_star, Items.cookie, Items.ghast_tear};
+    public static final String[] names = {"holy", "ice", "explosive", "ender", "flame", "piercing", "poison", "mystery", "leech"};
+    public static final Class<? extends AbstractMBArrow>[] arrows = new Class[]{EntityHolyArrow.class, EntityIceArrow.class, EntityExplossiveArrow.class, EntityEnderArrow.class, EntityFlameArrow.class, EntityPiercingArrow.class, EntityPoisonArrow.class, EntityLoveArrow.class, EntityLeechArrow.class};
+    public static final Item[] component = {Items.golden_apple, Items.snowball, Items.gunpowder, Items.ender_pearl, Items.flint, Items.diamond, Items.nether_star, Items.cookie, Items.ghast_tear};
     public static final DispenseArrow dispensable = new DispenseArrow() {
         @Override
         protected EntityArrow getArrowEntity(World world, ItemStack itemStack) {
