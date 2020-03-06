@@ -155,8 +155,8 @@ public class BattlegearConfig {
             GameRegistry.registerTileEntity(TileEntityFlagPole.class, MODID+itemNames[10]);
         }
         if(Arrays.binarySearch(disabledItems, itemNames[11]) < 0){
-            mobBowIron = (ItemBow) new ItemBowIron().setUnlocalizedName(MODID+itemNames[11]+ "." + materials[0]).setTextureName(MODID+itemNames[11]+ "." + materials[0]).setCreativeTab(customTab);
-            modBowDiamond = (ItemBow) new ItemBowDiamond().setUnlocalizedName(MODID+itemNames[11]+ "." + materials[2]).setTextureName(MODID+itemNames[11]+ "." + materials[2]).setCreativeTab(customTab);
+            mobBowIron = (ItemBow) new ItemBowIron().setCreativeTab(customTab).setUnlocalizedName(MODID+itemNames[11]+ "." + materials[0]).setTextureName(MODID+itemNames[11]+ "." + materials[0]);
+            modBowDiamond = (ItemBow) new ItemBowDiamond().setCreativeTab(customTab).setUnlocalizedName(MODID+itemNames[11]+ "." + materials[2]).setTextureName(MODID+itemNames[11]+ "." + materials[2]);
             //modBowGold = (ItemBow) new ItemBowGold().setUnlocalizedName(MODID+itemNames[11]+ "." + materials[1]).setTextureName(MODID+itemNames[11]+ "." + materials[1]).setCreativeTab(customTab);
             //modBowGreg = (ItemBow) new ItemBowGreg().setUnlocalizedName(MODID+itemNames[11]+ "." + materials[1]).setTextureName(MODID+itemNames[11]+ "." + materials[1]).setCreativeTab(customTab);
         }
@@ -223,10 +223,6 @@ public class BattlegearConfig {
         	if(Arrays.binarySearch(disabledItems, itemNames[6]) < 0){
 	    		spear[i]=new ItemSpear(material, itemNames[6], 3, 2.0F);
         	}
-            //if(Arrays.binarySearch(disabledItems, itemNames[11]) < 0){
-            //    mobBow =new ItemModBow(material, itemNames[11]);
-                //quiver = new ItemQuiver().setUnlocalizedName(MODID+itemNames[2]).setTextureName(MODID+"quiver/"+itemNames[2]).setCreativeTab(customTab);
-            //}
         	if(Arrays.binarySearch(disabledItems, itemNames[7]) < 0){
                 shield[i] = new ItemShield(types[i]);
                 if(i==0)

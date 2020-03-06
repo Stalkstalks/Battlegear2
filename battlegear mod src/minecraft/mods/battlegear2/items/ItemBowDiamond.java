@@ -18,7 +18,6 @@ import net.minecraftforge.event.entity.player.ArrowNockEvent;
 
 public class ItemBowDiamond extends ItemBow {
 
-    @SideOnly(Side.CLIENT)
     public ItemBowDiamond() {
         this.maxStackSize = 1;
         this.setMaxDamage(768);
