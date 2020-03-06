@@ -19,9 +19,15 @@ This mod allows armor values over 20 to be displayed as different colored (confi
 
 With ToroHealth Damage Indicators, damage given, received, or mitigated will be displayed as a number that pops off of the entity.
 
-* New arrow
+* New arrows
 
 Ice Packed arrow, effective against fire immune creatures.
+
+Holy Torch arrow, it helps you face the darkness
+
+* New Bows 
+
+Iron and Diamond bow, that have a cool arrow render and more durability.
 
 * Separate key category
  
@@ -33,7 +39,7 @@ Now the Battlegear slots are shown when you are in the dual wielding mode.
 
 * New config options-->:
 
-(overloaded armor bar option:)
+(overloaded armor bar options:)
 
 S:"Armor Icon Colors" 
 
