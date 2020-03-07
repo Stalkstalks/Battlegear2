@@ -104,18 +104,6 @@ task jarBGSrc(type:Jar) {
     }
 }
 
-task jarMUDSrc(type:Jar) {
-    destinationDir = file 'battlegear api'
-    baseName = config.mcversion + "-MUD-Src"
-    from(sourceSets.main.java.srcDirs) {
-        include 'mods/mud/**'
-    }
-    // Add license
-    from(projectDir) {
-        include 'LICENCE'
-    }
-}
-
 task jarBGBin(type:Jar) {
     destinationDir = file 'battlegear api'
     baseName = config.mcversion + "-Battlegear-Bin"
@@ -136,21 +124,5 @@ task jarBGBin(type:Jar) {
     manifest coremodManifest
 }
 
-task jarMUDBin(type:Jar){
-    destinationDir = file 'battlegear api'
-    baseName = config.mcversion + "-MUD-Bin"
-    // Add classes
-    from('build/classes/main') {
-        include 'mods/mud/**'
-    }
-    // Add resources
-    from(sourceSets.main.resources.srcDirs) {
-        include 'assets/mud/**'
-    }
-    // Add license
-    from(projectDir) {
-        include 'LICENCE'
-    }
-}
-tasks.build.dependsOn('jarMUDSrc','jarBGSrc','jarMUDBin','jarBGBin')
+tasks.build.dependsOn('jarBGSrc','jarBGBin')
 idea { module { inheritOutputDirs = true } }
