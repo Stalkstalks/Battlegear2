@@ -21,13 +21,11 @@ public class ItemSpear extends TwoHandedWeapon implements IExtendedReachWeapon,I
 
     //Will make it one more than a sword
     private final int mounted_extra_damage;
-    private final float reach;
     public IIcon bigIcon;
 
     public ItemSpear(ToolMaterial material, String name, int mount, float reach) {
 		super(material,name);
         this.mounted_extra_damage = mount;
-        this.reach = reach;
 		//set the base damage to that of lower than usual (balance)
 		this.baseDamage -= 2;
         GameRegistry.registerItem(this, this.name);

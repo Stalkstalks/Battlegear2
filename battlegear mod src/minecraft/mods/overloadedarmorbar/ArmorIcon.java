@@ -11,12 +11,12 @@ public class ArmorIcon
         Type = FULL, Type = NONE:
             The color of the icon
         Type = HALF:
-            The color of the left hand side of the icon
+            The color of the left-hand side of the icon
      */
     public ArmorIconColor primaryArmorIconColor;
     /*
         Type = HALF:
-            The color of the right hand side of the icon
+            The color of the right-hand side of the icon
      */
     public ArmorIconColor secondaryArmorIconColor;
 

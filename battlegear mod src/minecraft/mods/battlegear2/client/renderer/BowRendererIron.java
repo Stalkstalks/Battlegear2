@@ -17,7 +17,7 @@ import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.GL11;
 
-public class BowRenderer implements IItemRenderer {
+public class BowRendererIron implements IItemRenderer {
 
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type) {
@@ -31,6 +31,7 @@ public class BowRenderer implements IItemRenderer {
 
     @Override
     public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
+        item = new ItemStack(BattlegearConfig.mobBowIron.setFull3D());
         switch (type){
             case EQUIPPED_FIRST_PERSON:
                 renderEquippedBow(item, (EntityLivingBase) data[1], true);
@@ -63,9 +64,9 @@ public class BowRenderer implements IItemRenderer {
 
             if(drawAmount >= 0){
                 if(arrowStack != null && QuiverArrowRegistry.isKnownArrow(arrowStack)){
-                    icon = ClientProxy.bowIcons[drawAmount];
+                    icon = ClientProxy.bowIronIcons[drawAmount];
                 }else{
-                    icon = Items.bow.getItemIconForUseDuration(drawAmount);
+                    icon = BattlegearConfig.mobBowIron.getItemIconForUseDuration(drawAmount);
                 }
             }
 
@@ -75,9 +76,9 @@ public class BowRenderer implements IItemRenderer {
         }else if (entityLivingBase == null || entityLivingBase.equals(BattlegearRenderHelper.dummyEntity)){
             arrowStack = null;
         }
-        
+
         if(BattlegearConfig.arrowForceRendered){
-        	drawArrows = true;
+            drawArrows = true;
         }
 
         Tessellator tessellator = Tessellator.instance;
@@ -96,3 +97,4 @@ public class BowRenderer implements IItemRenderer {
             BattlegearRenderHelper.renderEnchantmentEffects(tessellator);
     }
 }
+

@@ -4,11 +4,13 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterators;
 import mods.battlegear2.api.ISensible;
 import mods.battlegear2.api.core.InventoryPlayerBattle;
+import mods.battlegear2.items.ItemQuiver;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -83,7 +85,9 @@ public class QuiverArrowRegistry {
      * @return true if it could be added
      */
     public static boolean addQuiverSelection(IQuiverSelection handler){
-        return handler != null && quiverSelectors.add(handler);
+        if (handler == null) return false;
+        quiverSelectors.add(handler);
+        return true;
     }
 
     /**
@@ -95,7 +99,9 @@ public class QuiverArrowRegistry {
      * @return true if it could be added
      */
     public static boolean addArrowFireHandler(IArrowFireHandler handler){
-        return handler!=null && fireHandlers.add(handler);
+        if (handler == null) return false;
+        fireHandlers.add(handler);
+        return true;
     }
 
     /**
@@ -134,7 +140,7 @@ public class QuiverArrowRegistry {
     /**
      * Search for an {@link EntityArrow} to be spawned, used by the default {@link ItemQuiver}
      * @param arrow the stack which should define the arrow as item
-     * @param world
+     * @param world world
      * @param player player using a bow to fire an arrow
      * @param charge amount of charge in the bow
      * @return the first non-null entity arrow built through the firing handlers
@@ -173,7 +179,7 @@ public class QuiverArrowRegistry {
         return fireHandlers;
     }
     /**
-     * @param stack
+     * @param stack stack
      * @return the EntityArrow class attached to the given stack, or null if none is found
      */
     public static Class<? extends EntityArrow> getArrowClass(ItemStack stack){
@@ -185,7 +191,7 @@ public class QuiverArrowRegistry {
     }
 
     /**
-     * @param clazz
+     * @param clazz clazz
      * @return an ItemStack attached to the given EntityArrow class, defaults to vanilla arrow
      */
     public static ItemStack getItem(Class<? extends EntityArrow> clazz){

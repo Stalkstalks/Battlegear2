@@ -1,7 +1,5 @@
 package mods.torohealth;
 
-import org.lwjgl.opengl.GL11;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
@@ -9,10 +7,9 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class DamageParticles extends EntityFX {
@@ -42,6 +39,7 @@ public class DamageParticles extends EntityFX {
 	protected DamageParticles(World worldIn, double posXIn, double posYIn, double posZIn) {
 		this(0, worldIn, posXIn, posYIn, posZIn, 0, 0, 0);
 	}
+
 	@Override
 	public void renderParticle(Tessellator p_70539_1_, float p_70539_2_, float p_70539_3_, float p_70539_4_, float p_70539_5_, float p_70539_6_, float p_70539_7_) {
 		float rotationYaw = (-Minecraft.getMinecraft().thePlayer.rotationYaw);

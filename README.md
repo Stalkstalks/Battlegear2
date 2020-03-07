@@ -7,34 +7,53 @@ Forge Version: 1.7.10-10.13.4.1614
 This is the second iteration of Mine & Blade: Battlegear, the popular dual-wielding and combat mod for Minecraft.
 The mod has a heavy dependency on the use of ASM (coremod) to edit the bytecode of the minecraft base classes. 
 
-What works
+What's New
 ----------
-* Dual wielding of weapons and fists
-* Switching between normal and battlemode with the 'R' Key
-* Attacking entities with both the offhand and mainhand weapons
-* Rendering of dual wielding in 1st person view
-* 3rd person renderering (with sheaths)
-* Swinging of offhand items of other players
-* Rendering of offhand weapons on other players
-* Shift Clicking on the inventory screen
-* The Following (enchantable) Weapons
-    + Waraxe
-    + Mace
-    + Spear
-    + Dagger
-* Shields
-    + Shield Blocking
-    + Shield Bash
-    + Arrows being stuck in Shields
-    + Enchantments
-* Quivers
-* Arrows
 
-**Note from nerd-boy:** I am not 100% happy with the way we are syncing items. It works now by sending a packet with all the "battle items" to each player that is viewing a player every second. I am not sure if this will be too much or not. Although right now I cannot think of another way to do it that doesn't require more bytecode manipulation. I think we already have enough AccessTransformers planed to keep us busy without adding more that we may in fact not need.
+* Overloaded Armor Bar backported to 1.7.10!!
 
-What doesn't work
------------------
-* Heraldry (great customization for shields, quivers, armors)
+The vanilla armor bar doesn't accurately show "better than diamond" level armor, as it simply maxes out when its full.
+This mod allows armor values over 20 to be displayed as different colored (configurable) icons depending on how many times you fill the bar. However, without AttributeFix, the armor display will cap out at 30 Armor, or 1.5x diamond armor due to the vanilla armor cap.
+
+* ToroHealth Damage Indicators backported to 1.7.10!!
+
+With ToroHealth Damage Indicators, damage given, received, or mitigated will be displayed as a number that pops off of the entity.
+
+* New arrows
+
+Ice Packed arrow, effective against fire immune creatures.
+
+Holy Torch arrow, it helps you face the darkness
+
+* New Bows 
+
+Iron and Diamond bow, that have a cool arrow render and more durability.
+
+* Separate key category
+ 
+* GUI clean up-->:
+
+Mod updater "Mud" removed.
+
+Now the Battlegear slots are shown when you are in the dual wielding mode.
+
+* New config options-->:
+
+(overloaded armor bar options:)
+
+S:"Armor Icon Colors" 
+
+B:"Always Show Armor Bar"
+
+B:"Show Empty Armor Icons"
+
+(torohealth damage indicators option:)
+
+B:"Enable Damage Particles"
+
+(battlegear option:)
+
+B:"Always Show Battlegear Slots"
 
 Installation
 ------------
@@ -84,9 +103,9 @@ Some of the rendering capabilities of the mod are still in development, especial
 * The patterns should only have white. The white section will determine the secondary colour. The primary colour will be the alpha section. Semi transparent sections should also work for better blending.
 * The icons should be greyscale and alpha values. They also require at least 1 pixal border around the whole image that should be kept black. This is the reason all of them are 18x18 pixals (16x16 plus a 1px border all around)
 
-This fork includes code from:
+This fork includes code from
 ------------------------------
 
-Torohealth Damage Indicators -> https://github.com/ToroCraft/ToroHealth
+* https://github.com/ToroCraft/ToroHealth
 
-OverloadedArmorBar -> https://github.com/Tfarcenim/OverloadedArmorBar
+* https://github.com/Tfarcenim/OverloadedArmorBar

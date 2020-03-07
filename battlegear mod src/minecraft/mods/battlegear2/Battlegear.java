@@ -36,7 +36,6 @@ public class Battlegear {
     public static CommonProxy proxy;
 
     public static ItemArmor.ArmorMaterial knightArmourMaterial;
-
     public static boolean battlegearEnabled = true;
     public static boolean debug = false;
     

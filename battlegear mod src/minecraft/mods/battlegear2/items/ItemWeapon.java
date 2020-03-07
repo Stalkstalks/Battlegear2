@@ -17,7 +17,7 @@ public abstract class ItemWeapon extends ItemSword implements IBattlegearWeapon,
 
     protected final ToolMaterial material;
 	protected String name;
-	protected float baseDamage;
+	protected float baseDamage, reach, ignoreDamageAmount;
 	
 	public ItemWeapon(ToolMaterial material, String named) {
 		super(material);
@@ -35,6 +35,8 @@ public abstract class ItemWeapon extends ItemSword implements IBattlegearWeapon,
 		this.setTextureName("battlegear2:"+name);
 		
 		this.baseDamage = 4 + material.getDamageVsEntity();
+		this.reach = 1 + material.getDamageVsEntity();
+		this.ignoreDamageAmount = 1 + material.getDamageVsEntity();
 	}
 
 	public ToolMaterial getMaterial() {
