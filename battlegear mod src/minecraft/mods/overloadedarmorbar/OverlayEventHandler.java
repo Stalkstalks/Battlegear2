@@ -4,6 +4,10 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import mods.battlegear2.utils.BattlegearConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.MathHelper;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.ForgeHooks;
 import org.lwjgl.opengl.GL11;
@@ -20,13 +24,6 @@ public class OverlayEventHandler {
 	  
 	public static final OverlayEventHandler INSTANCE = new OverlayEventHandler();
 	private OverlayEventHandler() {}
-	  
-	public static int ceil(float value) {
-		int i = (int)value;
-		return value > (float)i ? i + 1 : i;
-	}
-
-
 
 	//Class handles the drawing of the armor bar
 	private final static int UNKNOWN_ARMOR_VALUE = -1;
@@ -50,16 +47,31 @@ public class OverlayEventHandler {
 	}
 
 	private int calculateArmorValue() {
-		int currentArmorValue = ForgeHooks.getTotalArmorValue(mc.thePlayer);
-	    return currentArmorValue;
+		return ForgeHooks.getTotalArmorValue(mc.thePlayer);
 	}
 
 	public void renderArmorBar(int screenWidth, int screenHeight) {
+		EntityPlayer player = mc.thePlayer;
 		int currentArmorValue = calculateArmorValue();
 	    int xStart = screenWidth / 2 - 91;
 	    int yStart = screenHeight - 39;
 
-	    //Save some CPU cycles by only recalculating armor when it changes
+		IAttributeInstance playerHealthAttribute = player.getEntityAttribute(SharedMonsterAttributes.maxHealth);
+		float playerHealth = (float) playerHealthAttribute.getAttributeValue();
+
+		//Fake that the player health only goes up to 20 so that it does not make the bar float above the health bar
+		if (!BattlegearConfig.offset && playerHealth > 20) playerHealth = 20;
+
+		float absorptionAmount = MathHelper.ceiling_float_int(player.getAbsorptionAmount());
+
+		//Clamp the absorption value to 20 so that it doesn't make the bar float above the health bar
+		if (!BattlegearConfig.offset && absorptionAmount > 20) absorptionAmount = 20;
+
+		int numberOfHealthBars = (int) Math.ceil(playerHealth / 20) + (int) Math.ceil(absorptionAmount / 20);
+		int i2 = Math.max(10 - (numberOfHealthBars - 2), 3);
+		int yPosition = yStart - (numberOfHealthBars - 1) * i2 - 10;
+
+		//Save some CPU cycles by only recalculating armor when it changes
 	    if (currentArmorValue != previousArmorValue) {
 	    	//Calculate here
 	    	armorIcons = ArmorBar.calculateArmorIcons(currentArmorValue);
@@ -74,14 +86,13 @@ public class OverlayEventHandler {
 	    int armorIconCounter = 0;
 	    for (ArmorIcon icon : armorIcons) {
 	    	int xPosition = xStart + armorIconCounter * 8;
-	    	int yPosition = yStart - 10;
 	    	switch (icon.armorIconType) {
 	    	case NONE:
 	    		ArmorIconColor color = icon.primaryArmorIconColor;
 	    		GL11.glColor4f(color.Red, color.Green, color.Blue, color.Alpha);
 	    		if (currentArmorValue > 20) {
-	    			//Draw the full icon as we have wrapped
-	    			drawTexturedModalRect(xPosition, yPosition , 34, 9, ARMOR_ICON_SIZE, ARMOR_ICON_SIZE);
+	    				//Draw the full icon as we have wrapped
+	    				drawTexturedModalRect(xPosition, yPosition , 34, 9, ARMOR_ICON_SIZE, ARMOR_ICON_SIZE);
 	    		} else {
 	    			if (BattlegearConfig.showEmptyArmorIcons && (alwaysShowArmorBar || currentArmorValue > 0)) {
 	    				//Draw the empty armor icon
