@@ -40,12 +40,7 @@ import java.util.Arrays;
 public class BattlegearConfig {
     public static final String MODID = "battlegear2:";
     private static Configuration file;
-    public static String[] colorValues = new String[]{ "#FFFFFF", "#FF5500", "#FFC747", "#27FFE3",  "#00FF00", "#7F00FF"};
     public static boolean alwaysShowBattleBar = false;
-    public static boolean alwaysShowArmorBar = false;
-    public static boolean showEmptyArmorIcons = false;
-    public static boolean displayDamageDealt = true;
-    public static boolean offset = false;
 	public static CreativeTabs customTab;
 	public static Sheath forceSheath = Sheath.HIP;
     public static int updateRate = 20;
@@ -74,14 +69,7 @@ public class BattlegearConfig {
 
     public static void getConfig(Configuration config) {
         file = config;
-        
-        // TorohealthDmgIndicators config
-        displayDamageDealt=config.get(Configuration.CATEGORY_GENERAL, "Enable Damage Particles", displayDamageDealt).getBoolean();
-        // OverloadedArmorBar config
-        alwaysShowArmorBar=config.get(Configuration.CATEGORY_GENERAL, "Always Show Armor Bar", alwaysShowArmorBar).getBoolean();
-        showEmptyArmorIcons=config.get(Configuration.CATEGORY_GENERAL, "Show Empty Armor Icons", showEmptyArmorIcons).getBoolean();
-        colorValues=config.get(Configuration.CATEGORY_GENERAL, "Armor Icon Colors", colorValues).getStringList();
-        // Battlegear config
+
         alwaysShowBattleBar=config.get(Configuration.CATEGORY_GENERAL, "Always Show Battlegear Slots", alwaysShowBattleBar).getBoolean();
         enableGUIKeys=config.get(Configuration.CATEGORY_GENERAL, "Enable GUI Keys", enableGUIKeys).getBoolean();
         enableGuiButtons=config.get(Configuration.CATEGORY_GENERAL, "Enable GUI Buttons", enableGuiButtons).getBoolean();
