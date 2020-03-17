@@ -21,9 +21,6 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(BowHookContainerClass2.INSTANCE);
         MinecraftForge.EVENT_BUS.register(MobHookContainerClass.INSTANCE);
     }
-    
-    public void displayDamageDealt(EntityLivingBase entity) {
-	}
 
     public void sendAnimationPacket(EnumBGAnimations animation, EntityPlayer entityPlayer) {}
 
@@ -37,7 +34,8 @@ public class CommonProxy {
     public void startFlash(EntityPlayer player, float damage) {
     }
 
-    public void doSpecialAction(EntityPlayer entityPlayer, ItemStack item) {}
+    public void doSpecialAction(EntityPlayer entityPlayer, ItemStack item) {
+    }
 
 	public void tryUseTConstruct() {
 	}
