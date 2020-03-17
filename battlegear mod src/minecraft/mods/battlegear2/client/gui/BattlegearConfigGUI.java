@@ -43,6 +43,7 @@ public final class BattlegearConfigGUI extends GuiScreen{
         this.buttonList.add(new GuiToggleButton(7, this.width / 2 + 20, this.height / 2 + 60, I18n.format("render.hud.forced")+":"+BattlegearConfig.forceHUD, this.fontRendererObj));
         this.possibleValues.registerScrollButtons(this.buttonList, 8, 9);
         this.buttonList.add(new GuiButton(10, this.width / 2 - 180, this.height / 2 + 60, I18n.format("gui.open.fake")));
+        this.buttonList.add(new GuiToggleButton(11, this.width / 2 + 60, this.height / 2 - 40, I18n.format("render.always.slots")+":"+BattlegearConfig.alwaysShowBattleBar, this.fontRendererObj));
     }
 
     @Override
@@ -65,6 +66,8 @@ public final class BattlegearConfigGUI extends GuiScreen{
                 BattlegearConfig.forceHUD = !BattlegearConfig.forceHUD;
             }else if(button.id == 10){
                 FMLClientHandler.instance().showGuiScreen(new BattlegearFakeGUI(parent));
+            }else if(button.id == 11){
+                BattlegearConfig.alwaysShowBattleBar = !BattlegearConfig.alwaysShowBattleBar;
             }
             if(button instanceof GuiToggleButton){
                 ((GuiToggleButton) button).toggleDisplayString();
