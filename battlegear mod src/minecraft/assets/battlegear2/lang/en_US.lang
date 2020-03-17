@@ -4,6 +4,7 @@ config.battlegear.category=Disabled Custom Item Renderers
 config.battlegear.warn=A restart is needed for changes to take effect
 use.gui.buttons=Enable buttons for inventory
 use.gui.keys=Enable keys for inventory
+render.always.slots=Render always the slots
 render.quiver.skeleton=Render quiver on skeletons
 render.arrow.bow=Render selected arrow on bow
 render.sheathed=Default sheathed rendering on player's : %s
