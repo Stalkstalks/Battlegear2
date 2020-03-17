@@ -10,15 +10,6 @@ The mod has a heavy dependency on the use of ASM (coremod) to edit the bytecode 
 What's New
 ----------
 
-* Overloaded Armor Bar backported to 1.7.10!!
-
-The vanilla armor bar doesn't accurately show "better than diamond" level armor, as it simply maxes out when its full.
-This mod allows armor values over 20 to be displayed as different colored (configurable) icons depending on how many times you fill the bar. However, without AttributeFix, the armor display will cap out at 30 Armor, or 1.5x diamond armor due to the vanilla armor cap.
-
-* ToroHealth Damage Indicators backported to 1.7.10!!
-
-With ToroHealth Damage Indicators, damage given, received, or mitigated will be displayed as a number that pops off of the entity.
-
 * New arrows
 
 Ice Packed arrow, effective against fire immune creatures.
@@ -37,21 +28,7 @@ Mod updater "Mud" removed.
 
 Now the Battlegear slots are shown when you are in the dual wielding mode.
 
-* New config options-->:
-
-(overloaded armor bar options:)
-
-S:"Armor Icon Colors" 
-
-B:"Always Show Armor Bar"
-
-B:"Show Empty Armor Icons"
-
-(torohealth damage indicators option:)
-
-B:"Enable Damage Particles"
-
-(battlegear option:)
+* New config option-->:
 
 B:"Always Show Battlegear Slots"
 
@@ -102,10 +79,3 @@ Some Notes for Texture Pack Makers
 Some of the rendering capabilities of the mod are still in development, especially concerning the heraldry. The following are a few notes.
 * The patterns should only have white. The white section will determine the secondary colour. The primary colour will be the alpha section. Semi transparent sections should also work for better blending.
 * The icons should be greyscale and alpha values. They also require at least 1 pixal border around the whole image that should be kept black. This is the reason all of them are 18x18 pixals (16x16 plus a 1px border all around)
-
-This fork includes code from
-------------------------------
-
-* https://github.com/ToroCraft/ToroHealth
-
-* https://github.com/Tfarcenim/OverloadedArmorBar
