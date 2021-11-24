@@ -1,26 +1,28 @@
-﻿#Ignore EVERYTHING
-/*
-
-#Don't ignore the battlegear mod src folder
-!battlegear mod src/
-!battlegear gimp files
-!mods/
-!src/
-
-#Also don't ignore the install scripts
-!gradle*
-!gradle/
-!build.gradle
-
-#Or this file ;) (or readme)
-!.gitignore
-!README.md
-!ForumPost
-!ItemStats.md
-!LICENCE
-!bg-logo.png
-!mod.properties
-!battlegear_update.xml
-!changelog.md
-
-
+.gradle
+.settings
+/.idea/
+/run/
+/build/
+/eclipse/
+.classpath
+.project
+/bin/
+/config/
+/crash-reports/
+/logs/
+options.txt
+/saves/
+usernamecache.json
+banned-ips.json
+banned-players.json
+eula.txt
+ops.json
+server.properties
+servers.dat
+usercache.json
+whitelist.json
+/out/
+*.iml
+*.ipr
+*.iws
+src/main/resources/mixins.*.json
