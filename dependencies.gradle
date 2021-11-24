@@ -1,8 +1,8 @@
 // Add your dependencies here
 
 dependencies {
-    // TODO: switch from deobf to dev after TC is migrated (and transitive = true!)
-    compile("com.github.GTNewHorizons:TinkersConstruct:master-SNAPSHOT:deobf") {
+    // TODO: switch from deobf to dev after TC is migrated
+    compileOnly("com.github.GTNewHorizons:TinkersConstruct:master-SNAPSHOT:deobf") {
         transitive = false
     }
 
