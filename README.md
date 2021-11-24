@@ -1,5 +1,7 @@
 Mine and Blade : Battlegear - 2
 ===============================
+
+![](bg-logo.png)
 	
 Minecraft version: 1.7.10  
 Forge Version: 1.7.10-10.13.4.1614
