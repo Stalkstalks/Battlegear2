@@ -33,6 +33,7 @@ import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.oredict.OreDictionary;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -134,11 +135,36 @@ public class BattlegearUtils {
             return false;
         else if(WeaponRegistry.isWeapon(main))//Registered as such
             return true;
+        else if(checkWeaponOreDictEntries(main))
+            return true;
         else if(!checkForRightClickFunction(main)){//Make sure there are no special functions for offhand/mainhand weapons
             WeaponRegistry.addDualWeapon(main);//register so as not to make that costly check again
             return true;
         }
         prevNotWieldable = main;
+        return false;
+    }
+
+    /**
+     * Checks if an item is a GT weapon based on OreDict entries
+     * @param main the item to check
+     * @return true if the item is a GT weapon
+     */
+    public static boolean checkWeaponOreDictEntries(ItemStack main)
+    {
+        int[] oreDictEntries = OreDictionary.getOreIDs(main);
+
+        for(int i = 0; i < oreDictEntries.length; i++)
+        {
+            int ore = oreDictEntries[i];
+            String name = OreDictionary.getOreName(ore);
+
+            if(name.equals("craftingToolBlade") || name.equals("craftingToolAxe")) // craftingToolPickaxe?
+            {
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -155,7 +181,7 @@ public class BattlegearUtils {
         else if(usagePriorAttack(main))//"Usable" item
             return off == null || !usagePriorAttack(off);//With empty hand or non "usable item"
         else if(isWeapon(main))//A generic weapon
-            return main.getAttributeModifiers().containsKey(genericAttack) || WeaponRegistry.isMainHand(main);//With either generic attack, or registered
+            return checkWeaponOreDictEntries(main) || main.getAttributeModifiers().containsKey(genericAttack) || WeaponRegistry.isMainHand(main);//With either generic attack, or registered
         return false;
     }
 
@@ -177,7 +203,7 @@ public class BattlegearUtils {
         else if(usagePriorAttack(main, wielder, false))//"Usable" item
             return off == null || !usagePriorAttack(off, wielder, true);//With empty hand or non "usable item"
         else if(isWeapon(main))//A generic weapon
-            return main.getAttributeModifiers().containsKey(genericAttack) || WeaponRegistry.isMainHand(main);//With either generic attack, or registered
+            return checkWeaponOreDictEntries(main) || main.getAttributeModifiers().containsKey(genericAttack) || WeaponRegistry.isMainHand(main);//With either generic attack, or registered
         return false;
     }
 
@@ -192,7 +218,7 @@ public class BattlegearUtils {
         else if(off.getItem() instanceof IShield || off.getItem() instanceof IArrowContainer2 || usagePriorAttack(off))//Shield, Quiver, or "usable"
             return true;//always
         else if(isWeapon(off))//A generic weapon
-            return off.getAttributeModifiers().containsKey(genericAttack) || WeaponRegistry.isOffHand(off);//with a generic attack or registered
+            return checkWeaponOreDictEntries(off) || off.getAttributeModifiers().containsKey(genericAttack) || WeaponRegistry.isOffHand(off);//with a generic attack or registered
         return false;
     }
 
@@ -212,7 +238,7 @@ public class BattlegearUtils {
         else if(off.getItem() instanceof IShield || off.getItem() instanceof IArrowContainer2 || usagePriorAttack(off, wielder, true))//Shield, Quiver, or "usable"
             return true;//always
         else if(isWeapon(off))//A generic weapon
-            return off.getAttributeModifiers().containsKey(genericAttack) || WeaponRegistry.isOffHand(off);//with a generic attack or registered
+            return checkWeaponOreDictEntries(off) || off.getAttributeModifiers().containsKey(genericAttack) || WeaponRegistry.isOffHand(off);//with a generic attack or registered
         return false;
     }
 
