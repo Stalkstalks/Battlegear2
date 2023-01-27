@@ -3,11 +3,12 @@ package mods.battlegear2.gui;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 
-public class ContainerLocalPlayer extends Container{
+public class ContainerLocalPlayer extends Container {
     /**
      * Determines if inventory manipulation should be handled.
      */
     public boolean isLocalWorld = false;
+
     public final EntityPlayer thePlayer;
 
     public ContainerLocalPlayer(boolean local, EntityPlayer player) {

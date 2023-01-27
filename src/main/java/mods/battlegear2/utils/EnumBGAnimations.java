@@ -7,23 +7,21 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
 public enum EnumBGAnimations {
-
     OffHandSwing {
         @Override
         public void processAnimation(IBattlePlayer entity) {
             entity.swingOffItem();
         }
-    }, SpecialAction {
+    },
+    SpecialAction {
         @Override
         public void processAnimation(IBattlePlayer entity) {
-            ItemStack offhand = ((InventoryPlayerBattle)((EntityPlayer) entity).inventory).getCurrentOffhandWeapon();
-            if(offhand != null && offhand.getItem() instanceof IShield){
-                entity.setSpecialActionTimer(((IShield)offhand.getItem()).getBashTimer(offhand));
+            ItemStack offhand = ((InventoryPlayerBattle) ((EntityPlayer) entity).inventory).getCurrentOffhandWeapon();
+            if (offhand != null && offhand.getItem() instanceof IShield) {
+                entity.setSpecialActionTimer(((IShield) offhand.getItem()).getBashTimer(offhand));
             }
         }
     };
 
-
     public abstract void processAnimation(IBattlePlayer entity);
-
 }

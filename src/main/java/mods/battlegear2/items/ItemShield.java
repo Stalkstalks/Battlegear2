@@ -4,6 +4,7 @@ import cpw.mods.fml.common.IFuelHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
 import mods.battlegear2.api.EnchantmentHelper;
 import mods.battlegear2.api.IDyable;
 import mods.battlegear2.api.IEnchantable;
@@ -28,9 +29,8 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 
-import java.util.List;
-
-public class ItemShield extends Item implements IShield, IDyable, IEnchantable, ISheathed, IArrowCatcher, IArrowDisplay, IFuelHandler{
+public class ItemShield extends Item
+        implements IShield, IDyable, IEnchantable, ISheathed, IArrowCatcher, IArrowDisplay, IFuelHandler {
 
     public ShieldType enumShield;
 
@@ -43,55 +43,54 @@ public class ItemShield extends Item implements IShield, IDyable, IEnchantable, 
 
         this.enumShield = enumShield;
 
-        this.setUnlocalizedName("battlegear2:shield."+enumShield.getName());
-        this.setTextureName("battlegear2:shield/shield."+enumShield.getName());
+        this.setUnlocalizedName("battlegear2:shield." + enumShield.getName());
+        this.setTextureName("battlegear2:shield/shield." + enumShield.getName());
 
         this.setMaxDamage(enumShield.getMaxDamage());
         this.setMaxStackSize(1);
         this.setHasSubtypes(false);
-        GameRegistry.registerItem(this, "shield."+enumShield.getName());
+        GameRegistry.registerItem(this, "shield." + enumShield.getName());
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister par1IconRegister) {
         super.registerIcons(par1IconRegister);
-        backIcon = par1IconRegister.registerIcon("battlegear2:shield/shield."+enumShield.getName()+".back");
-        trimIcon = par1IconRegister.registerIcon("battlegear2:shield/shield."+enumShield.getName()+".trim");
+        backIcon = par1IconRegister.registerIcon("battlegear2:shield/shield." + enumShield.getName() + ".back");
+        trimIcon = par1IconRegister.registerIcon("battlegear2:shield/shield." + enumShield.getName() + ".trim");
     }
 
     @Override
-    public boolean catchArrow(ItemStack shield, EntityPlayer player, IProjectile arrow){
-        if(arrow instanceof EntityArrow){
-            setArrowCount(shield, getArrowCount(shield)+1);
+    public boolean catchArrow(ItemStack shield, EntityPlayer player, IProjectile arrow) {
+        if (arrow instanceof EntityArrow) {
+            setArrowCount(shield, getArrowCount(shield) + 1);
             player.setArrowCountInEntity(player.getArrowCountInEntity() - 1);
-            ((EntityArrow)arrow).setDead();
+            ((EntityArrow) arrow).setDead();
             return true;
         }
         return false;
     }
 
     @Override
-    public int getArrowCount(ItemStack stack){
-        if(stack.hasTagCompound() && stack.getTagCompound().hasKey("arrows")){
+    public int getArrowCount(ItemStack stack) {
+        if (stack.hasTagCompound() && stack.getTagCompound().hasKey("arrows")) {
             return stack.getTagCompound().getShort("arrows");
-        }else
-            return 0;
+        } else return 0;
     }
 
     @Override
-    public void setArrowCount(ItemStack stack, int count){
+    public void setArrowCount(ItemStack stack, int count) {
 
-        if(!stack.hasTagCompound()){
+        if (!stack.hasTagCompound()) {
             stack.setTagCompound(new NBTTagCompound());
         }
 
-        //Should never happen, you would need A LOT of arrows for this to happen
-        if(count > Short.MAX_VALUE){
+        // Should never happen, you would need A LOT of arrows for this to happen
+        if (count > Short.MAX_VALUE) {
             count = Short.MAX_VALUE;
         }
 
-        stack.getTagCompound().setShort("arrows", (short)count);
+        stack.getTagCompound().setShort("arrows", (short) count);
     }
 
     public IIcon getBackIcon() {
@@ -104,14 +103,14 @@ public class ItemShield extends Item implements IShield, IDyable, IEnchantable, 
 
     @Override
     public float getDecayRate(ItemStack shield) {
-    	int use = EnchantmentHelper.getEnchantmentLevel(BaseEnchantment.shieldUsage, shield);
-        return enumShield.getDecayRate()*(1-use*0.1F);
+        int use = EnchantmentHelper.getEnchantmentLevel(BaseEnchantment.shieldUsage, shield);
+        return enumShield.getDecayRate() * (1 - use * 0.1F);
     }
-    
+
     @Override
-    public float getRecoveryRate(ItemStack shield){
-    	int recover = EnchantmentHelper.getEnchantmentLevel(BaseEnchantment.shieldRecover, shield);
-    	return 0.01F*(1+recover*0.2F);//should take 5 seconds to fully recover without enchantment
+    public float getRecoveryRate(ItemStack shield) {
+        int recover = EnchantmentHelper.getEnchantmentLevel(BaseEnchantment.shieldRecover, shield);
+        return 0.01F * (1 + recover * 0.2F); // should take 5 seconds to fully recover without enchantment
     }
 
     @Override
@@ -120,12 +119,12 @@ public class ItemShield extends Item implements IShield, IDyable, IEnchantable, 
     }
 
     @Override
-    public void blockAnimation(EntityPlayer player, float dmg){
+    public void blockAnimation(EntityPlayer player, float dmg) {
         player.worldObj.playSoundAtEntity(player, "battlegear2:shield", 1, 1);
     }
 
     @Override
-    public float getDamageReduction(ItemStack shield, DamageSource source){
+    public float getDamageReduction(ItemStack shield, DamageSource source) {
         return 0;
     }
 
@@ -151,37 +150,43 @@ public class ItemShield extends Item implements IShield, IDyable, IEnchantable, 
 
         par3List.add("");
 
-        par3List.add(EnumChatFormatting.DARK_GREEN+
-                StatCollector.translateToLocalFormatted("attribute.shield.block.time", ItemStack.field_111284_a.format(1F / (enumShield.getDecayRate()) / 20F)));
+        par3List.add(EnumChatFormatting.DARK_GREEN
+                + StatCollector.translateToLocalFormatted(
+                        "attribute.shield.block.time",
+                        ItemStack.field_111284_a.format(1F / (enumShield.getDecayRate()) / 20F)));
 
         int arrowCount = getArrowCount(par1ItemStack);
-        if(arrowCount > 0){
-            par3List.add(EnumChatFormatting.GOLD+
-                    StatCollector.translateToLocalFormatted("attribute.shield.arrow.count", arrowCount));
+        if (arrowCount > 0) {
+            par3List.add(EnumChatFormatting.GOLD
+                    + StatCollector.translateToLocalFormatted("attribute.shield.arrow.count", arrowCount));
         }
-
     }
 
     /**
      * Return whether the specified armor ItemStack has a color.
      */
     @Override
-    public boolean hasColor(ItemStack par1ItemStack){
-        return par1ItemStack.hasTagCompound() && par1ItemStack.getTagCompound().hasKey("display") && par1ItemStack.getTagCompound().getCompoundTag("display").hasKey("color");
+    public boolean hasColor(ItemStack par1ItemStack) {
+        return par1ItemStack.hasTagCompound()
+                && par1ItemStack.getTagCompound().hasKey("display")
+                && par1ItemStack.getTagCompound().getCompoundTag("display").hasKey("color");
     }
 
     /**
      * Return the color for the specified ItemStack.
      */
     @Override
-    public int getColor(ItemStack par1ItemStack){
+    public int getColor(ItemStack par1ItemStack) {
         NBTTagCompound nbttagcompound = par1ItemStack.getTagCompound();
-        if (nbttagcompound == null){
+        if (nbttagcompound == null) {
             return getDefaultColor(par1ItemStack);
-        }
-        else{
+        } else {
             NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("display");
-            return nbttagcompound1 == null ? getDefaultColor(par1ItemStack): (nbttagcompound1.hasKey("color") ? nbttagcompound1.getInteger("color") : getDefaultColor(par1ItemStack));
+            return nbttagcompound1 == null
+                    ? getDefaultColor(par1ItemStack)
+                    : (nbttagcompound1.hasKey("color")
+                            ? nbttagcompound1.getInteger("color")
+                            : getDefaultColor(par1ItemStack));
         }
     }
 
@@ -189,7 +194,7 @@ public class ItemShield extends Item implements IShield, IDyable, IEnchantable, 
      * Remove the color from the specified ItemStack.
      */
     @Override
-    public void removeColor(ItemStack par1ItemStack){
+    public void removeColor(ItemStack par1ItemStack) {
         NBTTagCompound nbttagcompound = par1ItemStack.getTagCompound();
 
         if (nbttagcompound != null) {
@@ -209,46 +214,43 @@ public class ItemShield extends Item implements IShield, IDyable, IEnchantable, 
     @Override
     public void setColor(ItemStack par1ItemStack, int par2) {
         NBTTagCompound nbttagcompound = par1ItemStack.getTagCompound();
-        if (nbttagcompound == null)
-        {
+        if (nbttagcompound == null) {
             nbttagcompound = new NBTTagCompound();
             par1ItemStack.setTagCompound(nbttagcompound);
         }
 
         NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("display");
 
-        if (!nbttagcompound.hasKey("display"))
-        {
+        if (!nbttagcompound.hasKey("display")) {
             nbttagcompound.setTag("display", nbttagcompound1);
         }
 
         nbttagcompound1.setInteger("color", par2);
     }
 
-	@Override
-	public boolean isEnchantable(Enchantment baseEnchantment, ItemStack stack) {
-		return baseEnchantment.type == EnumEnchantmentType.all;
-	}
-	
-	@Override
-	public int getItemEnchantability(){
+    @Override
+    public boolean isEnchantable(Enchantment baseEnchantment, ItemStack stack) {
+        return baseEnchantment.type == EnumEnchantmentType.all;
+    }
+
+    @Override
+    public int getItemEnchantability() {
         return enumShield.getEnchantability();
     }
 
-	@Override
-	public boolean sheatheOnBack(ItemStack item) {
-		return true;
-	}
+    @Override
+    public boolean sheatheOnBack(ItemStack item) {
+        return true;
+    }
 
     @Override
-    public boolean getIsRepairable(ItemStack itemStack, ItemStack repair){
+    public boolean getIsRepairable(ItemStack itemStack, ItemStack repair) {
         return this.enumShield.canBeRepairedWith(repair);
     }
 
     @Override
     public int getBurnTime(ItemStack fuel) {
-        if(fuel.getItem() == this)
-            return 300;
+        if (fuel.getItem() == this) return 300;
         return 0;
     }
 }

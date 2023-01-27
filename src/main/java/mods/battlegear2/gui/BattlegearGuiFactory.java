@@ -1,18 +1,15 @@
 package mods.battlegear2.gui;
 
 import cpw.mods.fml.client.IModGuiFactory;
+import java.util.Set;
 import mods.battlegear2.client.gui.BattlegearConfigGUI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 
-import java.util.Set;
-
-public final class BattlegearGuiFactory implements IModGuiFactory{
+public final class BattlegearGuiFactory implements IModGuiFactory {
 
     @Override
-    public void initialize(Minecraft minecraft) {
-
-    }
+    public void initialize(Minecraft minecraft) {}
 
     @Override
     public Class<? extends GuiScreen> mainConfigGuiClass() {

@@ -12,7 +12,6 @@ public class Crest {
     private byte y;
     private byte[] byteArray;
 
-
     public Crest(int[] crestColours, int imageIndex, byte size, byte x, byte y) {
         this.crestColours = crestColours;
         this.imageIndex = (short) imageIndex;
@@ -21,24 +20,23 @@ public class Crest {
         this.y = y;
     }
 
-    public Crest(byte[] crestData){
+    public Crest(byte[] crestData) {
         DataInputStream input = null;
 
-        try{
+        try {
             input = new DataInputStream(new ByteArrayInputStream(crestData));
 
-            crestColours = new int[]{input.readInt(), input.readInt()};
+            crestColours = new int[] {input.readInt(), input.readInt()};
             imageIndex = input.readShort();
             size = input.readByte();
             x = input.readByte();
             y = input.readByte();
 
-
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            try{
-                if(input != null){
+        } finally {
+            try {
+                if (input != null) {
                     input.close();
                 }
             } catch (IOException e) {
@@ -47,13 +45,13 @@ public class Crest {
         }
     }
 
-    public byte[] getByteArray(){
-        if(byteArray != null){
+    public byte[] getByteArray() {
+        if (byteArray != null) {
             return byteArray;
-        }else{
+        } else {
             DataOutputStream output = null;
 
-            try{
+            try {
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
                 output = new DataOutputStream(bos);
 
@@ -68,11 +66,11 @@ public class Crest {
                 byteArray = bos.toByteArray();
 
                 return byteArray;
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             } finally {
-                try{
-                    if(output != null){
+                try {
+                    if (output != null) {
                         output.close();
                     }
                 } catch (IOException e) {

@@ -1,15 +1,13 @@
 package mods.battlegear2.client.utils;
 
-import mods.battlegear2.utils.FileExtension;
-
-import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
+import javax.swing.*;
+import mods.battlegear2.utils.FileExtension;
 
-public class ImagePreviewPanel extends JPanel
-        implements PropertyChangeListener {
+public class ImagePreviewPanel extends JPanel implements PropertyChangeListener {
 
     private int width, height;
     private ImageIcon icon;
@@ -27,13 +25,11 @@ public class ImagePreviewPanel extends JPanel
         String propertyName = e.getPropertyName();
 
         if (propertyName.equals(JFileChooser.SELECTED_FILE_CHANGED_PROPERTY)) {
-            File selection = (File)e.getNewValue();
+            File selection = (File) e.getNewValue();
             String name;
 
-            if (selection == null)
-                return;
-            else
-                name = selection.getAbsolutePath();
+            if (selection == null) return;
+            else name = selection.getAbsolutePath();
 
             if (new FileExtension(name).isImage()) {
                 icon = new ImageIcon(name);
@@ -50,20 +46,18 @@ public class ImagePreviewPanel extends JPanel
         double ratio = 1.0;
 
         if (width >= height) {
-            ratio = (double)(ACCSIZE-5) / width;
-            width = ACCSIZE-5;
-            height = (int)(height * ratio);
-        }
-        else {
+            ratio = (double) (ACCSIZE - 5) / width;
+            width = ACCSIZE - 5;
+            height = (int) (height * ratio);
+        } else {
             if (getHeight() > 150) {
-                ratio = (double)(ACCSIZE-5) / height;
-                height = ACCSIZE-5;
-                width = (int)(width * ratio);
-            }
-            else {
-                ratio = (double)getHeight() / height;
+                ratio = (double) (ACCSIZE - 5) / height;
+                height = ACCSIZE - 5;
+                width = (int) (width * ratio);
+            } else {
+                ratio = (double) getHeight() / height;
                 height = getHeight();
-                width = (int)(width * ratio);
+                width = (int) (width * ratio);
             }
         }
 
@@ -75,8 +69,6 @@ public class ImagePreviewPanel extends JPanel
         g.setColor(bg);
 
         g.fillRect(0, 0, ACCSIZE, getHeight());
-        g.drawImage(image, getWidth() / 2 - width / 2 + 5,
-                getHeight() / 2 - height / 2, this);
+        g.drawImage(image, getWidth() / 2 - width / 2 + 5, getHeight() / 2 - height / 2, this);
     }
-
 }

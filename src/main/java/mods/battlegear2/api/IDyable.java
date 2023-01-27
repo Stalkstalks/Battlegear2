@@ -1,16 +1,14 @@
 package mods.battlegear2.api;
 
-
 import net.minecraft.item.ItemStack;
 
-//This is a tempory fix until we get the heraldry system up and running
+// This is a tempory fix until we get the heraldry system up and running
 public interface IDyable {
 
     /**
      * Return whether the specified ItemStack has a color.
      */
     public boolean hasColor(ItemStack par1ItemStack);
-
 
     /**
      * Return the color for the specified ItemStack.
@@ -25,6 +23,4 @@ public interface IDyable {
     public void removeColor(ItemStack par1ItemStack);
 
     public int getDefaultColor(ItemStack par1ItemStack);
-
-
 }

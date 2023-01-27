@@ -9,6 +9,4 @@ import mods.battlegear2.api.ISheathed;
  * <strong>Not</strong> necessary for an item to be wielded in battlegear slots
  * Note: Next version will replace IOffhandDual with IOffhandWield
  */
-public interface IBattlegearWeapon extends ISheathed,IOffhandDual,IAllowItem{
-
-}
+public interface IBattlegearWeapon extends ISheathed, IOffhandDual, IAllowItem {}

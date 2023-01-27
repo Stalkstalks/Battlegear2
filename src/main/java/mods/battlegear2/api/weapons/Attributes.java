@@ -1,8 +1,7 @@
 package mods.battlegear2.api.weapons;
 
-import net.minecraft.entity.ai.attributes.RangedAttribute;
-
 import java.util.UUID;
+import net.minecraft.entity.ai.attributes.RangedAttribute;
 
 /**
  * Created by GotoLink on 31/10/2014.

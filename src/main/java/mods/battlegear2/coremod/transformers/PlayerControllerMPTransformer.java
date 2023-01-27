@@ -6,7 +6,10 @@ import org.objectweb.asm.tree.MethodNode;
 public final class PlayerControllerMPTransformer extends TransformerMethodProcess {
 
     public PlayerControllerMPTransformer() {
-        super("net.minecraft.client.multiplayer.PlayerControllerMP", "func_78769_a", new String[]{"sendUseItem", "(Lnet/minecraft/entity/player/EntityPlayer;Lnet/minecraft/world/World;Lnet/minecraft/item/ItemStack;)Z"});
+        super("net.minecraft.client.multiplayer.PlayerControllerMP", "func_78769_a", new String[] {
+            "sendUseItem",
+            "(Lnet/minecraft/entity/player/EntityPlayer;Lnet/minecraft/world/World;Lnet/minecraft/item/ItemStack;)Z"
+        });
     }
 
     private String entityPlayerClassName;
@@ -24,5 +27,4 @@ public final class PlayerControllerMPTransformer extends TransformerMethodProces
         entityPlayerClassName = BattlegearTranslator.getMapedClassName("entity.player.EntityPlayer");
         playerInventoryFieldName = BattlegearTranslator.getMapedFieldName("field_71071_by", "inventory");
     }
-
 }

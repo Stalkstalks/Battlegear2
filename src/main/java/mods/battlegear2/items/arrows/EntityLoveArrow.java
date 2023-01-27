@@ -18,25 +18,31 @@ import net.minecraftforge.common.ForgeHooks;
  * @author GotoLink
  *
  */
-public class EntityLoveArrow extends AbstractMBArrow{
+public class EntityLoveArrow extends AbstractMBArrow {
     public static int AGE_TIMER = -24000, PICKUP_TIME = 10;
-	public EntityLoveArrow(World world) {
-		super(world);
-	}
-	
-	public EntityLoveArrow(World par1World, EntityLivingBase par2EntityLivingBase, float par3) {
+
+    public EntityLoveArrow(World world) {
+        super(world);
+    }
+
+    public EntityLoveArrow(World par1World, EntityLivingBase par2EntityLivingBase, float par3) {
         super(par1World, par2EntityLivingBase, par3);
     }
 
-    public EntityLoveArrow(World par1World, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase, float par4, float par5) {
+    public EntityLoveArrow(
+            World par1World,
+            EntityLivingBase par2EntityLivingBase,
+            EntityLivingBase par3EntityLivingBase,
+            float par4,
+            float par5) {
         super(par1World, par2EntityLivingBase, par3EntityLivingBase, par4, par5);
     }
 
-	@Override
-	public boolean onHitEntity(Entity entityHit, DamageSource source, float ammount) {
-        if(entityHit!=shootingEntity){
-            if(entityHit instanceof EntityAgeable){
-                if(!((EntityAgeable) entityHit).isChild()) {
+    @Override
+    public boolean onHitEntity(Entity entityHit, DamageSource source, float ammount) {
+        if (entityHit != shootingEntity) {
+            if (entityHit instanceof EntityAgeable) {
+                if (!((EntityAgeable) entityHit).isChild()) {
                     EntityAgeable child = ((EntityAgeable) entityHit).createChild((EntityAgeable) entityHit);
                     if (child != null && !this.worldObj.isRemote) {
                         child.setGrowingAge(AGE_TIMER);
@@ -47,31 +53,32 @@ public class EntityLoveArrow extends AbstractMBArrow{
                 ((EntityAgeable) entityHit).setGrowingAge(AGE_TIMER);
                 setDead();
                 return true;
-            }else if(entityHit instanceof EntityCreature){
+            } else if (entityHit instanceof EntityCreature) {
                 ((EntityCreature) entityHit).setTarget(null);
-                if(((EntityCreature) entityHit).getHeldItem()==null){
+                if (((EntityCreature) entityHit).getHeldItem() == null) {
                     entityHit.setCurrentItemOrArmor(0, new ItemStack(ItemMBArrow.component[5]));
                 }
                 setDead();
                 return true;
-            }else if(entityHit instanceof EntityPlayer){
-                EntityItem entityitem = ForgeHooks.onPlayerTossEvent((EntityPlayer) entityHit, ((EntityPlayer) entityHit).getCurrentEquippedItem(), true);
-                if(entityitem!=null){
+            } else if (entityHit instanceof EntityPlayer) {
+                EntityItem entityitem = ForgeHooks.onPlayerTossEvent(
+                        (EntityPlayer) entityHit, ((EntityPlayer) entityHit).getCurrentEquippedItem(), true);
+                if (entityitem != null) {
                     entityitem.delayBeforeCanPickup = PICKUP_TIME;
                     entityitem.func_145797_a(entityHit.getCommandSenderName());
                 }
-                if(!((IBattlePlayer)entityHit).isBattlemode())
-                    ((EntityPlayer) entityHit).inventory.setInventorySlotContents(((EntityPlayer) entityHit).inventory.currentItem, new ItemStack(ItemMBArrow.component[5]));
+                if (!((IBattlePlayer) entityHit).isBattlemode())
+                    ((EntityPlayer) entityHit)
+                            .inventory.setInventorySlotContents(
+                                    ((EntityPlayer) entityHit).inventory.currentItem,
+                                    new ItemStack(ItemMBArrow.component[5]));
                 setDead();
                 return true;
             }
         }
-		return false;
-	}
+        return false;
+    }
 
-	@Override
-	public void onHitGround(int x, int y, int z) {
-		
-	}
-
+    @Override
+    public void onHitGround(int x, int y, int z) {}
 }

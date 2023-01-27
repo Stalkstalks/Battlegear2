@@ -3,7 +3,6 @@ package mods.battlegear2;
 import cpw.mods.fml.common.FMLCommonHandler;
 import mods.battlegear2.utils.EnumBGAnimations;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
@@ -13,7 +12,7 @@ public class CommonProxy {
 
     public void registerKeyHandelers() {}
 
-    public void registerTickHandelers(){
+    public void registerTickHandelers() {
         FMLCommonHandler.instance().bus().register(BattlegearTickHandeler.INSTANCE);
         FMLCommonHandler.instance().bus().register(BgPlayerTracker.INSTANCE);
         MinecraftForge.EVENT_BUS.register(BattlemodeHookContainerClass.INSTANCE);
@@ -24,26 +23,25 @@ public class CommonProxy {
 
     public void sendAnimationPacket(EnumBGAnimations animation, EntityPlayer entityPlayer) {}
 
-    public IIcon getSlotIcon(int index) {return null;}
-
-    public MovingObjectPosition getMouseOver(float i, float v) { return null; }
-
-    public void registerItemRenderers() {
+    public IIcon getSlotIcon(int index) {
+        return null;
     }
 
-    public void startFlash(EntityPlayer player, float damage) {
+    public MovingObjectPosition getMouseOver(float i, float v) {
+        return null;
     }
 
-    public void doSpecialAction(EntityPlayer entityPlayer, ItemStack item) {
-    }
+    public void registerItemRenderers() {}
 
-	public void tryUseTConstruct() {
-	}
+    public void startFlash(EntityPlayer player, float damage) {}
 
-    public void tryUseDynamicLight(EntityPlayer player, ItemStack stack){
-    }
+    public void doSpecialAction(EntityPlayer entityPlayer, ItemStack item) {}
 
-    public EntityPlayer getClientPlayer(){
+    public void tryUseTConstruct() {}
+
+    public void tryUseDynamicLight(EntityPlayer player, ItemStack stack) {}
+
+    public EntityPlayer getClientPlayer() {
         return null;
     }
 }

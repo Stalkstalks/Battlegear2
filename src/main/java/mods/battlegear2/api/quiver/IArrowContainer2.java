@@ -103,5 +103,4 @@ public interface IArrowContainer2 {
      * @return true if the default quiver model can be rendered
      */
     public boolean renderDefaultQuiverModel(ItemStack container);
-
 }

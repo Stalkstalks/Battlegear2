@@ -12,13 +12,15 @@ import net.minecraft.entity.player.EntityPlayer;
  */
 public abstract class AbstractMBPacket {
 
-	public final FMLProxyPacket generatePacket() {
+    public final FMLProxyPacket generatePacket() {
         ByteBuf buf = Unpooled.buffer();
         write(buf);
         return new FMLProxyPacket(buf, getChannel());
     }
-	
-	public abstract String getChannel();
-	public abstract void write(ByteBuf out);
-	public abstract void process(ByteBuf in, EntityPlayer player);
+
+    public abstract String getChannel();
+
+    public abstract void write(ByteBuf out);
+
+    public abstract void process(ByteBuf in, EntityPlayer player);
 }

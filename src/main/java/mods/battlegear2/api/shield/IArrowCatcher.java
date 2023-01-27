@@ -3,6 +3,7 @@ package mods.battlegear2.api.shield;
 import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+
 /**
  * Defines an {@link Item} that can catch {@link IProjectile}
  * Used by {@link ItemShield} to block arrows
@@ -16,5 +17,5 @@ public interface IArrowCatcher {
      * @param projectile heading towards the shield
      * @return true if the projectile has been caught
      */
-	public boolean catchArrow(ItemStack shield, EntityPlayer player, IProjectile projectile);
+    public boolean catchArrow(ItemStack shield, EntityPlayer player, IProjectile projectile);
 }

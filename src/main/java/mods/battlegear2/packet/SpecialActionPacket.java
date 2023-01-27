@@ -18,11 +18,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.MinecraftForge;
 
-public final class SpecialActionPacket extends AbstractMBPacket{
+public final class SpecialActionPacket extends AbstractMBPacket {
 
     public static final String packetName = "MB2|Special";
-	private EntityPlayer player;
-	private Entity entityHit;
+    private EntityPlayer player;
+    private Entity entityHit;
 
     @Override
     public void process(ByteBuf inputStream, EntityPlayer player) {
@@ -33,12 +33,12 @@ public final class SpecialActionPacket extends AbstractMBPacket{
             } else {
                 entityHit = player.worldObj.getEntityByID(inputStream.readInt());
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return;
         }
 
-        if(this.player!=null){
+        if (this.player != null) {
             if (entityHit instanceof EntityLivingBase) {
                 ItemStack offhand = ((InventoryPlayerBattle) this.player.inventory).getCurrentOffhandWeapon();
                 if (offhand != null && offhand.getItem() instanceof IShield) {
@@ -46,7 +46,9 @@ public final class SpecialActionPacket extends AbstractMBPacket{
                         double d0 = entityHit.posX - this.player.posX;
                         double d1;
 
-                        for (d1 = entityHit.posZ - this.player.posZ; d0 * d0 + d1 * d1 < 1.0E-4D; d1 = (Math.random() - Math.random()) * 0.01D) {
+                        for (d1 = entityHit.posZ - this.player.posZ;
+                                d0 * d0 + d1 * d1 < 1.0E-4D;
+                                d1 = (Math.random() - Math.random()) * 0.01D) {
                             d0 = (Math.random() - Math.random()) * 0.01D;
                         }
                         double pow = EnchantmentHelper.getEnchantmentLevel(BaseEnchantment.bashPower, offhand) * 0.1D;
@@ -64,14 +66,15 @@ public final class SpecialActionPacket extends AbstractMBPacket{
                         Battlegear.packetHandler.sendPacketToPlayer(this.generatePacket(), (EntityPlayerMP) entityHit);
                     }
                 }
-            }else{
+            } else {
                 ItemStack quiver = QuiverArrowRegistry.getArrowContainer(this.player);
-                if(quiver != null){
+                if (quiver != null) {
                     SwapArrowEvent swapEvent = new SwapArrowEvent(this.player, quiver);
-                    if(!MinecraftForge.EVENT_BUS.post(swapEvent) && swapEvent.slotStep!=0) {
+                    if (!MinecraftForge.EVENT_BUS.post(swapEvent) && swapEvent.slotStep != 0) {
                         ((IArrowContainer2) quiver.getItem()).setSelectedSlot(quiver, swapEvent.getNextSlot());
                         if (this.player instanceof EntityPlayerMP) {
-                            Battlegear.packetHandler.sendPacketToPlayer(this.generatePacket(), (EntityPlayerMP) this.player);
+                            Battlegear.packetHandler.sendPacketToPlayer(
+                                    this.generatePacket(), (EntityPlayerMP) this.player);
                         }
                     }
                 }
@@ -80,29 +83,28 @@ public final class SpecialActionPacket extends AbstractMBPacket{
     }
 
     public SpecialActionPacket(EntityPlayer player, Entity entityHit) {
-    	this.player = player;
-    	this.entityHit = entityHit;
+        this.player = player;
+        this.entityHit = entityHit;
     }
 
-	public SpecialActionPacket() {
-	}
+    public SpecialActionPacket() {}
 
-	@Override
-	public String getChannel() {
-		return packetName;
-	}
+    @Override
+    public String getChannel() {
+        return packetName;
+    }
 
-	@Override
-	public void write(ByteBuf out) {
-		boolean isPlayer = entityHit instanceof EntityPlayer;
+    @Override
+    public void write(ByteBuf out) {
+        boolean isPlayer = entityHit instanceof EntityPlayer;
 
         ByteBufUtils.writeUTF8String(out, player.getCommandSenderName());
 
         out.writeBoolean(isPlayer);
-        if(isPlayer){
+        if (isPlayer) {
             ByteBufUtils.writeUTF8String(out, entityHit.getCommandSenderName());
-        }else{
-            out.writeInt(entityHit != null?entityHit.getEntityId():-1);
+        } else {
+            out.writeInt(entityHit != null ? entityHit.getEntityId() : -1);
         }
-	}
+    }
 }

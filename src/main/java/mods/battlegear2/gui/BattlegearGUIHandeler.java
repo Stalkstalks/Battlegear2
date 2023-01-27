@@ -17,36 +17,32 @@ public final class BattlegearGUIHandeler implements IGuiHandler {
     public static final int flagEditor = 3;
 
     @Override
-    public Object getServerGuiElement(int ID, EntityPlayer player, World world,
-                                      int x, int y, int z) {
+    public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
         switch (ID) {
             case mainID:
                 return new ContainerPlayer(player.inventory, !world.isRemote, player);
             case equipID:
                 return new ContainerBattle(!world.isRemote, player);
             case sigilEditor:
-                return Battlegear.debug?new ContainerHeraldry(player.inventory, !world.isRemote, player):null;
+                return Battlegear.debug ? new ContainerHeraldry(player.inventory, !world.isRemote, player) : null;
             default:
                 return null;
         }
-
     }
 
     @Override
-    public Object getClientGuiElement(int ID, EntityPlayer player, World world,
-                                      int x, int y, int z) {
+    public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
         switch (ID) {
             case mainID:
                 return new GuiInventory(player);
             case equipID:
                 return new BattleEquipGUI(player, world.isRemote);
             case sigilEditor:
-                return Battlegear.debug?new BattlegearSigilGUI(player, world.isRemote):null;
+                return Battlegear.debug ? new BattlegearSigilGUI(player, world.isRemote) : null;
             case flagEditor:
                 return new GuiFlagDesigner(player);
             default:
                 return null;
         }
     }
-
 }

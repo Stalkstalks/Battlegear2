@@ -8,7 +8,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.world.World;
 
-public class EntityHolyArrow extends AbstractMBArrow{
+public class EntityHolyArrow extends AbstractMBArrow {
 
     public EntityHolyArrow(World par1World) {
         super(par1World);
@@ -18,18 +18,28 @@ public class EntityHolyArrow extends AbstractMBArrow{
         super(par1World, par2EntityLivingBase, par3);
     }
 
-    public EntityHolyArrow(World par1World, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase, float par4, float par5) {
+    public EntityHolyArrow(
+            World par1World,
+            EntityLivingBase par2EntityLivingBase,
+            EntityLivingBase par3EntityLivingBase,
+            float par4,
+            float par5) {
         super(par1World, par2EntityLivingBase, par3EntityLivingBase, par4, par5);
     }
 
     @Override
     public boolean onHitEntity(Entity entityHit, DamageSource source, float amount) {
         boolean flag = false;
-        if(entityHit.isCreatureType(EnumCreatureType.monster, false)) {
-            entityHit.attackEntityFrom(new EntityDamageSourceIndirect("holy", null, shootingEntity).setProjectile().setDamageBypassesArmor(), amount + 5);
+        if (entityHit.isCreatureType(EnumCreatureType.monster, false)) {
+            entityHit.attackEntityFrom(
+                    new EntityDamageSourceIndirect("holy", null, shootingEntity)
+                            .setProjectile()
+                            .setDamageBypassesArmor(),
+                    amount + 5);
         }
-        if(entityHit instanceof EntityLivingBase){
-            entityHit.attackEntityFrom(new EntityDamageSourceIndirect("default", null, shootingEntity).setProjectile(), amount - 2);
+        if (entityHit instanceof EntityLivingBase) {
+            entityHit.attackEntityFrom(
+                    new EntityDamageSourceIndirect("default", null, shootingEntity).setProjectile(), amount - 2);
             flag = true;
         }
         setDead();
@@ -38,8 +48,8 @@ public class EntityHolyArrow extends AbstractMBArrow{
 
     @Override
     public void onHitGround(int x, int y, int z) {
-        if (worldObj.isAirBlock(x, y+1, z) && Blocks.torch.canPlaceBlockAt(worldObj, x, y+1, z)){
-            worldObj.setBlock(x, y+1, z, Blocks.torch);
+        if (worldObj.isAirBlock(x, y + 1, z) && Blocks.torch.canPlaceBlockAt(worldObj, x, y + 1, z)) {
+            worldObj.setBlock(x, y + 1, z, Blocks.torch);
         }
         setDead();
     }

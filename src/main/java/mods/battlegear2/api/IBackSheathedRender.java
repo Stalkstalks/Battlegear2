@@ -11,7 +11,7 @@ import net.minecraftforge.client.event.RenderPlayerEvent;
  * @see RenderPlayerEventChild.PreRenderSheathed
  * Used by ItemSpear to render flipped
  */
-public interface IBackSheathedRender{
+public interface IBackSheathedRender {
 
     /**
      * The first steps taken before rendering the item as sheathed "on the back"
@@ -21,5 +21,6 @@ public interface IBackSheathedRender{
      * @param inMainHand true if this item is in "right" hand slots, false in "left"
      */
     @SideOnly(Side.CLIENT)
-    public void preRenderBackSheathed(ItemStack itemStack, int amountOnBack, RenderPlayerEvent event, boolean inMainHand);
+    public void preRenderBackSheathed(
+            ItemStack itemStack, int amountOnBack, RenderPlayerEvent event, boolean inMainHand);
 }

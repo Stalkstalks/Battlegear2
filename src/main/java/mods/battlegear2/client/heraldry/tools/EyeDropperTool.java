@@ -15,7 +15,7 @@ public class EyeDropperTool implements ITool {
 
     @Override
     public ResourceLocation getToolImage() {
-        return new ResourceLocation("battlegear2:textures/"+getToolName()+".png");
+        return new ResourceLocation("battlegear2:textures/" + getToolName() + ".png");
     }
 
     @Override
@@ -24,6 +24,5 @@ public class EyeDropperTool implements ITool {
     }
 
     @Override
-    public void draw(int x, int y, int[] pixelsCurrent, int rgb, boolean shift) {
-    }
+    public void draw(int x, int y, int[] pixelsCurrent, int rgb, boolean shift) {}
 }

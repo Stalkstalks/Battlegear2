@@ -5,13 +5,13 @@ import mods.battlegear2.api.heraldry.IHeraldryItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
-public final class BattlegearChangeHeraldryPacket extends AbstractMBPacket{
+public final class BattlegearChangeHeraldryPacket extends AbstractMBPacket {
     public static final String packetName = "MB2|Heraldry";
     private byte[] data;
-    public BattlegearChangeHeraldryPacket() {
-    }
 
-    public BattlegearChangeHeraldryPacket(byte[] dat){
+    public BattlegearChangeHeraldryPacket() {}
+
+    public BattlegearChangeHeraldryPacket(byte[] dat) {
         data = dat;
     }
 
@@ -28,17 +28,17 @@ public final class BattlegearChangeHeraldryPacket extends AbstractMBPacket{
 
     @Override
     public void process(ByteBuf in, EntityPlayer player) {
-        try{
+        try {
             data = new byte[in.readInt()];
             in.readBytes(data);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return;
         }
-        if(player != null){
+        if (player != null) {
             ItemStack targetEquip = player.getCurrentEquippedItem();
-            if(targetEquip != null && targetEquip.getItem() instanceof IHeraldryItem){
-                ((IHeraldryItem)targetEquip.getItem()).setHeraldry(targetEquip, data);
+            if (targetEquip != null && targetEquip.getItem() instanceof IHeraldryItem) {
+                ((IHeraldryItem) targetEquip.getItem()).setHeraldry(targetEquip, data);
             }
         }
     }

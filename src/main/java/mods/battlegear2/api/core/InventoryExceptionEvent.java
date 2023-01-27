@@ -11,7 +11,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
  * Cancel this event to prevent the exception thrown...and probably allow weird stuff to happen
  */
 @Cancelable
-public class InventoryExceptionEvent extends PlayerEvent{
+public class InventoryExceptionEvent extends PlayerEvent {
     public InventoryExceptionEvent(EntityPlayer player) {
         super(player);
     }

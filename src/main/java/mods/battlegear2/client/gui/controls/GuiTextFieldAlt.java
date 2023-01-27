@@ -1,9 +1,8 @@
 package mods.battlegear2.client.gui.controls;
 
+import java.util.Locale;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiTextField;
-
-import java.util.Locale;
 
 /**
  * User: nerd-boy
@@ -16,7 +15,6 @@ public class GuiTextFieldAlt extends GuiTextField {
         super(par1FontRenderer, par2, par3, par4, par5);
     }
 
-
     @Override
     public void setText(String par1Str) {
         super.setText(removeInvalidChars(par1Str));
@@ -27,31 +25,26 @@ public class GuiTextFieldAlt extends GuiTextField {
         super.writeText(removeInvalidChars(par1Str));
     }
 
-    private String removeInvalidChars(String string){
+    private String removeInvalidChars(String string) {
 
         StringBuffer sb = new StringBuffer();
         string = string.toUpperCase(Locale.ENGLISH);
-        for(int i = 0; i < string.length(); i++){
+        for (int i = 0; i < string.length(); i++) {
             char next = string.charAt(i);
-            if(Character.isDigit(next) || (next >= 'A' && next <= 'F'))
-                sb.append(next);
+            if (Character.isDigit(next) || (next >= 'A' && next <= 'F')) sb.append(next);
         }
         return sb.toString();
-
     }
 
     public int parseText() {
 
         int c1 = Integer.parseInt(getText(), 16);
-        //0xa0r0g0b0
-        //0x0000argb
-        return (
-                ((c1 & 0xF000) << 16) |
-                        ((c1 & 0x0F00) << 12) |
-                        ((c1 & 0x00F0) << 8) |
-                        ((c1 & 0x000F) << 4) |
-                        0x08080808
-        );
-
+        // 0xa0r0g0b0
+        // 0x0000argb
+        return (((c1 & 0xF000) << 16)
+                | ((c1 & 0x0F00) << 12)
+                | ((c1 & 0x00F0) << 8)
+                | ((c1 & 0x000F) << 4)
+                | 0x08080808);
     }
 }

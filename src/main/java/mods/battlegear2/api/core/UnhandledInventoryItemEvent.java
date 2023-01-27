@@ -18,6 +18,7 @@ public class UnhandledInventoryItemEvent extends PlayerEvent {
      * The item read from the NBT, not null
      */
     public final ItemStack item;
+
     public UnhandledInventoryItemEvent(EntityPlayer player, int slot, ItemStack itemStack) {
         super(player);
         inventorySlot = slot;

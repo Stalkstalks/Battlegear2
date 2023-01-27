@@ -7,14 +7,14 @@ package mods.battlegear2.api;
  * This is obviously client-side only
  */
 public interface IDefaultRender {
-    public enum RenderType{
+    public enum RenderType {
         Bow,
         FlagPole,
         Quiver,
         Shield,
         Spear,
-        HeraldryCrest,//Work in progress, not recommended for use
-        HeraldryItem//Work in progress, not recommended for use
+        HeraldryCrest, // Work in progress, not recommended for use
+        HeraldryItem // Work in progress, not recommended for use
     }
 
     /**

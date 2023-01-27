@@ -24,5 +24,4 @@ public interface IOffhandRender {
     public float getPrevEquippedProgress();
 
     public void setPrevEquippedProgress(float progress);
-
 }

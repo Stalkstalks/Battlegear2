@@ -10,7 +10,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
  * Cancel to stay on currently selected slot, or change slotStep to step over the next slot
  */
 @Cancelable
-public class SwapArrowEvent extends PlayerEvent{
+public class SwapArrowEvent extends PlayerEvent {
     /**
      * {@link ItemStack} holding a {@link IArrowContainer2} item
      */
@@ -23,6 +23,7 @@ public class SwapArrowEvent extends PlayerEvent{
      * Step when swapping slots
      */
     public int slotStep = 1;
+
     public SwapArrowEvent(EntityPlayer player, ItemStack quiver) {
         super(player);
         quiverStack = quiver;
@@ -32,21 +33,21 @@ public class SwapArrowEvent extends PlayerEvent{
     /**
      * @return the next slot value
      */
-    public int getNextSlot(){
-        return  (selected+slotStep)%((IArrowContainer2) quiverStack.getItem()).getSlotCount(quiverStack);
+    public int getNextSlot() {
+        return (selected + slotStep) % ((IArrowContainer2) quiverStack.getItem()).getSlotCount(quiverStack);
     }
 
     /**
      * @return slot content after swap
      */
-    public ItemStack getNextArrow(){
+    public ItemStack getNextArrow() {
         return ((IArrowContainer2) quiverStack.getItem()).getStackInSlot(quiverStack, getNextSlot());
     }
 
     /**
      * @return slot content before swap
      */
-    public ItemStack getCurrentArrow(){
+    public ItemStack getCurrentArrow() {
         return ((IArrowContainer2) quiverStack.getItem()).getStackInSlot(quiverStack, selected);
     }
 }

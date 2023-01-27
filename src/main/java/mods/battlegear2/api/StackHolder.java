@@ -9,11 +9,12 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  * Hash is lazily initiated and equals compare using the helper {@link ItemStack#areItemStacksEqual(ItemStack, ItemStack)}
  * Note: Doesn't allow null values
  */
-public class StackHolder{
+public class StackHolder {
     public final ItemStack stack;
     private int hash;
-    public StackHolder(ItemStack stack){
-        if(stack==null || stack.getItem()==null){
+
+    public StackHolder(ItemStack stack) {
+        if (stack == null || stack.getItem() == null) {
             throw new IllegalArgumentException("StackHolder doesn't accept null");
         }
         this.stack = stack;
@@ -21,10 +22,14 @@ public class StackHolder{
 
     @Override
     public int hashCode() {
-        if(hash==0) {
+        if (hash == 0) {
             int init = 17, mult = 37;
-            hash = new HashCodeBuilder(init, mult).append(Item.getIdFromItem(stack.getItem())).append(stack.getItemDamage()).append(stack.getTagCompound()).toHashCode();
-            assert hash!=0:"Hashcode builder failed to follow its contract";
+            hash = new HashCodeBuilder(init, mult)
+                    .append(Item.getIdFromItem(stack.getItem()))
+                    .append(stack.getItemDamage())
+                    .append(stack.getTagCompound())
+                    .toHashCode();
+            assert hash != 0 : "Hashcode builder failed to follow its contract";
         }
         return hash;
     }
@@ -34,6 +39,8 @@ public class StackHolder{
         if (this == obj) {
             return true;
         }
-        return obj!=null && obj instanceof StackHolder && ItemStack.areItemStacksEqual(stack, ((StackHolder) obj).stack);
+        return obj != null
+                && obj instanceof StackHolder
+                && ItemStack.areItemStacksEqual(stack, ((StackHolder) obj).stack);
     }
 }

@@ -12,7 +12,7 @@ import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.GL11;
 
-public class QuiverItremRenderer implements IItemRenderer{
+public class QuiverItremRenderer implements IItemRenderer {
     private RenderItem itemRenderer;
 
     @Override
@@ -22,8 +22,8 @@ public class QuiverItremRenderer implements IItemRenderer{
 
     @Override
     public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper) {
-        return type == ItemRenderType.ENTITY &&
-                (helper == ItemRendererHelper.ENTITY_BOBBING || helper == ItemRendererHelper.ENTITY_ROTATION);
+        return type == ItemRenderType.ENTITY
+                && (helper == ItemRendererHelper.ENTITY_BOBBING || helper == ItemRendererHelper.ENTITY_ROTATION);
     }
 
     @Override
@@ -33,80 +33,86 @@ public class QuiverItremRenderer implements IItemRenderer{
             itemRenderer = new RenderItem();
         }
 
-        ItemQuiver quiver = (ItemQuiver)item.getItem();
+        ItemQuiver quiver = (ItemQuiver) item.getItem();
         int col = quiver.getColor(item);
-        float red = (float)(col >> 16 & 255) / 255.0F;
-        float green = (float)(col >> 8 & 255) / 255.0F;
-        float blue = (float)(col & 255) / 255.0F;
+        float red = (float) (col >> 16 & 255) / 255.0F;
+        float green = (float) (col >> 8 & 255) / 255.0F;
+        float blue = (float) (col & 255) / 255.0F;
         boolean hasArrows = false;
         int maxStack = quiver.getSlotCount(item);
-        for(int i = 0; i < maxStack && !hasArrows; i++){
+        for (int i = 0; i < maxStack && !hasArrows; i++) {
             hasArrows = quiver.getStackInSlot(item, i) != null;
         }
 
-        IIcon icon =  item.getIconIndex();
+        IIcon icon = item.getIconIndex();
         Tessellator tessellator = Tessellator.instance;
         GL11.glPushMatrix();
-        switch (type){
+        switch (type) {
             case INVENTORY:
-                GL11.glColor3f(red,green,blue);
-                //MOJANG derp fixes:
-                    GL11.glEnable(GL11.GL_ALPHA_TEST);
+                GL11.glColor3f(red, green, blue);
+                // MOJANG derp fixes:
+                GL11.glEnable(GL11.GL_ALPHA_TEST);
                 //    GL11.glEnable(GL11.GL_BLEND);
                 itemRenderer.renderIcon(0, 0, icon, 16, 16);
                 GL11.glColor3f(1, 1, 1);
                 icon = quiver.quiverDetails;
                 itemRenderer.renderIcon(0, 0, icon, 16, 16);
-                if(hasArrows){
+                if (hasArrows) {
                     icon = quiver.quiverArrows;
                     itemRenderer.renderIcon(0, 0, icon, 16, 16);
                 }
                 break;
-        	case ENTITY:
-        		GL11.glTranslatef(-0.5F, -0.25F, 0);
+            case ENTITY:
+                GL11.glTranslatef(-0.5F, -0.25F, 0);
             case EQUIPPED:
             case EQUIPPED_FIRST_PERSON:
-                if(data.length>1 && data[1] instanceof EntityLivingBase) {
+                if (data.length > 1 && data[1] instanceof EntityLivingBase) {
                     EntityLivingBase livingBase = (EntityLivingBase) data[1];
                     if (livingBase == null || livingBase.equals(BattlegearRenderHelper.dummyEntity)) {
-                        //Doesn't render sheathed
+                        // Doesn't render sheathed
                         GL11.glPopMatrix();
                         return;
                     } else if (livingBase instanceof IBattlePlayer && ((IBattlePlayer) livingBase).isBattlemode()) {
-                        //Doesn't render in battlemode
+                        // Doesn't render in battlemode
                         GL11.glPopMatrix();
                         return;
                     }
                 }
                 GL11.glColor3f(red, green, blue);
-                ItemRenderer.renderItemIn2D(tessellator,
+                ItemRenderer.renderItemIn2D(
+                        tessellator,
                         icon.getMaxU(),
                         icon.getMinV(),
                         icon.getMinU(),
                         icon.getMaxV(),
                         icon.getIconWidth(),
-                        icon.getIconHeight(), 16F / 256F);
+                        icon.getIconHeight(),
+                        16F / 256F);
 
                 GL11.glColor3f(1, 1, 1);
                 icon = quiver.quiverDetails;
-                ItemRenderer.renderItemIn2D(tessellator,
+                ItemRenderer.renderItemIn2D(
+                        tessellator,
                         icon.getMaxU(),
                         icon.getMinV(),
                         icon.getMinU(),
                         icon.getMaxV(),
                         icon.getIconWidth(),
-                        icon.getIconHeight(), 16F / 256F);
+                        icon.getIconHeight(),
+                        16F / 256F);
 
-                if(hasArrows){
-                    GL11.glTranslated(0, 0, -4F/256F);
+                if (hasArrows) {
+                    GL11.glTranslated(0, 0, -4F / 256F);
                     icon = quiver.quiverArrows;
-                    ItemRenderer.renderItemIn2D(tessellator,
-                    		icon.getMaxU(),
+                    ItemRenderer.renderItemIn2D(
+                            tessellator,
+                            icon.getMaxU(),
                             icon.getMinV(),
                             icon.getMinU(),
                             icon.getMaxV(),
                             icon.getIconWidth(),
-                            icon.getIconHeight(), 8F / 256F);
+                            icon.getIconHeight(),
+                            8F / 256F);
                 }
                 break;
         }

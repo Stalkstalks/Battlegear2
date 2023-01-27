@@ -21,7 +21,7 @@ public class ImageCache {
 
     private static final DynamicTexture test1;
 
-    static{
+    static {
         defaultTexture = new DynamicTexture(ImageData.IMAGE_RES, ImageData.IMAGE_RES);
 
         test1 = new DynamicTexture(ImageData.IMAGE_RES, ImageData.IMAGE_RES);
@@ -29,42 +29,40 @@ public class ImageCache {
         ImageData.defaultImage.setTexture(defaultTexture.getTextureData());
     }
 
-    private static final LoadingCache<String, DynamicTexture> imageCache =
-            CacheBuilder.newBuilder().maximumSize(CACHE_SIZE).
-                    build(
-                            new CacheLoader<String, DynamicTexture>() {
-                                @Override
-                                public DynamicTexture load(String key) throws Exception {
-                                    DynamicTexture texture = new DynamicTexture(ImageData.IMAGE_RES, ImageData.IMAGE_RES);
+    private static final LoadingCache<String, DynamicTexture> imageCache = CacheBuilder.newBuilder()
+            .maximumSize(CACHE_SIZE)
+            .build(new CacheLoader<String, DynamicTexture>() {
+                @Override
+                public DynamicTexture load(String key) throws Exception {
+                    DynamicTexture texture = new DynamicTexture(ImageData.IMAGE_RES, ImageData.IMAGE_RES);
 
-                                    if (temp != null && temp.getItem() instanceof IHeraldryItem &&
-                                            ((IHeraldryItem) temp.getItem()).hasHeraldry(temp)) {
+                    if (temp != null
+                            && temp.getItem() instanceof IHeraldryItem
+                            && ((IHeraldryItem) temp.getItem()).hasHeraldry(temp)) {
 
-                                        new ImageData(((IHeraldryItem) temp.getItem()).getHeraldry(temp)).setTexture(texture.getTextureData());
+                        new ImageData(((IHeraldryItem) temp.getItem()).getHeraldry(temp))
+                                .setTexture(texture.getTextureData());
+                    }
 
-                                    }
+                    return texture;
+                }
+            });
 
-                                    return texture;
-                                }
-
-                            }
-                    );
     static {
         CacheBuilder.newBuilder().build();
     }
 
+    public static void setTexture(ItemStack stack) {
 
-    public static void setTexture(ItemStack stack){
-
-        if (stack != null && stack.getItem() instanceof IHeraldryItem && ((IHeraldryItem) stack.getItem()).hasHeraldry(stack)) {
+        if (stack != null
+                && stack.getItem() instanceof IHeraldryItem
+                && ((IHeraldryItem) stack.getItem()).hasHeraldry(stack)) {
             ImageData id = new ImageData(((IHeraldryItem) stack.getItem()).getHeraldry(stack));
             id.setTexture(test1.getTextureData());
             test1.updateDynamicTexture();
-        }else{
+        } else {
             ImageData.defaultImage.setTexture(defaultTexture.getTextureData());
             defaultTexture.updateDynamicTexture();
         }
-
     }
-
 }

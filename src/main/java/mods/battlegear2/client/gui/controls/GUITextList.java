@@ -1,15 +1,15 @@
 package mods.battlegear2.client.gui.controls;
 
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import org.lwjgl.opengl.GL11;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class GUITextList extends GUIScrollList{
+public class GUITextList extends GUIScrollList {
     private final Box[] texts;
     private final FontRenderer font;
+
     public GUITextList(FontRenderer font, int width, int top, int bottom, int left, int entryHeight, Box[] texts) {
         super(width, top, bottom, left, entryHeight);
         this.font = font;
@@ -23,8 +23,8 @@ public class GUITextList extends GUIScrollList{
 
     @Override
     protected void elementClicked(int index, boolean doubleClick) {
-        if(!doubleClick){
-            texts[index].isActivated=!texts[index].isActivated;
+        if (!doubleClick) {
+            texts[index].isActivated = !texts[index].isActivated;
         }
     }
 
@@ -35,7 +35,7 @@ public class GUITextList extends GUIScrollList{
 
     @Override
     protected void drawBackground() {
-        drawRect(left, top, left+listWidth, bottom, 0xAA000000);
+        drawRect(left, top, left + listWidth, bottom, 0xAA000000);
     }
 
     @Override
@@ -44,24 +44,25 @@ public class GUITextList extends GUIScrollList{
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glDisable(GL11.GL_ALPHA_TEST);
-        font.drawStringWithShadow(texts[index].text, left, var3, isSelected(index)?14737632:7368816);
+        font.drawStringWithShadow(texts[index].text, left, var3, isSelected(index) ? 14737632 : 7368816);
         GL11.glEnable(GL11.GL_ALPHA_TEST);
         GL11.glDisable(GL11.GL_BLEND);
     }
 
-    public static class Box{
+    public static class Box {
         private final String text;
         public boolean isActivated;
-        public Box(String text, boolean activated){
+
+        public Box(String text, boolean activated) {
             this.text = text;
             this.isActivated = activated;
         }
     }
 
-    public List<String> getActivated(){
+    public List<String> getActivated() {
         List<String> data = new ArrayList<String>();
-        for(int i=0;i<texts.length;i++){
-            if(texts[i].isActivated){
+        for (int i = 0; i < texts.length; i++) {
+            if (texts[i].isActivated) {
                 data.add(texts[i].text);
             }
         }

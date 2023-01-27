@@ -1,9 +1,8 @@
 package mods.battlegear2.coremod.transformers;
 
+import java.util.Iterator;
 import mods.battlegear2.api.core.BattlegearTranslator;
 import org.objectweb.asm.tree.*;
-
-import java.util.Iterator;
 
 public final class ItemStackTransformer extends TransformerMethodProcess {
     private String entityPlayerClassName;
@@ -11,7 +10,9 @@ public final class ItemStackTransformer extends TransformerMethodProcess {
     private String destroyMethodName;
 
     public ItemStackTransformer() {
-        super("net.minecraft.item.ItemStack", "func_77972_a", new String[]{"damageItem", "(ILnet/minecraft/entity/EntityLivingBase;)V"});
+        super("net.minecraft.item.ItemStack", "func_77972_a", new String[] {
+            "damageItem", "(ILnet/minecraft/entity/EntityLivingBase;)V"
+        });
     }
 
     @Override
@@ -24,9 +25,15 @@ public final class ItemStackTransformer extends TransformerMethodProcess {
             AbstractInsnNode node = it.next();
             if (node instanceof MethodInsnNode && node.getOpcode() == INVOKEVIRTUAL) {
                 MethodInsnNode methNode = (MethodInsnNode) node;
-                if (methNode.owner.equals(entityPlayerClassName) && methNode.name.equals(destroyMethodName) && methNode.desc.equals(SIMPLEST_METHOD_DESC)) {
+                if (methNode.owner.equals(entityPlayerClassName)
+                        && methNode.name.equals(destroyMethodName)
+                        && methNode.desc.equals(SIMPLEST_METHOD_DESC)) {
                     newList.add(new VarInsnNode(ALOAD, 0));
-                    newList.add(new MethodInsnNode(INVOKESTATIC, UTILITY_CLASS, "onBowStackDepleted", "(L" + entityPlayerClassName + ";L" + itemStackClassName + ";)V"));
+                    newList.add(new MethodInsnNode(
+                            INVOKESTATIC,
+                            UTILITY_CLASS,
+                            "onBowStackDepleted",
+                            "(L" + entityPlayerClassName + ";L" + itemStackClassName + ";)V"));
                     continue;
                 }
             }

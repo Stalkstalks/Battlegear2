@@ -11,23 +11,23 @@ public final class BgPlayerTracker {
 
     public static final BgPlayerTracker INSTANCE = new BgPlayerTracker();
 
-    private BgPlayerTracker(){}
+    private BgPlayerTracker() {}
 
     @SubscribeEvent
     public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
-        if(event.player instanceof EntityPlayerMP){
-            Battlegear.packetHandler.sendPacketToPlayer(new LoginPacket().generatePacket(), (EntityPlayerMP)event.player);
+        if (event.player instanceof EntityPlayerMP) {
+            Battlegear.packetHandler.sendPacketToPlayer(
+                    new LoginPacket().generatePacket(), (EntityPlayerMP) event.player);
         }
     }
 
     @SubscribeEvent
     public void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event) {
-        if(FMLCommonHandler.instance().getEffectiveSide().isClient())
-            Battlegear.battlegearEnabled = false;
+        if (FMLCommonHandler.instance().getEffectiveSide().isClient()) Battlegear.battlegearEnabled = false;
     }
 
     @SubscribeEvent
-    public void onItemCrafted(PlayerEvent.ItemCraftedEvent event){
+    public void onItemCrafted(PlayerEvent.ItemCraftedEvent event) {
         CraftingHandeler.onCrafting(event.player, event.crafting, event.craftMatrix);
     }
 }

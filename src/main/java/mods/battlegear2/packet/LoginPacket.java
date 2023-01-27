@@ -4,26 +4,25 @@ import io.netty.buffer.ByteBuf;
 import mods.battlegear2.Battlegear;
 import net.minecraft.entity.player.EntityPlayer;
 
-public final class LoginPacket extends AbstractMBPacket{
+public final class LoginPacket extends AbstractMBPacket {
     public static final String packetName = "MB|Login";
 
     @Override
     public void process(ByteBuf inputStream, EntityPlayer player) {
-        if(player.worldObj.isRemote){
+        if (player.worldObj.isRemote) {
             Battlegear.battlegearEnabled = true;
         }
     }
 
-    public LoginPacket() {
+    public LoginPacket() {}
+
+    @Override
+    public String getChannel() {
+        return packetName;
     }
 
-	@Override
-	public String getChannel() {
-		return packetName;
-	}
-
-	@Override
-	public void write(ByteBuf out) {
-		out.writeBytes(new byte[0]);
-	}
+    @Override
+    public void write(ByteBuf out) {
+        out.writeBytes(new byte[0]);
+    }
 }

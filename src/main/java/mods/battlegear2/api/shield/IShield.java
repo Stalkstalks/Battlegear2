@@ -19,7 +19,7 @@ public interface IShield {
      * @return a value between 0 & 1 representing the decay rate per tick
      */
     public float getDecayRate(ItemStack shield);
-    
+
     /**
      * Gets the recovery rate for the stamina bar when the shield is not in use.
      * The value should be between 0 and 1.

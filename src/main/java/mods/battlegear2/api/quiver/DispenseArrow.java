@@ -13,7 +13,7 @@ import net.minecraft.world.World;
  * Created by GotoLink on 07/11/2014.
  * A generic dispensing arrow behavior for {@link BlockDispenser]
  */
-public abstract class DispenseArrow extends BehaviorDefaultDispenseItem{
+public abstract class DispenseArrow extends BehaviorDefaultDispenseItem {
 
     /**
      * Spawn the new EntityArrow instance, or default to dispensing the item form.
@@ -21,12 +21,11 @@ public abstract class DispenseArrow extends BehaviorDefaultDispenseItem{
     @Override
     public final ItemStack dispenseStack(IBlockSource source, ItemStack itemStack) {
         EntityArrow arrow = this.getArrowEntity(source.getWorld(), itemStack);
-        if(arrow != null) {
+        if (arrow != null) {
             IPosition iPosition = BlockDispenser.func_149939_a(source);
             EnumFacing enumfacing = BlockDispenser.func_149937_b(source.getBlockMetadata());
             this.setArrowProperties(arrow, iPosition, enumfacing);
-            if(source.getWorld().spawnEntityInWorld(arrow))
-                this.consume(itemStack);
+            if (source.getWorld().spawnEntityInWorld(arrow)) this.consume(itemStack);
             return itemStack;
         }
         return super.dispenseStack(source, itemStack);
@@ -49,11 +48,16 @@ public abstract class DispenseArrow extends BehaviorDefaultDispenseItem{
      * @param iPosition the dispenser position
      * @param enumfacing the dispenser face
      */
-    protected void setArrowProperties(EntityArrow arrow, IPosition iPosition, EnumFacing enumfacing){
+    protected void setArrowProperties(EntityArrow arrow, IPosition iPosition, EnumFacing enumfacing) {
         arrow.setPosition(iPosition.getX(), iPosition.getY(), iPosition.getZ());
         arrow.yOffset = 0.0F;
         arrow.canBePickedUp = 1;
-        arrow.setThrowableHeading((double) enumfacing.getFrontOffsetX(), (double) ((float) enumfacing.getFrontOffsetY() + 0.1F), (double) enumfacing.getFrontOffsetZ(), 1.1F, 6.0F);
+        arrow.setThrowableHeading(
+                (double) enumfacing.getFrontOffsetX(),
+                (double) ((float) enumfacing.getFrontOffsetY() + 0.1F),
+                (double) enumfacing.getFrontOffsetZ(),
+                1.1F,
+                6.0F);
     }
 
     /**

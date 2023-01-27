@@ -24,7 +24,7 @@ public class RectangleTool implements ITool {
 
     @Override
     public ResourceLocation getToolImage() {
-        return new ResourceLocation("battlegear2:textures/"+getToolName()+".png");
+        return new ResourceLocation("battlegear2:textures/" + getToolName() + ".png");
     }
 
     @Override
@@ -33,15 +33,14 @@ public class RectangleTool implements ITool {
         int[] pixelsOverlay = overlay.getTextureData();
         System.arraycopy(pixelsCurrent, 0, pixelsOverlay, 0, pixelsOverlay.length);
 
-        if(Mouse.isButtonDown(0) && last_x > -1000 && last_y > -1000){
-            if(shift){
-                if(last_y > y)
-                    y = last_y - Math.abs(last_x - x);
-                else
-                    y = last_y + Math.abs(last_x - x);
+        if (Mouse.isButtonDown(0) && last_x > -1000 && last_y > -1000) {
+            if (shift) {
+                if (last_y > y) y = last_y - Math.abs(last_x - x);
+                else y = last_y + Math.abs(last_x - x);
             }
 
-            drawShape(Math.min(last_x, x),
+            drawShape(
+                    Math.min(last_x, x),
                     Math.min(last_y, y),
                     Math.max(last_x, x),
                     Math.max(last_y, y),
@@ -52,44 +51,36 @@ public class RectangleTool implements ITool {
 
     @Override
     public void draw(int x, int y, int[] pixels, int rgb, boolean shift) {
-        if(Mouse.getEventButton() == 0 &&(!Mouse.getEventButtonState()) && last_x > -1000 && last_y > -1000){
-            if(shift){
-                if(last_y > y)
-                    y = last_y - Math.abs(last_x - x);
-                else
-                    y = last_y + Math.abs(last_x - x);
+        if (Mouse.getEventButton() == 0 && (!Mouse.getEventButtonState()) && last_x > -1000 && last_y > -1000) {
+            if (shift) {
+                if (last_y > y) y = last_y - Math.abs(last_x - x);
+                else y = last_y + Math.abs(last_x - x);
             }
 
-            drawShape(Math.min(last_x, x),
-                    Math.min(last_y, y),
-                    Math.max(last_x, x),
-                    Math.max(last_y, y),
-                    pixels,
-                    rgb);
-
+            drawShape(Math.min(last_x, x), Math.min(last_y, y), Math.max(last_x, x), Math.max(last_y, y), pixels, rgb);
         }
     }
 
-    protected void drawShape(int minX, int minY, int maxX, int maxY, int[] pixels, int rgb){
+    protected void drawShape(int minX, int minY, int maxX, int maxY, int[] pixels, int rgb) {
 
-        for(int i = minX; i <= maxX; i++){
-            if (i > -1 && i < ImageData.IMAGE_RES ){
-                if(minY > -1 && minY < ImageData.IMAGE_RES){
-                    pixels[i+ImageData.IMAGE_RES*minY] = rgb;
+        for (int i = minX; i <= maxX; i++) {
+            if (i > -1 && i < ImageData.IMAGE_RES) {
+                if (minY > -1 && minY < ImageData.IMAGE_RES) {
+                    pixels[i + ImageData.IMAGE_RES * minY] = rgb;
                 }
-                if(maxY > -1 && maxY < ImageData.IMAGE_RES){
-                    pixels[i+ImageData.IMAGE_RES*maxY] = rgb;
+                if (maxY > -1 && maxY < ImageData.IMAGE_RES) {
+                    pixels[i + ImageData.IMAGE_RES * maxY] = rgb;
                 }
             }
         }
 
-        for(int i = minY; i <= maxY; i++){
-            if (i > -1 && i < ImageData.IMAGE_RES ){
-                if(minX > -1 && minX < ImageData.IMAGE_RES){
-                    pixels[minX+ImageData.IMAGE_RES*i] = rgb;
+        for (int i = minY; i <= maxY; i++) {
+            if (i > -1 && i < ImageData.IMAGE_RES) {
+                if (minX > -1 && minX < ImageData.IMAGE_RES) {
+                    pixels[minX + ImageData.IMAGE_RES * i] = rgb;
                 }
-                if(maxX > -1 && maxX < ImageData.IMAGE_RES){
-                    pixels[maxX+ImageData.IMAGE_RES*i] = rgb;
+                if (maxX > -1 && maxX < ImageData.IMAGE_RES) {
+                    pixels[maxX + ImageData.IMAGE_RES * i] = rgb;
                 }
             }
         }

@@ -23,10 +23,10 @@ public final class WeaponSlot extends Slot {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public IIcon getBackgroundIconIndex(){
-    //MOJANG derp fixes:
+    public IIcon getBackgroundIconIndex() {
+        // MOJANG derp fixes:
         GL11.glEnable(GL11.GL_ALPHA_TEST);
-        //GL11.glEnable(GL11.GL_BLEND);
+        // GL11.glEnable(GL11.GL_BLEND);
         return Battlegear.proxy.getSlotIcon(mainHand ? 0 : 1);
     }
 
@@ -42,12 +42,14 @@ public final class WeaponSlot extends Slot {
     public boolean isItemValid(ItemStack par1ItemStack) {
         if (par1ItemStack == null) {
             return super.isItemValid(null);
-        } else if(inventory instanceof InventoryPlayer){
+        } else if (inventory instanceof InventoryPlayer) {
             EntityPlayer player = ((InventoryPlayer) inventory).player;
             if (mainHand) {
-                return BattlegearUtils.isMainHand(par1ItemStack, partner.getStack(), player) && super.isItemValid(par1ItemStack);
+                return BattlegearUtils.isMainHand(par1ItemStack, partner.getStack(), player)
+                        && super.isItemValid(par1ItemStack);
             } else if (BattlegearUtils.isOffHand(par1ItemStack, player)) {
-                return BattlegearUtils.isMainHand(partner.getStack(), par1ItemStack, player) && super.isItemValid(par1ItemStack);
+                return BattlegearUtils.isMainHand(partner.getStack(), par1ItemStack, player)
+                        && super.isItemValid(par1ItemStack);
             }
         }
         return false;
