@@ -13,7 +13,7 @@ import net.minecraftforge.common.util.FakePlayerFactory;
  * Dispense arrows from {@link IArrowContainer2}
  * Needs to be added to {@link BlockDispenser#dispenseBehaviorRegistry} with the corresponding arrow container item
  */
-public class DispenseQuiverArrow extends DispenseArrow{
+public class DispenseQuiverArrow extends DispenseArrow {
     /**
      * The item that will attempt to use the arrow container, by default
      * @see #getUsedBow(ItemStack)
@@ -24,18 +24,24 @@ public class DispenseQuiverArrow extends DispenseArrow{
      */
     private final float charge;
 
-    public DispenseQuiverArrow(Item bow, float charge){
+    public DispenseQuiverArrow(Item bow, float charge) {
         this.bow = bow;
         this.charge = charge;
     }
 
     @Override
     protected EntityArrow getArrowEntity(World world, ItemStack itemStack) {
-        if(itemStack.getItem() instanceof IArrowContainer2){
+        if (itemStack.getItem() instanceof IArrowContainer2) {
             ItemStack bowStack = getUsedBow(itemStack);
             EntityPlayer fake = getUsingPlayer(world);
-            if(((IArrowContainer2) itemStack.getItem()).hasArrowFor(itemStack, bowStack, fake, ((IArrowContainer2) itemStack.getItem()).getSelectedSlot(itemStack))) {
-                EntityArrow arrow = ((IArrowContainer2) itemStack.getItem()).getArrowType(itemStack, world, fake, charge);
+            if (((IArrowContainer2) itemStack.getItem())
+                    .hasArrowFor(
+                            itemStack,
+                            bowStack,
+                            fake,
+                            ((IArrowContainer2) itemStack.getItem()).getSelectedSlot(itemStack))) {
+                EntityArrow arrow =
+                        ((IArrowContainer2) itemStack.getItem()).getArrowType(itemStack, world, fake, charge);
                 if (arrow != null) {
                     ((IArrowContainer2) itemStack.getItem()).onArrowFired(world, fake, itemStack, bowStack, arrow);
                 }
@@ -52,8 +58,8 @@ public class DispenseQuiverArrow extends DispenseArrow{
      * @param itemStack inside the dispenser, containing the arrow
      * @return a "fake" bow to fire the arrow with
      */
-    protected ItemStack getUsedBow(ItemStack itemStack){
-        return bow!=null ? new ItemStack(bow) : null;
+    protected ItemStack getUsedBow(ItemStack itemStack) {
+        return bow != null ? new ItemStack(bow) : null;
     }
 
     /**
@@ -63,8 +69,8 @@ public class DispenseQuiverArrow extends DispenseArrow{
      * @param world where the dispenser is located
      * @return a "fake" player
      */
-    protected EntityPlayer getUsingPlayer(World world){
-        return world instanceof WorldServer ? FakePlayerFactory.getMinecraft((WorldServer)world) : null;
+    protected EntityPlayer getUsingPlayer(World world) {
+        return world instanceof WorldServer ? FakePlayerFactory.getMinecraft((WorldServer) world) : null;
     }
 
     /**
@@ -72,6 +78,5 @@ public class DispenseQuiverArrow extends DispenseArrow{
      * @param itemStack inside the dispenser, to consume from
      */
     @Override
-    protected void consume(ItemStack itemStack){
-    }
+    protected void consume(ItemStack itemStack) {}
 }

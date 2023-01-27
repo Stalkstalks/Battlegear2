@@ -5,13 +5,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
 public interface IOffhandDual {
-	/**
+    /**
      * Returns true if this item can be dual wielded in the offhand slot
      * @deprecated See {@link IOffhandWield#isOffhandWieldable(ItemStack, EntityPlayer)}
      * @param off The {@link ItemStack} holding this item
      */
     public boolean isOffhandHandDual(ItemStack off);
-    
+
     /**
      * Perform any function when this item is held in the offhand (left) and the user right clicks an entity.
      * This is generally used to apply an effect on attacking the entity with the offhand item.
@@ -30,7 +30,8 @@ public interface IOffhandDual {
      * @param offhandItem  the {@link ItemStack} currently being held in the left hand, holding this item
      * @return true if the off hand swing animation should be performed
      */
-    public boolean offhandAttackEntity(PlayerEventChild.OffhandAttackEvent event, ItemStack mainhandItem, ItemStack offhandItem);
+    public boolean offhandAttackEntity(
+            PlayerEventChild.OffhandAttackEvent event, ItemStack mainhandItem, ItemStack offhandItem);
 
     /**
      * Perform any function when this item is held in the offhand and the user right clicks "Air".

@@ -6,13 +6,12 @@ import cpw.mods.fml.common.network.FMLNetworkEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import cpw.mods.fml.relauncher.Side;
+import java.util.Hashtable;
+import java.util.Map;
 import mods.battlegear2.Battlegear;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.NetHandlerPlayServer;
-
-import java.util.Hashtable;
-import java.util.Map;
 
 public final class BattlegearPacketHandeler {
 
@@ -34,9 +33,9 @@ public final class BattlegearPacketHandeler {
         map.put(WieldSetPacket.packetName, new WieldSetPacket());
     }
 
-    public void register(){
+    public void register() {
         FMLEventChannel eventChannel;
-        for(String channel:map.keySet()){
+        for (String channel : map.keySet()) {
             eventChannel = NetworkRegistry.INSTANCE.newEventDrivenChannel(channel);
             eventChannel.register(this);
             channels.put(channel, eventChannel);
@@ -45,28 +44,33 @@ public final class BattlegearPacketHandeler {
 
     @SubscribeEvent
     public void onServerPacket(FMLNetworkEvent.ServerCustomPacketEvent event) {
-        map.get(event.packet.channel()).process(event.packet.payload(), ((NetHandlerPlayServer)event.handler).playerEntity);
+        map.get(event.packet.channel())
+                .process(event.packet.payload(), ((NetHandlerPlayServer) event.handler).playerEntity);
     }
 
     @SubscribeEvent
-    public void onClientPacket(FMLNetworkEvent.ClientCustomPacketEvent event){
+    public void onClientPacket(FMLNetworkEvent.ClientCustomPacketEvent event) {
         map.get(event.packet.channel()).process(event.packet.payload(), Battlegear.proxy.getClientPlayer());
     }
 
-    public void sendPacketToPlayer(FMLProxyPacket packet, EntityPlayerMP player){
+    public void sendPacketToPlayer(FMLProxyPacket packet, EntityPlayerMP player) {
         channels.get(packet.channel()).sendTo(packet, player);
     }
 
-    public void sendPacketToServer(FMLProxyPacket packet){
+    public void sendPacketToServer(FMLProxyPacket packet) {
         packet.setTarget(Side.SERVER);
         channels.get(packet.channel()).sendToServer(packet);
     }
 
-    public void sendPacketAround(Entity entity, double range, FMLProxyPacket packet){
-        channels.get(packet.channel()).sendToAllAround(packet, new NetworkRegistry.TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, range));
+    public void sendPacketAround(Entity entity, double range, FMLProxyPacket packet) {
+        channels.get(packet.channel())
+                .sendToAllAround(
+                        packet,
+                        new NetworkRegistry.TargetPoint(
+                                entity.dimension, entity.posX, entity.posY, entity.posZ, range));
     }
 
-    public void sendPacketToAll(FMLProxyPacket packet){
+    public void sendPacketToAll(FMLProxyPacket packet) {
         channels.get(packet.channel()).sendToAll(packet);
     }
 }

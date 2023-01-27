@@ -6,15 +6,14 @@ import com.google.common.collect.ObjectArrays;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Primitives;
 import cpw.mods.fml.common.FMLLog;
+import java.lang.reflect.Constructor;
+import java.util.*;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Property;
 import org.apache.logging.log4j.Level;
-
-import java.lang.reflect.Constructor;
-import java.util.*;
 
 /**
  * Created by GotoLink on 11/10/2014.
@@ -25,10 +24,11 @@ public class EnchantmentHelper {
      * Reservation system for new enchantments id, requested using {@link #takeNextAvailableId}
      */
     private static BitSet reservedId;
+
     private final TreeSet<Enchantment> enchants;
     public static final int MIN_FREE_SLOT = 8, INVALID = -1;
 
-    public EnchantmentHelper(){
+    public EnchantmentHelper() {
         enchants = Sets.newTreeSet(new Comparator<Enchantment>() {
             @Override
             public int compare(Enchantment o1, Enchantment o2) {
@@ -37,7 +37,7 @@ public class EnchantmentHelper {
         });
     }
 
-    public EnchantmentHelper(Comparator<Enchantment> comparator){
+    public EnchantmentHelper(Comparator<Enchantment> comparator) {
         enchants = Sets.newTreeSet(comparator);
     }
 
@@ -54,8 +54,8 @@ public class EnchantmentHelper {
      * @param enchantment to add to the list
      * @return true if the enchantment could be added
      */
-    public boolean addEnchantment(Enchantment enchantment){
-        return enchantment!=null && enchants.add(enchantment);
+    public boolean addEnchantment(Enchantment enchantment) {
+        return enchantment != null && enchants.add(enchantment);
     }
 
     /**
@@ -66,8 +66,9 @@ public class EnchantmentHelper {
      */
     public Collection<ItemStack> getEnchantmentBooks() {
         Collection<ItemStack> list = new ArrayList<ItemStack>(enchants.size());
-        for(Enchantment enchantment:enchants){
-            list.add(Items.enchanted_book.getEnchantedItemStack(new EnchantmentData(enchantment, enchantment.getMaxLevel())));
+        for (Enchantment enchantment : enchants) {
+            list.add(Items.enchanted_book.getEnchantedItemStack(
+                    new EnchantmentData(enchantment, enchantment.getMaxLevel())));
         }
         return list;
     }
@@ -77,7 +78,7 @@ public class EnchantmentHelper {
      *
      * @see #getNextAvailableId(int)
      */
-    public static int getLowestAvailableId(){
+    public static int getLowestAvailableId() {
         return getNextAvailableId(MIN_FREE_SLOT);
     }
 
@@ -89,11 +90,10 @@ public class EnchantmentHelper {
      * @param startingId to start search from (included)
      * @return {@link #INVALID} if no id above the given one is available, or the next available id
      */
-    public static int getNextAvailableId(int startingId){
+    public static int getNextAvailableId(int startingId) {
         int result = startingId < MIN_FREE_SLOT ? MIN_FREE_SLOT : startingId;
-        while(result < Enchantment.enchantmentsList.length) {
-            if(Enchantment.enchantmentsList[result]==null)
-                return result;
+        while (result < Enchantment.enchantmentsList.length) {
+            if (Enchantment.enchantmentsList[result] == null) return result;
             result++;
         }
         return INVALID;
@@ -106,24 +106,23 @@ public class EnchantmentHelper {
      * @param startingId to start search from (included)
      * @return {@link #INVALID} if no id above the given one is available, or the next available id
      */
-    public static int takeNextAvailableId(int startingId){
-        if(reservedId==null){
+    public static int takeNextAvailableId(int startingId) {
+        if (reservedId == null) {
             reservedId = new BitSet(Enchantment.enchantmentsList.length);
         }
         int result = startingId < MIN_FREE_SLOT ? MIN_FREE_SLOT : startingId;
         int temp;
-        do{
+        do {
             temp = getNextAvailableId(result);
-            if(temp>=result) {
+            if (temp >= result) {
                 result = temp;
-                if(!reservedId.get(result)) {
+                if (!reservedId.get(result)) {
                     reservedId.set(result);
                     return result;
                 }
                 result++;
-            }else
-                break;
-        }while(result < Enchantment.enchantmentsList.length);
+            } else break;
+        } while (result < Enchantment.enchantmentsList.length);
         return INVALID;
     }
 
@@ -135,10 +134,10 @@ public class EnchantmentHelper {
      * @param property read as an int {@link Property#getInt()} and refreshed with the new available id
      * @return {@link #INVALID} if no id above the given one is available, or the next available id
      */
-    public static int takeNextAvailableId(Property property){
-        if(property!=null && property.isIntValue()){
+    public static int takeNextAvailableId(Property property) {
+        if (property != null && property.isIntValue()) {
             int start = property.getInt();
-            if(start>=0 && start<Enchantment.enchantmentsList.length) {
+            if (start >= 0 && start < Enchantment.enchantmentsList.length) {
                 int result = takeNextAvailableId(start);
                 property.set(result);
                 return result;
@@ -158,17 +157,18 @@ public class EnchantmentHelper {
      * @param args additional arguments used on the constructor when instantiating
      * @return the optional enchantment
      */
-    public static Optional<Enchantment> build(Property property, String name, Class<? extends Enchantment> type, Object... args){
+    public static Optional<Enchantment> build(
+            Property property, String name, Class<? extends Enchantment> type, Object... args) {
         int id = takeNextAvailableId(property);
-        if(id!=INVALID && type!=null){
+        if (id != INVALID && type != null) {
             Enchantment enchantment = null;
             try {
                 Constructor<? extends Enchantment> constructor;
                 if (args != null) {
-                    Class<?>[] ctorArgClasses = new Class<?>[args.length+1];
+                    Class<?>[] ctorArgClasses = new Class<?>[args.length + 1];
                     ctorArgClasses[0] = int.class;
                     for (int idx = 0; idx < args.length; idx++) {
-                        ctorArgClasses[idx+1] = Primitives.unwrap(args[idx].getClass());
+                        ctorArgClasses[idx + 1] = Primitives.unwrap(args[idx].getClass());
                     }
                     constructor = type.getConstructor(ctorArgClasses);
                     enchantment = constructor.newInstance(ObjectArrays.concat(id, args));
@@ -176,11 +176,10 @@ public class EnchantmentHelper {
                     constructor = type.getConstructor(int.class);
                     enchantment = constructor.newInstance(id);
                 }
-            }catch (Exception logged){
+            } catch (Exception logged) {
                 FMLLog.log(Level.ERROR, logged, "Caught an exception during enchantment registration");
             }
-            if(enchantment != null && name != null && !name.isEmpty())
-                enchantment.setName(name);
+            if (enchantment != null && name != null && !name.isEmpty()) enchantment.setName(name);
             return Optional.fromNullable(enchantment);
         }
         return Optional.absent();
@@ -192,11 +191,9 @@ public class EnchantmentHelper {
      * @param enchantmentOptional to get the id from
      * @return {@link #INVALID} if the covered enchantment doesn't exist
      */
-    public static int getId(Optional<Enchantment> enchantmentOptional){
-        if(enchantmentOptional.isPresent())
-            return enchantmentOptional.get().effectId;
-        else
-            return INVALID;
+    public static int getId(Optional<Enchantment> enchantmentOptional) {
+        if (enchantmentOptional.isPresent()) return enchantmentOptional.get().effectId;
+        else return INVALID;
     }
 
     /**
@@ -206,10 +203,10 @@ public class EnchantmentHelper {
      * @param itemStack to search enchantment on, can be null
      * @return 0 if the enchantment doesn't exist, or stack is null, the level of the enchantment otherwise
      */
-    public static int getEnchantmentLevel(Optional<Enchantment> enchantmentOptional, ItemStack itemStack){
-        if(enchantmentOptional.isPresent())
-            return net.minecraft.enchantment.EnchantmentHelper.getEnchantmentLevel(enchantmentOptional.get().effectId, itemStack);
-        else
-            return 0;
+    public static int getEnchantmentLevel(Optional<Enchantment> enchantmentOptional, ItemStack itemStack) {
+        if (enchantmentOptional.isPresent())
+            return net.minecraft.enchantment.EnchantmentHelper.getEnchantmentLevel(
+                    enchantmentOptional.get().effectId, itemStack);
+        else return 0;
     }
 }

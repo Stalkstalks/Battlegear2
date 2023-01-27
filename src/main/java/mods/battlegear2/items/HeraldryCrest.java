@@ -2,6 +2,7 @@ package mods.battlegear2.items;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
 import mods.battlegear2.Battlegear;
 import mods.battlegear2.api.heraldry.HeraldryData;
 import mods.battlegear2.api.heraldry.IHeraldryItem;
@@ -16,9 +17,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.MapData;
 
-import java.util.List;
-
-public class HeraldryCrest extends ItemMap implements IHeraldryItem{
+public class HeraldryCrest extends ItemMap implements IHeraldryItem {
     public HeraldryCrest() {
         super();
         this.setMaxStackSize(1);
@@ -35,7 +34,7 @@ public class HeraldryCrest extends ItemMap implements IHeraldryItem{
     }
 
     @Override
-    public ItemStack onItemRightClick(ItemStack par1ItemStack, World world, EntityPlayer player){
+    public ItemStack onItemRightClick(ItemStack par1ItemStack, World world, EntityPlayer player) {
         player.openGui(Battlegear.INSTANCE, BattlegearGUIHandeler.flagEditor, world, 0, 0, 0);
         return par1ItemStack;
     }
@@ -46,7 +45,7 @@ public class HeraldryCrest extends ItemMap implements IHeraldryItem{
     }
 
     @Override
-    public boolean hasContainerItem(ItemStack stack){
+    public boolean hasContainerItem(ItemStack stack) {
         return true;
     }
 
@@ -67,27 +66,27 @@ public class HeraldryCrest extends ItemMap implements IHeraldryItem{
 
     @Override
     public byte[] getHeraldry(ItemStack stack) {
-        if(!stack.hasTagCompound()){
+        if (!stack.hasTagCompound()) {
             return HeraldryData.getDefault().getByteArray();
         }
         NBTTagCompound compound = stack.getTagCompound();
-        if(compound.hasKey(heraldryTag)){
+        if (compound.hasKey(heraldryTag)) {
             return compound.getByteArray(heraldryTag);
-        }else{
+        } else {
             return HeraldryData.getDefault().getByteArray();
         }
     }
 
     @Override
     public void removeHeraldry(ItemStack item) {
-        if(item.hasTagCompound()){
+        if (item.hasTagCompound()) {
             item.getTagCompound().removeTag(heraldryTag);
         }
     }
 
     @Override
     public void setHeraldry(ItemStack stack, byte[] data) {
-        if(!stack.hasTagCompound()){
+        if (!stack.hasTagCompound()) {
             stack.setTagCompound(new NBTTagCompound());
         }
 
@@ -109,27 +108,24 @@ public class HeraldryCrest extends ItemMap implements IHeraldryItem{
         return !pass.equals(HeraldyRenderPassess.SecondaryColourTrim);
     }
 
+    public MapData getMapData(ItemStack par1ItemStack, World par2World) {
+        return null;
+    }
 
-    public MapData getMapData(ItemStack par1ItemStack, World par2World)
-    {return null;}
-
-    public void updateMapData(World par1World, Entity par2Entity, MapData par3MapData)
-    {}
-
-    @Override
-    public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5)
-    {}
+    public void updateMapData(World par1World, Entity par2Entity, MapData par3MapData) {}
 
     @Override
-    public Packet func_150911_c(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
-    {return null;}
+    public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5) {}
 
     @Override
-    public void onCreated(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
-    {}
+    public Packet func_150911_c(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
+        return null;
+    }
+
+    @Override
+    public void onCreated(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {}
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
-    {}
+    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {}
 }

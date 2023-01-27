@@ -16,16 +16,21 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 public abstract class AbstractMBArrow extends EntityArrow {
-		
-	public AbstractMBArrow(World par1World){
-		super(par1World);
-	}
-	
+
+    public AbstractMBArrow(World par1World) {
+        super(par1World);
+    }
+
     public AbstractMBArrow(World par1World, EntityLivingBase par2EntityLivingBase, float par3) {
         super(par1World, par2EntityLivingBase, par3);
     }
 
-    public AbstractMBArrow(World par1World, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase, float par4, float par5) {
+    public AbstractMBArrow(
+            World par1World,
+            EntityLivingBase par2EntityLivingBase,
+            EntityLivingBase par3EntityLivingBase,
+            float par4,
+            float par5) {
         super(par1World, par2EntityLivingBase, par3EntityLivingBase, par4, par5);
     }
 
@@ -37,7 +42,7 @@ public abstract class AbstractMBArrow extends EntityArrow {
     public void onUpdate() {
         super.onUpdate();
 
-        if(ticksInGround == 1){
+        if (ticksInGround == 1) {
             onHitGround(field_145791_d, field_145792_e, field_145789_f);
         }
     }
@@ -51,26 +56,35 @@ public abstract class AbstractMBArrow extends EntityArrow {
      */
     public static AbstractMBArrow generate(int type, EntityArrow arrow, EntitySkeleton skeleton) {
         AbstractMBArrow mbArrow = null;
-        if(arrow != null && skeleton != null && skeleton.getAttackTarget() != null && type<ItemMBArrow.arrows.length){
+        if (arrow != null
+                && skeleton != null
+                && skeleton.getAttackTarget() != null
+                && type < ItemMBArrow.arrows.length) {
             try {
-				mbArrow = ItemMBArrow.arrows[type].getConstructor(World.class, EntityLivingBase.class, EntityLivingBase.class, float.class, float.class).newInstance(arrow.worldObj, skeleton, skeleton.getAttackTarget(), 1.6F, (float)(14 - skeleton.worldObj.difficultySetting.getDifficultyId() * 4));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}          		
+                mbArrow = ItemMBArrow.arrows[type]
+                        .getConstructor(
+                                World.class, EntityLivingBase.class, EntityLivingBase.class, float.class, float.class)
+                        .newInstance(arrow.worldObj, skeleton, skeleton.getAttackTarget(), 1.6F, (float)
+                                (14 - skeleton.worldObj.difficultySetting.getDifficultyId() * 4));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return mbArrow;
     }
-    
-    @Override//Fixes picking up arrows
-    public void onCollideWithPlayer(EntityPlayer par1EntityPlayer){
-        if (!this.worldObj.isRemote && this.ticksInGround>0 && this.arrowShake <= 0){
-            if (this.canBePickedUp == 1 && !tryPickArrow(par1EntityPlayer)){
-            	return;
+
+    @Override // Fixes picking up arrows
+    public void onCollideWithPlayer(EntityPlayer par1EntityPlayer) {
+        if (!this.worldObj.isRemote && this.ticksInGround > 0 && this.arrowShake <= 0) {
+            if (this.canBePickedUp == 1 && !tryPickArrow(par1EntityPlayer)) {
+                return;
             }
-            boolean flag = this.canBePickedUp == 1 || this.canBePickedUp == 2 && par1EntityPlayer.capabilities.isCreativeMode;
-            if (flag){
-                this.playSound("random.pop", 0.2F, ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.7F + 1.0F) * 2.0F);
-                par1EntityPlayer.onItemPickup(this, 1);//That second parameter is unused
+            boolean flag =
+                    this.canBePickedUp == 1 || this.canBePickedUp == 2 && par1EntityPlayer.capabilities.isCreativeMode;
+            if (flag) {
+                this.playSound(
+                        "random.pop", 0.2F, ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.7F + 1.0F) * 2.0F);
+                par1EntityPlayer.onItemPickup(this, 1); // That second parameter is unused
                 this.setDead();
             }
         }
@@ -81,21 +95,20 @@ public abstract class AbstractMBArrow extends EntityArrow {
      * @param player trying to pick up the arrow
      * @return false if the arrow couldn't be added to the player inventory
      */
-    public boolean tryPickArrow(EntityPlayer player){
+    public boolean tryPickArrow(EntityPlayer player) {
         ItemStack arrow = getPickedUpItem();
-        if(arrow!=null){
-            if (player.inventory instanceof InventoryPlayerBattle)
-            {
-		ItemStack offhand = ((InventoryPlayerBattle)player.inventory).getCurrentOffhandWeapon();
-            	if(offhand!=null && offhand.getItem() instanceof IArrowContainer2){
+        if (arrow != null) {
+            if (player.inventory instanceof InventoryPlayerBattle) {
+                ItemStack offhand = ((InventoryPlayerBattle) player.inventory).getCurrentOffhandWeapon();
+                if (offhand != null && offhand.getItem() instanceof IArrowContainer2) {
                     final int size = arrow.stackSize;
                     ItemStack arrowLeft = ((IArrowContainer2) offhand.getItem()).addArrows(offhand, arrow);
-                    if(arrowLeft==null||arrowLeft.stackSize<size){
-                	if(arrowLeft!=null && arrowLeft.stackSize>0)
+                    if (arrowLeft == null || arrowLeft.stackSize < size) {
+                        if (arrowLeft != null && arrowLeft.stackSize > 0)
                             worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX, posY, posZ, arrowLeft));
-                    	    return true;
+                        return true;
                     }
-            	}
+                }
             }
         }
         return player.inventory.addItemStackToInventory(arrow);
@@ -105,12 +118,12 @@ public abstract class AbstractMBArrow extends EntityArrow {
      * Could be abstracted, but using the registry is easier
      * @return the stack to be picked up, if any
      */
-	public ItemStack getPickedUpItem(){
-		return QuiverArrowRegistry.getItem(this.getClass());
-	}
+    public ItemStack getPickedUpItem() {
+        return QuiverArrowRegistry.getItem(this.getClass());
+    }
 
-
-    public boolean canBreakBlocks(){
-        return !(this.shootingEntity instanceof EntityMob) || this.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing");
+    public boolean canBreakBlocks() {
+        return !(this.shootingEntity instanceof EntityMob)
+                || this.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing");
     }
 }

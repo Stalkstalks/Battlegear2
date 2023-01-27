@@ -1,5 +1,8 @@
 package mods.battlegear2.client.renderer;
 
+import static org.lwjgl.opengl.GL11.glPopMatrix;
+import static org.lwjgl.opengl.GL11.glPushMatrix;
+
 import mods.battlegear2.api.heraldry.HeraldryData;
 import mods.battlegear2.api.heraldry.HeraldryTextureSmall;
 import mods.battlegear2.api.heraldry.IHeraldryItem;
@@ -14,81 +17,77 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 
-import static org.lwjgl.opengl.GL11.glPopMatrix;
-import static org.lwjgl.opengl.GL11.glPushMatrix;
-
-public class HeraldryCrestItemRenderer implements IItemRenderer{
+public class HeraldryCrestItemRenderer implements IItemRenderer {
     private RenderItem itemRenderer;
 
-
-    public static final ResourceLocation map_overlay = new ResourceLocation("battlegear2", "textures/heraldry/Background.png");
+    public static final ResourceLocation map_overlay =
+            new ResourceLocation("battlegear2", "textures/heraldry/Background.png");
 
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type) {
-        return item.getItem() instanceof IHeraldryItem &&
-                ((IHeraldryItem)item.getItem()).hasHeraldry(item) &&
-                (type == ItemRenderType.INVENTORY || type == ItemRenderType.FIRST_PERSON_MAP);
+        return item.getItem() instanceof IHeraldryItem
+                && ((IHeraldryItem) item.getItem()).hasHeraldry(item)
+                && (type == ItemRenderType.INVENTORY || type == ItemRenderType.FIRST_PERSON_MAP);
     }
 
     @Override
     public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return false; // To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
-        if(itemRenderer == null){
+        if (itemRenderer == null) {
             itemRenderer = new RenderItem();
         }
 
-        byte[] heraldryData = ((IHeraldryItem)item.getItem()).getHeraldry(item);
+        byte[] heraldryData = ((IHeraldryItem) item.getItem()).getHeraldry(item);
 
-        switch (type){
+        switch (type) {
             case INVENTORY:
-                doInventoryRendering(item, new HeraldryData(heraldryData), ((IHeraldryItem)item.getItem()));
+                doInventoryRendering(item, new HeraldryData(heraldryData), ((IHeraldryItem) item.getItem()));
                 break;
             case FIRST_PERSON_MAP:
-                doMapRendering(item, new HeraldryData(heraldryData), ((IHeraldryItem)item.getItem()));
+                doMapRendering(item, new HeraldryData(heraldryData), ((IHeraldryItem) item.getItem()));
         }
     }
 
     private void doMapRendering(ItemStack item, HeraldryData heraldryData, IHeraldryItem item1) {
         glPushMatrix();
 
-        //glDepthFunc(GL11.GL_EQUAL);
-        //glEnable(GL_BLEND);
-        //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        // glDepthFunc(GL11.GL_EQUAL);
+        // glEnable(GL_BLEND);
+        // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         Tessellator tess = Tessellator.instance;
 
         Minecraft.getMinecraft().getTextureManager().bindTexture(map_overlay);
         tess.startDrawingQuads();
-        tess.addVertexWithUV(-8,136,-.01,0,1);
-        tess.addVertexWithUV(136,136,-.01,1,1);
-        tess.addVertexWithUV(136,-8,-.01,1,0);
-        tess.addVertexWithUV(-8,-8,-.01,0,0);
+        tess.addVertexWithUV(-8, 136, -.01, 0, 1);
+        tess.addVertexWithUV(136, 136, -.01, 1, 1);
+        tess.addVertexWithUV(136, -8, -.01, 1, 0);
+        tess.addVertexWithUV(-8, -8, -.01, 0, 0);
         tess.draw();
 
-        //glDisable(GL_BLEND);
-        //glDepthFunc(GL11.GL_LEQUAL);
+        // glDisable(GL_BLEND);
+        // glDepthFunc(GL11.GL_LEQUAL);
         RefreshableTexture currentCrest = new RefreshableTexture(32, 32);
         currentCrest.refreshWith(heraldryData, false);
-        ResourceLocation crestLocation = Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("gui_crest", currentCrest);
+        ResourceLocation crestLocation =
+                Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("gui_crest", currentCrest);
         ITextureObject texture = Minecraft.getMinecraft().getTextureManager().getTexture(crestLocation);
-        if(texture == null){
+        if (texture == null) {
             texture = new HeraldryTextureSmall(heraldryData);
             Minecraft.getMinecraft().getTextureManager().loadTexture(crestLocation, texture);
         }
         Minecraft.getMinecraft().getTextureManager().bindTexture(crestLocation);
 
-
         tess.startDrawingQuads();
-        tess.addVertexWithUV(8,120,-0.015,0,1);
-        tess.addVertexWithUV(120,120,-0.015,1,1);
-        tess.addVertexWithUV(120,8,-0.015,1,0);
-        tess.addVertexWithUV(8,8,-0.015,0,0);
+        tess.addVertexWithUV(8, 120, -0.015, 0, 1);
+        tess.addVertexWithUV(120, 120, -0.015, 1, 1);
+        tess.addVertexWithUV(120, 8, -0.015, 1, 0);
+        tess.addVertexWithUV(8, 8, -0.015, 0, 0);
         tess.draw();
-
 
         glPopMatrix();
     }
@@ -98,28 +97,24 @@ public class HeraldryCrestItemRenderer implements IItemRenderer{
         Minecraft.getMinecraft().getTextureManager().bindTexture(map_overlay);
         BattlegearRenderHelper.renderTexturedQuad(0, 0, itemRenderer.zLevel, 16, 16);
 
-
-        IIcon icon =  heraldryItem.getBaseIcon(item);
+        IIcon icon = heraldryItem.getBaseIcon(item);
         itemRenderer.zLevel += 100;
         glPushMatrix();
         RefreshableTexture currentCrest = new RefreshableTexture(32, 32);
         currentCrest.refreshWith(heraldryData, false);
-        ResourceLocation crestLocation = Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("gui_crest", currentCrest);
+        ResourceLocation crestLocation =
+                Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("gui_crest", currentCrest);
         ITextureObject texture = Minecraft.getMinecraft().getTextureManager().getTexture(crestLocation);
-        if(texture == null){
+        if (texture == null) {
             texture = new HeraldryTextureSmall(heraldryData);
             Minecraft.getMinecraft().getTextureManager().loadTexture(crestLocation, texture);
         }
         Minecraft.getMinecraft().getTextureManager().bindTexture(crestLocation);
 
-
         BattlegearRenderHelper.renderTexturedQuad(2, 2, itemRenderer.zLevel, 12, 12);
-
-
 
         glPopMatrix();
 
-
-        itemRenderer.zLevel -=100;
+        itemRenderer.zLevel -= 100;
     }
 }

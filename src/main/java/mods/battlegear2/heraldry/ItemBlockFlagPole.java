@@ -20,10 +20,22 @@ public class ItemBlockFlagPole extends ItemMultiTexture {
     }
 
     @Override
-    public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata) {
-        boolean valid = super.placeBlockAt(stack, player, world, x, y, z, side, hitX, hitY, hitZ, field_150941_b.damageDropped(metadata));
-        if(valid){
-            ((TileEntityFlagPole)world.getTileEntity(x, y, z)).side = (side / 2);
+    public boolean placeBlockAt(
+            ItemStack stack,
+            EntityPlayer player,
+            World world,
+            int x,
+            int y,
+            int z,
+            int side,
+            float hitX,
+            float hitY,
+            float hitZ,
+            int metadata) {
+        boolean valid = super.placeBlockAt(
+                stack, player, world, x, y, z, side, hitX, hitY, hitZ, field_150941_b.damageDropped(metadata));
+        if (valid) {
+            ((TileEntityFlagPole) world.getTileEntity(x, y, z)).side = (side / 2);
         }
         return valid;
     }

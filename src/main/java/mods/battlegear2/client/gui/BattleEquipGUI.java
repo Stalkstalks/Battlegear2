@@ -15,7 +15,7 @@ public final class BattleEquipGUI extends InventoryEffectRenderer {
 
     public static final ResourceLocation resource = new ResourceLocation("battlegear2", "textures/gui/Equip GUI.png");
     public static Class equipTab;
-    
+
     /**
      * x size of the inventory window in pixels. Defined as float, passed as int
      */
@@ -30,23 +30,22 @@ public final class BattleEquipGUI extends InventoryEffectRenderer {
         super(new ContainerBattle(!isRemote, entityPlayer));
         this.allowUserInput = true;
 
-        //Don't need this, however maybe we can add a stat later on. I will keep it comented out for now
-        //entityPlayer.addStat(AchievementList.openInventory, 1);
+        // Don't need this, however maybe we can add a stat later on. I will keep it comented out for now
+        // entityPlayer.addStat(AchievementList.openInventory, 1);
     }
 
     @Override
-    public void initGui ()
-    {
+    public void initGui() {
         super.initGui();
-        if(ClientProxy.tconstructEnabled){
+        if (ClientProxy.tconstructEnabled) {
             this.buttonList.clear();
-            try{
-                if(equipTab==null){
+            try {
+                if (equipTab == null) {
                     equipTab = Class.forName("mods.battlegear2.client.gui.controls.EquipGearTab");
                 }
                 ClientProxy.updateTab.invoke(null, guiLeft, guiTop, equipTab);
                 ClientProxy.addTabs.invoke(null, this.buttonList);
-            }catch(Exception e){
+            } catch (Exception e) {
                 ClientProxy.tconstructEnabled = false;
             }
         }
@@ -56,7 +55,7 @@ public final class BattleEquipGUI extends InventoryEffectRenderer {
      * Draws the screen and all the components in it.
      */
     @Override
-    public void drawScreen(int par1, int par2, float par3){
+    public void drawScreen(int par1, int par2, float par3) {
         super.drawScreen(par1, par2, par3);
         this.xSize_lo = (float) par1;
         this.ySize_lo = (float) par2;
@@ -72,11 +71,18 @@ public final class BattleEquipGUI extends InventoryEffectRenderer {
         int var5 = this.guiLeft;
         int var6 = this.guiTop;
         this.drawTexturedModalRect(var5, var6, 0, 0, this.xSize, this.ySize);
-        GuiInventory.func_147046_a(var5 + 31, var6 + 75, 30, (float) (var5 + 51) - this.xSize_lo, (float) (var6 + 75 - 50) - this.ySize_lo, mc.thePlayer);
+        GuiInventory.func_147046_a(
+                var5 + 31,
+                var6 + 75,
+                30,
+                (float) (var5 + 51) - this.xSize_lo,
+                (float) (var6 + 75 - 50) - this.ySize_lo,
+                mc.thePlayer);
     }
-    
-    public static void open(EntityPlayer player){
-    	//send packet to open container on server
-        Battlegear.packetHandler.sendPacketToServer(new BattlegearGUIPacket(BattlegearGUIHandeler.equipID).generatePacket());
+
+    public static void open(EntityPlayer player) {
+        // send packet to open container on server
+        Battlegear.packetHandler.sendPacketToServer(
+                new BattlegearGUIPacket(BattlegearGUIHandeler.equipID).generatePacket());
     }
 }

@@ -1,5 +1,10 @@
 package mods.battlegear2.coremod.transformers;
 
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.Iterator;
+import java.util.List;
 import mods.battlegear2.api.core.BattlegearTranslator;
 import mods.battlegear2.coremod.BattlegearLoadingPlugin;
 import net.minecraft.launchwrapper.IClassTransformer;
@@ -10,12 +15,6 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
-
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.Iterator;
-import java.util.List;
 
 public abstract class TransformerBase implements IClassTransformer, Opcodes {
     public static final String UTILITY_CLASS = "mods/battlegear2/api/core/BattlegearUtils";
@@ -31,7 +30,7 @@ public abstract class TransformerBase implements IClassTransformer, Opcodes {
         setDebug(false);
     }
 
-    protected final void setDebug(boolean debug){
+    protected final void setDebug(boolean debug) {
         this.skipDebug = !debug;
     }
 
@@ -52,19 +51,19 @@ public abstract class TransformerBase implements IClassTransformer, Opcodes {
             ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
             cn.accept(cw);
 
-            logger.log(success ? Level.INFO : Level.ERROR, "M&B - Patching Class " + unobfClass + (success ? " done" : " FAILED!"));
+            logger.log(
+                    success ? Level.INFO : Level.ERROR,
+                    "M&B - Patching Class " + unobfClass + (success ? " done" : " FAILED!"));
             if (!success && BattlegearTranslator.debug) {
                 writeClassFile(cw, unobfClass + " (" + name + ")");
             }
 
             return cw.toByteArray();
-
         }
         return bytes;
     }
 
-    void addInterface(List<String> interfaces) {
-    }
+    void addInterface(List<String> interfaces) {}
 
     abstract boolean processMethods(List<MethodNode> methods);
 
@@ -86,11 +85,13 @@ public abstract class TransformerBase implements IClassTransformer, Opcodes {
         }
     }
 
-    public static MethodNode replaceInventoryArrayAccess(MethodNode method, String className, String fieldName, int maxStack, int maxLocal) {
+    public static MethodNode replaceInventoryArrayAccess(
+            MethodNode method, String className, String fieldName, int maxStack, int maxLocal) {
         return replaceInventoryArrayAccess(method, className, fieldName, 4, maxStack, maxLocal);
     }
 
-    public static MethodNode replaceInventoryArrayAccess(MethodNode method, String className, String fieldName, int todelete, int maxStack, int maxLocal) {
+    public static MethodNode replaceInventoryArrayAccess(
+            MethodNode method, String className, String fieldName, int todelete, int maxStack, int maxLocal) {
 
         InsnList newList = new InsnList();
 
@@ -99,31 +100,33 @@ public abstract class TransformerBase implements IClassTransformer, Opcodes {
         while (it.hasNext()) {
             AbstractInsnNode nextNode = it.next();
 
-            if (nextNode instanceof FieldInsnNode &&
-                    nextNode.getNext() instanceof FieldInsnNode &&
-                    ((FieldInsnNode) nextNode).owner.equals(className) &&
-                    ((FieldInsnNode) nextNode).name.equals(fieldName) &&
-                    ((FieldInsnNode) nextNode.getNext()).owner.equals(BattlegearTranslator.getMapedClassName("entity.player.InventoryPlayer")) &&
-                    ((FieldInsnNode) nextNode.getNext()).name.equals(BattlegearTranslator.getMapedFieldName("field_70462_a", "mainInventory"))
-                    ) {
+            if (nextNode instanceof FieldInsnNode
+                    && nextNode.getNext() instanceof FieldInsnNode
+                    && ((FieldInsnNode) nextNode).owner.equals(className)
+                    && ((FieldInsnNode) nextNode).name.equals(fieldName)
+                    && ((FieldInsnNode) nextNode.getNext())
+                            .owner.equals(BattlegearTranslator.getMapedClassName("entity.player.InventoryPlayer"))
+                    && ((FieldInsnNode) nextNode.getNext())
+                            .name.equals(BattlegearTranslator.getMapedFieldName("field_70462_a", "mainInventory"))) {
 
-                //skip the next 4
+                // skip the next 4
                 for (int i = 0; i < todelete; i++) {
                     nextNode = it.next();
                 }
-                //add all until the AAStore
+                // add all until the AAStore
                 nextNode = it.next();
                 while (it.hasNext() && nextNode.getOpcode() != AASTORE) {
                     newList.add(nextNode);
                     nextNode = it.next();
                 }
 
-                //Add New
-                newList.add(new MethodInsnNode(INVOKESTATIC,
+                // Add New
+                newList.add(new MethodInsnNode(
+                        INVOKESTATIC,
                         UTILITY_CLASS,
                         "setPlayerCurrentItem",
-                        "(L" + BattlegearTranslator.getMapedClassName("entity.player.EntityPlayer") +
-                                ";L" + BattlegearTranslator.getMapedClassName("item.ItemStack") + ";)V"));
+                        "(L" + BattlegearTranslator.getMapedClassName("entity.player.EntityPlayer") + ";L"
+                                + BattlegearTranslator.getMapedClassName("item.ItemStack") + ";)V"));
 
             } else {
                 newList.add(nextNode);
@@ -136,7 +139,6 @@ public abstract class TransformerBase implements IClassTransformer, Opcodes {
         method.maxLocals = maxLocal;
 
         return method;
-
     }
 
     public void sendPatchLog(String method) {

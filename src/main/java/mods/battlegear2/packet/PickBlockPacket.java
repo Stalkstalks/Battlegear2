@@ -10,12 +10,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 
-public final class PickBlockPacket extends AbstractMBPacket{
-    public final static String packetName = "MB2|CreaPick";
+public final class PickBlockPacket extends AbstractMBPacket {
+    public static final String packetName = "MB2|CreaPick";
     private ItemStack stack;
     private int slot;
-    public PickBlockPacket(){}
-    public PickBlockPacket(ItemStack stack, int slot){
+
+    public PickBlockPacket() {}
+
+    public PickBlockPacket(ItemStack stack, int slot) {
         this.stack = stack;
         this.slot = slot;
     }
@@ -33,21 +35,22 @@ public final class PickBlockPacket extends AbstractMBPacket{
 
     @Override
     public void process(ByteBuf inputStream, EntityPlayer player) {
-        if(player!=null && !((IBattlePlayer)player).isBattlemode()){
+        if (player != null && !((IBattlePlayer) player).isBattlemode()) {
             try {
                 slot = inputStream.readInt();
                 stack = ByteBufUtils.readItemStack(inputStream);
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
                 return;
             }
-            if(InventoryPlayerBattle.isValidSwitch(slot)){
+            if (InventoryPlayerBattle.isValidSwitch(slot)) {
                 player.inventory.currentItem = slot;
-                if(player.capabilities.isCreativeMode && !ItemStack.areItemStacksEqual(stack, player.getCurrentEquippedItem())){
+                if (player.capabilities.isCreativeMode
+                        && !ItemStack.areItemStacksEqual(stack, player.getCurrentEquippedItem())) {
                     BattlegearUtils.setPlayerCurrentItem(player, stack);
                 }
-                if(player instanceof EntityPlayerMP)
-                    Battlegear.packetHandler.sendPacketToPlayer(this.generatePacket(),(EntityPlayerMP) player);
+                if (player instanceof EntityPlayerMP)
+                    Battlegear.packetHandler.sendPacketToPlayer(this.generatePacket(), (EntityPlayerMP) player);
             }
         }
     }

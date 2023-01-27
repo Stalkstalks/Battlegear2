@@ -18,26 +18,25 @@ public final class BattlegearGUIPacket extends AbstractMBPacket {
         this.equipid = equipid;
     }
 
-	public BattlegearGUIPacket() {
-	}
+    public BattlegearGUIPacket() {}
 
-	private int equipid = -1;
-	
+    private int equipid = -1;
+
     @Override
     public void process(ByteBuf in, EntityPlayer player) {
-		equipid = in.readInt();
-        if(equipid != -1){
+        equipid = in.readInt();
+        if (equipid != -1) {
             player.openGui(Battlegear.INSTANCE, equipid, player.worldObj, 0, 0, 0);
         }
     }
 
-	@Override
-	public String getChannel() {
-		return packetName;
-	}
+    @Override
+    public String getChannel() {
+        return packetName;
+    }
 
-	@Override
-	public void write(ByteBuf out) {
-		out.writeInt(equipid);
-	}
+    @Override
+    public void write(ByteBuf out) {
+        out.writeInt(equipid);
+    }
 }

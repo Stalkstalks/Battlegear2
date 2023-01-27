@@ -10,5 +10,6 @@ import net.minecraft.item.ItemStack;
  */
 public interface IArrowDisplay {
     public void setArrowCount(ItemStack stack, int count);
+
     public int getArrowCount(ItemStack stack);
 }

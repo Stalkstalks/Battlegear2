@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
  * Created by GotoLink on 27/09/2014.
  * To be implemented by items wishing to receive common events for the offhand (left hand) without having to register listener classes
  */
-public interface IOffhandListener extends IHandListener{
+public interface IOffhandListener extends IHandListener {
     /**
      * Perform any function when this item is held in either hand (depends on {@code isOffhand}) and the user right clicks an entity.
      * This is generally used to apply an effect on attacking the entity with the offhand item.
@@ -38,5 +38,4 @@ public interface IOffhandListener extends IHandListener{
      * @return ALLOW to get the call on server side, but not perform the swing animation, DENY to prevent both, DEFAULT to get both
      */
     public Event.Result onClickAir(EntityPlayer player, ItemStack mainhandStack, ItemStack offhandStack);
-
 }

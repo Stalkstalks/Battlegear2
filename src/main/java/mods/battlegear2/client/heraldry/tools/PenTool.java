@@ -13,7 +13,6 @@ public class PenTool implements ITool {
     private int last_x = ImageData.IMAGE_RES / 2;
     private int last_y = ImageData.IMAGE_RES / 2;
 
-
     @Override
     public String getToolName() {
         return "tool.pen";
@@ -21,7 +20,7 @@ public class PenTool implements ITool {
 
     @Override
     public ResourceLocation getToolImage() {
-        return new ResourceLocation("battlegear2:textures/"+getToolName()+".png");
+        return new ResourceLocation("battlegear2:textures/" + getToolName() + ".png");
     }
 
     @Override
@@ -30,11 +29,11 @@ public class PenTool implements ITool {
 
         System.arraycopy(pixelsCurrent, 0, pixelsOverlay, 0, pixelsOverlay.length);
 
-        if(shift){
+        if (shift) {
             drawLine(x, last_x, y, last_y, pixelsOverlay, rgb);
-        }else{
-            if (x > -1 && x < ImageData.IMAGE_RES && y > -1 && y < ImageData.IMAGE_RES){
-                pixelsOverlay[x+ImageData.IMAGE_RES*y] = rgb;
+        } else {
+            if (x > -1 && x < ImageData.IMAGE_RES && y > -1 && y < ImageData.IMAGE_RES) {
+                pixelsOverlay[x + ImageData.IMAGE_RES * y] = rgb;
             }
         }
 
@@ -43,13 +42,13 @@ public class PenTool implements ITool {
 
     @Override
     public void draw(int x, int y, int[] pixelsCurrent, int rgb, boolean shift) {
-        if(shift){
+        if (shift) {
 
             drawLine(x, last_x, y, last_y, pixelsCurrent, rgb);
 
-        }else{
-            if (x > -1 && x < ImageData.IMAGE_RES && y > -1 && y < ImageData.IMAGE_RES){
-                pixelsCurrent[x+ImageData.IMAGE_RES*y] = rgb;
+        } else {
+            if (x > -1 && x < ImageData.IMAGE_RES && y > -1 && y < ImageData.IMAGE_RES) {
+                pixelsCurrent[x + ImageData.IMAGE_RES * y] = rgb;
             }
         }
 
@@ -61,36 +60,33 @@ public class PenTool implements ITool {
 
         int dx = Math.abs(x1 - x0);
         int dy = Math.abs(y1 - y0);
-        int sx = x0<x1 ? 1 : -1;
-        int sy = y0<y1 ? 1 : -1;
+        int sx = x0 < x1 ? 1 : -1;
+        int sy = y0 < y1 ? 1 : -1;
         int err = dx - dy;
 
-
         boolean done = false;
-        while(!done){
-            if (x0 > -1 && x0 < ImageData.IMAGE_RES && y0 > -1 && y0 < ImageData.IMAGE_RES){
-                pixelsCurrent[x0+ImageData.IMAGE_RES*y0] = rgb;
+        while (!done) {
+            if (x0 > -1 && x0 < ImageData.IMAGE_RES && y0 > -1 && y0 < ImageData.IMAGE_RES) {
+                pixelsCurrent[x0 + ImageData.IMAGE_RES * y0] = rgb;
             }
-            if(x0 == x1 && y0 == y1){
+            if (x0 == x1 && y0 == y1) {
                 done = true;
             }
-            int e2 = 2*err;
-            if(e2 > -dy && !done){
+            int e2 = 2 * err;
+            if (e2 > -dy && !done) {
                 err = err - dy;
                 x0 = x0 + sx;
             }
-            if(x0 == x1 && y0 == y1 && !done){
-                if (x0 > -1 && x0 < ImageData.IMAGE_RES && y0 > -1 && y0 < ImageData.IMAGE_RES){
-                    pixelsCurrent[x0+ImageData.IMAGE_RES*y0] = rgb;
+            if (x0 == x1 && y0 == y1 && !done) {
+                if (x0 > -1 && x0 < ImageData.IMAGE_RES && y0 > -1 && y0 < ImageData.IMAGE_RES) {
+                    pixelsCurrent[x0 + ImageData.IMAGE_RES * y0] = rgb;
                 }
                 done = true;
             }
-            if(e2 < dx && !done){
+            if (e2 < dx && !done) {
                 err = err + dx;
                 y0 = y0 + sy;
             }
         }
     }
-
-
 }

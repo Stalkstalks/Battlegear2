@@ -7,7 +7,7 @@ public interface IHeraldryItem {
 
     public static final String heraldryTag = "hc1";
 
-    public enum HeraldyRenderPassess{
+    public enum HeraldyRenderPassess {
         Pattern,
         SecondaryColourTrim,
         PostRenderIcon
@@ -25,7 +25,6 @@ public interface IHeraldryItem {
      * Returns the post render icon, this Icon will render after all other rendering passess in it's default colour
      */
     public IIcon getPostRenderIcon(ItemStack stack);
-
 
     /**
      * Returns true if the given itemstack has heraldy attached
@@ -57,5 +56,4 @@ public interface IHeraldryItem {
      * If this method returns false it is the modders responsibility to attach an appropriate renderer
      */
     public boolean useDefaultRenderer();
-
 }

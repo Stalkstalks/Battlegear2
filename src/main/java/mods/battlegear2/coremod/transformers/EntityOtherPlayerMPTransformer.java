@@ -1,10 +1,9 @@
 package mods.battlegear2.coremod.transformers;
 
-import mods.battlegear2.api.core.BattlegearTranslator;
-import org.objectweb.asm.tree.*;
-
 import java.util.Iterator;
 import java.util.List;
+import mods.battlegear2.api.core.BattlegearTranslator;
+import org.objectweb.asm.tree.*;
 
 public final class EntityOtherPlayerMPTransformer extends TransformerBase {
 
@@ -30,17 +29,21 @@ public final class EntityOtherPlayerMPTransformer extends TransformerBase {
         boolean done = false;
         while (it.hasNext() && !done) {
             AbstractInsnNode node = it.next();
-            if (node instanceof FieldInsnNode &&
-                    node.getOpcode() == PUTFIELD &&
-                    ((FieldInsnNode) node).owner.equals(entityOtherPlayerMPClassName) &&
-                    ((FieldInsnNode) node).name.equals(limbSwingFieldName)) {
+            if (node instanceof FieldInsnNode
+                    && node.getOpcode() == PUTFIELD
+                    && ((FieldInsnNode) node).owner.equals(entityOtherPlayerMPClassName)
+                    && ((FieldInsnNode) node).name.equals(limbSwingFieldName)) {
                 newList.add(node);
                 newList.add(new VarInsnNode(ALOAD, 0));
                 newList.add(new VarInsnNode(ALOAD, 0));
                 newList.add(new VarInsnNode(ALOAD, 0));
 
                 newList.add(new FieldInsnNode(GETFIELD, entityOtherPlayerMPClassName, isItemInUseFieldName, "Z"));
-                newList.add(new MethodInsnNode(INVOKESTATIC, "mods/battlegear2/client/utils/BattlegearClientUtils", "entityOtherPlayerIsItemInUseHook", "(L" + entityOtherPlayerMPClassName + ";Z)Z"));
+                newList.add(new MethodInsnNode(
+                        INVOKESTATIC,
+                        "mods/battlegear2/client/utils/BattlegearClientUtils",
+                        "entityOtherPlayerIsItemInUseHook",
+                        "(L" + entityOtherPlayerMPClassName + ";Z)Z"));
                 newList.add(new FieldInsnNode(PUTFIELD, entityOtherPlayerMPClassName, isItemInUseFieldName, "Z"));
 
                 node = it.next();
@@ -57,7 +60,6 @@ public final class EntityOtherPlayerMPTransformer extends TransformerBase {
             } else {
                 newList.add(node);
             }
-
         }
         mn.instructions = newList;
     }
@@ -96,13 +98,10 @@ public final class EntityOtherPlayerMPTransformer extends TransformerBase {
 
         isItemInUseFieldName = BattlegearTranslator.getMapedFieldName("field_71186_a", "isItemInUse");
         limbSwingFieldName = BattlegearTranslator.getMapedFieldName("field_70754_ba", "limbSwing");
-        playerInventoryFieldName =
-                BattlegearTranslator.getMapedFieldName("field_71071_by", "inventory");
+        playerInventoryFieldName = BattlegearTranslator.getMapedFieldName("field_71071_by", "inventory");
 
-        setCurrentItemMethodName =
-                BattlegearTranslator.getMapedMethodName("func_70062_b", "setCurrentItemOrArmor");
+        setCurrentItemMethodName = BattlegearTranslator.getMapedMethodName("func_70062_b", "setCurrentItemOrArmor");
         setCurrentItemMethodDesc = "(IL" + itemStackClassName + ";)V";
-        onUpdateMethodName =
-                BattlegearTranslator.getMapedMethodName("func_70071_h_", "onUpdate");
+        onUpdateMethodName = BattlegearTranslator.getMapedMethodName("func_70071_h_", "onUpdate");
     }
 }

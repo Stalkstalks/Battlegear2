@@ -7,22 +7,19 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
 
-public final class ShieldRemoveArrowRecipie implements IRecipe{
+public final class ShieldRemoveArrowRecipie implements IRecipe {
 
     @Override
     public boolean matches(InventoryCrafting inventorycrafting, World world) {
         boolean foundStack = false;
 
-        for(int i = 0; i < inventorycrafting.getSizeInventory(); i++){
+        for (int i = 0; i < inventorycrafting.getSizeInventory(); i++) {
             ItemStack stack = inventorycrafting.getStackInSlot(i);
-            if(stack != null){
-                if(stack.getItem() instanceof IArrowDisplay){
-                    if(foundStack)
-                        return false;
-                    else
-                        foundStack = true;
-                }else
-                    return false;
+            if (stack != null) {
+                if (stack.getItem() instanceof IArrowDisplay) {
+                    if (foundStack) return false;
+                    else foundStack = true;
+                } else return false;
             }
         }
         return foundStack;
@@ -31,13 +28,13 @@ public final class ShieldRemoveArrowRecipie implements IRecipe{
     @Override
     public ItemStack getCraftingResult(InventoryCrafting inventorycrafting) {
 
-        for(int i = 0; i < inventorycrafting.getSizeInventory(); i++){
+        for (int i = 0; i < inventorycrafting.getSizeInventory(); i++) {
             ItemStack stack = inventorycrafting.getStackInSlot(i);
-            if(stack != null){
-                if(stack.getItem() instanceof IArrowDisplay){
-                    ItemStack shieldCopy =  stack.copy();
+            if (stack != null) {
+                if (stack.getItem() instanceof IArrowDisplay) {
+                    ItemStack shieldCopy = stack.copy();
 
-                    ((IArrowDisplay)shieldCopy.getItem()).setArrowCount(shieldCopy, 0);
+                    ((IArrowDisplay) shieldCopy.getItem()).setArrowCount(shieldCopy, 0);
 
                     return shieldCopy;
                 }

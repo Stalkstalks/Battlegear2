@@ -12,7 +12,7 @@ public final class HeraldrySlot extends Slot {
 
     @Override
     public boolean isItemValid(ItemStack stack) {
-        if (stack == null || stack.getItem() instanceof IHeraldryItem){
+        if (stack == null || stack.getItem() instanceof IHeraldryItem) {
             return super.isItemValid(stack);
         }
         return false;

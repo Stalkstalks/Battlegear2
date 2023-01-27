@@ -6,7 +6,9 @@ import org.objectweb.asm.tree.MethodNode;
 public final class EntityAIControlledByPlayerTransformer extends TransformerMethodProcess {
 
     public EntityAIControlledByPlayerTransformer() {
-        super("net.minecraft.entity.ai.EntityAIControlledByPlayer", "func_75246_d", new String[]{"updateTask", SIMPLEST_METHOD_DESC});
+        super("net.minecraft.entity.ai.EntityAIControlledByPlayer", "func_75246_d", new String[] {
+            "updateTask", SIMPLEST_METHOD_DESC
+        });
     }
 
     private String entityPlayerClassName;

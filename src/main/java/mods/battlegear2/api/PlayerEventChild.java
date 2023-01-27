@@ -12,17 +12,17 @@ import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
-public abstract class PlayerEventChild extends PlayerEvent{
+public abstract class PlayerEventChild extends PlayerEvent {
 
     /**
      * The event that this event is a child of
      */
-	public final PlayerEvent parent;
+    public final PlayerEvent parent;
 
-	public PlayerEventChild(PlayerEvent parent) {
-		super(parent.entityPlayer);
-		this.parent = parent;
-	}
+    public PlayerEventChild(PlayerEvent parent) {
+        super(parent.entityPlayer);
+        this.parent = parent;
+    }
 
     public void setCancelParentEvent(boolean cancel) {
         parent.setCanceled(cancel);
@@ -40,18 +40,18 @@ public abstract class PlayerEventChild extends PlayerEvent{
         parent.setResult(value);
     }
 
-    public EntityPlayer getPlayer(){
+    public EntityPlayer getPlayer() {
         return parent.entityPlayer;
     }
-    
-	/**
-	 * Event fired when a shield successfully blocks an attack (in {@link LivingHurtEvent})
-	 */
-	 public static class ShieldBlockEvent extends PlayerEventChild {
-	 	public final ItemStack shield;
-	 	public final DamageSource source;
-	 	public final float ammount; // use same name as other Forge events
-	 	public float ammountRemaining = 0.0F; // damage remaining after shield block event, if any
+
+    /**
+     * Event fired when a shield successfully blocks an attack (in {@link LivingHurtEvent})
+     */
+    public static class ShieldBlockEvent extends PlayerEventChild {
+        public final ItemStack shield;
+        public final DamageSource source;
+        public final float ammount; // use same name as other Forge events
+        public float ammountRemaining = 0.0F; // damage remaining after shield block event, if any
         /**
          * If the {@link IShield#blockAnimation(EntityPlayer, float)} should be called
          */
@@ -60,13 +60,14 @@ public abstract class PlayerEventChild extends PlayerEvent{
          * If the shield should be damaged based on the ammount and the result of {@link IShield#getDamageReduction(ItemStack, DamageSource)}
          */
         public boolean damageShield = true;
-	 	public ShieldBlockEvent(PlayerEvent parent, ItemStack shield, DamageSource source, float ammount) {
-	 		super(parent);
-	 		this.shield = shield;
-	 		this.source = source;
-	 		this.ammount = ammount;
-	 	}
-	 }
+
+        public ShieldBlockEvent(PlayerEvent parent, ItemStack shield, DamageSource source, float ammount) {
+            super(parent);
+            this.shield = shield;
+            this.source = source;
+            this.ammount = ammount;
+        }
+    }
 
     /**
      * Called when a player right clicks in battlemode
@@ -78,22 +79,23 @@ public abstract class PlayerEventChild extends PlayerEvent{
     public static class OffhandSwingEvent extends PlayerEventChild {
         public final ItemStack mainHand;
         public final ItemStack offHand;
+
         @Deprecated
-        public OffhandSwingEvent(PlayerEvent parent, ItemStack mainHand, ItemStack offHand){
+        public OffhandSwingEvent(PlayerEvent parent, ItemStack mainHand, ItemStack offHand) {
             this(parent, offHand);
         }
 
-        public OffhandSwingEvent(PlayerEvent parent, ItemStack offHand){
+        public OffhandSwingEvent(PlayerEvent parent, ItemStack offHand) {
             super(parent);
             this.mainHand = parent.entityPlayer.getCurrentEquippedItem();
             this.offHand = offHand;
         }
 
-        public boolean onEntity(){
+        public boolean onEntity() {
             return parent instanceof EntityInteractEvent;
         }
 
-        public boolean onBlock(){
+        public boolean onBlock() {
             return parent instanceof PlayerInteractEvent;
         }
     }
@@ -150,7 +152,7 @@ public abstract class PlayerEventChild extends PlayerEvent{
         }
 
         public Entity getTarget() {
-            return ((EntityInteractEvent)parent).target;
+            return ((EntityInteractEvent) parent).target;
         }
     }
 
@@ -160,7 +162,7 @@ public abstract class PlayerEventChild extends PlayerEvent{
      * {@link Item#onItemUseFirst}, {@link Item#onItemRightClick} and {@link Item#onItemUse} will then get called the same way as with the item in the player right hand for PlayerInteractEvent
      */
     @Cancelable
-    public static class UseOffhandItemEvent extends PlayerEventChild{
+    public static class UseOffhandItemEvent extends PlayerEventChild {
         /**
          * If we should call the OffhandSwingEvent and perform swinging animation
          */
@@ -173,24 +175,26 @@ public abstract class PlayerEventChild extends PlayerEvent{
          * The equivalent {@link PlayerInteractEvent} that would have been triggered if the offhand item was held in right hand and right click was pressed
          */
         public final PlayerInteractEvent event;
-        public UseOffhandItemEvent(PlayerInteractEvent event, ItemStack offhand){
+
+        public UseOffhandItemEvent(PlayerInteractEvent event, ItemStack offhand) {
             super(event);
             this.event = event;
             this.offhand = offhand;
             this.swingOffhand = onBlock();
         }
 
-        public boolean onBlock(){
+        public boolean onBlock() {
             return event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK;
         }
     }
 
-    public static class QuiverArrowEvent extends PlayerEventChild{
+    public static class QuiverArrowEvent extends PlayerEventChild {
         /**
          * The event from which this occurred
          */
         protected final ArrowLooseEvent event;
-        public QuiverArrowEvent(ArrowLooseEvent event){
+
+        public QuiverArrowEvent(ArrowLooseEvent event) {
             super(event);
             this.event = event;
         }
@@ -198,23 +202,21 @@ public abstract class PlayerEventChild extends PlayerEvent{
         /**
          * @return the player using the bow
          */
-        public EntityPlayer getArcher(){
+        public EntityPlayer getArcher() {
             return getPlayer();
         }
 
         /**
          * @return the bow trying to fire
          */
-        public ItemStack getBow()
-        {
+        public ItemStack getBow() {
             return event.bow;
         }
 
         /**
          * @return the amount of charge in the bow
          */
-        public float getCharge()
-        {
+        public float getCharge() {
             return event.charge;
         }
 
@@ -257,7 +259,6 @@ public abstract class PlayerEventChild extends PlayerEvent{
                 this.quiver = quiver;
                 this.arrow = arrow;
             }
-
         }
 
         /**
@@ -271,33 +272,32 @@ public abstract class PlayerEventChild extends PlayerEvent{
              * Returned value if the result is set to allow
              */
             protected float charge;
-            public ChargeCalculations(ArrowLooseEvent event){
+
+            public ChargeCalculations(ArrowLooseEvent event) {
                 super(event);
             }
 
             @Override
-            public float getCharge(){
+            public float getCharge() {
                 MinecraftForge.EVENT_BUS.post(this);
-                switch (this.getResult()){
+                switch (this.getResult()) {
                     case ALLOW:
                         return charge;
                     case DENY:
                         return 0;
                 }
-                float f = super.getCharge()/20.0F;
+                float f = super.getCharge() / 20.0F;
                 f = (f * f + f * 2.0F) / 3.0F;
-                if ((double)f < 0.1D)
-                {
+                if ((double) f < 0.1D) {
                     return 0;
                 }
-                if (f > 1.0F)
-                {
+                if (f > 1.0F) {
                     f = 1.0F;
                 }
                 return f;
             }
 
-            public void setNewCharge(float charge){
+            public void setNewCharge(float charge) {
                 this.setResult(Result.ALLOW);
                 this.charge = charge;
             }

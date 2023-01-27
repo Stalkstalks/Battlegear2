@@ -18,46 +18,58 @@ public class HeraldryData {
     private byte[] extraData;
 
     private static final int extraDataSize = 6;
-    public static final HeraldryData defaultData =
-            new HeraldryData(0, (byte)0, Color.YELLOW.getRGB(), Color.BLUE.getRGB(), Color.BLACK.getRGB(), new ArrayList<Crest>(), new byte[extraDataSize]);
-
+    public static final HeraldryData defaultData = new HeraldryData(
+            0,
+            (byte) 0,
+            Color.YELLOW.getRGB(),
+            Color.BLUE.getRGB(),
+            Color.BLACK.getRGB(),
+            new ArrayList<Crest>(),
+            new byte[extraDataSize]);
 
     private byte[] byteArray = null;
     private List<Crest> crests;
 
-    public HeraldryData(int patternStoreIndex, byte pattern, int pattern_col_1, int pattern_col_2, int pattern_col_3, List<Crest> crests, byte[] extraData) {
+    public HeraldryData(
+            int patternStoreIndex,
+            byte pattern,
+            int pattern_col_1,
+            int pattern_col_2,
+            int pattern_col_3,
+            List<Crest> crests,
+            byte[] extraData) {
         this.storageIndex = patternStoreIndex;
         this.pattern = pattern;
-        this.patternColours = new int[]{pattern_col_1, pattern_col_2, pattern_col_3};
+        this.patternColours = new int[] {pattern_col_1, pattern_col_2, pattern_col_3};
         this.crests = crests;
         this.extraData = extraData;
     }
 
-    public HeraldryData(byte[] crestData){
+    public HeraldryData(byte[] crestData) {
         DataInputStream input = null;
 
-        try{
+        try {
             input = new DataInputStream(new ByteArrayInputStream(crestData));
 
             storageIndex = input.readInt();
             pattern = input.readByte();
-            patternColours = new int[]{input.readInt(), input.readInt(), input.readInt()};
+            patternColours = new int[] {input.readInt(), input.readInt(), input.readInt()};
             byte crestCount = input.readByte();
             crests = new ArrayList<Crest>(crestCount);
-            for(int i = 0; i < crestCount; i++){
+            for (int i = 0; i < crestCount; i++) {
                 byte[] bytes = new byte[Crest.dataSize];
                 input.read(bytes);
                 crests.add(new Crest(bytes));
             }
             extraData = new byte[extraDataSize];
-            for(int i = 0; i < extraDataSize; i++){
+            for (int i = 0; i < extraDataSize; i++) {
                 extraData[i] = input.readByte();
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            try{
-                if(input != null){
+        } finally {
+            try {
+                if (input != null) {
                     input.close();
                 }
             } catch (IOException e) {
@@ -70,14 +82,13 @@ public class HeraldryData {
         return defaultData;
     }
 
-
-    public byte[] getByteArray(){
-        if(byteArray != null){
+    public byte[] getByteArray() {
+        if (byteArray != null) {
             return byteArray;
-        }else{
+        } else {
             DataOutputStream output = null;
 
-            try{
+            try {
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
                 output = new DataOutputStream(bos);
 
@@ -87,7 +98,7 @@ public class HeraldryData {
                 output.writeInt(patternColours[1]);
                 output.writeInt(patternColours[2]);
                 output.writeByte(crests.size());
-                for(Crest c: crests){
+                for (Crest c : crests) {
                     output.write(c.getByteArray());
                 }
                 output.write(extraData);
@@ -95,11 +106,11 @@ public class HeraldryData {
                 byteArray = bos.toByteArray();
 
                 return byteArray;
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             } finally {
-                try{
-                    if(output != null){
+                try {
+                    if (output != null) {
                         output.close();
                     }
                 } catch (IOException e) {
@@ -119,7 +130,7 @@ public class HeraldryData {
         return extraData;
     }
 
-    public int getPatternIndex(){
+    public int getPatternIndex() {
         return storageIndex;
     }
 
@@ -133,28 +144,28 @@ public class HeraldryData {
 
     public static String byteArrayToHex(byte[] a) {
         StringBuilder sb = new StringBuilder();
-        for(byte b: a)
-            sb.append(String.format("%02x", b&0xff));
+        for (byte b : a) sb.append(String.format("%02x", b & 0xff));
         return sb.toString();
     }
 
-	public void setColour(int i, int rgb) {
-		patternColours[i] = rgb;
-		byteArray = null;
-	}
+    public void setColour(int i, int rgb) {
+        patternColours[i] = rgb;
+        byteArray = null;
+    }
 
-    public void setPatternIndex(int index){
+    public void setPatternIndex(int index) {
         this.storageIndex = index;
         byteArray = null;
     }
 
-	public void setPattern(int pattern) {
-		this.pattern = (byte)pattern;
-		byteArray = null;
-	}
+    public void setPattern(int pattern) {
+        this.pattern = (byte) pattern;
+        byteArray = null;
+    }
 
     @Override
-	public HeraldryData clone() {
-		return new HeraldryData(storageIndex, pattern, patternColours[0], patternColours[1], patternColours[2], crests, extraData);
-	}
+    public HeraldryData clone() {
+        return new HeraldryData(
+                storageIndex, pattern, patternColours[0], patternColours[1], patternColours[2], crests, extraData);
+    }
 }

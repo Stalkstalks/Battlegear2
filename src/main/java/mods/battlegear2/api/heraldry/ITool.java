@@ -15,5 +15,4 @@ public interface ITool {
     public void drawOverlay(int x, int y, int[] pixals, DynamicTexture overlay, int rgb, boolean shift);
 
     public void draw(int x, int y, int[] pixels, int rgb, boolean shift);
-
 }

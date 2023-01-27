@@ -25,5 +25,6 @@ public interface IHandListener {
      * @param isOffhand true if this item is in the offhand slot, false if it is in the mainhand slot
      * @return ALLOW to get the call on server side, but not perform the swing animation, DENY to prevent both, DEFAULT to get both
      */
-    public Event.Result onClickBlock(PlayerInteractEvent event, ItemStack mainhandStack, ItemStack offhandStack, boolean isOffhand);
+    public Event.Result onClickBlock(
+            PlayerInteractEvent event, ItemStack mainhandStack, ItemStack offhandStack, boolean isOffhand);
 }

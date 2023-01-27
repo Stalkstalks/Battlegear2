@@ -1,7 +1,6 @@
 package mods.battlegear2.api;
 
 import com.google.common.base.Predicate;
-
 import java.util.Iterator;
 
 public interface ISensible<T> {
@@ -17,19 +16,20 @@ public interface ISensible<T> {
     final class Filter<T> implements Predicate<T> {
         private final Iterator<ISensible<T>> senses;
         private final T toCompare;
-        public Filter(T compare, Iterator<ISensible<T>> sensitivities){
+
+        public Filter(T compare, Iterator<ISensible<T>> sensitivities) {
             this.toCompare = compare;
             this.senses = sensitivities;
         }
 
-        public Filter(T compare, Iterable<ISensible<T>> sensibles){
+        public Filter(T compare, Iterable<ISensible<T>> sensibles) {
             this(compare, sensibles.iterator());
         }
 
         @Override
         public boolean apply(T input) {
-            while(senses.hasNext()){
-                if(senses.next().differenciate(input, toCompare)){
+            while (senses.hasNext()) {
+                if (senses.next().differenciate(input, toCompare)) {
                     return false;
                 }
             }
@@ -37,11 +37,14 @@ public interface ISensible<T> {
         }
 
         @Override
-        public boolean equals(Object object){
-            if(this == object){
+        public boolean equals(Object object) {
+            if (this == object) {
                 return true;
             }
-            return object!=null && object instanceof Filter<?> && this.toCompare.equals(((Filter<?>) object).toCompare) && this.senses.equals(((Filter<?>) object).senses);
+            return object != null
+                    && object instanceof Filter<?>
+                    && this.toCompare.equals(((Filter<?>) object).toCompare)
+                    && this.senses.equals(((Filter<?>) object).senses);
         }
     }
 }

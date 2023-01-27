@@ -11,28 +11,23 @@ public final class QuiverRecipie2 implements IRecipe {
 
     @Override
     public boolean matches(InventoryCrafting inventorycrafting, World world) {
-        //boolean hasArrow = false;
+        // boolean hasArrow = false;
         ItemStack quiver = null;
-        for(int i = 0; i < inventorycrafting.getSizeInventory(); i++){
+        for (int i = 0; i < inventorycrafting.getSizeInventory(); i++) {
             ItemStack stack = inventorycrafting.getStackInSlot(i);
-            if(stack!=null)
-            {
-                if(stack.getItem() instanceof IArrowContainer2)
-                {
-                    if(quiver!=null)
-                        return false;
-                    //Don't copy (yet) as we need the reference to check later
+            if (stack != null) {
+                if (stack.getItem() instanceof IArrowContainer2) {
+                    if (quiver != null) return false;
+                    // Don't copy (yet) as we need the reference to check later
                     quiver = stack;
                 }
             }
         }
-        if(quiver!=null){
-            for(int i = 0; i < inventorycrafting.getSizeInventory(); i++){
+        if (quiver != null) {
+            for (int i = 0; i < inventorycrafting.getSizeInventory(); i++) {
                 ItemStack stack = inventorycrafting.getStackInSlot(i);
-                if(stack!=null && stack!=quiver)
-                {
-                    if(!((IArrowContainer2)quiver.getItem()).isCraftableWithArrows(quiver, stack))
-                    {
+                if (stack != null && stack != quiver) {
+                    if (!((IArrowContainer2) quiver.getItem()).isCraftableWithArrows(quiver, stack)) {
                         return false;
                     }
                 }
@@ -46,29 +41,24 @@ public final class QuiverRecipie2 implements IRecipe {
     @Override
     public ItemStack getCraftingResult(InventoryCrafting inventorycrafting) {
         ItemStack quiver = null;
-        for(int i = 0; i < inventorycrafting.getSizeInventory(); i++){
+        for (int i = 0; i < inventorycrafting.getSizeInventory(); i++) {
             ItemStack stack = inventorycrafting.getStackInSlot(i);
-            if(stack!=null)
-            {
-                if(stack.getItem() instanceof IArrowContainer2)
-                {
+            if (stack != null) {
+                if (stack.getItem() instanceof IArrowContainer2) {
                     quiver = stack.copy();
                 }
             }
         }
-        if(quiver!=null){
+        if (quiver != null) {
 
-            for(int i = 0; i < inventorycrafting.getSizeInventory(); i++){
+            for (int i = 0; i < inventorycrafting.getSizeInventory(); i++) {
                 ItemStack stack = inventorycrafting.getStackInSlot(i);
-                if(stack!=null)
-                {
-                    if(((IArrowContainer2)quiver.getItem()).isCraftableWithArrows(quiver, stack))
-                    {
-                        ((IArrowContainer2)quiver.getItem()).addArrows(quiver, stack.copy());
+                if (stack != null) {
+                    if (((IArrowContainer2) quiver.getItem()).isCraftableWithArrows(quiver, stack)) {
+                        ((IArrowContainer2) quiver.getItem()).addArrows(quiver, stack.copy());
                     }
                 }
             }
-
         }
         return quiver;
     }
@@ -80,7 +70,6 @@ public final class QuiverRecipie2 implements IRecipe {
 
     @Override
     public ItemStack getRecipeOutput() {
-        return new ItemStack(BattlegearConfig.quiver,1,0);
+        return new ItemStack(BattlegearConfig.quiver, 1, 0);
     }
-
 }

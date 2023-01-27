@@ -1,15 +1,12 @@
 package mods.battlegear2.client.model;
 
-
+import java.util.Random;
 import mods.battlegear2.client.utils.BattlegearRenderHelper;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import org.lwjgl.opengl.GL11;
 
-import java.util.Random;
-
-public class QuiverModel extends ModelBase
-{
+public class QuiverModel extends ModelBase {
     private final ModelRenderer body;
     private final ModelRenderer quiverBase;
     private final ModelRenderer quiverRight;
@@ -19,12 +16,11 @@ public class QuiverModel extends ModelBase
 
     private final float[][] arrowPos = new float[10][3];
 
-    public QuiverModel()
-    {
+    public QuiverModel() {
         super();
         Random r = new Random();
-        for(int i = 0; i < 10; i++){
-            arrowPos[i] = new float[]{r.nextFloat()*2F/16F, r.nextFloat()*4F, r.nextFloat() * 3F/16F};
+        for (int i = 0; i < 10; i++) {
+            arrowPos[i] = new float[] {r.nextFloat() * 2F / 16F, r.nextFloat() * 4F, r.nextFloat() * 3F / 16F};
         }
 
         this.textureWidth = 64;
@@ -67,9 +63,9 @@ public class QuiverModel extends ModelBase
         setRotation(quiverTop, 0.0F, 0.0F, 0.7853982F);
     }
 
-    //@Override
+    // @Override
     public void render(int arrowCount, float par7) {
-        //super.render(par1Entity, par2, par3, par4, par5, par6, par7);
+        // super.render(par1Entity, par2, par3, par4, par5, par6, par7);
 
         body.render(par7);
         quiverBase.render(par7);
@@ -78,21 +74,18 @@ public class QuiverModel extends ModelBase
         quiverLeft.render(par7);
         quiverTop.render(par7);
 
-        for(int i = 0; i < arrowCount && i < arrowPos.length; i++){
+        for (int i = 0; i < arrowCount && i < arrowPos.length; i++) {
             GL11.glPushMatrix();
             quiverBase.postRender(par7);
-            GL11.glTranslatef(-14F/16F + arrowPos[i][2], -3F/16F, 2.5F/16F+arrowPos[i][0]);
+            GL11.glTranslatef(-14F / 16F + arrowPos[i][2], -3F / 16F, 2.5F / 16F + arrowPos[i][0]);
             BattlegearRenderHelper.renderArrow(true, 0, -arrowPos[i][1], 1, 0, 0);
             GL11.glPopMatrix();
         }
-
     }
 
-    private void setRotation(ModelRenderer model, float x, float y, float z)
-    {
+    private void setRotation(ModelRenderer model, float x, float y, float z) {
         model.rotateAngleX = x;
         model.rotateAngleY = y;
         model.rotateAngleZ = z;
     }
-
 }

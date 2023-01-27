@@ -2,6 +2,7 @@ package mods.battlegear2.heraldry;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
 import mods.battlegear2.api.heraldry.IFlagHolder;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -16,8 +17,6 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-import java.util.List;
-
 /**
  * User: nerd-boy
  * Date: 2/08/13
@@ -29,7 +28,8 @@ public class BlockFlagPole extends Block {
 
     private static final float[] woodTexDims = new float[5];
     private static final float[] ironTexDims = new float[5];
-    static{
+
+    static {
         woodTexDims[0] = 0F;
         woodTexDims[1] = 4F;
         woodTexDims[2] = 8F;
@@ -50,20 +50,19 @@ public class BlockFlagPole extends Block {
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
-        for(int i = 0; i < 7; i++){
+        for (int i = 0; i < 7; i++) {
             par3List.add(new ItemStack(par1, 1, i));
         }
     }
 
     @Override
-    public int damageDropped(int par1){
+    public int damageDropped(int par1) {
         return par1 % 7;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister par1IconRegister) {
-    }
+    public void registerBlockIcons(IIconRegister par1IconRegister) {}
 
     @Override
     @SideOnly(Side.CLIENT)
@@ -74,23 +73,41 @@ public class BlockFlagPole extends Block {
     @Override
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int par2, int par3, int par4) {
         TileEntity te = world.getTileEntity(par2, par3, par4);
-        if(te instanceof IFlagHolder) {
+        if (te instanceof IFlagHolder) {
             switch (((IFlagHolder) te).getOrientation(world.getBlockMetadata(par2, par3, par4))) {
                 case 0:
-                    return AxisAlignedBB.getBoundingBox((double) par2 + 6F / 16F, (double) par3 + 0, (double) par4 + 6F / 16F, (double) par2 + 10F / 16F, (double) par3 + 1, (double) par4 + 10F / 16F);
+                    return AxisAlignedBB.getBoundingBox(
+                            (double) par2 + 6F / 16F,
+                            (double) par3 + 0,
+                            (double) par4 + 6F / 16F,
+                            (double) par2 + 10F / 16F,
+                            (double) par3 + 1,
+                            (double) par4 + 10F / 16F);
                 case 1:
-                    return AxisAlignedBB.getBoundingBox((double) par2 + 6F / 16F, (double) par3 + 13F / 16F, (double) par4 + 0, (double) par2 + 10F / 16F, (double) par3 + 1, (double) par4 + 1);
+                    return AxisAlignedBB.getBoundingBox(
+                            (double) par2 + 6F / 16F,
+                            (double) par3 + 13F / 16F,
+                            (double) par4 + 0,
+                            (double) par2 + 10F / 16F,
+                            (double) par3 + 1,
+                            (double) par4 + 1);
                 case 2:
-                    return AxisAlignedBB.getBoundingBox((double) par2 + 0, (double) par3 + 13F / 16F, (double) par4 + 6F / 16F, (double) par2 + 1, (double) par3 + 1, (double) par4 + 10F / 16F);
+                    return AxisAlignedBB.getBoundingBox(
+                            (double) par2 + 0,
+                            (double) par3 + 13F / 16F,
+                            (double) par4 + 6F / 16F,
+                            (double) par2 + 1,
+                            (double) par3 + 1,
+                            (double) par4 + 10F / 16F);
             }
         }
         return super.getCollisionBoundingBoxFromPool(world, par2, par3, par4);
     }
 
-    public float getTextDim(int metadata, int section){
-        if(metadata % 7 == 4){
+    public float getTextDim(int metadata, int section) {
+        if (metadata % 7 == 4) {
             return ironTexDims[section];
-        }else{
+        } else {
             return woodTexDims[section];
         }
     }
@@ -111,7 +128,7 @@ public class BlockFlagPole extends Block {
     }
 
     @Override
-    public boolean hasTileEntity(int i){
+    public boolean hasTileEntity(int i) {
         return true;
     }
 
@@ -123,22 +140,19 @@ public class BlockFlagPole extends Block {
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int par1, int meta) {
-        if(meta == 4)
-            return Blocks.iron_block.getIcon(par1, 0);
-        else if(meta < 4)
-            return Blocks.log.getIcon(par1, meta);
-        else
-            return Blocks.log2.getIcon(par1, meta - 5);
+        if (meta == 4) return Blocks.iron_block.getIcon(par1, 0);
+        else if (meta < 4) return Blocks.log.getIcon(par1, meta);
+        else return Blocks.log2.getIcon(par1, meta - 5);
     }
 
     @Override
     public void breakBlock(World par1World, int par2, int par3, int par4, Block par5, int par6) {
-        if(!par1World.isRemote){
+        if (!par1World.isRemote) {
             TileEntity te = par1World.getTileEntity(par2, par3, par4);
-            if(te instanceof IFlagHolder){
-                List<ItemStack> flags = ((IFlagHolder)te).getFlags();
+            if (te instanceof IFlagHolder) {
+                List<ItemStack> flags = ((IFlagHolder) te).getFlags();
 
-                for(ItemStack f : flags){
+                for (ItemStack f : flags) {
                     par1World.spawnEntityInWorld(new EntityItem(par1World, par2, par3, par4, f));
                 }
                 ((IFlagHolder) te).clearFlags();
