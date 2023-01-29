@@ -2,6 +2,7 @@ package mods.battlegear2.heraldry;
 
 import mods.battlegear2.items.ItemKnightArmour;
 import mods.battlegear2.utils.BattlegearConfig;
+
 import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
@@ -79,9 +80,8 @@ public class KnightArmourRecipie implements IRecipe {
         }
         if (iron == null || chain == null) return null;
 
-        float damage = 1
-                - ((1 - ((float) iron.getItemDamage() / (float) iron.getMaxDamage())) * 0.67F
-                        + (1 - ((float) chain.getItemDamage() / (float) chain.getMaxDamage())) * 0.33F);
+        float damage = 1 - ((1 - ((float) iron.getItemDamage() / (float) iron.getMaxDamage())) * 0.67F
+                + (1 - ((float) chain.getItemDamage() / (float) chain.getMaxDamage())) * 0.33F);
 
         ItemStack kArmourStack = new ItemStack(knightArmour, 1, (int) (knightArmour.getMaxDamage() * damage));
         if (iron.hasTagCompound()) {

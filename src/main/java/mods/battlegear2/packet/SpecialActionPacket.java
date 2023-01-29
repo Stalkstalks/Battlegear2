@@ -1,7 +1,5 @@
 package mods.battlegear2.packet;
 
-import cpw.mods.fml.common.network.ByteBufUtils;
-import io.netty.buffer.ByteBuf;
 import mods.battlegear2.Battlegear;
 import mods.battlegear2.api.EnchantmentHelper;
 import mods.battlegear2.api.core.InventoryPlayerBattle;
@@ -10,6 +8,7 @@ import mods.battlegear2.api.quiver.QuiverArrowRegistry;
 import mods.battlegear2.api.quiver.SwapArrowEvent;
 import mods.battlegear2.api.shield.IShield;
 import mods.battlegear2.enchantments.BaseEnchantment;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,6 +16,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.MinecraftForge;
+
+import cpw.mods.fml.common.network.ByteBufUtils;
+import io.netty.buffer.ByteBuf;
 
 public final class SpecialActionPacket extends AbstractMBPacket {
 
@@ -46,9 +48,8 @@ public final class SpecialActionPacket extends AbstractMBPacket {
                         double d0 = entityHit.posX - this.player.posX;
                         double d1;
 
-                        for (d1 = entityHit.posZ - this.player.posZ;
-                                d0 * d0 + d1 * d1 < 1.0E-4D;
-                                d1 = (Math.random() - Math.random()) * 0.01D) {
+                        for (d1 = entityHit.posZ - this.player.posZ; d0 * d0 + d1 * d1
+                                < 1.0E-4D; d1 = (Math.random() - Math.random()) * 0.01D) {
                             d0 = (Math.random() - Math.random()) * 0.01D;
                         }
                         double pow = EnchantmentHelper.getEnchantmentLevel(BaseEnchantment.bashPower, offhand) * 0.1D;
@@ -73,8 +74,8 @@ public final class SpecialActionPacket extends AbstractMBPacket {
                     if (!MinecraftForge.EVENT_BUS.post(swapEvent) && swapEvent.slotStep != 0) {
                         ((IArrowContainer2) quiver.getItem()).setSelectedSlot(quiver, swapEvent.getNextSlot());
                         if (this.player instanceof EntityPlayerMP) {
-                            Battlegear.packetHandler.sendPacketToPlayer(
-                                    this.generatePacket(), (EntityPlayerMP) this.player);
+                            Battlegear.packetHandler
+                                    .sendPacketToPlayer(this.generatePacket(), (EntityPlayerMP) this.player);
                         }
                     }
                 }

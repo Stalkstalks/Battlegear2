@@ -7,6 +7,7 @@ import mods.battlegear2.api.heraldry.HeraldryTextureSmall;
 import mods.battlegear2.api.heraldry.IHeraldryItem;
 import mods.battlegear2.api.heraldry.RefreshableTexture;
 import mods.battlegear2.client.utils.BattlegearRenderHelper;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.ITextureObject;
@@ -14,6 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
+
 import org.lwjgl.opengl.GL11;
 
 public class HeraldryItemRenderer implements IItemRenderer {
@@ -22,8 +24,7 @@ public class HeraldryItemRenderer implements IItemRenderer {
 
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type) {
-        return item.getItem() instanceof IHeraldryItem
-                && ((IHeraldryItem) item.getItem()).hasHeraldry(item)
+        return item.getItem() instanceof IHeraldryItem && ((IHeraldryItem) item.getItem()).hasHeraldry(item)
                 && type == ItemRenderType.INVENTORY;
     }
 
@@ -59,8 +60,8 @@ public class HeraldryItemRenderer implements IItemRenderer {
             itemRenderer.renderIcon(0, 0, icon, 16, 16);
             RefreshableTexture currentCrest = new RefreshableTexture(32, 32);
             currentCrest.refreshWith(heraldryData, false);
-            ResourceLocation crestLocation =
-                    Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("gui_crest", currentCrest);
+            ResourceLocation crestLocation = Minecraft.getMinecraft().getTextureManager()
+                    .getDynamicTextureLocation("gui_crest", currentCrest);
             ITextureObject texture = Minecraft.getMinecraft().renderEngine.getTexture(crestLocation);
             if (texture == null) {
                 texture = new HeraldryTextureSmall(heraldryData);

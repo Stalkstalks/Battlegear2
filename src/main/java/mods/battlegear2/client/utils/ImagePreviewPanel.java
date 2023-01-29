@@ -4,7 +4,9 @@ import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
+
 import javax.swing.*;
+
 import mods.battlegear2.utils.FileExtension;
 
 public class ImagePreviewPanel extends JPanel implements PropertyChangeListener {

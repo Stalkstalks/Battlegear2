@@ -3,8 +3,10 @@ package mods.battlegear2.recipies;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import mods.battlegear2.api.quiver.IArrowContainer2;
 import mods.battlegear2.api.shield.IArrowDisplay;
+
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -74,9 +76,11 @@ public final class CraftingHandeler {
                 if (stack != null && stack != quiver) {
                     if (((IArrowContainer2) quiver.getItem()).isCraftableWithArrows(quiver, stack)) {
                         arrows.add(stack);
-                        /*ItemStack rejectArrows = ((IArrowContainer2)quiver.getItem()).addArrows(quiver, stack);
-                        player.inventory.addItemStackToInventory(rejectArrows);
-                        craftMatrix.setInventorySlotContents(i, null);*/
+                        /*
+                         * ItemStack rejectArrows = ((IArrowContainer2)quiver.getItem()).addArrows(quiver, stack);
+                         * player.inventory.addItemStackToInventory(rejectArrows);
+                         * craftMatrix.setInventorySlotContents(i, null);
+                         */
                     } else return;
                 }
             }

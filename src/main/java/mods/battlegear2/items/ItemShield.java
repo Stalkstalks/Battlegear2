@@ -1,10 +1,7 @@
 package mods.battlegear2.items;
 
-import cpw.mods.fml.common.IFuelHandler;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.util.List;
+
 import mods.battlegear2.api.EnchantmentHelper;
 import mods.battlegear2.api.IDyable;
 import mods.battlegear2.api.IEnchantable;
@@ -15,6 +12,7 @@ import mods.battlegear2.api.shield.IShield;
 import mods.battlegear2.api.shield.ShieldType;
 import mods.battlegear2.enchantments.BaseEnchantment;
 import mods.battlegear2.utils.BattlegearConfig;
+
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
@@ -28,6 +26,11 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
+
+import cpw.mods.fml.common.IFuelHandler;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemShield extends Item
         implements IShield, IDyable, IEnchantable, ISheathed, IArrowCatcher, IArrowDisplay, IFuelHandler {
@@ -150,15 +153,16 @@ public class ItemShield extends Item
 
         par3List.add("");
 
-        par3List.add(EnumChatFormatting.DARK_GREEN
-                + StatCollector.translateToLocalFormatted(
+        par3List.add(
+                EnumChatFormatting.DARK_GREEN + StatCollector.translateToLocalFormatted(
                         "attribute.shield.block.time",
                         ItemStack.field_111284_a.format(1F / (enumShield.getDecayRate()) / 20F)));
 
         int arrowCount = getArrowCount(par1ItemStack);
         if (arrowCount > 0) {
-            par3List.add(EnumChatFormatting.GOLD
-                    + StatCollector.translateToLocalFormatted("attribute.shield.arrow.count", arrowCount));
+            par3List.add(
+                    EnumChatFormatting.GOLD
+                            + StatCollector.translateToLocalFormatted("attribute.shield.arrow.count", arrowCount));
         }
     }
 
@@ -167,8 +171,7 @@ public class ItemShield extends Item
      */
     @Override
     public boolean hasColor(ItemStack par1ItemStack) {
-        return par1ItemStack.hasTagCompound()
-                && par1ItemStack.getTagCompound().hasKey("display")
+        return par1ItemStack.hasTagCompound() && par1ItemStack.getTagCompound().hasKey("display")
                 && par1ItemStack.getTagCompound().getCompoundTag("display").hasKey("color");
     }
 
@@ -182,10 +185,8 @@ public class ItemShield extends Item
             return getDefaultColor(par1ItemStack);
         } else {
             NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("display");
-            return nbttagcompound1 == null
-                    ? getDefaultColor(par1ItemStack)
-                    : (nbttagcompound1.hasKey("color")
-                            ? nbttagcompound1.getInteger("color")
+            return nbttagcompound1 == null ? getDefaultColor(par1ItemStack)
+                    : (nbttagcompound1.hasKey("color") ? nbttagcompound1.getInteger("color")
                             : getDefaultColor(par1ItemStack));
         }
     }

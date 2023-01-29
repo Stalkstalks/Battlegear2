@@ -6,6 +6,7 @@ import mods.battlegear2.api.quiver.QuiverArrowRegistry;
 import mods.battlegear2.client.ClientProxy;
 import mods.battlegear2.client.utils.BattlegearRenderHelper;
 import mods.battlegear2.utils.BattlegearConfig;
+
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.EntityLivingBase;
@@ -15,6 +16,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
+
 import org.lwjgl.opengl.GL11;
 
 public class BowRendererIron implements IItemRenderer {
@@ -98,7 +100,9 @@ public class BowRendererIron implements IItemRenderer {
             icon = arrowStack.getIconIndex();
             GL11.glPushMatrix();
             GL11.glTranslatef(
-                    -(-3F + drawAmount) / 16F, -(-2F + drawAmount) / 16F, firstPerson ? -0.5F / 16F : 0.5F / 16F);
+                    -(-3F + drawAmount) / 16F,
+                    -(-2F + drawAmount) / 16F,
+                    firstPerson ? -0.5F / 16F : 0.5F / 16F);
             ItemRenderer.renderItemIn2D(
                     tessellator,
                     icon.getMinU(),

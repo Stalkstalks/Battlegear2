@@ -9,6 +9,7 @@ import net.minecraft.world.World;
 
 /**
  * An arrow which deals wither effect on living entities
+ * 
  * @author GotoLink
  *
  */
@@ -22,12 +23,8 @@ public class EntityPoisonArrow extends AbstractMBArrow {
         super(par1World, par2EntityLivingBase, par3);
     }
 
-    public EntityPoisonArrow(
-            World par1World,
-            EntityLivingBase par2EntityLivingBase,
-            EntityLivingBase par3EntityLivingBase,
-            float par4,
-            float par5) {
+    public EntityPoisonArrow(World par1World, EntityLivingBase par2EntityLivingBase,
+            EntityLivingBase par3EntityLivingBase, float par4, float par5) {
         super(par1World, par2EntityLivingBase, par3EntityLivingBase, par4, par5);
     }
 

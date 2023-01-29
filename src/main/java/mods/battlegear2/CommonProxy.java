@@ -1,12 +1,14 @@
 package mods.battlegear2;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import mods.battlegear2.utils.EnumBGAnimations;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.common.MinecraftForge;
+
+import cpw.mods.fml.common.FMLCommonHandler;
 
 public class CommonProxy {
 

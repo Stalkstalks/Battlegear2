@@ -1,13 +1,13 @@
 package mods.battlegear2.items;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.util.List;
+
 import mods.battlegear2.api.IDyable;
 import mods.battlegear2.api.PlayerEventChild;
 import mods.battlegear2.api.core.BattlegearUtils;
 import mods.battlegear2.api.quiver.IArrowContainer2;
 import mods.battlegear2.api.quiver.QuiverArrowRegistry;
+
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -24,7 +24,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.ForgeEventFactory;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 public class ItemQuiver extends Item implements IArrowContainer2, IDyable {
+
     public IIcon quiverDetails;
     public IIcon quiverArrows;
 
@@ -43,17 +47,8 @@ public class ItemQuiver extends Item implements IArrowContainer2, IDyable {
     }
 
     @Override
-    public boolean onItemUse(
-            ItemStack stack,
-            EntityPlayer player,
-            World world,
-            int x,
-            int y,
-            int z,
-            int side,
-            float offX,
-            float offY,
-            float offZ) {
+    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side,
+            float offX, float offY, float offZ) {
         boolean flag = false;
         for (int i = 0; i < getSlotCount(stack); i++) {
             ItemStack temp = getStackInSlot(stack, i);
@@ -118,8 +113,7 @@ public class ItemQuiver extends Item implements IArrowContainer2, IDyable {
 
     @Override
     public boolean hasArrowFor(ItemStack stack, ItemStack bow, EntityPlayer player, int slot) {
-        return bow != null
-                && BattlegearUtils.isBow(bow.getItem())
+        return bow != null && BattlegearUtils.isBow(bow.getItem())
                 && ((IArrowContainer2) stack.getItem()).getStackInSlot(stack, slot) != null;
     }
 
@@ -156,6 +150,7 @@ public class ItemQuiver extends Item implements IArrowContainer2, IDyable {
 
     /**
      * Convenience feature for "AnonymousProductions" dude
+     * 
      * @param bow
      * @param loadedArrow
      */
@@ -219,26 +214,27 @@ public class ItemQuiver extends Item implements IArrowContainer2, IDyable {
         for (int i = 0; i < slotCount; i++) {
             ItemStack slotStack = getStackInSlot(stack, i);
             if (slotStack != null) {
-                list.add(String.format(
-                        " %s%s: %s x %s",
-                        i,
-                        i == selected ? EnumChatFormatting.DARK_GREEN : EnumChatFormatting.GOLD,
-                        slotStack.stackSize,
-                        slotStack.getDisplayName()));
+                list.add(
+                        String.format(
+                                " %s%s: %s x %s",
+                                i,
+                                i == selected ? EnumChatFormatting.DARK_GREEN : EnumChatFormatting.GOLD,
+                                slotStack.stackSize,
+                                slotStack.getDisplayName()));
             } else {
-                list.add(String.format(
-                        " %s%s: %s",
-                        i,
-                        i == selected ? EnumChatFormatting.DARK_GREEN : EnumChatFormatting.GOLD,
-                        StatCollector.translateToLocal("attribute.quiver.arrow.empty")));
+                list.add(
+                        String.format(
+                                " %s%s: %s",
+                                i,
+                                i == selected ? EnumChatFormatting.DARK_GREEN : EnumChatFormatting.GOLD,
+                                StatCollector.translateToLocal("attribute.quiver.arrow.empty")));
             }
         }
     }
 
     @Override
     public boolean hasColor(ItemStack par1ItemStack) {
-        return par1ItemStack.hasTagCompound()
-                && par1ItemStack.getTagCompound().hasKey("display")
+        return par1ItemStack.hasTagCompound() && par1ItemStack.getTagCompound().hasKey("display")
                 && par1ItemStack.getTagCompound().getCompoundTag("display").hasKey("color");
     }
 
@@ -251,10 +247,8 @@ public class ItemQuiver extends Item implements IArrowContainer2, IDyable {
                 return getDefaultColor(par1ItemStack);
             } else {
                 NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("display");
-                return nbttagcompound1 == null
-                        ? getDefaultColor(par1ItemStack)
-                        : (nbttagcompound1.hasKey("color")
-                                ? nbttagcompound1.getInteger("color")
+                return nbttagcompound1 == null ? getDefaultColor(par1ItemStack)
+                        : (nbttagcompound1.hasKey("color") ? nbttagcompound1.getInteger("color")
                                 : getDefaultColor(par1ItemStack));
             }
         }

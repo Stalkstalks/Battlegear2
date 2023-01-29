@@ -1,10 +1,13 @@
 package mods.battlegear2.gui;
 
-import cpw.mods.fml.client.IModGuiFactory;
 import java.util.Set;
+
 import mods.battlegear2.client.gui.BattlegearConfigGUI;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
+
+import cpw.mods.fml.client.IModGuiFactory;
 
 public final class BattlegearGuiFactory implements IModGuiFactory {
 

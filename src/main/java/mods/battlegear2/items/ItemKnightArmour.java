@@ -1,9 +1,7 @@
 package mods.battlegear2.items;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.util.List;
+
 import mods.battlegear2.Battlegear;
 import mods.battlegear2.api.heraldry.IHeraldryItem;
 import mods.battlegear2.api.heraldry.IHeraldyArmour;
@@ -11,6 +9,7 @@ import mods.battlegear2.api.heraldry.PatternStore;
 import mods.battlegear2.client.heraldry.HeraldryArmourModel;
 import mods.battlegear2.heraldry.SigilHelper;
 import mods.battlegear2.utils.BattlegearConfig;
+
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -30,6 +29,10 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
+
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemKnightArmour extends ItemArmor implements IHeraldyArmour, ISpecialArmor {
 
@@ -70,15 +73,15 @@ public class ItemKnightArmour extends ItemArmor implements IHeraldyArmour, ISpec
         } else {
             baseIcon = new IIcon[1];
             postRenderIcon = new IIcon[1];
-            baseIcon[0] = par1IconRegister.registerIcon(
-                    "battlegear2:armours/knight-base-" + BattlegearConfig.armourTypes[armorType]);
-            postRenderIcon[0] = par1IconRegister.registerIcon(
-                    "battlegear2:armours/knight-post-" + BattlegearConfig.armourTypes[armorType]);
+            baseIcon[0] = par1IconRegister
+                    .registerIcon("battlegear2:armours/knight-base-" + BattlegearConfig.armourTypes[armorType]);
+            postRenderIcon[0] = par1IconRegister
+                    .registerIcon("battlegear2:armours/knight-post-" + BattlegearConfig.armourTypes[armorType]);
         }
 
         if (armorType == 2) {
-            trimRenderIcon = par1IconRegister.registerIcon(
-                    "battlegear2:armours/knight-trim-" + BattlegearConfig.armourTypes[armorType]);
+            trimRenderIcon = par1IconRegister
+                    .registerIcon("battlegear2:armours/knight-trim-" + BattlegearConfig.armourTypes[armorType]);
         }
     }
 
@@ -127,13 +130,14 @@ public class ItemKnightArmour extends ItemArmor implements IHeraldyArmour, ISpec
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack armor, EntityPlayer player, List par3List, boolean par4) {
         super.addInformation(armor, player, par3List, par4);
-        par3List.add(String.format(
-                "%s +%d %s",
-                EnumChatFormatting.BLUE,
-                this.damageReduceAmount,
-                StatCollector.translateToLocal("tooltip.armour.points")));
-        par3List.add(EnumChatFormatting.RED
-                + StatCollector.translateToLocalFormatted(
+        par3List.add(
+                String.format(
+                        "%s +%d %s",
+                        EnumChatFormatting.BLUE,
+                        this.damageReduceAmount,
+                        StatCollector.translateToLocal("tooltip.armour.points")));
+        par3List.add(
+                EnumChatFormatting.RED + StatCollector.translateToLocalFormatted(
                         "attribute.modifier.take." + 2,
                         ItemStack.field_111284_a.format(-motionFactor * 100.0D),
                         StatCollector.translateToLocal("attribute.name.generic.movementSpeed")));
@@ -210,8 +214,7 @@ public class ItemKnightArmour extends ItemArmor implements IHeraldyArmour, ISpec
             if (entityLiving instanceof EntityPlayer) {
                 Render renderer = RenderManager.instance.getEntityRenderObject(entityLiving);
                 if (renderer instanceof RenderPlayer) {
-                    ModelBiped modelArmor = armorSlot == 2
-                            ? ((RenderPlayer) renderer).modelArmor
+                    ModelBiped modelArmor = armorSlot == 2 ? ((RenderPlayer) renderer).modelArmor
                             : ((RenderPlayer) renderer).modelArmorChestplate;
                     model.heldItemLeft = modelArmor.heldItemLeft;
                     model.heldItemRight = modelArmor.heldItemRight;
@@ -231,13 +234,16 @@ public class ItemKnightArmour extends ItemArmor implements IHeraldyArmour, ISpec
 
     @Override
     public String getPatternArmourPath(PatternStore pattern, int index, int armourSlot) {
-        return Battlegear.imageFolder + "armours/knights/patterns/knights-pattern-" + (armourSlot == 2 ? 1 : 0) + "-"
-                + index + ".png";
+        return Battlegear.imageFolder + "armours/knights/patterns/knights-pattern-"
+                + (armourSlot == 2 ? 1 : 0)
+                + "-"
+                + index
+                + ".png";
     }
 
     @Override
-    public ArmorProperties getProperties(
-            EntityLivingBase player, ItemStack armor, DamageSource source, double damage, int slot) {
+    public ArmorProperties getProperties(EntityLivingBase player, ItemStack armor, DamageSource source, double damage,
+            int slot) {
         int max = getMaxAbsorption(armor);
         if (slot == 1 || slot == 2) {
             return new ArmorProperties(1, 0.8D, max);
@@ -280,6 +286,6 @@ public class ItemKnightArmour extends ItemArmor implements IHeraldyArmour, ISpec
         player.motionX *= (1 + motionFactor);
         player.motionZ *= (1 + motionFactor);
         if (player.motionY > 0.005D) // No need to change falling speed
-        player.motionY *= (1 + motionFactor);
+            player.motionY *= (1 + motionFactor);
     }
 }

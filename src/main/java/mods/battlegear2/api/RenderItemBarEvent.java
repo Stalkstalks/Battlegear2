@@ -1,14 +1,16 @@
 package mods.battlegear2.api;
 
-import cpw.mods.fml.common.eventhandler.Cancelable;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
+import cpw.mods.fml.common.eventhandler.Cancelable;
+
 /**
- * Events from {@link BattlegearInGameGUI} to {@link MinecraftForge.EVENT_BUS}
- * helping display HUD elements added to the in-game screen
+ * Events from {@link BattlegearInGameGUI} to {@link MinecraftForge.EVENT_BUS} helping display HUD elements added to the
+ * in-game screen
  */
 public abstract class RenderItemBarEvent extends RenderGameOverlayEvent {
+
     /**
      * Horizontal offset from the default position
      */
@@ -27,6 +29,7 @@ public abstract class RenderItemBarEvent extends RenderGameOverlayEvent {
      */
     @Cancelable
     public static class ShieldBar extends RenderItemBarEvent {
+
         /**
          * The stack containing the {@link IShield} item held by the player in his offhand
          */
@@ -39,11 +42,12 @@ public abstract class RenderItemBarEvent extends RenderGameOverlayEvent {
     }
 
     /**
-     * Event posted when the player uses an item compatible with {@link QuiverArrowRegistry}
-     * that is, a bow and its valid {@link IArrowContainer2}, displaying all slots in it
+     * Event posted when the player uses an item compatible with {@link QuiverArrowRegistry} that is, a bow and its
+     * valid {@link IArrowContainer2}, displaying all slots in it
      */
     @Cancelable
     public static class QuiverSlots extends RenderItemBarEvent {
+
         /**
          * The stack containing the compatible bow held by the player (can be in either hand)
          */
@@ -65,6 +69,7 @@ public abstract class RenderItemBarEvent extends RenderGameOverlayEvent {
      */
     @Cancelable
     public static class BattleSlots extends RenderItemBarEvent {
+
         /**
          * True if the slots are for the mainhand (on the "right"), false for the offhand (on the "left")
          */

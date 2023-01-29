@@ -3,10 +3,7 @@ package mods.battlegear2.client.heraldry.tools;
 import mods.battlegear2.client.utils.ImageData;
 
 /**
- * User: nerd-boy
- * Date: 12/08/13
- * Time: 12:04 PM
- * TODO: Add discription
+ * User: nerd-boy Date: 12/08/13 Time: 12:04 PM TODO: Add discription
  */
 public class CircleTool extends RectangleTool {
 

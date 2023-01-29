@@ -1,9 +1,11 @@
 package mods.battlegear2.client.gui.controls;
 
-import cpw.mods.fml.client.config.GuiUtils;
 import mods.battlegear2.client.gui.BattlegearSigilGUI;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
+
+import cpw.mods.fml.client.config.GuiUtils;
 
 public final class GuiSigilButton extends GuiPlaceableButton {
 

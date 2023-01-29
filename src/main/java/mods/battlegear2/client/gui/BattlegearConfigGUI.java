@@ -1,17 +1,22 @@
 package mods.battlegear2.client.gui;
 
-import cpw.mods.fml.client.FMLClientHandler;
 import java.util.Arrays;
 import java.util.List;
+
 import mods.battlegear2.client.gui.controls.GUITextList;
 import mods.battlegear2.client.gui.controls.GuiToggleButton;
 import mods.battlegear2.utils.BattlegearConfig;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
+
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.client.FMLClientHandler;
+
 public final class BattlegearConfigGUI extends GuiScreen {
+
     private final String[] availableRenderers = BattlegearConfig.renderNames;
     private final GuiScreen parent;
     private GUITextList possibleValues;
@@ -42,51 +47,58 @@ public final class BattlegearConfigGUI extends GuiScreen {
                 12,
                 renders);
         this.buttonList.add(new GuiButton(1, this.width / 2 - 75, this.height - 38, I18n.format("gui.done")));
-        this.buttonList.add(new GuiToggleButton(
-                2,
-                this.width / 2 - 180,
-                this.height / 2 - 100,
-                I18n.format("use.gui.buttons") + ":" + BattlegearConfig.enableGuiButtons,
-                this.fontRendererObj));
-        this.buttonList.add(new GuiToggleButton(
-                3,
-                this.width / 2 + 20,
-                this.height / 2 - 100,
-                I18n.format("use.gui.keys") + ":" + BattlegearConfig.enableGUIKeys,
-                this.fontRendererObj));
-        this.buttonList.add(new GuiToggleButton(
-                4,
-                this.width / 2 - 180,
-                this.height / 2 - 70,
-                I18n.format("render.quiver.skeleton") + ":" + BattlegearConfig.enableSkeletonQuiver,
-                this.fontRendererObj));
-        this.buttonList.add(new GuiToggleButton(
-                5,
-                this.width / 2 + 20,
-                this.height / 2 - 70,
-                I18n.format("render.arrow.bow") + ":" + BattlegearConfig.arrowForceRendered,
-                this.fontRendererObj));
-        this.buttonList.add(new GuiToggleButton(
-                6,
-                this.width / 2 - 180,
-                this.height / 2 - 40,
-                BattlegearConfig.forceSheath.format(),
-                this.fontRendererObj));
-        this.buttonList.add(new GuiToggleButton(
-                7,
-                this.width / 2 + 20,
-                this.height / 2 + 60,
-                I18n.format("render.hud.forced") + ":" + BattlegearConfig.forceHUD,
-                this.fontRendererObj));
-        this.possibleValues.registerScrollButtons(this.buttonList, 8, 9);
         this.buttonList.add(
-                new GuiButton(10, this.width / 2 - 180, this.height / 2 + 60, I18n.format("gui.open.fake")));
-        this.buttonList.add(new GuiToggleButton(
-                11,
-                this.width / 2 + 60,
-                this.height / 2 - 40,
-                I18n.format("render.always.slots") + ":" + BattlegearConfig.alwaysShowBattleBar,
-                this.fontRendererObj));
+                new GuiToggleButton(
+                        2,
+                        this.width / 2 - 180,
+                        this.height / 2 - 100,
+                        I18n.format("use.gui.buttons") + ":" + BattlegearConfig.enableGuiButtons,
+                        this.fontRendererObj));
+        this.buttonList.add(
+                new GuiToggleButton(
+                        3,
+                        this.width / 2 + 20,
+                        this.height / 2 - 100,
+                        I18n.format("use.gui.keys") + ":" + BattlegearConfig.enableGUIKeys,
+                        this.fontRendererObj));
+        this.buttonList.add(
+                new GuiToggleButton(
+                        4,
+                        this.width / 2 - 180,
+                        this.height / 2 - 70,
+                        I18n.format("render.quiver.skeleton") + ":" + BattlegearConfig.enableSkeletonQuiver,
+                        this.fontRendererObj));
+        this.buttonList.add(
+                new GuiToggleButton(
+                        5,
+                        this.width / 2 + 20,
+                        this.height / 2 - 70,
+                        I18n.format("render.arrow.bow") + ":" + BattlegearConfig.arrowForceRendered,
+                        this.fontRendererObj));
+        this.buttonList.add(
+                new GuiToggleButton(
+                        6,
+                        this.width / 2 - 180,
+                        this.height / 2 - 40,
+                        BattlegearConfig.forceSheath.format(),
+                        this.fontRendererObj));
+        this.buttonList.add(
+                new GuiToggleButton(
+                        7,
+                        this.width / 2 + 20,
+                        this.height / 2 + 60,
+                        I18n.format("render.hud.forced") + ":" + BattlegearConfig.forceHUD,
+                        this.fontRendererObj));
+        this.possibleValues.registerScrollButtons(this.buttonList, 8, 9);
+        this.buttonList
+                .add(new GuiButton(10, this.width / 2 - 180, this.height / 2 + 60, I18n.format("gui.open.fake")));
+        this.buttonList.add(
+                new GuiToggleButton(
+                        11,
+                        this.width / 2 + 60,
+                        this.height / 2 - 40,
+                        I18n.format("render.always.slots") + ":" + BattlegearConfig.alwaysShowBattleBar,
+                        this.fontRendererObj));
     }
 
     @Override

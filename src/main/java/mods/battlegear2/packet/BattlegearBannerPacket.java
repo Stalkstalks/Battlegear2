@@ -1,15 +1,19 @@
 package mods.battlegear2.packet;
 
-import cpw.mods.fml.common.network.ByteBufUtils;
-import io.netty.buffer.ByteBuf;
 import java.util.ArrayList;
 import java.util.List;
+
 import mods.battlegear2.api.heraldry.IFlagHolder;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 
+import cpw.mods.fml.common.network.ByteBufUtils;
+import io.netty.buffer.ByteBuf;
+
 public final class BattlegearBannerPacket extends AbstractMBPacket {
+
     public static final String packetName = "MB2|Banner";
     private int posX, posY, posZ;
     private List<ItemStack> parts = new ArrayList<ItemStack>();

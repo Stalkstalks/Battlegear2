@@ -1,6 +1,7 @@
 package mods.battlegear2.api.shield;
 
 import mods.battlegear2.api.ISensible;
+
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -9,8 +10,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.Constants;
 
 /**
- * Defines a shield "material", since not necessarily a tool
- * Roughly covers the data asked for by {@link IShield}
+ * Defines a shield "material", since not necessarily a tool Roughly covers the data asked for by {@link IShield}
  */
 public class ShieldType {
 
@@ -34,8 +34,8 @@ public class ShieldType {
     private ItemStack repairingMaterial;
     private ISensible<ItemStack> comparator;
 
-    public ShieldType(
-            String name, float decayRate, float damageDecay, int maxDamage, int enchantability, int defaultColour) {
+    public ShieldType(String name, float decayRate, float damageDecay, int maxDamage, int enchantability,
+            int defaultColour) {
         this.name = name;
         this.decayRate = decayRate;
         this.damageDecay = damageDecay;
@@ -90,11 +90,10 @@ public class ShieldType {
     }
 
     /**
-     * Sets repairing mechanism.
-     * If both arguments are null, results in no repairing behavior
+     * Sets repairing mechanism. If both arguments are null, results in no repairing behavior
      *
      * @param repairingMaterial the valid ItemStack that can repair this
-     * @param comparator the optional comparison, in case only partial ItemStack recognition is needed
+     * @param comparator        the optional comparison, in case only partial ItemStack recognition is needed
      * @return the modified instance
      */
     public ShieldType setRepair(ItemStack repairingMaterial, ISensible<ItemStack> comparator) {
@@ -116,8 +115,7 @@ public class ShieldType {
     }
 
     /**
-     * Make a new instance based on the compressed data.
-     * Note: Only a valid name is required
+     * Make a new instance based on the compressed data. Note: Only a valid name is required
      *
      * @param compound data to read from
      * @return the new type, or null if name is not readable
@@ -132,6 +130,7 @@ public class ShieldType {
      * Defines a comparator that only differenciate ItemStack's by their Item instances
      */
     public static class IDSensible implements ISensible<ItemStack> {
+
         public static final ISensible<ItemStack> INSTANCE = new IDSensible();
 
         private IDSensible() {}

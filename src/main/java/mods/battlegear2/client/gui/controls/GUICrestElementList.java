@@ -2,14 +2,17 @@ package mods.battlegear2.client.gui.controls;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import mods.battlegear2.api.heraldry.Crest;
 import mods.battlegear2.api.heraldry.HeraldryData;
 import mods.battlegear2.api.heraldry.RefreshableTexture;
 import mods.battlegear2.client.gui.BattlegearSigilGUI;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
+
 import org.lwjgl.opengl.GL11;
 
 public class GUICrestElementList extends GUIScrollList {
@@ -42,7 +45,7 @@ public class GUICrestElementList extends GUIScrollList {
     }
 
     public void addNewCrest() {
-        entries.add(new Crest(new int[] {0x00000000, 0xFFFFFFFF}, 0, (byte) 16, (byte) 4, (byte) 4));
+        entries.add(new Crest(new int[] { 0x00000000, 0xFFFFFFFF }, 0, (byte) 16, (byte) 4, (byte) 4));
     }
 
     public void removeCrest(int index) {
@@ -82,26 +85,23 @@ public class GUICrestElementList extends GUIScrollList {
         GL11.glDisable(GL11.GL_ALPHA_TEST);
 
         dynamicTextures[listIndex].updateDynamicTexture();
-        ResourceLocation rl = Minecraft.getMinecraft()
-                .getTextureManager()
+        ResourceLocation rl = Minecraft.getMinecraft().getTextureManager()
                 .getDynamicTextureLocation("gui_dynamic_sigil_" + listIndex, dynamicTextures[listIndex]);
         Minecraft.getMinecraft().getTextureManager().bindTexture(rl);
         drawTexturedModalRect(var5, var2 - listWidth + 9, var3, 21, 21, 0);
 
         if (listIndex == 0) {
-            parent.getFontRenderer()
-                    .drawString(
-                            StatCollector.translateToLocal("gui.sigil.pattern"),
-                            var2 - listWidth + 9 + 25,
-                            var3 + 4,
-                            isSelected(listIndex) ? 0xFFFFFF00 : 0xFFFFFFFF);
+            parent.getFontRenderer().drawString(
+                    StatCollector.translateToLocal("gui.sigil.pattern"),
+                    var2 - listWidth + 9 + 25,
+                    var3 + 4,
+                    isSelected(listIndex) ? 0xFFFFFF00 : 0xFFFFFFFF);
         } else {
-            parent.getFontRenderer()
-                    .drawString(
-                            StatCollector.translateToLocal("gui.sigil.crest") + " " + listIndex,
-                            var2 - listWidth + 9 + 25,
-                            var3 + 4,
-                            isSelected(listIndex) ? 0xFFFFFF00 : 0xFFFFFFFF);
+            parent.getFontRenderer().drawString(
+                    StatCollector.translateToLocal("gui.sigil.crest") + " " + listIndex,
+                    var2 - listWidth + 9 + 25,
+                    var3 + 4,
+                    isSelected(listIndex) ? 0xFFFFFF00 : 0xFFFFFFFF);
         }
 
         GL11.glEnable(GL11.GL_ALPHA_TEST);

@@ -1,8 +1,10 @@
 package mods.battlegear2.client.renderer;
 
 import java.util.List;
+
 import mods.battlegear2.api.heraldry.IFlagHolder;
 import mods.battlegear2.client.utils.ImageCache;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.client.Minecraft;
@@ -12,15 +14,14 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+
 import org.lwjgl.opengl.GL11;
 
 /**
- * User: nerd-boy
- * Date: 2/08/13
- * Time: 2:33 PM
- * TODO: Add discription
+ * User: nerd-boy Date: 2/08/13 Time: 2:33 PM TODO: Add discription
  */
 public class FlagPoleTileRenderer extends TileEntitySpecialRenderer {
+
     public static int period = 250;
     public static int flag_sections = 16;
 
@@ -109,12 +110,14 @@ public class FlagPoleTileRenderer extends TileEntitySpecialRenderer {
                     for (int i = 0; i < flag_sections; i++) {
                         tess.startDrawingQuads();
 
-                        double z1 =
-                                getZLevel((float) ((flag_sections - i)) / (float) flag_sections + flagIndex, 5, time)
-                                        / 5F;
-                        double z2 =
-                                getZLevel((float) (flag_sections - i + 1) / (float) flag_sections + flagIndex, 5, time)
-                                        / 5F;
+                        double z1 = getZLevel(
+                                (float) ((flag_sections - i)) / (float) flag_sections + flagIndex,
+                                5,
+                                time) / 5F;
+                        double z2 = getZLevel(
+                                (float) (flag_sections - i + 1) / (float) flag_sections + flagIndex,
+                                5,
+                                time) / 5F;
 
                         tess.addVertexWithUV(
                                 8F / 16F + z1,
@@ -183,46 +186,110 @@ public class FlagPoleTileRenderer extends TileEntitySpecialRenderer {
         Tessellator tess = Tessellator.instance;
         tess.startDrawingQuads();
         tess.addVertexWithUV(
-                9F / 16F, 14F / 16F, 0F / 16F, icon.getInterpolatedU(dims[0]), icon.getInterpolatedV(dims[0]));
+                9F / 16F,
+                14F / 16F,
+                0F / 16F,
+                icon.getInterpolatedU(dims[0]),
+                icon.getInterpolatedV(dims[0]));
         tess.addVertexWithUV(
-                9F / 16F, 16F / 16F, 0F / 16F, icon.getInterpolatedU(dims[1]), icon.getInterpolatedV(dims[0]));
+                9F / 16F,
+                16F / 16F,
+                0F / 16F,
+                icon.getInterpolatedU(dims[1]),
+                icon.getInterpolatedV(dims[0]));
         tess.addVertexWithUV(
-                9F / 16F, 16F / 16F, 16F / 16F, icon.getInterpolatedU(dims[1]), icon.getInterpolatedV(dims[4]));
+                9F / 16F,
+                16F / 16F,
+                16F / 16F,
+                icon.getInterpolatedU(dims[1]),
+                icon.getInterpolatedV(dims[4]));
         tess.addVertexWithUV(
-                9F / 16F, 14F / 16F, 16F / 16F, icon.getInterpolatedU(dims[0]), icon.getInterpolatedV(dims[4]));
+                9F / 16F,
+                14F / 16F,
+                16F / 16F,
+                icon.getInterpolatedU(dims[0]),
+                icon.getInterpolatedV(dims[4]));
         tess.draw();
 
         tess.startDrawingQuads();
         tess.addVertexWithUV(
-                7F / 16F, 14F / 16F, 0F / 16F, icon.getInterpolatedU(dims[2]), icon.getInterpolatedV(dims[0]));
+                7F / 16F,
+                14F / 16F,
+                0F / 16F,
+                icon.getInterpolatedU(dims[2]),
+                icon.getInterpolatedV(dims[0]));
         tess.addVertexWithUV(
-                9F / 16F, 14F / 16F, 0F / 16F, icon.getInterpolatedU(dims[1]), icon.getInterpolatedV(dims[0]));
+                9F / 16F,
+                14F / 16F,
+                0F / 16F,
+                icon.getInterpolatedU(dims[1]),
+                icon.getInterpolatedV(dims[0]));
         tess.addVertexWithUV(
-                9F / 16F, 14F / 16F, 16F / 16F, icon.getInterpolatedU(dims[1]), icon.getInterpolatedV(dims[4]));
+                9F / 16F,
+                14F / 16F,
+                16F / 16F,
+                icon.getInterpolatedU(dims[1]),
+                icon.getInterpolatedV(dims[4]));
         tess.addVertexWithUV(
-                7F / 16F, 14F / 16F, 16F / 16F, icon.getInterpolatedU(dims[2]), icon.getInterpolatedV(dims[4]));
+                7F / 16F,
+                14F / 16F,
+                16F / 16F,
+                icon.getInterpolatedU(dims[2]),
+                icon.getInterpolatedV(dims[4]));
         tess.draw();
 
         tess.startDrawingQuads();
         tess.addVertexWithUV(
-                7F / 16F, 14F / 16F, 16F / 16F, icon.getInterpolatedU(dims[2]), icon.getInterpolatedV(dims[4]));
+                7F / 16F,
+                14F / 16F,
+                16F / 16F,
+                icon.getInterpolatedU(dims[2]),
+                icon.getInterpolatedV(dims[4]));
         tess.addVertexWithUV(
-                7F / 16F, 16F / 16F, 16F / 16F, icon.getInterpolatedU(dims[3]), icon.getInterpolatedV(dims[4]));
+                7F / 16F,
+                16F / 16F,
+                16F / 16F,
+                icon.getInterpolatedU(dims[3]),
+                icon.getInterpolatedV(dims[4]));
         tess.addVertexWithUV(
-                7F / 16F, 16F / 16F, 0F / 16F, icon.getInterpolatedU(dims[3]), icon.getInterpolatedV(dims[0]));
+                7F / 16F,
+                16F / 16F,
+                0F / 16F,
+                icon.getInterpolatedU(dims[3]),
+                icon.getInterpolatedV(dims[0]));
         tess.addVertexWithUV(
-                7F / 16F, 14F / 16F, 0F / 16F, icon.getInterpolatedU(dims[2]), icon.getInterpolatedV(dims[0]));
+                7F / 16F,
+                14F / 16F,
+                0F / 16F,
+                icon.getInterpolatedU(dims[2]),
+                icon.getInterpolatedV(dims[0]));
         tess.draw();
 
         tess.startDrawingQuads();
         tess.addVertexWithUV(
-                7F / 16F, 16F / 16F, 16F / 16F, icon.getInterpolatedU(dims[2]), icon.getInterpolatedV(dims[4]));
+                7F / 16F,
+                16F / 16F,
+                16F / 16F,
+                icon.getInterpolatedU(dims[2]),
+                icon.getInterpolatedV(dims[4]));
         tess.addVertexWithUV(
-                9F / 16F, 16F / 16F, 16F / 16F, icon.getInterpolatedU(dims[1]), icon.getInterpolatedV(dims[4]));
+                9F / 16F,
+                16F / 16F,
+                16F / 16F,
+                icon.getInterpolatedU(dims[1]),
+                icon.getInterpolatedV(dims[4]));
         tess.addVertexWithUV(
-                9F / 16F, 16F / 16F, 0F / 16F, icon.getInterpolatedU(dims[1]), icon.getInterpolatedV(dims[0]));
+                9F / 16F,
+                16F / 16F,
+                0F / 16F,
+                icon.getInterpolatedU(dims[1]),
+                icon.getInterpolatedV(dims[0]));
         tess.addVertexWithUV(
-                7F / 16F, 16F / 16F, 0F / 16F, icon.getInterpolatedU(dims[2]), icon.getInterpolatedV(dims[0]));
+                7F / 16F,
+                16F / 16F,
+                0F / 16F,
+                icon.getInterpolatedU(dims[2]),
+                icon.getInterpolatedV(dims[0]));
         tess.draw();
 
         icon = banner.getIcon(0, type);

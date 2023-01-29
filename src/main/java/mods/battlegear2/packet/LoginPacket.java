@@ -1,10 +1,13 @@
 package mods.battlegear2.packet;
 
-import io.netty.buffer.ByteBuf;
 import mods.battlegear2.Battlegear;
+
 import net.minecraft.entity.player.EntityPlayer;
 
+import io.netty.buffer.ByteBuf;
+
 public final class LoginPacket extends AbstractMBPacket {
+
     public static final String packetName = "MB|Login";
 
     @Override

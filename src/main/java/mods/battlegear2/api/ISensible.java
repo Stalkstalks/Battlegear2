@@ -1,9 +1,11 @@
 package mods.battlegear2.api;
 
-import com.google.common.base.Predicate;
 import java.util.Iterator;
 
+import com.google.common.base.Predicate;
+
 public interface ISensible<T> {
+
     /**
      * @return true if first arg is different from second arg
      */
@@ -11,9 +13,11 @@ public interface ISensible<T> {
 
     /**
      * Predicate filtering, uses a comparing object of same type and iterating over multiple instance of above interface
+     * 
      * @param <T>
      */
     final class Filter<T> implements Predicate<T> {
+
         private final Iterator<ISensible<T>> senses;
         private final T toCompare;
 
@@ -41,8 +45,7 @@ public interface ISensible<T> {
             if (this == object) {
                 return true;
             }
-            return object != null
-                    && object instanceof Filter<?>
+            return object != null && object instanceof Filter<?>
                     && this.toCompare.equals(((Filter<?>) object).toCompare)
                     && this.senses.equals(((Filter<?>) object).senses);
         }

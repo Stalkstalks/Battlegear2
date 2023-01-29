@@ -1,6 +1,7 @@
 package mods.battlegear2.api.heraldry;
 
 import java.util.List;
+
 import net.minecraft.item.ItemStack;
 
 /**
@@ -15,8 +16,8 @@ public interface IFlagHolder {
 
     /**
      * Add given flag to the TileEntity
-     * @param flag The flag to add
-     * return true if flag could be added
+     * 
+     * @param flag The flag to add return true if flag could be added
      */
     public boolean addFlag(ItemStack flag);
 
@@ -28,6 +29,7 @@ public interface IFlagHolder {
 
     /**
      * Called by the default {@link FlagPoleTileRenderer}
+     * 
      * @param metadata
      * @param section
      * @return the value to interpolate on the flagpole icon, to render the flagpole
@@ -36,6 +38,7 @@ public interface IFlagHolder {
 
     /**
      * Called by the default {@link FlagPoleTileRenderer}
+     * 
      * @param metadata
      * @return the rendered orientation value for the flagpole and thus the flags
      */

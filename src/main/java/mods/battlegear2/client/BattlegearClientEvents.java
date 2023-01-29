@@ -1,10 +1,7 @@
 package mods.battlegear2.client;
 
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.eventhandler.EventPriority;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import java.util.List;
+
 import mods.battlegear2.Battlegear;
 import mods.battlegear2.api.EnchantmentHelper;
 import mods.battlegear2.api.IDyable;
@@ -27,6 +24,7 @@ import mods.battlegear2.enchantments.BaseEnchantment;
 import mods.battlegear2.items.ItemWeapon;
 import mods.battlegear2.packet.PickBlockPacket;
 import mods.battlegear2.utils.BattlegearConfig;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -45,7 +43,13 @@ import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+
 import org.lwjgl.opengl.GL11;
+
+import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.eventhandler.EventPriority;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public final class BattlegearClientEvents {
 
@@ -58,7 +62,7 @@ public final class BattlegearClientEvents {
     // public static int storageIndex;
 
     private static final int MAIN_INV = InventoryPlayer.getHotbarSize();
-    public static final GuiPlaceableButton[] tabsList = {new GuiBGInventoryButton(0), new GuiSigilButton(1)};
+    public static final GuiPlaceableButton[] tabsList = { new GuiBGInventoryButton(0), new GuiSigilButton(1) };
     public static final BattlegearClientEvents INSTANCE = new BattlegearClientEvents();
 
     private BattlegearClientEvents() {
@@ -112,8 +116,7 @@ public final class BattlegearClientEvents {
     }
 
     /**
-     * Bend the models when the item in left hand is used
-     * And stop the right hand inappropriate bending
+     * Bend the models when the item in left hand is used And stop the right hand inappropriate bending
      */
     @SubscribeEvent(priority = EventPriority.LOW)
     public void renderPlayerLeftItemUsage(RenderLivingEvent.Pre event) {
@@ -122,23 +125,19 @@ public final class BattlegearClientEvents {
             ItemStack offhand = ((InventoryPlayerBattle) entityPlayer.inventory).getCurrentOffhandWeapon();
             if (offhand != null && event.renderer instanceof RenderPlayer) {
                 RenderPlayer renderer = ((RenderPlayer) event.renderer);
-                renderer.modelArmorChestplate.heldItemLeft =
-                        renderer.modelArmor.heldItemLeft = renderer.modelBipedMain.heldItemLeft = 1;
+                renderer.modelArmorChestplate.heldItemLeft = renderer.modelArmor.heldItemLeft = renderer.modelBipedMain.heldItemLeft = 1;
                 if (entityPlayer.getItemInUseCount() > 0 && entityPlayer.getItemInUse() == offhand) {
                     EnumAction enumaction = offhand.getItemUseAction();
                     if (enumaction == EnumAction.block) {
-                        renderer.modelArmorChestplate.heldItemLeft =
-                                renderer.modelArmor.heldItemLeft = renderer.modelBipedMain.heldItemLeft = 3;
+                        renderer.modelArmorChestplate.heldItemLeft = renderer.modelArmor.heldItemLeft = renderer.modelBipedMain.heldItemLeft = 3;
                     } else if (enumaction == EnumAction.bow) {
-                        renderer.modelArmorChestplate.aimedBow =
-                                renderer.modelArmor.aimedBow = renderer.modelBipedMain.aimedBow = true;
+                        renderer.modelArmorChestplate.aimedBow = renderer.modelArmor.aimedBow = renderer.modelBipedMain.aimedBow = true;
                     }
                     ItemStack mainhand = entityPlayer.inventory.getCurrentItem();
-                    renderer.modelArmorChestplate.heldItemRight = renderer.modelArmor.heldItemRight =
-                            renderer.modelBipedMain.heldItemRight = mainhand != null ? 1 : 0;
+                    renderer.modelArmorChestplate.heldItemRight = renderer.modelArmor.heldItemRight = renderer.modelBipedMain.heldItemRight = mainhand
+                            != null ? 1 : 0;
                 } else if (((IBattlePlayer) entityPlayer).isBlockingWithShield()) {
-                    renderer.modelArmorChestplate.heldItemLeft =
-                            renderer.modelArmor.heldItemLeft = renderer.modelBipedMain.heldItemLeft = 3;
+                    renderer.modelArmorChestplate.heldItemLeft = renderer.modelArmor.heldItemLeft = renderer.modelBipedMain.heldItemLeft = 3;
                 }
             }
         }
@@ -149,8 +148,7 @@ public final class BattlegearClientEvents {
      */
     @SubscribeEvent(priority = EventPriority.LOW)
     public void resetPlayerLeftHand(RenderPlayerEvent.Post event) {
-        event.renderer.modelArmorChestplate.heldItemLeft =
-                event.renderer.modelArmor.heldItemLeft = event.renderer.modelBipedMain.heldItemLeft = 0;
+        event.renderer.modelArmorChestplate.heldItemLeft = event.renderer.modelArmor.heldItemLeft = event.renderer.modelBipedMain.heldItemLeft = 0;
     }
 
     /**
@@ -197,14 +195,14 @@ public final class BattlegearClientEvents {
     }
 
     private static final int SKELETON_ARROW = 5;
+
     /**
      * Render quiver on skeletons if possible
      */
     @SubscribeEvent
     public void renderLiving(RenderLivingEvent.Post event) {
 
-        if (BattlegearConfig.enableSkeletonQuiver
-                && event.entity instanceof EntitySkeleton
+        if (BattlegearConfig.enableSkeletonQuiver && event.entity instanceof EntitySkeleton
                 && event.renderer instanceof RenderSkeleton) {
 
             GL11.glPushMatrix();
@@ -223,8 +221,10 @@ public final class BattlegearClientEvents {
                     + (((EntitySkeleton) event.entity).posZ - ((EntitySkeleton) event.entity).lastTickPosZ)
                             * BattlegearClientTickHandeler.getPartialTick());
 
-            GL11.glTranslatef((float) (d0 - RenderManager.renderPosX), (float) (d1 - RenderManager.renderPosY), (float)
-                    (d2 - RenderManager.renderPosZ));
+            GL11.glTranslatef(
+                    (float) (d0 - RenderManager.renderPosX),
+                    (float) (d1 - RenderManager.renderPosY),
+                    (float) (d2 - RenderManager.renderPosZ));
 
             GL11.glScalef(1, -1, 1);
 
@@ -302,8 +302,7 @@ public final class BattlegearClientEvents {
                             ItemStack temp;
                             for (int slot = 0; slot < MAIN_INV; slot++) {
                                 temp = mc.thePlayer.inventory.getStackInSlot(slot);
-                                if (temp != null
-                                        && stack.isItemEqual(temp)
+                                if (temp != null && stack.isItemEqual(temp)
                                         && ItemStack.areItemStackTagsEqual(stack, temp)) {
                                     k = slot;
                                     break;
@@ -317,8 +316,8 @@ public final class BattlegearClientEvents {
                             }
                             if (k >= 0 && k < MAIN_INV) {
                                 mc.thePlayer.inventory.currentItem = k;
-                                Battlegear.packetHandler.sendPacketToServer(
-                                        new PickBlockPacket(stack, k).generatePacket());
+                                Battlegear.packetHandler
+                                        .sendPacketToServer(new PickBlockPacket(stack, k).generatePacket());
                             }
                         }
                     }
@@ -329,6 +328,7 @@ public final class BattlegearClientEvents {
 
     /**
      * Equivalent code to the creative pick block
+     * 
      * @param target The client target vector
      * @param player The player trying to pick
      * @return the stack expected for the creative pick button
@@ -346,8 +346,7 @@ public final class BattlegearClientEvents {
                 }
                 return block.getPickBlock(target, world, x, y, z); // TODO support newer version
             } else {
-                if (target.typeOfHit != MovingObjectPosition.MovingObjectType.ENTITY
-                        || target.entityHit == null
+                if (target.typeOfHit != MovingObjectPosition.MovingObjectType.ENTITY || target.entityHit == null
                         || !player.capabilities.isCreativeMode) {
                     return null;
                 }
@@ -358,11 +357,9 @@ public final class BattlegearClientEvents {
     }
 
     /**
-     * Returns a rotation angle that is inbetween two other rotation angles.
-     * par1 and par2 are the angles between which to interpolate, par3 is
-     * probably a float between 0.0 and 1.0 that tells us where "between" the
-     * two angles we are. Example: par1 = 30, par2 = 50, par3 = 0.5, then return
-     * = 40
+     * Returns a rotation angle that is inbetween two other rotation angles. par1 and par2 are the angles between which
+     * to interpolate, par3 is probably a float between 0.0 and 1.0 that tells us where "between" the two angles we are.
+     * Example: par1 = 30, par2 = 50, par3 = 0.5, then return = 40
      */
     public float interpolateRotation(float par1, float par2, float par3) {
         float f3 = par2 - par1;
@@ -384,10 +381,8 @@ public final class BattlegearClientEvents {
     @SubscribeEvent
     public void preStitch(TextureStitchEvent.Pre event) {
         if (event.map.getTextureType() == 1) {
-            ClientProxy.backgroundIcon = new IIcon[] {
-                event.map.registerIcon("battlegear2:slots/mainhand"),
-                event.map.registerIcon("battlegear2:slots/offhand")
-            };
+            ClientProxy.backgroundIcon = new IIcon[] { event.map.registerIcon("battlegear2:slots/mainhand"),
+                    event.map.registerIcon("battlegear2:slots/offhand") };
 
             ClientProxy.bowIcons = new IIcon[3];
             for (int i = 0; i < ClientProxy.bowIcons.length; i++) {
@@ -403,19 +398,19 @@ public final class BattlegearClientEvents {
             }
             // ClientProxy.bowGregIcons = new IIcon[3];
             // for(int i = 0; i < ClientProxy.bowGregIcons.length; i++) {
-            //    ClientProxy.bowGregIcons[i] = event.map.registerIcon("battlegear2:bow.greg_pulling_"+i);
+            // ClientProxy.bowGregIcons[i] = event.map.registerIcon("battlegear2:bow.greg_pulling_"+i);
             // }
 
             // ClientProxy.bowGoldIcons = new IIcon[3];
             // for(int i = 0; i < ClientProxy.bowGoldIcons.length; i++) {
-            //    ClientProxy.bowGoldIcons[i] = event.map.registerIcon("battlegear2:bow.gold_pulling_"+i);
+            // ClientProxy.bowGoldIcons[i] = event.map.registerIcon("battlegear2:bow.gold_pulling_"+i);
             // }
 
             // storageIndex = PatternStore.DEFAULT.buildPatternAndStore(patterns);
-            /*CrestImages.initialise(Minecraft.getMinecraft().getResourceManager());
-            for (HeraldryPattern pattern : HeraldryPattern.patterns) {
-                pattern.registerIcon(event.map);
-            }*/
+            /*
+             * CrestImages.initialise(Minecraft.getMinecraft().getResourceManager()); for (HeraldryPattern pattern :
+             * HeraldryPattern.patterns) { pattern.registerIcon(event.map); }
+             */
         }
     }
 
@@ -423,9 +418,8 @@ public final class BattlegearClientEvents {
     public void onUpdateFOV(FOVUpdateEvent event) {
         float fov = event.fov;
 
-        if (event.entity.isUsingItem()
-                && ((event.entity.getItemInUse().getItem() == BattlegearConfig.mobBowIron)
-                        || (event.entity.getItemInUse().getItem() == BattlegearConfig.modBowDiamond))) {
+        if (event.entity.isUsingItem() && ((event.entity.getItemInUse().getItem() == BattlegearConfig.mobBowIron)
+                || (event.entity.getItemInUse().getItem() == BattlegearConfig.modBowDiamond))) {
             int duration = event.entity.getItemInUseDuration();
             float multiplier = duration / 10.0F;
 
@@ -448,12 +442,16 @@ public final class BattlegearClientEvents {
                 || event.itemStack.getItem() instanceof IExtendedReachWeapon) {
             for (String txt : event.toolTip) {
                 if (txt.startsWith(EnumChatFormatting.BLUE.toString())) {
-                    if (txt.contains(StatCollector.translateToLocal(
+                    if (txt.contains(
+                            StatCollector.translateToLocal(
                                     "attribute.name." + ItemWeapon.armourPenetrate.getAttributeUnlocalizedName()))
-                            || txt.contains(StatCollector.translateToLocal(
-                                    "attribute.name." + ItemWeapon.attackSpeed.getAttributeUnlocalizedName()))
-                            || txt.contains(StatCollector.translateToLocal(
-                                    "attribute.name." + ItemWeapon.extendedReach.getAttributeUnlocalizedName())))
+                            || txt.contains(
+                                    StatCollector.translateToLocal(
+                                            "attribute.name." + ItemWeapon.attackSpeed.getAttributeUnlocalizedName()))
+                            || txt.contains(
+                                    StatCollector.translateToLocal(
+                                            "attribute.name."
+                                                    + ItemWeapon.extendedReach.getAttributeUnlocalizedName())))
                         event.toolTip.set(
                                 event.toolTip.indexOf(txt),
                                 EnumChatFormatting.DARK_GREEN + EnumChatFormatting.getTextWithoutFormattingCodes(txt));
@@ -461,8 +459,8 @@ public final class BattlegearClientEvents {
             }
         }
         if (event.itemStack.getItem() instanceof IBackStabbable) {
-            event.toolTip.add(
-                    EnumChatFormatting.GOLD + StatCollector.translateToLocal("attribute.name.weapon.backstab"));
+            event.toolTip
+                    .add(EnumChatFormatting.GOLD + StatCollector.translateToLocal("attribute.name.weapon.backstab"));
         }
     }
 
@@ -480,21 +478,15 @@ public final class BattlegearClientEvents {
     }
 
     /**
-     * Make a guess over the value of GuiContainer#guiLeft (protected)
-     * Use magic numbers !
-     * NotEnoughItems mod is also changing the gui offset, for some reason.
+     * Make a guess over the value of GuiContainer#guiLeft (protected) Use magic numbers ! NotEnoughItems mod is also
+     * changing the gui offset, for some reason.
      *
      * @param guiContainer the current screen whose value is desired
      * @return the guessed value
      */
     public static int guessGuiLeft(InventoryEffectRenderer guiContainer) {
         int offset = Loader.isModLoaded("NotEnoughItems")
-                        || FMLClientHandler.instance()
-                                .getClientPlayerEntity()
-                                .getActivePotionEffects()
-                                .isEmpty()
-                ? 0
-                : 60;
+                || FMLClientHandler.instance().getClientPlayerEntity().getActivePotionEffects().isEmpty() ? 0 : 60;
         if (guiContainer instanceof GuiContainerCreative) {
             return offset + (guiContainer.width - 195) / 2;
         }
@@ -502,8 +494,7 @@ public final class BattlegearClientEvents {
     }
 
     /**
-     * Make a guess over the value of GuiContainer#guiTop (protected)
-     * Use magic numbers !
+     * Make a guess over the value of GuiContainer#guiTop (protected) Use magic numbers !
      *
      * @param gui the current screen whose value is desired
      * @return the guessed value
@@ -517,9 +508,10 @@ public final class BattlegearClientEvents {
 
     /**
      * Helper method to add buttons to a gui when opened
+     * 
      * @param buttons the List<GuiButton> of the opened gui
      * @param guiLeft horizontal placement parameter
-     * @param guiTop vertical placement parameter
+     * @param guiTop  vertical placement parameter
      */
     public static void onOpenGui(List buttons, int guiLeft, int guiTop) {
         if (BattlegearConfig.enableGuiButtons) {
@@ -527,8 +519,8 @@ public final class BattlegearClientEvents {
             for (GuiPlaceableButton tab : tabsList) {
                 GuiPlaceableButton button = tab.copy();
                 button.place(count, guiLeft, guiTop);
-                button.id = buttons.size()
-                        + 2; // Due to GuiInventory and GuiContainerCreative button performed actions, without them
+                button.id = buttons.size() + 2; // Due to GuiInventory and GuiContainerCreative button performed
+                                                // actions, without them
                 // having buttons...
                 count++;
                 buttons.add(button);

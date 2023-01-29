@@ -1,6 +1,5 @@
 package mods.battlegear2.client.gui;
 
-import cpw.mods.fml.client.FMLClientHandler;
 import mods.battlegear2.Battlegear;
 import mods.battlegear2.api.RenderItemBarEvent;
 import mods.battlegear2.api.core.IBattlePlayer;
@@ -10,6 +9,7 @@ import mods.battlegear2.api.quiver.QuiverArrowRegistry;
 import mods.battlegear2.api.shield.IShield;
 import mods.battlegear2.client.BattlegearClientTickHandeler;
 import mods.battlegear2.utils.BattlegearConfig;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
@@ -20,19 +20,23 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.MinecraftForge;
+
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import cpw.mods.fml.client.FMLClientHandler;
+
 public class BattlegearInGameGUI extends Gui {
 
-    public static final float[] COLOUR_DEFAULT = new float[] {0, 0.75F, 1};
-    public static final float[] COLOUR_RED = new float[] {1, 0.1F, 0.1F};
-    public static final float[] COLOUR_YELLOW = new float[] {1, 1F, 0.1F};
+    public static final float[] COLOUR_DEFAULT = new float[] { 0, 0.75F, 1 };
+    public static final float[] COLOUR_RED = new float[] { 1, 0.1F, 0.1F };
+    public static final float[] COLOUR_YELLOW = new float[] { 1, 1F, 0.1F };
     public static final int SLOT_H = 22;
     public static final RenderItem itemRenderer = new RenderItem();
     public static final ResourceLocation resourceLocation = new ResourceLocation("textures/gui/widgets.png");
-    public static final ResourceLocation resourceLocationShield =
-            new ResourceLocation("battlegear2", "textures/gui/Shield Bar.png");
+    public static final ResourceLocation resourceLocationShield = new ResourceLocation(
+            "battlegear2",
+            "textures/gui/Shield Bar.png");
     private final Minecraft mc;
 
     public BattlegearInGameGUI() {
@@ -44,8 +48,10 @@ public class BattlegearInGameGUI extends Gui {
 
         if (Battlegear.battlegearEnabled && !this.mc.playerController.enableEverythingIsScrewedUpMode()) {
 
-            ScaledResolution scaledresolution =
-                    new ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
+            ScaledResolution scaledresolution = new ScaledResolution(
+                    this.mc,
+                    this.mc.displayWidth,
+                    this.mc.displayHeight);
             int width = scaledresolution.getScaledWidth();
             int height = scaledresolution.getScaledHeight();
             RenderGameOverlayEvent renderEvent = new RenderGameOverlayEvent(frame, scaledresolution, mouseX, mouseY);
@@ -108,14 +114,13 @@ public class BattlegearInGameGUI extends Gui {
         drawTexturedModalRect(x + 31, y, 151, 0, 31, SLOT_H);
 
         if (mc.thePlayer != null) {
-            if (((IBattlePlayer) mc.thePlayer).isBattlemode())
-                this.drawTexturedModalRect(
-                        x + (mc.thePlayer.inventory.currentItem - InventoryPlayerBattle.OFFSET) * 20 - 1,
-                        y - 1,
-                        0,
-                        22,
-                        24,
-                        SLOT_H);
+            if (((IBattlePlayer) mc.thePlayer).isBattlemode()) this.drawTexturedModalRect(
+                    x + (mc.thePlayer.inventory.currentItem - InventoryPlayerBattle.OFFSET) * 20 - 1,
+                    y - 1,
+                    0,
+                    22,
+                    24,
+                    SLOT_H);
             GL11.glEnable(GL12.GL_RESCALE_NORMAL);
             RenderHelper.enableGUIStandardItemLighting();
             for (int i = 0; i < InventoryPlayerBattle.WEAPON_SETS; ++i) {
@@ -173,8 +178,7 @@ public class BattlegearInGameGUI extends Gui {
                 }
             } else {
                 y -= 16;
-                if (mc.thePlayer.isRidingHorse()
-                        || mc.thePlayer.getAir() < 300
+                if (mc.thePlayer.isRidingHorse() || mc.thePlayer.getAir() < 300
                         || ForgeHooks.getTotalArmorValue(mc.thePlayer) > 0) {
                     y -= 10;
                 }

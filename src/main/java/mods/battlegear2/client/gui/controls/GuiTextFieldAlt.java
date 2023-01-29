@@ -1,16 +1,15 @@
 package mods.battlegear2.client.gui.controls;
 
 import java.util.Locale;
+
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiTextField;
 
 /**
- * User: nerd-boy
- * Date: 13/08/13
- * Time: 10:32 AM
- * TODO: Add discription
+ * User: nerd-boy Date: 13/08/13 Time: 10:32 AM TODO: Add discription
  */
 public class GuiTextFieldAlt extends GuiTextField {
+
     public GuiTextFieldAlt(FontRenderer par1FontRenderer, int par2, int par3, int par4, int par5) {
         super(par1FontRenderer, par2, par3, par4, par5);
     }
@@ -41,8 +40,7 @@ public class GuiTextFieldAlt extends GuiTextField {
         int c1 = Integer.parseInt(getText(), 16);
         // 0xa0r0g0b0
         // 0x0000argb
-        return (((c1 & 0xF000) << 16)
-                | ((c1 & 0x0F00) << 12)
+        return (((c1 & 0xF000) << 16) | ((c1 & 0x0F00) << 12)
                 | ((c1 & 0x00F0) << 8)
                 | ((c1 & 0x000F) << 4)
                 | 0x08080808);

@@ -1,11 +1,14 @@
 package mods.battlegear2.packet;
 
-import io.netty.buffer.ByteBuf;
 import mods.battlegear2.api.heraldry.IHeraldryItem;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
+import io.netty.buffer.ByteBuf;
+
 public final class BattlegearChangeHeraldryPacket extends AbstractMBPacket {
+
     public static final String packetName = "MB2|Heraldry";
     private byte[] data;
 

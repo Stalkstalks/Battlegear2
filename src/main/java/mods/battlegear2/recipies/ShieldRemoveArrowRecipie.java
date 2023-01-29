@@ -2,6 +2,7 @@ package mods.battlegear2.recipies;
 
 import mods.battlegear2.api.shield.IArrowDisplay;
 import mods.battlegear2.utils.BattlegearConfig;
+
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;

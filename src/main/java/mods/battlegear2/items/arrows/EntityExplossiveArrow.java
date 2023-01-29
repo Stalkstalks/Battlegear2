@@ -7,6 +7,7 @@ import net.minecraft.world.World;
 
 /**
  * An arrow which causes explosions
+ * 
  * @author GotoLink
  *
  */
@@ -20,12 +21,8 @@ public class EntityExplossiveArrow extends AbstractMBArrow {
         super(par1World, par2EntityLivingBase, par3);
     }
 
-    public EntityExplossiveArrow(
-            World par1World,
-            EntityLivingBase par2EntityLivingBase,
-            EntityLivingBase par3EntityLivingBase,
-            float par4,
-            float par5) {
+    public EntityExplossiveArrow(World par1World, EntityLivingBase par2EntityLivingBase,
+            EntityLivingBase par3EntityLivingBase, float par4, float par5) {
         super(par1World, par2EntityLivingBase, par3EntityLivingBase, par4, par5);
     }
 
@@ -43,8 +40,8 @@ public class EntityExplossiveArrow extends AbstractMBArrow {
 
     public void onExplode() {
         if (!this.worldObj.isRemote) {
-            this.worldObj.createExplosion(
-                    this, this.posX, this.posY, this.posZ, getExplosionStrength(), canBreakBlocks());
+            this.worldObj
+                    .createExplosion(this, this.posX, this.posY, this.posZ, getExplosionStrength(), canBreakBlocks());
             this.setDead();
         }
     }

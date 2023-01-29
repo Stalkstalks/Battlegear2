@@ -1,6 +1,7 @@
 package mods.battlegear2.client.heraldry.tools;
 
 import mods.battlegear2.api.heraldry.ITool;
+
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.util.ResourceLocation;
 
@@ -8,6 +9,7 @@ import net.minecraft.util.ResourceLocation;
  * Created by Aaron on 3/08/13.
  */
 public class EyeDropperTool implements ITool {
+
     @Override
     public String getToolName() {
         return "tool.dropper";

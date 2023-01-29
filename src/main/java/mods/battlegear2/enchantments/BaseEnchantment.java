@@ -1,25 +1,22 @@
 package mods.battlegear2.enchantments;
 
-import com.google.common.base.Optional;
 import mods.battlegear2.api.EnchantmentHelper;
 import mods.battlegear2.api.IEnchantable;
 import mods.battlegear2.api.core.BattlegearUtils;
+
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Property;
+
+import com.google.common.base.Optional;
 
 public class BaseEnchantment extends Enchantment {
 
     private int max;
     private int enchantCoeff;
     private int range;
-    public static Optional<Enchantment> bashWeight,
-            bashPower,
-            bashDamage,
-            shieldUsage,
-            shieldRecover,
-            bowLoot,
+    public static Optional<Enchantment> bashWeight, bashPower, bashDamage, shieldUsage, shieldRecover, bowLoot,
             bowCharge;
     public static EnchantmentHelper helper = new EnchantmentHelper();
 
@@ -84,10 +81,10 @@ public class BaseEnchantment extends Enchantment {
         bashDamage = EnchantmentHelper.build(props[2], "bash.damage", BaseEnchantment.class, 1, 3, 15, 50);
         shieldUsage = EnchantmentHelper.build(props[3], "shield.usage", BaseEnchantment.class, 2, 5, 5, 30);
         shieldRecover = EnchantmentHelper.build(props[4], "shield.recover", BaseEnchantment.class, 3, 4, 20, 20);
-        bowLoot = EnchantmentHelper.build(
-                props[5], "bow.loot", BaseEnchantment.class, 2, EnumEnchantmentType.bow, 10, 50);
-        bowCharge = EnchantmentHelper.build(
-                props[6], "bow.charge", BaseEnchantment.class, 1, EnumEnchantmentType.bow, 20, 20);
+        bowLoot = EnchantmentHelper
+                .build(props[5], "bow.loot", BaseEnchantment.class, 2, EnumEnchantmentType.bow, 10, 50);
+        bowCharge = EnchantmentHelper
+                .build(props[6], "bow.charge", BaseEnchantment.class, 1, EnumEnchantmentType.bow, 20, 20);
     }
 
     @Override

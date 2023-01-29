@@ -1,9 +1,9 @@
 package mods.battlegear2;
 
-import cpw.mods.fml.common.eventhandler.EventPriority;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import java.util.Map;
+
 import mods.battlegear2.api.weapons.*;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.BaseAttributeMap;
@@ -18,11 +18,11 @@ import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
+import cpw.mods.fml.common.eventhandler.EventPriority;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+
 /**
- * User: nerd-boy
- * Date: 30/07/13
- * Time: 12:36 PM
- * Events registered with MinecraftForge event bus on default priority:
+ * User: nerd-boy Date: 30/07/13 Time: 12:36 PM Events registered with MinecraftForge event bus on default priority:
  * {@link LivingAttackEvent}, to perform weapons custom effects
  */
 public final class WeaponHookContainerClass {
@@ -62,17 +62,17 @@ public final class WeaponHookContainerClass {
                     }
                     if (stack.getItem() instanceof IPotionEffect) {
                         performEffects(
-                                ((IPotionEffect) stack.getItem()).getEffectsOnHit(entityHit, entityHitting), entityHit);
+                                ((IPotionEffect) stack.getItem()).getEffectsOnHit(entityHit, entityHitting),
+                                entityHit);
                     }
                     if (!entityHit.worldObj.isRemote) {
                         if (stack.getItem() instanceof IHitTimeModifier) {
-                            if (hurtResistanceTimeTemp
-                                    > entityHit.maxHurtResistantTime * 0.5F) { // Hit shield is in effect
+                            if (hurtResistanceTimeTemp > entityHit.maxHurtResistantTime * 0.5F) { // Hit shield is in
+                                                                                                  // effect
                                 int timeModifier = ((IHitTimeModifier) stack.getItem()).getHitTime(stack, entityHit);
                                 boolean apply = timeModifier != 0;
                                 // If the shield is supposed to be reduced, don't re-apply the effect every time
-                                if (timeModifier < 0
-                                        && entityHit.getAITarget() == entityHitting
+                                if (timeModifier < 0 && entityHit.getAITarget() == entityHitting
                                         && entityHit.ticksExisted - entityHit.func_142015_aE() < -timeModifier) {
                                     apply = false;
                                 }
@@ -94,27 +94,25 @@ public final class WeaponHookContainerClass {
     }
 
     /**
-     * Additional damage sources:
-     * {@code Battlegear#CUSTOM_DAMAGE_SOURCE+".mounted"} to apply mounted bonus attribute
+     * Additional damage sources: {@code Battlegear#CUSTOM_DAMAGE_SOURCE+".mounted"} to apply mounted bonus attribute
      * {@code DamageSource#generic} for penetrative weapons
      */
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onLivingHurt(LivingHurtEvent hurt) {
-        if (hurt.source.getEntity() instanceof EntityLivingBase
-                && hurt.source instanceof EntityDamageSource
+        if (hurt.source.getEntity() instanceof EntityLivingBase && hurt.source instanceof EntityDamageSource
                 && hurt.entityLiving.hurtTime == 0) {
 
             final int hurtResistanceTimeTemp = hurt.entityLiving.hurtResistantTime;
             if (!hurt.source.damageType.startsWith(Battlegear.CUSTOM_DAMAGE_SOURCE)
                     && hurt.source.getEntity().isRiding()) {
                 float damage = (float) ((EntityLivingBase) hurt.source.getEntity())
-                        .getEntityAttribute(Attributes.mountedBonus)
-                        .getAttributeValue();
+                        .getEntityAttribute(Attributes.mountedBonus).getAttributeValue();
                 if (damage > 0) {
                     hurt.entityLiving.hurtResistantTime = 0;
                     hurt.entityLiving.attackEntityFrom(
                             new EntityDamageSource(
-                                    Battlegear.CUSTOM_DAMAGE_SOURCE + ".mounted", hurt.source.getEntity()),
+                                    Battlegear.CUSTOM_DAMAGE_SOURCE + ".mounted",
+                                    hurt.source.getEntity()),
                             damage);
                 }
             }
@@ -123,7 +121,8 @@ public final class WeaponHookContainerClass {
                 hurt.entityLiving.hurtResistantTime = 0;
                 // Attack using the "generic" damage type (ignores armour)
                 hurt.entityLiving.attackEntityFrom(
-                        DamageSource.generic, ((IPenetrateWeapon) itemStack.getItem()).getPenetratingPower(itemStack));
+                        DamageSource.generic,
+                        ((IPenetrateWeapon) itemStack.getItem()).getPenetratingPower(itemStack));
             }
             hurt.entityLiving.hurtResistantTime = hurtResistanceTimeTemp;
         }
@@ -148,8 +147,8 @@ public final class WeaponHookContainerClass {
 
     public boolean performBackStab(Item item, EntityLivingBase entityHit, EntityLivingBase entityHitting) {
         // Get victim and murderer vector views at hit time
-        double[] victimView = new double[] {entityHit.getLookVec().xCoord, entityHit.getLookVec().zCoord};
-        double[] murdererView = new double[] {entityHitting.getLookVec().xCoord, entityHitting.getLookVec().zCoord};
+        double[] victimView = new double[] { entityHit.getLookVec().xCoord, entityHit.getLookVec().zCoord };
+        double[] murdererView = new double[] { entityHitting.getLookVec().xCoord, entityHitting.getLookVec().zCoord };
         // back-stab conditions: vectors are closely enough aligned, (fuzzy parameter might need testing)
         // but not in opposite directions (face to face or sideways)
         if (Math.abs(victimView[0] * murdererView[1] - victimView[1] * murdererView[0]) < backstabFuzzy

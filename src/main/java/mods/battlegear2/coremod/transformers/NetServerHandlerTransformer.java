@@ -1,11 +1,15 @@
 package mods.battlegear2.coremod.transformers;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import java.util.Iterator;
 import java.util.List;
+
 import mods.battlegear2.api.core.BattlegearTranslator;
+
 import net.minecraft.launchwrapper.Launch;
+
 import org.objectweb.asm.tree.*;
+
+import cpw.mods.fml.common.FMLCommonHandler;
 
 public final class NetServerHandlerTransformer extends TransformerBase {
 
@@ -57,8 +61,7 @@ public final class NetServerHandlerTransformer extends TransformerBase {
         while (it.hasNext()) {
             AbstractInsnNode nextNode = it.next();
 
-            if (nextNode instanceof FieldInsnNode
-                    && ((FieldInsnNode) nextNode).owner.equals(entityPlayerMPClassName)
+            if (nextNode instanceof FieldInsnNode && ((FieldInsnNode) nextNode).owner.equals(entityPlayerMPClassName)
                     && ((FieldInsnNode) nextNode).name.equals(playerInventoryFieldName)) {
                 fieldCount++; // count number of playerEntity.inventory use
 
@@ -69,11 +72,12 @@ public final class NetServerHandlerTransformer extends TransformerBase {
                     }
 
                     newList.add(nextNode);
-                    newList.add(new MethodInsnNode(
-                            INVOKESTATIC,
-                            UTILITY_CLASS,
-                            "setPlayerCurrentItem",
-                            "(L" + entityPlayerClassName + ";L" + itemStackClassName + ";)V"));
+                    newList.add(
+                            new MethodInsnNode(
+                                    INVOKESTATIC,
+                                    UTILITY_CLASS,
+                                    "setPlayerCurrentItem",
+                                    "(L" + entityPlayerClassName + ";L" + itemStackClassName + ";)V"));
                     it.next(); // BattlegearUtils.setPlayerCurrentItem(playerEntity, null);
 
                 } else if (fieldCount == 4) {
@@ -85,31 +89,36 @@ public final class NetServerHandlerTransformer extends TransformerBase {
                     // BattlegearUtils.setPlayerCurrentItem(playerEntity,
                     // ItemStack.copyItemStack(this.playerEntity.inventory.getCurrentItem().copy()));
                     newList.add(new VarInsnNode(ALOAD, 0));
-                    newList.add(new FieldInsnNode(
-                            GETFIELD,
-                            netServiceHandelerClassName,
-                            netServiceHandelerPlayerField,
-                            "L" + entityPlayerMPClassName + ";"));
-                    newList.add(new FieldInsnNode(
-                            GETFIELD,
-                            entityPlayerMPClassName,
-                            playerInventoryFieldName,
-                            "L" + inventoryPlayerClassName + ";"));
-                    newList.add(new MethodInsnNode(
-                            INVOKEVIRTUAL,
-                            inventoryPlayerClassName,
-                            inventoryGetCurrentMethodName,
-                            inventoryGetCurrentMethodDesc));
-                    newList.add(new MethodInsnNode(
-                            INVOKESTATIC,
-                            itemStackClassName,
-                            itemStackCopyStackMethodName,
-                            itemStackCopyStackMethodDesc));
-                    newList.add(new MethodInsnNode(
-                            INVOKESTATIC,
-                            UTILITY_CLASS,
-                            "setPlayerCurrentItem",
-                            "(L" + entityPlayerClassName + ";L" + itemStackClassName + ";)V"));
+                    newList.add(
+                            new FieldInsnNode(
+                                    GETFIELD,
+                                    netServiceHandelerClassName,
+                                    netServiceHandelerPlayerField,
+                                    "L" + entityPlayerMPClassName + ";"));
+                    newList.add(
+                            new FieldInsnNode(
+                                    GETFIELD,
+                                    entityPlayerMPClassName,
+                                    playerInventoryFieldName,
+                                    "L" + inventoryPlayerClassName + ";"));
+                    newList.add(
+                            new MethodInsnNode(
+                                    INVOKEVIRTUAL,
+                                    inventoryPlayerClassName,
+                                    inventoryGetCurrentMethodName,
+                                    inventoryGetCurrentMethodDesc));
+                    newList.add(
+                            new MethodInsnNode(
+                                    INVOKESTATIC,
+                                    itemStackClassName,
+                                    itemStackCopyStackMethodName,
+                                    itemStackCopyStackMethodDesc));
+                    newList.add(
+                            new MethodInsnNode(
+                                    INVOKESTATIC,
+                                    UTILITY_CLASS,
+                                    "setPlayerCurrentItem",
+                                    "(L" + entityPlayerClassName + ";L" + itemStackClassName + ";)V"));
                     String fml = FMLCommonHandler.instance().getModName();
                     // MCPC and Minecraft Forkage already add fixes for this, (but not Cauldron ?)
                     if (fml.contains("cauldron")
@@ -134,7 +143,7 @@ public final class NetServerHandlerTransformer extends TransformerBase {
                             newList.add(new InsnNode(RETURN));
                             newList.add(L0);
                             newList.add(new LineNumberNode(line + 1, L0));
-                            newList.add(new FrameNode(F_APPEND, 1, new Object[] {slotClassName}, 0, null));
+                            newList.add(new FrameNode(F_APPEND, 1, new Object[] { slotClassName }, 0, null));
                         } else return false;
                     }
 
@@ -158,18 +167,21 @@ public final class NetServerHandlerTransformer extends TransformerBase {
         while (it.hasNext()) {
             AbstractInsnNode nextInsn = it.next();
             newList.add(nextInsn);
-            if (!done
-                    && nextInsn instanceof MethodInsnNode
+            if (!done && nextInsn instanceof MethodInsnNode
                     && nextInsn.getOpcode() == INVOKEVIRTUAL
                     && ((MethodInsnNode) nextInsn).owner.equals(packet16BlockItemSwitchClassName)
                     && ((MethodInsnNode) nextInsn).name.equals(getItemSwitchId)) {
 
-                newList.add(new MethodInsnNode(
-                        INVOKESTATIC, "mods/battlegear2/api/core/InventoryPlayerBattle", "isValidSwitch", "(I)Z"));
+                newList.add(
+                        new MethodInsnNode(
+                                INVOKESTATIC,
+                                "mods/battlegear2/api/core/InventoryPlayerBattle",
+                                "isValidSwitch",
+                                "(I)Z"));
 
                 while (it.hasNext()) {
-                    if (nextInsn instanceof JumpInsnNode
-                            && nextInsn.getOpcode() == IF_ICMPGE) { // "if int greater than or equal to" branch
+                    if (nextInsn instanceof JumpInsnNode && nextInsn.getOpcode() == IF_ICMPGE) { // "if int greater than
+                                                                                                 // or equal to" branch
                         newList.add(new JumpInsnNode(IFEQ, ((JumpInsnNode) nextInsn).label)); // make "if equal" branch
                         done = true;
                         break;
@@ -191,8 +203,8 @@ public final class NetServerHandlerTransformer extends TransformerBase {
     @Override
     void setupMappings() {
         netServiceHandelerClassName = BattlegearTranslator.getMapedClassName("network.NetHandlerPlayServer");
-        packet16BlockItemSwitchClassName =
-                BattlegearTranslator.getMapedClassName("network.play.client.C09PacketHeldItemChange");
+        packet16BlockItemSwitchClassName = BattlegearTranslator
+                .getMapedClassName("network.play.client.C09PacketHeldItemChange");
         entityPlayerMPClassName = BattlegearTranslator.getMapedClassName("entity.player.EntityPlayerMP");
         inventoryPlayerClassName = BattlegearTranslator.getMapedClassName("entity.player.InventoryPlayer");
         itemStackClassName = BattlegearTranslator.getMapedClassName("item.ItemStack");

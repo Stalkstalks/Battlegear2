@@ -1,11 +1,13 @@
 package mods.battlegear2;
 
+import mods.battlegear2.packet.LoginPacket;
+import mods.battlegear2.recipies.CraftingHandeler;
+
+import net.minecraft.entity.player.EntityPlayerMP;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
-import mods.battlegear2.packet.LoginPacket;
-import mods.battlegear2.recipies.CraftingHandeler;
-import net.minecraft.entity.player.EntityPlayerMP;
 
 public final class BgPlayerTracker {
 
@@ -16,8 +18,8 @@ public final class BgPlayerTracker {
     @SubscribeEvent
     public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
         if (event.player instanceof EntityPlayerMP) {
-            Battlegear.packetHandler.sendPacketToPlayer(
-                    new LoginPacket().generatePacket(), (EntityPlayerMP) event.player);
+            Battlegear.packetHandler
+                    .sendPacketToPlayer(new LoginPacket().generatePacket(), (EntityPlayerMP) event.player);
         }
     }
 

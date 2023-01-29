@@ -5,10 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
 import net.minecraft.util.StatCollector;
 
 public class ImageSplitDialog extends JDialog {
@@ -95,8 +97,7 @@ public class ImageSplitDialog extends JDialog {
         y1slider.setMaximum(4);
         y1slider.setMajorTickSpacing(1);
 
-        String[] split =
-                StatCollector.translateToLocal("gui.splitter.number.y.sections").split("\\*");
+        String[] split = StatCollector.translateToLocal("gui.splitter.number.y.sections").split("\\*");
         JLabel lblNewLabel_2 = new JLabel();
         JLabel lblYSections = new JLabel();
         if (split.length > 1) {
@@ -109,117 +110,124 @@ public class ImageSplitDialog extends JDialog {
         lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
         lblYSections.setHorizontalAlignment(SwingConstants.CENTER);
         GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
-        gl_contentPanel.setHorizontalGroup(gl_contentPanel
-                .createParallelGroup(GroupLayout.Alignment.LEADING)
-                .addGroup(gl_contentPanel
-                        .createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(gl_contentPanel
-                                .createParallelGroup(GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(
-                                        lblNewLabel,
-                                        GroupLayout.Alignment.LEADING,
-                                        GroupLayout.DEFAULT_SIZE,
-                                        GroupLayout.DEFAULT_SIZE,
-                                        Short.MAX_VALUE)
-                                .addComponent(
-                                        x1slider,
-                                        GroupLayout.Alignment.LEADING,
-                                        GroupLayout.DEFAULT_SIZE,
-                                        GroupLayout.DEFAULT_SIZE,
-                                        Short.MAX_VALUE)
-                                .addComponent(
-                                        lblNewLabel_1,
-                                        GroupLayout.Alignment.LEADING,
-                                        GroupLayout.DEFAULT_SIZE,
-                                        GroupLayout.DEFAULT_SIZE,
-                                        Short.MAX_VALUE)
-                                .addComponent(
-                                        x2slider,
-                                        GroupLayout.Alignment.LEADING,
-                                        GroupLayout.DEFAULT_SIZE,
-                                        GroupLayout.DEFAULT_SIZE,
-                                        Short.MAX_VALUE)
-                                .addComponent(
-                                        panel,
-                                        GroupLayout.Alignment.LEADING,
-                                        GroupLayout.DEFAULT_SIZE,
-                                        226,
-                                        Short.MAX_VALUE))
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(gl_contentPanel
-                                .createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                                .addComponent(
-                                        y2slider, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblYSection, GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE))
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(gl_contentPanel
-                                .createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                                .addComponent(
-                                        lblNewLabel_2,
-                                        GroupLayout.DEFAULT_SIZE,
-                                        GroupLayout.DEFAULT_SIZE,
-                                        Short.MAX_VALUE)
-                                .addComponent(y1slider, GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
-                                .addComponent(
-                                        lblYSections,
-                                        GroupLayout.DEFAULT_SIZE,
-                                        GroupLayout.DEFAULT_SIZE,
-                                        Short.MAX_VALUE))
-                        .addContainerGap(44, Short.MAX_VALUE)));
-        gl_contentPanel.setVerticalGroup(gl_contentPanel
-                .createParallelGroup(GroupLayout.Alignment.TRAILING)
-                .addGroup(gl_contentPanel
-                        .createSequentialGroup()
-                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblNewLabel)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(
-                                x1slider,
-                                GroupLayout.PREFERRED_SIZE,
-                                GroupLayout.DEFAULT_SIZE,
-                                GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblNewLabel_1)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(gl_contentPanel
-                                .createParallelGroup(GroupLayout.Alignment.LEADING)
-                                .addGroup(gl_contentPanel
-                                        .createSequentialGroup()
-                                        .addGroup(gl_contentPanel
-                                                .createParallelGroup(GroupLayout.Alignment.BASELINE)
+        gl_contentPanel.setHorizontalGroup(
+                gl_contentPanel.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(
+                        gl_contentPanel.createSequentialGroup().addContainerGap()
+                                .addGroup(
+                                        gl_contentPanel.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
+                                                .addComponent(
+                                                        lblNewLabel,
+                                                        GroupLayout.Alignment.LEADING,
+                                                        GroupLayout.DEFAULT_SIZE,
+                                                        GroupLayout.DEFAULT_SIZE,
+                                                        Short.MAX_VALUE)
+                                                .addComponent(
+                                                        x1slider,
+                                                        GroupLayout.Alignment.LEADING,
+                                                        GroupLayout.DEFAULT_SIZE,
+                                                        GroupLayout.DEFAULT_SIZE,
+                                                        Short.MAX_VALUE)
+                                                .addComponent(
+                                                        lblNewLabel_1,
+                                                        GroupLayout.Alignment.LEADING,
+                                                        GroupLayout.DEFAULT_SIZE,
+                                                        GroupLayout.DEFAULT_SIZE,
+                                                        Short.MAX_VALUE)
                                                 .addComponent(
                                                         x2slider,
-                                                        GroupLayout.PREFERRED_SIZE,
+                                                        GroupLayout.Alignment.LEADING,
                                                         GroupLayout.DEFAULT_SIZE,
-                                                        GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(lblYSection)
-                                                .addGroup(gl_contentPanel
-                                                        .createSequentialGroup()
-                                                        .addComponent(lblNewLabel_2)
-                                                        .addPreferredGap(
-                                                                LayoutStyle.ComponentPlacement.RELATED,
-                                                                GroupLayout.DEFAULT_SIZE,
-                                                                Short.MAX_VALUE)
-                                                        .addComponent(lblYSections)))
-                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(gl_contentPanel
-                                                .createParallelGroup(GroupLayout.Alignment.LEADING)
-                                                .addComponent(y2slider, GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                                                        GroupLayout.DEFAULT_SIZE,
+                                                        Short.MAX_VALUE)
                                                 .addComponent(
                                                         panel,
+                                                        GroupLayout.Alignment.LEADING,
+                                                        GroupLayout.DEFAULT_SIZE,
+                                                        226,
+                                                        Short.MAX_VALUE))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(
+                                        gl_contentPanel.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(
+                                                        y2slider,
+                                                        GroupLayout.DEFAULT_SIZE,
+                                                        GroupLayout.DEFAULT_SIZE,
+                                                        Short.MAX_VALUE)
+                                                .addComponent(
+                                                        lblYSection,
+                                                        GroupLayout.DEFAULT_SIZE,
+                                                        77,
+                                                        Short.MAX_VALUE))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(
+                                        gl_contentPanel.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(
+                                                        lblNewLabel_2,
+                                                        GroupLayout.DEFAULT_SIZE,
+                                                        GroupLayout.DEFAULT_SIZE,
+                                                        Short.MAX_VALUE)
+                                                .addComponent(y1slider, GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
+                                                .addComponent(
+                                                        lblYSections,
+                                                        GroupLayout.DEFAULT_SIZE,
+                                                        GroupLayout.DEFAULT_SIZE,
+                                                        Short.MAX_VALUE))
+                                .addContainerGap(44, Short.MAX_VALUE)));
+        gl_contentPanel.setVerticalGroup(
+                gl_contentPanel.createParallelGroup(GroupLayout.Alignment.TRAILING).addGroup(
+                        gl_contentPanel.createSequentialGroup()
+                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(lblNewLabel)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(
+                                        x1slider,
+                                        GroupLayout.PREFERRED_SIZE,
+                                        GroupLayout.DEFAULT_SIZE,
+                                        GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED).addComponent(lblNewLabel_1)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(
+                                        gl_contentPanel.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(
+                                                gl_contentPanel.createSequentialGroup().addGroup(
+                                                        gl_contentPanel
+                                                                .createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                                .addComponent(
+                                                                        x2slider,
+                                                                        GroupLayout.PREFERRED_SIZE,
+                                                                        GroupLayout.DEFAULT_SIZE,
+                                                                        GroupLayout.PREFERRED_SIZE)
+                                                                .addComponent(lblYSection).addGroup(
+                                                                        gl_contentPanel.createSequentialGroup()
+                                                                                .addComponent(lblNewLabel_2)
+                                                                                .addPreferredGap(
+                                                                                        LayoutStyle.ComponentPlacement.RELATED,
+                                                                                        GroupLayout.DEFAULT_SIZE,
+                                                                                        Short.MAX_VALUE)
+                                                                                .addComponent(lblYSections)))
+                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addGroup(
+                                                                gl_contentPanel
+                                                                        .createParallelGroup(
+                                                                                GroupLayout.Alignment.LEADING)
+                                                                        .addComponent(
+                                                                                y2slider,
+                                                                                GroupLayout.DEFAULT_SIZE,
+                                                                                220,
+                                                                                Short.MAX_VALUE)
+                                                                        .addComponent(
+                                                                                panel,
+                                                                                GroupLayout.PREFERRED_SIZE,
+                                                                                220,
+                                                                                GroupLayout.PREFERRED_SIZE)))
+                                                .addComponent(
+                                                        y1slider,
+                                                        GroupLayout.Alignment.TRAILING,
                                                         GroupLayout.PREFERRED_SIZE,
                                                         220,
-                                                        GroupLayout.PREFERRED_SIZE)))
-                                .addComponent(
-                                        y1slider,
-                                        GroupLayout.Alignment.TRAILING,
-                                        GroupLayout.PREFERRED_SIZE,
-                                        220,
-                                        GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap()));
+                                                        GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap()));
 
         x1slider.addChangeListener(new ChangeListener() {
+
             @Override
             public void stateChanged(ChangeEvent e) {
                 JSlider source = (JSlider) e.getSource();
@@ -230,6 +238,7 @@ public class ImageSplitDialog extends JDialog {
         });
 
         x2slider.addChangeListener(new ChangeListener() {
+
             @Override
             public void stateChanged(ChangeEvent e) {
                 resetImage();
@@ -237,6 +246,7 @@ public class ImageSplitDialog extends JDialog {
         });
 
         y1slider.addChangeListener(new ChangeListener() {
+
             @Override
             public void stateChanged(ChangeEvent e) {
                 JSlider source = (JSlider) e.getSource();
@@ -246,6 +256,7 @@ public class ImageSplitDialog extends JDialog {
         });
 
         y2slider.addChangeListener(new ChangeListener() {
+
             @Override
             public void stateChanged(ChangeEvent e) {
                 resetImage();
@@ -262,19 +273,16 @@ public class ImageSplitDialog extends JDialog {
                 buttonPane.add(okButton);
                 getRootPane().setDefaultButton(okButton);
                 okButton.addActionListener(new AbstractAction() {
+
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         imageSection = image.getSubimage(
-                                (int) (((float) (getX2slider().getValue() - 1)
-                                                / getX1slider().getValue())
+                                (int) (((float) (getX2slider().getValue() - 1) / getX1slider().getValue())
                                         * image.getWidth()),
-                                (int) (((float) (getY2slider().getValue() - 1)
-                                                / getY1slider().getValue())
+                                (int) (((float) (getY2slider().getValue() - 1) / getY1slider().getValue())
                                         * image.getHeight()),
-                                (int) (((float)
-                                        (image.getWidth() / getX1slider().getValue()))),
-                                (int) (((float)
-                                        (image.getHeight() / getY1slider().getValue()))));
+                                (int) (((float) (image.getWidth() / getX1slider().getValue()))),
+                                (int) (((float) (image.getHeight() / getY1slider().getValue()))));
 
                         setVisible(false);
                     }
@@ -284,6 +292,7 @@ public class ImageSplitDialog extends JDialog {
                 JButton cancelButton = new JButton("Cancel");
                 buttonPane.add(cancelButton);
                 cancelButton.addActionListener(new AbstractAction() {
+
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         setVisible(false);
@@ -301,16 +310,15 @@ public class ImageSplitDialog extends JDialog {
         int width = 250;
         int height = 250;
 
-        if (before.getWidth() != width
-                || before.getHeight() != height) { // If the hight of the image is not our targert
-            scaled = new BufferedImage(
-                    width, height, BufferedImage.TYPE_INT_ARGB); // Create a new empty image of the target size
+        if (before.getWidth() != width || before.getHeight() != height) { // If the hight of the image is not our
+                                                                          // targert
+            scaled = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB); // Create a new empty image of the
+                                                                                    // target size
             AffineTransform at = new AffineTransform(); // Create a new Affine Transform
-            at.scale(
-                    (float) width / before.getWidth(),
-                    (float) height / before.getHeight()); // Scale the image to the size we want
-            AffineTransformOp scaleOp =
-                    new AffineTransformOp(at, AffineTransformOp.TYPE_BICUBIC); // use the bi linear transfomation mode
+            at.scale((float) width / before.getWidth(), (float) height / before.getHeight()); // Scale the image to the
+                                                                                              // size we want
+            AffineTransformOp scaleOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BICUBIC); // use the bi linear
+                                                                                                   // transfomation mode
             scaled = scaleOp.filter(before, scaled); // Scale it
         }
 
@@ -318,11 +326,9 @@ public class ImageSplitDialog extends JDialog {
         int yBound = 250 / this.getY1slider().getValue();
 
         for (int x = 0; x < width; x++) {
-            if (x > xBound * (getX2slider().getValue() - 1)
-                    && x < xBound * (getX2slider().getValue())) {
+            if (x > xBound * (getX2slider().getValue() - 1) && x < xBound * (getX2slider().getValue())) {
                 for (int y = 0; y < height; y++) {
-                    if (!(y > yBound * (getY2slider().getValue() - 1)
-                            && y < yBound * (getY2slider().getValue()))) {
+                    if (!(y > yBound * (getY2slider().getValue() - 1) && y < yBound * (getY2slider().getValue()))) {
                         scaled.setRGB(x, y, ((scaled.getRGB(x, y) & 0xfefefe) >> 1) | 0xFF000000);
                     }
                 }

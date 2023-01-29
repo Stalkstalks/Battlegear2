@@ -2,6 +2,7 @@ package mods.battlegear2.client.renderer;
 
 import mods.battlegear2.client.utils.BattlegearRenderHelper;
 import mods.battlegear2.items.ItemSpear;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Tessellator;
@@ -9,23 +10,20 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
+
 import org.lwjgl.opengl.GL11;
 
 /**
- * User: nerd-boy
- * Date: 25/06/13
- * Time: 5:39 PM
- * TODO: Add discription
+ * User: nerd-boy Date: 25/06/13 Time: 5:39 PM TODO: Add discription
  */
 public class SpearRenderer implements IItemRenderer {
+
     private RenderItem itemRenderer;
 
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type) {
-        return item != null
-                && item.getItem() instanceof ItemSpear
-                && (type == ItemRenderType.INVENTORY
-                        || type == ItemRenderType.EQUIPPED
+        return item != null && item.getItem() instanceof ItemSpear
+                && (type == ItemRenderType.INVENTORY || type == ItemRenderType.EQUIPPED
                         || type == ItemRenderType.EQUIPPED_FIRST_PERSON);
     }
 
@@ -69,13 +67,12 @@ public class SpearRenderer implements IItemRenderer {
             // GL11.glRotatef(90, 0, 0, 1);
             // MOJANG derp fixes:
             GL11.glEnable(GL11.GL_ALPHA_TEST);
-            //    GL11.glEnable(GL11.GL_BLEND);
+            // GL11.glEnable(GL11.GL_BLEND);
             itemRenderer.renderIcon(0, 0, item.getIconIndex(), 16, 16);
             GL11.glEnable(GL11.GL_LIGHTING);
             GL11.glDisable(GL11.GL_ALPHA_TEST);
             GL11.glDisable(GL11.GL_BLEND);
-            if (item.hasEffect(0))
-                itemRenderer.renderEffect(Minecraft.getMinecraft().getTextureManager(), 0, 0);
+            if (item.hasEffect(0)) itemRenderer.renderEffect(Minecraft.getMinecraft().getTextureManager(), 0, 0);
         }
         GL11.glPopMatrix();
     }

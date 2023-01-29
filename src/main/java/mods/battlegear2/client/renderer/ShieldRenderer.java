@@ -2,6 +2,7 @@ package mods.battlegear2.client.renderer;
 
 import mods.battlegear2.client.utils.BattlegearRenderHelper;
 import mods.battlegear2.items.ItemShield;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Tessellator;
@@ -9,9 +10,11 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
+
 import org.lwjgl.opengl.GL11;
 
 public class ShieldRenderer implements IItemRenderer {
+
     private RenderItem itemRenderer;
 
     @Override
@@ -138,7 +141,7 @@ public class ShieldRenderer implements IItemRenderer {
                 GL11.glColor3f(red, green, blue);
                 // MOJANG derp fixes:
                 GL11.glEnable(GL11.GL_ALPHA_TEST);
-                //    GL11.glEnable(GL11.GL_BLEND);
+                // GL11.glEnable(GL11.GL_BLEND);
                 itemRenderer.renderIcon(0, 0, icon, 16, 16);
                 GL11.glColor3f(1, 1, 1);
                 icon = shield.getTrimIcon();
@@ -146,8 +149,7 @@ public class ShieldRenderer implements IItemRenderer {
                 GL11.glEnable(GL11.GL_LIGHTING);
                 GL11.glDisable(GL11.GL_ALPHA_TEST);
                 GL11.glDisable(GL11.GL_BLEND);
-                if (item.hasEffect(0))
-                    itemRenderer.renderEffect(Minecraft.getMinecraft().getTextureManager(), 0, 0);
+                if (item.hasEffect(0)) itemRenderer.renderEffect(Minecraft.getMinecraft().getTextureManager(), 0, 0);
                 break;
         }
         BattlegearRenderHelper.renderArrows(item, type == ItemRenderType.ENTITY);

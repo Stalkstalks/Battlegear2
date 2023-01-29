@@ -5,10 +5,12 @@ import mods.battlegear2.client.ClientProxy;
 import mods.battlegear2.gui.BattlegearGUIHandeler;
 import mods.battlegear2.gui.ContainerBattle;
 import mods.battlegear2.packet.BattlegearGUIPacket;
+
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.renderer.InventoryEffectRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
 
 public final class BattleEquipGUI extends InventoryEffectRenderer {
@@ -82,7 +84,7 @@ public final class BattleEquipGUI extends InventoryEffectRenderer {
 
     public static void open(EntityPlayer player) {
         // send packet to open container on server
-        Battlegear.packetHandler.sendPacketToServer(
-                new BattlegearGUIPacket(BattlegearGUIHandeler.equipID).generatePacket());
+        Battlegear.packetHandler
+                .sendPacketToServer(new BattlegearGUIPacket(BattlegearGUIHandeler.equipID).generatePacket());
     }
 }

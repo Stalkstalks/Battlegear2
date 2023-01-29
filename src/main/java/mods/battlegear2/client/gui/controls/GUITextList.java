@@ -2,11 +2,14 @@ package mods.battlegear2.client.gui.controls;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.Tessellator;
+
 import org.lwjgl.opengl.GL11;
 
 public class GUITextList extends GUIScrollList {
+
     private final Box[] texts;
     private final FontRenderer font;
 
@@ -50,6 +53,7 @@ public class GUITextList extends GUIScrollList {
     }
 
     public static class Box {
+
         private final String text;
         public boolean isActivated;
 

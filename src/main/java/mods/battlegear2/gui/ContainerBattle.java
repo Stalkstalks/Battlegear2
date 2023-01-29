@@ -3,6 +3,7 @@ package mods.battlegear2.gui;
 import mods.battlegear2.Battlegear;
 import mods.battlegear2.api.core.InventoryPlayerBattle;
 import mods.battlegear2.packet.BattlegearSyncItemPacket;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -96,7 +97,8 @@ public class ContainerBattle extends ContainerLocalPlayer {
         super.onCraftMatrixChanged(par1IInventory);
         if (!isLocalWorld) {
             Battlegear.packetHandler.sendPacketToPlayer(
-                    new BattlegearSyncItemPacket(thePlayer).generatePacket(), (EntityPlayerMP) thePlayer);
+                    new BattlegearSyncItemPacket(thePlayer).generatePacket(),
+                    (EntityPlayerMP) thePlayer);
         }
     }
 }

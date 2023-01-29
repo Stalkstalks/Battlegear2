@@ -1,6 +1,5 @@
 package mods.battlegear2;
 
-import cpw.mods.fml.common.eventhandler.Event;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -10,14 +9,17 @@ import java.net.URLDecoder;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
+import cpw.mods.fml.common.eventhandler.Event;
+
 /**
- * Help manage "Bukkit" support
- * Fixing possible "Protection" plugins
+ * Help manage "Bukkit" support Fixing possible "Protection" plugins
  */
 public class BukkitWrapper {
+
     private static Object AIR, BLOCK; // The Bukkit Action enum values
     private static Object DENY; // The Bukkit Result.DENY enum value
     private static Method AirInteract, BlockInteract; // The event calling method
@@ -39,7 +41,8 @@ public class BukkitWrapper {
             if (resource.getProtocol().equals("jar")) {
                 Battlegear.logger.info("Loading CraftEventFactory from jar");
                 temp = exploreJar(
-                        ((JarURLConnection) resource.openConnection()).getJarFile(), "org/bukkit/craftbukkit");
+                        ((JarURLConnection) resource.openConnection()).getJarFile(),
+                        "org/bukkit/craftbukkit");
             } else {
                 Battlegear.logger.info("Loading CraftEventFactory from directories");
                 temp = exploreDir(new File(URLDecoder.decode(resource.getPath(), "UTF-8")), "org.bukkit.craftbukkit");
@@ -65,14 +68,14 @@ public class BukkitWrapper {
     }
 
     /**
-     * Send the player interaction data to Bukkit, if it exists
-     * Then apply the answer states to the interaction data
+     * Send the player interaction data to Bukkit, if it exists Then apply the answer states to the interaction data
+     * 
      * @param playerInteracted the interaction data
-     * @param stack data added by Battlegear, hopefully not messed up by Bukkit
+     * @param stack            data added by Battlegear, hopefully not messed up by Bukkit
      */
     public static void callBukkitInteractEvent(PlayerInteractEvent playerInteracted, ItemStack stack) {
         if (AIR == null) // No point if Bukkit isn't here
-        return;
+            return;
         try {
             Object result;
             if (playerInteracted.action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR) {
@@ -109,6 +112,7 @@ public class BukkitWrapper {
 
     /**
      * Search Bukkit event factory class within jar
+     * 
      * @throws ClassNotFoundException
      */
     private static Class<?> exploreJar(JarFile jarPath, String relPath) throws ClassNotFoundException, IOException {
@@ -119,8 +123,7 @@ public class BukkitWrapper {
 
             // Found the event factory, get the full class name.
             if (entryName.endsWith("CraftEventFactory.class") && entryName.startsWith(relPath)) {
-                return Class.forName(
-                        entryName.replace('/', '.').replace('\\', '.').replace(".class", ""));
+                return Class.forName(entryName.replace('/', '.').replace('\\', '.').replace(".class", ""));
             }
         }
         return null;
@@ -128,6 +131,7 @@ public class BukkitWrapper {
 
     /**
      * Search Bukkit event factory class within directories
+     * 
      * @throws ClassNotFoundException
      */
     private static Class<?> exploreDir(File directory, String pkgname) throws ClassNotFoundException {

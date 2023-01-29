@@ -2,7 +2,9 @@ package mods.battlegear2.coremod.transformers;
 
 import java.util.Iterator;
 import java.util.List;
+
 import mods.battlegear2.api.core.BattlegearTranslator;
+
 import org.objectweb.asm.tree.*;
 
 public final class EntityOtherPlayerMPTransformer extends TransformerBase {
@@ -29,8 +31,7 @@ public final class EntityOtherPlayerMPTransformer extends TransformerBase {
         boolean done = false;
         while (it.hasNext() && !done) {
             AbstractInsnNode node = it.next();
-            if (node instanceof FieldInsnNode
-                    && node.getOpcode() == PUTFIELD
+            if (node instanceof FieldInsnNode && node.getOpcode() == PUTFIELD
                     && ((FieldInsnNode) node).owner.equals(entityOtherPlayerMPClassName)
                     && ((FieldInsnNode) node).name.equals(limbSwingFieldName)) {
                 newList.add(node);
@@ -39,11 +40,12 @@ public final class EntityOtherPlayerMPTransformer extends TransformerBase {
                 newList.add(new VarInsnNode(ALOAD, 0));
 
                 newList.add(new FieldInsnNode(GETFIELD, entityOtherPlayerMPClassName, isItemInUseFieldName, "Z"));
-                newList.add(new MethodInsnNode(
-                        INVOKESTATIC,
-                        "mods/battlegear2/client/utils/BattlegearClientUtils",
-                        "entityOtherPlayerIsItemInUseHook",
-                        "(L" + entityOtherPlayerMPClassName + ";Z)Z"));
+                newList.add(
+                        new MethodInsnNode(
+                                INVOKESTATIC,
+                                "mods/battlegear2/client/utils/BattlegearClientUtils",
+                                "entityOtherPlayerIsItemInUseHook",
+                                "(L" + entityOtherPlayerMPClassName + ";Z)Z"));
                 newList.add(new FieldInsnNode(PUTFIELD, entityOtherPlayerMPClassName, isItemInUseFieldName, "Z"));
 
                 node = it.next();

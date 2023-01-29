@@ -1,13 +1,16 @@
 package mods.battlegear2.client.gui;
 
+import mods.battlegear2.Battlegear;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.KeyBinding;
+
+import org.lwjgl.input.Keyboard;
+
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.InputEvent;
-import mods.battlegear2.Battlegear;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.settings.KeyBinding;
-import org.lwjgl.input.Keyboard;
 
 public final class BattlegearGuiKeyHandler {
 

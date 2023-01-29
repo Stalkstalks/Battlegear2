@@ -9,6 +9,7 @@ import mods.battlegear2.client.renderer.HeraldryCrestItemRenderer;
 import mods.battlegear2.gui.BattlegearGUIHandeler;
 import mods.battlegear2.gui.ContainerHeraldry;
 import mods.battlegear2.packet.BattlegearGUIPacket;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -17,6 +18,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
+
 import org.lwjgl.opengl.GL11;
 
 public class BattlegearSigilGUI extends GuiContainer {
@@ -29,7 +31,7 @@ public class BattlegearSigilGUI extends GuiContainer {
     private static final int PAT_COL_3 = 5;
     private static final int COL_SELECT_PAT = 6;
 
-    private static final int[] PAT_BUTTONS = new int[] {PATTERN, PAT_COL_1, PAT_COL_2, PAT_COL_3};
+    private static final int[] PAT_BUTTONS = new int[] { PATTERN, PAT_COL_1, PAT_COL_2, PAT_COL_3 };
 
     private static int RES = 32;
 
@@ -58,9 +60,19 @@ public class BattlegearSigilGUI extends GuiContainer {
         this.elementList = new GUICrestElementList(this, 125, (this.width - 125) / 2);
 
         addButton = new GuiButton(
-                ADD, (this.width - 125) / 2 + 2, 5, 60, 20, StatCollector.translateToLocal("gui.sigil.add"));
+                ADD,
+                (this.width - 125) / 2 + 2,
+                5,
+                60,
+                20,
+                StatCollector.translateToLocal("gui.sigil.add"));
         removeButton = new GuiButton(
-                REMOVE, (this.width - 125) / 2 + 63, 5, 60, 20, StatCollector.translateToLocal("gui.sigil.remove"));
+                REMOVE,
+                (this.width - 125) / 2 + 63,
+                5,
+                60,
+                20,
+                StatCollector.translateToLocal("gui.sigil.remove"));
 
         buttonList.add(addButton);
         buttonList.add(removeButton);
@@ -77,14 +89,22 @@ public class BattlegearSigilGUI extends GuiContainer {
         }
 
         patternToggleButtons[0] = new GuiToggleButton(
-                PAT_BUTTONS[0], (width + 160) / 2, 15, 65, 20, StatCollector.translateToLocal("gui.sigil.pattern"));
+                PAT_BUTTONS[0],
+                (width + 160) / 2,
+                15,
+                65,
+                20,
+                StatCollector.translateToLocal("gui.sigil.pattern"));
         patternToggleButtons[0].enabled = selectedIndex == 0;
         patternToggleButtons[0].visible = selectedIndex == 0;
         buttonList.add(patternToggleButtons[0]);
 
         for (int i = 1; i < patternToggleButtons.length; i++) {
             patternToggleButtons[i] = new GuiColourToggleButton(
-                    PAT_BUTTONS[i], (width + 160) / 2 + 66 + 16 * (i - 1), 18, currentData.getColour(i - 1));
+                    PAT_BUTTONS[i],
+                    (width + 160) / 2 + 66 + 16 * (i - 1),
+                    18,
+                    currentData.getColour(i - 1));
             patternToggleButtons[i].enabled = selectedIndex == 0;
             patternToggleButtons[i].visible = selectedIndex == 0;
             buttonList.add(patternToggleButtons[i]);
@@ -97,9 +117,10 @@ public class BattlegearSigilGUI extends GuiContainer {
                 0xFF000000,
                 GuiColourPicker.COLOUR_DISPLAY | GuiColourPicker.DEFAULT_COLOURS);
 
-        colourPickerPattern.visible =
-                colourPickerPattern.enabled = selectedIndex == 0 && !patternToggleButtons[0].getSelected();
+        colourPickerPattern.visible = colourPickerPattern.enabled = selectedIndex == 0
+                && !patternToggleButtons[0].getSelected();
         colourPickerPattern.addListener(new IControlListener() {
+
             @Override
             public void actionPreformed(GuiButton button) {
                 int selectedToggle = 1;
@@ -132,8 +153,8 @@ public class BattlegearSigilGUI extends GuiContainer {
             patternToggleButtons[i].visible = selectedIndex == 0;
         }
 
-        colourPickerPattern.enabled =
-                colourPickerPattern.visible = selectedIndex == 0 & !patternToggleButtons[0].getSelected();
+        colourPickerPattern.enabled = colourPickerPattern.visible = selectedIndex == 0
+                & !patternToggleButtons[0].getSelected();
 
         addButton.enabled = elementList.getSize() < HeraldryData.MAX_CRESTS + 1;
 
@@ -235,8 +256,8 @@ public class BattlegearSigilGUI extends GuiContainer {
         GL11.glDisable(GL11.GL_ALPHA_TEST);
 
         currentCrest.updateDynamicTexture();
-        ResourceLocation rl =
-                Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("gui_crest", currentCrest);
+        ResourceLocation rl = Minecraft.getMinecraft().getTextureManager()
+                .getDynamicTextureLocation("gui_crest", currentCrest);
         Minecraft.getMinecraft().getTextureManager().bindTexture(rl);
         drawTexturedModalRect((width - 400) / 2 + 16, 50 + 16, 96, 96, 0, 0, 1, 1);
 
@@ -247,15 +268,18 @@ public class BattlegearSigilGUI extends GuiContainer {
     /**
      * Draws a textured rectangle at the stored z-value. Args: x, y, u, v, width, height
      */
-    public void drawTexturedModalRect(
-            int x, int y, int width, int height, int tex_x, int tex_y, int tex_width, int tex_height) {
+    public void drawTexturedModalRect(int x, int y, int width, int height, int tex_x, int tex_y, int tex_width,
+            int tex_height) {
         float f = 0.00390625F;
         float f1 = 0.00390625F;
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawingQuads();
         tessellator.addVertexWithUV(
-                (double) (x + 0), (double) (y + height), (double) this.zLevel, (double) ((float) (tex_x + 0)), (double)
-                        ((float) (tex_y + tex_height)));
+                (double) (x + 0),
+                (double) (y + height),
+                (double) this.zLevel,
+                (double) ((float) (tex_x + 0)),
+                (double) ((float) (tex_y + tex_height)));
         tessellator.addVertexWithUV(
                 (double) (x + width),
                 (double) (y + height),
@@ -269,14 +293,17 @@ public class BattlegearSigilGUI extends GuiContainer {
                 (double) ((float) (tex_x + tex_width)),
                 (double) ((float) (tex_y + 0)));
         tessellator.addVertexWithUV(
-                (double) (x + 0), (double) (y + 0), (double) this.zLevel, (double) ((float) (tex_x + 0)), (double)
-                        ((float) (tex_y + 0)));
+                (double) (x + 0),
+                (double) (y + 0),
+                (double) this.zLevel,
+                (double) ((float) (tex_x + 0)),
+                (double) ((float) (tex_y + 0)));
         tessellator.draw();
     }
 
     public static void open(EntityPlayer player) {
         // send packet to open container on server
-        Battlegear.packetHandler.sendPacketToServer(
-                new BattlegearGUIPacket(BattlegearGUIHandeler.sigilEditor).generatePacket());
+        Battlegear.packetHandler
+                .sendPacketToServer(new BattlegearGUIPacket(BattlegearGUIHandeler.sigilEditor).generatePacket());
     }
 }

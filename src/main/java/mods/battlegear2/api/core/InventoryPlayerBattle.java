@@ -1,7 +1,5 @@
 package mods.battlegear2.api.core;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -11,13 +9,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.MinecraftForge;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 /**
- * User: nerd-boy
- * Date: 15/07/13
- * Time: 3:08 PM
- * Replacement for the player inventory
+ * User: nerd-boy Date: 15/07/13 Time: 3:08 PM Replacement for the player inventory
  */
 public class InventoryPlayerBattle extends InventoryPlayer {
+
     // Mark the inventory content as dirty to be send to the client
     public boolean hasChanged = true;
     // The offsets used
@@ -44,6 +43,7 @@ public class InventoryPlayerBattle extends InventoryPlayer {
 
     /**
      * Returns a new slot index according to the type
+     * 
      * @param type determines which inventory array to expand
      * @return the new slot index, or Integer.MIN_VALUE if it is not possible to expand further
      */
@@ -77,6 +77,7 @@ public class InventoryPlayerBattle extends InventoryPlayer {
 
     /**
      * Patch used for "set current slot" vanilla packets
+     * 
      * @param id the value to test for currentItem setting
      * @return true if it is possible for currentItem to be set with this value
      */
@@ -99,8 +100,7 @@ public class InventoryPlayerBattle extends InventoryPlayer {
     @SideOnly(Side.CLIENT)
     private int getInventorySlotContainItemAndDamage(Item par1, int par2) {
         for (int k = 0; k < this.extraItems.length; ++k) {
-            if (this.extraItems[k] != null
-                    && this.extraItems[k].getItem() == par1
+            if (this.extraItems[k] != null && this.extraItems[k].getItem() == par1
                     && this.extraItems[k].getItemDamage() == par2) {
                 return k;
             }
@@ -110,6 +110,7 @@ public class InventoryPlayerBattle extends InventoryPlayer {
 
     /**
      * Allows the item switching in "battlemode", delegates to parent method if in normal mode
+     * 
      * @return the currently selected {@link ItemStack}
      */
     @Override
@@ -119,8 +120,9 @@ public class InventoryPlayerBattle extends InventoryPlayer {
 
     /**
      * Changes currentItem and currentItemStack based on a given target
-     * @param targetItem the newly selected item
-     * @param targetDamage the newly selected item damage
+     * 
+     * @param targetItem        the newly selected item
+     * @param targetDamage      the newly selected item damage
      * @param compareWithDamage if item damage should matter when searching for the target in the inventory
      * @param forceInEmptySlots if the newly selected item should be forced in empty slots if it couldn't be found as-is
      */
@@ -132,6 +134,7 @@ public class InventoryPlayerBattle extends InventoryPlayer {
 
     /**
      * Scroll the currentItem possible values
+     * 
      * @param direction if >0: in the natural order, if <0: in the opposite order
      */
     @Override
@@ -145,7 +148,7 @@ public class InventoryPlayerBattle extends InventoryPlayer {
                 direction = -1;
             }
 
-            //noinspection StatementWithEmptyBody
+            // noinspection StatementWithEmptyBody
             for (currentItem -= direction; currentItem < OFFSET; currentItem += WEAPON_SETS) {}
 
             while (currentItem >= OFFSET + WEAPON_SETS) {
@@ -159,7 +162,8 @@ public class InventoryPlayerBattle extends InventoryPlayer {
 
     /**
      * Clears all slots that contain the target item with given damage
-     * @param targetId if null, not specific
+     * 
+     * @param targetId     if null, not specific
      * @param targetDamage if <0, not specific
      * @return the total number of items cleared
      */
@@ -168,8 +172,7 @@ public class InventoryPlayerBattle extends InventoryPlayer {
         int stacks = 0;
 
         for (int i = 0; i < extraItems.length; i++) {
-            if (extraItems[i] != null
-                    && (targetId == null || extraItems[i].getItem() == targetId)
+            if (extraItems[i] != null && (targetId == null || extraItems[i].getItem() == targetId)
                     && (targetDamage <= -1 || extraItems[i].getItemDamage() == targetDamage)) {
 
                 stacks += extraItems[i].stackSize;
@@ -181,15 +184,15 @@ public class InventoryPlayerBattle extends InventoryPlayer {
     }
 
     /**
-     *  Called by EntityPlayer#onLivingUpdate(), to animate the item being picked up and tick it
+     * Called by EntityPlayer#onLivingUpdate(), to animate the item being picked up and tick it
      */
     @Override
     public void decrementAnimations() {
         super.decrementAnimations();
         for (int i = 0; i < this.extraItems.length; ++i) {
             if (this.extraItems[i] != null) {
-                this.extraItems[i].updateAnimation(
-                        this.player.worldObj, this.player, i + OFFSET, this.currentItem == i + OFFSET);
+                this.extraItems[i]
+                        .updateAnimation(this.player.worldObj, this.player, i + OFFSET, this.currentItem == i + OFFSET);
             }
         }
     }
@@ -215,6 +218,7 @@ public class InventoryPlayerBattle extends InventoryPlayer {
 
     /**
      * Get if a specified item id is inside the inventory.
+     * 
      * @param par1 the item to search for
      */
     @Override
@@ -229,7 +233,8 @@ public class InventoryPlayerBattle extends InventoryPlayer {
 
     /**
      * Removes from an inventory slot up to a specified number of items and returns them in a new stack.
-     * @param slot to remove from
+     * 
+     * @param slot   to remove from
      * @param amount to remove in the item stack
      * @return the removed items in a item stack, if any
      */
@@ -261,6 +266,7 @@ public class InventoryPlayerBattle extends InventoryPlayer {
 
     /**
      * Get the stack in given slot, when closing the container
+     * 
      * @param slot to get the content from
      * @return the stack that is stored in given slot
      */
@@ -275,7 +281,8 @@ public class InventoryPlayerBattle extends InventoryPlayer {
 
     /**
      * Sets the given item stack to the specified slot in the inventory
-     * @param slot whose content will change
+     * 
+     * @param slot      whose content will change
      * @param itemStack to put in the slot
      */
     @Override
@@ -285,9 +292,10 @@ public class InventoryPlayerBattle extends InventoryPlayer {
 
     /**
      * Sets the given item stack to the specified slot in the inventory, mark as dirty according to the boolean argument
-     * @param slot whose content will change
+     * 
+     * @param slot      whose content will change
      * @param itemStack to put in the slot
-     * @param changed if the inventory packet should be sent next tick
+     * @param changed   if the inventory packet should be sent next tick
      */
     public void setInventorySlotContents(int slot, ItemStack itemStack, boolean changed) {
         if (slot >= OFFSET) {
@@ -299,8 +307,8 @@ public class InventoryPlayerBattle extends InventoryPlayer {
     }
 
     /**
-     * UNUSED
-     * Get the current item "action value" against a block
+     * UNUSED Get the current item "action value" against a block
+     * 
      * @param block that the player is acting against
      * @return some action value of the current item against given block
      */
@@ -316,8 +324,8 @@ public class InventoryPlayerBattle extends InventoryPlayer {
     }
 
     /**
-     * Writes the inventory out as a list of compound tags. This is where the slot indices are used (+100 for armor, +150
-     * for battle slots).
+     * Writes the inventory out as a list of compound tags. This is where the slot indices are used (+100 for armor,
+     * +150 for battle slots).
      */
     @Override
     public NBTTagList writeToNBT(NBTTagList par1nbtTagList) {
@@ -337,7 +345,8 @@ public class InventoryPlayerBattle extends InventoryPlayer {
     }
 
     /**
-     * Reads from the given tag list, resize each arrays to maximum required and fills the slots in the inventory with the correct items.
+     * Reads from the given tag list, resize each arrays to maximum required and fills the slots in the inventory with
+     * the correct items.
      */
     @Override
     public void readFromNBT(NBTTagList nbtTagList) {
@@ -415,6 +424,7 @@ public class InventoryPlayerBattle extends InventoryPlayer {
 
     /**
      * Copy the slots content from another instance, usually for changing dimensions
+     * 
      * @param par1InventoryPlayer the instance to copy from
      */
     @Override
@@ -432,6 +442,7 @@ public class InventoryPlayerBattle extends InventoryPlayer {
 
     /**
      * Get the offset item (for the left hand)
+     * 
      * @return the item held in left hand, if any
      */
     public ItemStack getCurrentOffhandWeapon() {

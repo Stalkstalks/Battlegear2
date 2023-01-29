@@ -2,6 +2,7 @@ package mods.battlegear2.client.heraldry.tools;
 
 import mods.battlegear2.api.heraldry.ITool;
 import mods.battlegear2.client.utils.ImageData;
+
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.util.ResourceLocation;
 

@@ -1,7 +1,5 @@
 package mods.battlegear2;
 
-import cpw.mods.fml.common.eventhandler.Event.Result;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import mods.battlegear2.api.PlayerEventChild;
 import mods.battlegear2.api.core.InventoryPlayerBattle;
 import mods.battlegear2.api.quiver.IArrowContainer2;
@@ -10,6 +8,7 @@ import mods.battlegear2.api.quiver.ISpecialBow;
 import mods.battlegear2.api.quiver.QuiverArrowRegistry;
 import mods.battlegear2.enchantments.BaseEnchantment;
 import mods.battlegear2.items.arrows.AbstractMBArrow;
+
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,6 +20,9 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.player.ArrowLooseEvent;
 import net.minecraftforge.event.entity.player.ArrowNockEvent;
+
+import cpw.mods.fml.common.eventhandler.Event.Result;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public final class BowHookContainerClass2 {
 
@@ -70,28 +72,24 @@ public final class BowHookContainerClass2 {
             canDrawBow = ((ISpecialBow) event.result.getItem()).canDrawBow(event.result, event.entityPlayer);
         }
         // Special bow did not determine a result, so use standard algorithms instead:
-        if (canDrawBow == Result.DEFAULT
-                && (event.entityPlayer.capabilities.isCreativeMode
-                        || event.entityPlayer.inventory.hasItem(Items.arrow))) {
+        if (canDrawBow == Result.DEFAULT && (event.entityPlayer.capabilities.isCreativeMode
+                || event.entityPlayer.inventory.hasItem(Items.arrow))) {
             canDrawBow = Result.ALLOW;
         }
         if (canDrawBow == Result.DEFAULT) {
             ItemStack quiver = QuiverArrowRegistry.getArrowContainer(event.result, event.entityPlayer);
-            if (quiver != null
-                    && ((IArrowContainer2) quiver.getItem())
-                            .hasArrowFor(
-                                    quiver,
-                                    event.result,
-                                    event.entityPlayer,
-                                    ((IArrowContainer2) quiver.getItem()).getSelectedSlot(quiver))) {
+            if (quiver != null && ((IArrowContainer2) quiver.getItem()).hasArrowFor(
+                    quiver,
+                    event.result,
+                    event.entityPlayer,
+                    ((IArrowContainer2) quiver.getItem()).getSelectedSlot(quiver))) {
                 canDrawBow = Result.ALLOW;
             }
         }
         // only nock if allowed
         if (canDrawBow == Result.ALLOW) {
-            int usage =
-                    mods.battlegear2.api.EnchantmentHelper.getEnchantmentLevel(BaseEnchantment.bowCharge, event.result)
-                            * 20000;
+            int usage = mods.battlegear2.api.EnchantmentHelper
+                    .getEnchantmentLevel(BaseEnchantment.bowCharge, event.result) * 20000;
             event.entityPlayer.setItemInUse(event.result, event.result.getMaxItemUseDuration() - usage);
             event.setCanceled(true);
         }
@@ -99,8 +97,8 @@ public final class BowHookContainerClass2 {
 
     /**
      *
-     * @param item the item to check
-     * @param bow the bow trying to fire an arrow
+     * @param item         the item to check
+     * @param bow          the bow trying to fire an arrow
      * @param entityPlayer the player trying to fire an arrow
      * @return true if the item can give an arrow
      */
@@ -127,8 +125,10 @@ public final class BowHookContainerClass2 {
                 World world = event.entityPlayer.worldObj;
                 EntityArrow entityarrow = quiver.getArrowType(stack, world, event.entityPlayer, f * 2.0F);
                 if (entityarrow != null) {
-                    PlayerEventChild.QuiverArrowEvent.Firing arrowEvent =
-                            new PlayerEventChild.QuiverArrowEvent.Firing(event, stack, entityarrow);
+                    PlayerEventChild.QuiverArrowEvent.Firing arrowEvent = new PlayerEventChild.QuiverArrowEvent.Firing(
+                            event,
+                            stack,
+                            entityarrow);
                     quiver.onPreArrowFired(arrowEvent);
                     if (!MinecraftForge.EVENT_BUS.post(arrowEvent)) {
                         if (arrowEvent.isCritical || f == 1.0F) entityarrow.setIsCritical(true);
@@ -146,12 +146,11 @@ public final class BowHookContainerClass2 {
                             }
                         }
                         if (arrowEvent.bowDamage > 0) event.bow.damageItem(arrowEvent.bowDamage, event.entityPlayer);
-                        if (arrowEvent.bowSoundVolume > 0)
-                            world.playSoundAtEntity(
-                                    arrowEvent.getPlayer(),
-                                    arrowEvent.bowSound,
-                                    arrowEvent.bowSoundVolume,
-                                    1.0F / (arrowEvent.getPlayer().getRNG().nextFloat() * 0.4F + 1.2F) + f * 0.5F);
+                        if (arrowEvent.bowSoundVolume > 0) world.playSoundAtEntity(
+                                arrowEvent.getPlayer(),
+                                arrowEvent.bowSound,
+                                arrowEvent.bowSoundVolume,
+                                1.0F / (arrowEvent.getPlayer().getRNG().nextFloat() * 0.4F + 1.2F) + f * 0.5F);
                         if (!world.isRemote) world.spawnEntityInWorld(entityarrow);
                         quiver.onArrowFired(world, arrowEvent.getPlayer(), stack, event.bow, entityarrow);
                         // Canceling the event, since we successfully fired our own arrow

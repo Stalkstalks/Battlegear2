@@ -2,16 +2,15 @@ package mods.battlegear2.client.heraldry.tools;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+
 import mods.battlegear2.api.heraldry.ITool;
 import mods.battlegear2.client.utils.ImageData;
+
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.util.ResourceLocation;
 
 /**
- * User: nerd-boy
- * Date: 13/08/13
- * Time: 2:57 PM
- * TODO: Add discription
+ * User: nerd-boy Date: 13/08/13 Time: 2:57 PM TODO: Add discription
  */
 public class TextTool implements ITool {
 
@@ -42,8 +41,7 @@ public class TextTool implements ITool {
         g.setFont(f);
         g.drawString(text, click_x, click_y);
 
-        int length = (int) f.getStringBounds(text, 0, text.length(), g.getFontRenderContext())
-                .getMaxX();
+        int length = (int) f.getStringBounds(text, 0, text.length(), g.getFontRenderContext()).getMaxX();
 
         if ((System.currentTimeMillis() / 500) % 2 == 0)
             g.drawLine(length + click_x + 1, click_y, length + click_x + 1, click_y - 8);

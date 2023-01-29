@@ -2,6 +2,7 @@ package mods.battlegear2.client.gui.controls;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+
 import org.lwjgl.opengl.GL11;
 
 public class GuiColourToggleButton extends GuiToggleButton {
@@ -13,9 +14,12 @@ public class GuiColourToggleButton extends GuiToggleButton {
         this.colour = colour;
 
         System.out.println(
-                ((float) ((colour >> 24) & 0x000000FF) / 255F) + ", " + ((float) ((colour >> 16) & 0x000000FF) / 255F)
-                        + ", " + ((float) ((colour >> 8) & 0x000000FF) / 255F)
-                        + ", " + ((float) ((colour >> 0) & 0x000000FF) / 255F));
+                ((float) ((colour >> 24) & 0x000000FF) / 255F) + ", "
+                        + ((float) ((colour >> 16) & 0x000000FF) / 255F)
+                        + ", "
+                        + ((float) ((colour >> 8) & 0x000000FF) / 255F)
+                        + ", "
+                        + ((float) ((colour >> 0) & 0x000000FF) / 255F));
     }
 
     @Override
@@ -25,8 +29,7 @@ public class GuiColourToggleButton extends GuiToggleButton {
             FontRenderer fontrenderer = par1Minecraft.fontRenderer;
             par1Minecraft.getTextureManager().bindTexture(GuiToggleButton.resourceLocation);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            this.field_146123_n = par2 >= this.xPosition
-                    && par3 >= this.yPosition
+            this.field_146123_n = par2 >= this.xPosition && par3 >= this.yPosition
                     && par2 < this.xPosition + this.width
                     && par3 < this.yPosition + this.height;
             int k = this.getHoverState(this.field_146123_n);

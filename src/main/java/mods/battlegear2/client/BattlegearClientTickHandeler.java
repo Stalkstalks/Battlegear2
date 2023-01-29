@@ -1,12 +1,5 @@
 package mods.battlegear2.client;
 
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.common.eventhandler.Event;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.common.network.internal.FMLProxyPacket;
-import cpw.mods.fml.relauncher.Side;
 import mods.battlegear2.Battlegear;
 import mods.battlegear2.BattlemodeHookContainerClass;
 import mods.battlegear2.api.EnchantmentHelper;
@@ -23,6 +16,7 @@ import mods.battlegear2.packet.BattlegearAnimationPacket;
 import mods.battlegear2.packet.BattlegearShieldBlockPacket;
 import mods.battlegear2.packet.OffhandPlaceBlockPacket;
 import mods.battlegear2.utils.EnumBGAnimations;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
@@ -40,9 +34,19 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+
 import org.lwjgl.input.Keyboard;
 
+import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.common.eventhandler.Event;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.common.network.internal.FMLProxyPacket;
+import cpw.mods.fml.relauncher.Side;
+
 public final class BattlegearClientTickHandeler {
+
     private static final int FLASH_MAX = 30;
     private final KeyBinding drawWeapons, special;
     private final Minecraft mc;
@@ -71,8 +75,7 @@ public final class BattlegearClientTickHandeler {
             if (mc.thePlayer != null && mc.theWorld != null && mc.currentScreen == null) {
                 EntityClientPlayerMP player = mc.thePlayer;
                 if (event.phase == TickEvent.Phase.START) {
-                    if (!specialDone
-                            && special.getIsKeyPressed()
+                    if (!specialDone && special.getIsKeyPressed()
                             && ((IBattlePlayer) player).getSpecialActionTimer() == 0) {
                         ItemStack quiver = QuiverArrowRegistry.getArrowContainer(player);
 
@@ -85,15 +88,13 @@ public final class BattlegearClientTickHandeler {
                             ItemStack offhand = ((InventoryPlayerBattle) player.inventory).getCurrentOffhandWeapon();
 
                             if (offhand != null && offhand.getItem() instanceof IShield) {
-                                float shieldBashPenalty = 0.33F
-                                        - 0.06F
-                                                * EnchantmentHelper.getEnchantmentLevel(
-                                                        BaseEnchantment.bashWeight, offhand);
+                                float shieldBashPenalty = 0.33F - 0.06F
+                                        * EnchantmentHelper.getEnchantmentLevel(BaseEnchantment.bashWeight, offhand);
 
                                 if (blockBar >= shieldBashPenalty) {
                                     FMLProxyPacket p = new BattlegearAnimationPacket(
-                                                    EnumBGAnimations.SpecialAction, player)
-                                            .generatePacket();
+                                            EnumBGAnimations.SpecialAction,
+                                            player).generatePacket();
                                     Battlegear.packetHandler.sendPacketToServer(p);
                                     ((IBattlePlayer) player)
                                             .setSpecialActionTimer(((IShield) offhand.getItem()).getBashTimer(offhand));
@@ -186,11 +187,10 @@ public final class BattlegearClientTickHandeler {
                             blockBar = 1;
                         }
                     }
-                } else if (mc.gameSettings.keyBindUseItem.getIsKeyPressed()
-                        && mc.rightClickDelayTimer == 4
+                } else if (mc.gameSettings.keyBindUseItem.getIsKeyPressed() && mc.rightClickDelayTimer == 4
                         && !player.isUsingItem()) {
-                    tryCheckUseItem(offhand, player);
-                }
+                            tryCheckUseItem(offhand, player);
+                        }
             }
         }
     }
@@ -207,12 +207,25 @@ public final class BattlegearClientTickHandeler {
                 int i1 = mouseOver.sideHit;
                 PlayerEventChild.UseOffhandItemEvent useItemEvent = new PlayerEventChild.UseOffhandItemEvent(
                         new PlayerInteractEvent(
-                                player, PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK, j, k, l, i1, player.worldObj),
+                                player,
+                                PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK,
+                                j,
+                                k,
+                                l,
+                                i1,
+                                player.worldObj),
                         offhand);
                 if (!MinecraftForge.EVENT_BUS.post(useItemEvent)) {
                     BattlegearUtils.refreshAttributes(player, false);
                     boolean result = onPlayerPlaceBlock(
-                            mc.playerController, player, useItemEvent.offhand, j, k, l, i1, mouseOver.hitVec);
+                            mc.playerController,
+                            player,
+                            useItemEvent.offhand,
+                            j,
+                            k,
+                            l,
+                            i1,
+                            mouseOver.hitVec);
                     BattlegearUtils.refreshAttributes(player, true);
                     if (result) {
                         if (useItemEvent.swingOffhand)
@@ -231,7 +244,13 @@ public final class BattlegearClientTickHandeler {
             offhand = ((InventoryPlayerBattle) player.inventory).getCurrentOffhandWeapon();
             PlayerEventChild.UseOffhandItemEvent useItemEvent = new PlayerEventChild.UseOffhandItemEvent(
                     new PlayerInteractEvent(
-                            player, PlayerInteractEvent.Action.RIGHT_CLICK_AIR, 0, 0, 0, -1, player.worldObj),
+                            player,
+                            PlayerInteractEvent.Action.RIGHT_CLICK_AIR,
+                            0,
+                            0,
+                            0,
+                            -1,
+                            player.worldObj),
                     offhand);
             if (offhand != null && !MinecraftForge.EVENT_BUS.post(useItemEvent)) {
                 Battlegear.packetHandler.sendPacketToServer(
@@ -261,15 +280,8 @@ public final class BattlegearClientTickHandeler {
         }
     }
 
-    private boolean onPlayerPlaceBlock(
-            PlayerControllerMP controller,
-            EntityPlayer player,
-            ItemStack offhand,
-            int i,
-            int j,
-            int k,
-            int l,
-            Vec3 hitVec) {
+    private boolean onPlayerPlaceBlock(PlayerControllerMP controller, EntityPlayer player, ItemStack offhand, int i,
+            int j, int k, int l, Vec3 hitVec) {
         float f = (float) hitVec.xCoord - (float) i;
         float f1 = (float) hitVec.yCoord - (float) j;
         float f2 = (float) hitVec.zCoord - (float) k;
@@ -279,8 +291,7 @@ public final class BattlegearClientTickHandeler {
         if (offhand.getItem().onItemUseFirst(offhand, player, worldObj, i, j, k, l, f, f1, f2)) {
             return true;
         }
-        if (!player.isSneaking()
-                || player.getCurrentEquippedItem() == null
+        if (!player.isSneaking() || player.getCurrentEquippedItem() == null
                 || player.getCurrentEquippedItem().getItem().doesSneakBypassUse(worldObj, i, j, k, player)) {
             Block b = worldObj.getBlock(i, j, k);
             if (!b.isAir(worldObj, i, j, k) && b.onBlockActivated(worldObj, i, j, k, player, l, f, f1, f2)) {
@@ -293,8 +304,8 @@ public final class BattlegearClientTickHandeler {
                 return false;
             }
         }
-        Battlegear.packetHandler.sendPacketToServer(
-                new OffhandPlaceBlockPacket(i, j, k, l, offhand, f, f1, f2).generatePacket());
+        Battlegear.packetHandler
+                .sendPacketToServer(new OffhandPlaceBlockPacket(i, j, k, l, offhand, f, f1, f2).generatePacket());
         if (flag) {
             return true;
         } else if (offhand == null) {
@@ -336,12 +347,11 @@ public final class BattlegearClientTickHandeler {
             if (mainhand != null && mainhand.getItem() instanceof IExtendedReachWeapon) {
                 float extendedReach = ((IExtendedReachWeapon) mainhand.getItem()).getReachModifierInBlocks(mainhand);
                 if (extendedReach > 0) {
-                    MovingObjectPosition mouseOver = Battlegear.proxy.getMouseOver(
-                            partialTick, extendedReach + mc.playerController.getBlockReachDistance());
+                    MovingObjectPosition mouseOver = Battlegear.proxy
+                            .getMouseOver(partialTick, extendedReach + mc.playerController.getBlockReachDistance());
                     if (mouseOver != null && mouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY) {
                         Entity target = mouseOver.entityHit;
-                        if (target instanceof EntityLivingBase
-                                && target != player
+                        if (target instanceof EntityLivingBase && target != player
                                 && player.getDistanceToEntity(target) > mc.playerController.getBlockReachDistance()) {
                             if (target.hurtResistantTime != ((EntityLivingBase) target).maxHurtResistantTime) {
                                 mc.playerController.attackEntity(player, target);

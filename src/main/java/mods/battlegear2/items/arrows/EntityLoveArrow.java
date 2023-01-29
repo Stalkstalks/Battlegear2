@@ -2,6 +2,7 @@ package mods.battlegear2.items.arrows;
 
 import mods.battlegear2.api.core.IBattlePlayer;
 import mods.battlegear2.items.ItemMBArrow;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityCreature;
@@ -15,10 +16,12 @@ import net.minecraftforge.common.ForgeHooks;
 
 /**
  * An arrow which deals weird effects on living entities
+ * 
  * @author GotoLink
  *
  */
 public class EntityLoveArrow extends AbstractMBArrow {
+
     public static int AGE_TIMER = -24000, PICKUP_TIME = 10;
 
     public EntityLoveArrow(World world) {
@@ -29,12 +32,8 @@ public class EntityLoveArrow extends AbstractMBArrow {
         super(par1World, par2EntityLivingBase, par3);
     }
 
-    public EntityLoveArrow(
-            World par1World,
-            EntityLivingBase par2EntityLivingBase,
-            EntityLivingBase par3EntityLivingBase,
-            float par4,
-            float par5) {
+    public EntityLoveArrow(World par1World, EntityLivingBase par2EntityLivingBase,
+            EntityLivingBase par3EntityLivingBase, float par4, float par5) {
         super(par1World, par2EntityLivingBase, par3EntityLivingBase, par4, par5);
     }
 
@@ -62,16 +61,17 @@ public class EntityLoveArrow extends AbstractMBArrow {
                 return true;
             } else if (entityHit instanceof EntityPlayer) {
                 EntityItem entityitem = ForgeHooks.onPlayerTossEvent(
-                        (EntityPlayer) entityHit, ((EntityPlayer) entityHit).getCurrentEquippedItem(), true);
+                        (EntityPlayer) entityHit,
+                        ((EntityPlayer) entityHit).getCurrentEquippedItem(),
+                        true);
                 if (entityitem != null) {
                     entityitem.delayBeforeCanPickup = PICKUP_TIME;
                     entityitem.func_145797_a(entityHit.getCommandSenderName());
                 }
                 if (!((IBattlePlayer) entityHit).isBattlemode())
-                    ((EntityPlayer) entityHit)
-                            .inventory.setInventorySlotContents(
-                                    ((EntityPlayer) entityHit).inventory.currentItem,
-                                    new ItemStack(ItemMBArrow.component[5]));
+                    ((EntityPlayer) entityHit).inventory.setInventorySlotContents(
+                            ((EntityPlayer) entityHit).inventory.currentItem,
+                            new ItemStack(ItemMBArrow.component[5]));
                 setDead();
                 return true;
             }

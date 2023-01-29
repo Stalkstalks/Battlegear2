@@ -2,6 +2,7 @@ package mods.battlegear2.items.arrows;
 
 import java.util.ArrayList;
 import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -17,6 +18,7 @@ import net.minecraftforge.common.IShearable;
 
 /**
  * An arrow which deals damage through armors and shields, shears things, and breaks glass blocks
+ * 
  * @author GotoLink
  *
  */
@@ -30,12 +32,8 @@ public class EntityPiercingArrow extends AbstractMBArrow {
         super(par1World, par2EntityLivingBase, par3);
     }
 
-    public EntityPiercingArrow(
-            World par1World,
-            EntityLivingBase par2EntityLivingBase,
-            EntityLivingBase par3EntityLivingBase,
-            float par4,
-            float par5) {
+    public EntityPiercingArrow(World par1World, EntityLivingBase par2EntityLivingBase,
+            EntityLivingBase par3EntityLivingBase, float par4, float par5) {
         super(par1World, par2EntityLivingBase, par3EntityLivingBase, par4, par5);
     }
 
@@ -43,7 +41,9 @@ public class EntityPiercingArrow extends AbstractMBArrow {
     public void onUpdate() {
         Vec3 a = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
         Vec3 b = Vec3.createVectorHelper(
-                this.posX + this.motionX * 1.5, this.posY + this.motionY * 1.5, this.posZ + this.motionZ * 1.5);
+                this.posX + this.motionX * 1.5,
+                this.posY + this.motionY * 1.5,
+                this.posZ + this.motionZ * 1.5);
         MovingObjectPosition movingobjectposition = this.worldObj.func_147447_a(a, b, false, true, true);
 
         if (ticksInGround == 0 && movingobjectposition != null && movingobjectposition.entityHit == null) {
@@ -74,8 +74,7 @@ public class EntityPiercingArrow extends AbstractMBArrow {
     }
 
     public DamageSource getPiercingDamage() {
-        return new EntityDamageSourceIndirect("piercing.arrow", null, shootingEntity)
-                .setProjectile()
+        return new EntityDamageSourceIndirect("piercing.arrow", null, shootingEntity).setProjectile()
                 .setDamageBypassesArmor();
     }
 
@@ -86,7 +85,11 @@ public class EntityPiercingArrow extends AbstractMBArrow {
             Block block = worldObj.getBlock(x, y, z);
             if (block.getMaterial() == Material.glass) {
                 worldObj.playAuxSFX(
-                        2001, x, y, z, Block.getIdFromBlock(block) + (worldObj.getBlockMetadata(x, y, z) << 12));
+                        2001,
+                        x,
+                        y,
+                        z,
+                        Block.getIdFromBlock(block) + (worldObj.getBlockMetadata(x, y, z) << 12));
                 broken = worldObj.setBlockToAir(x, y, z);
             } else if (!worldObj.isRemote) {
                 if (block instanceof IShearable) {
@@ -99,8 +102,12 @@ public class EntityPiercingArrow extends AbstractMBArrow {
                             double d = (double) (rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
                             double d1 = (double) (rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
                             double d2 = (double) (rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
-                            EntityItem entityitem =
-                                    new EntityItem(worldObj, (double) x + d, (double) y + d1, (double) z + d2, stack);
+                            EntityItem entityitem = new EntityItem(
+                                    worldObj,
+                                    (double) x + d,
+                                    (double) y + d1,
+                                    (double) z + d2,
+                                    stack);
                             entityitem.delayBeforeCanPickup = 10;
                             worldObj.spawnEntityInWorld(entityitem);
                         }

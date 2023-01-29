@@ -2,8 +2,10 @@ package mods.battlegear2.coremod.transformers;
 
 import java.util.Iterator;
 import java.util.List;
+
 import mods.battlegear2.api.core.BattlegearTranslator;
 import mods.battlegear2.api.core.IOffhandRender;
+
 import org.apache.logging.log4j.Level;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.*;
@@ -45,13 +47,18 @@ public final class ItemRendererTransformer extends TransformerBase {
             InsnList newList = new InsnList();
             newList.add(new VarInsnNode(ALOAD, 0));
             newList.add(new VarInsnNode(ALOAD, 0));
-            newList.add(new FieldInsnNode(
-                    GETFIELD, itemRendererClass, itemRendererMinecraftField, "L" + minecraftClass + ";"));
-            newList.add(new MethodInsnNode(
-                    INVOKESTATIC,
-                    "mods/battlegear2/client/utils/BattlegearRenderHelper",
-                    "updateEquippedItem",
-                    "(L" + itemRendererClass + ";L" + minecraftClass + ";)V"));
+            newList.add(
+                    new FieldInsnNode(
+                            GETFIELD,
+                            itemRendererClass,
+                            itemRendererMinecraftField,
+                            "L" + minecraftClass + ";"));
+            newList.add(
+                    new MethodInsnNode(
+                            INVOKESTATIC,
+                            "mods/battlegear2/client/utils/BattlegearRenderHelper",
+                            "updateEquippedItem",
+                            "(L" + itemRendererClass + ";L" + minecraftClass + ";)V"));
             mn.instructions.insertBefore(insnNode, newList);
         }
     }
@@ -63,14 +70,19 @@ public final class ItemRendererTransformer extends TransformerBase {
             InsnList newList = new InsnList();
             newList.add(new VarInsnNode(FLOAD, 1));
             newList.add(new VarInsnNode(ALOAD, 0));
-            newList.add(new FieldInsnNode(
-                    GETFIELD, itemRendererClass, itemRendererMinecraftField, "L" + minecraftClass + ";"));
+            newList.add(
+                    new FieldInsnNode(
+                            GETFIELD,
+                            itemRendererClass,
+                            itemRendererMinecraftField,
+                            "L" + minecraftClass + ";"));
             newList.add(new VarInsnNode(ALOAD, 0));
-            newList.add(new MethodInsnNode(
-                    INVOKESTATIC,
-                    "mods/battlegear2/client/utils/BattlegearRenderHelper",
-                    "renderItemInFirstPerson",
-                    "(FL" + minecraftClass + ";L" + itemRendererClass + ";)V"));
+            newList.add(
+                    new MethodInsnNode(
+                            INVOKESTATIC,
+                            "mods/battlegear2/client/utils/BattlegearRenderHelper",
+                            "renderItemInFirstPerson",
+                            "(FL" + minecraftClass + ";L" + itemRendererClass + ";)V"));
             mn.instructions.insertBefore(insnNode, newList);
         }
     }
@@ -90,7 +102,10 @@ public final class ItemRendererTransformer extends TransformerBase {
         methods.add(
                 methods.size(),
                 generateSetter(
-                        itemRendererClass, "setItemToRender", "offHandItemToRender", "L" + itemStackClass + ";"));
+                        itemRendererClass,
+                        "setItemToRender",
+                        "offHandItemToRender",
+                        "L" + itemStackClass + ";"));
         methods.add(
                 methods.size(),
                 generateSetter(itemRendererClass, "setEquippedItemSlot", "equippedItemOffhandSlot", "I"));
@@ -103,7 +118,10 @@ public final class ItemRendererTransformer extends TransformerBase {
         methods.add(
                 methods.size(),
                 generateGetter(
-                        itemRendererClass, "getItemToRender", "offHandItemToRender", "L" + itemStackClass + ";"));
+                        itemRendererClass,
+                        "getItemToRender",
+                        "offHandItemToRender",
+                        "L" + itemStackClass + ";"));
         methods.add(
                 methods.size(),
                 generateGetter(itemRendererClass, "getEquippedItemSlot", "equippedItemOffhandSlot", "I"));
@@ -136,8 +154,8 @@ public final class ItemRendererTransformer extends TransformerBase {
 
         itemRendererMinecraftField = BattlegearTranslator.getMapedFieldName("field_78455_a", "mc");
 
-        renderItem1stPersonMethodName =
-                BattlegearTranslator.getMapedMethodName("func_78440_a", "renderItemInFirstPerson");
+        renderItem1stPersonMethodName = BattlegearTranslator
+                .getMapedMethodName("func_78440_a", "renderItemInFirstPerson");
         renderItem1stPersonMethodDesc = "(F)V";
 
         updateEquippedItemMethodName = BattlegearTranslator.getMapedMethodName("func_78441_a", "updateEquippedItem");

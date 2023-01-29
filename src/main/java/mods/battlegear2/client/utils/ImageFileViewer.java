@@ -3,9 +3,11 @@ package mods.battlegear2.client.utils;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileView;
+
 import mods.battlegear2.utils.FileExtension;
 
 /**
@@ -18,8 +20,7 @@ public class ImageFileViewer extends FileView {
         String extention = new FileExtension(f.getName()).get();
         if (extention != null) {
 
-            if (extention.equalsIgnoreCase("png")
-                    || extention.equalsIgnoreCase("tiff")
+            if (extention.equalsIgnoreCase("png") || extention.equalsIgnoreCase("tiff")
                     || extention.equalsIgnoreCase("tif")
                     || extention.equalsIgnoreCase("gif")
                     || extention.equalsIgnoreCase("bmp")

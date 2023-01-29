@@ -19,10 +19,12 @@ import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 
 /**
  * An arrow which teleports living entities or blocks on contact
+ * 
  * @author GotoLink
  *
  */
 public class EntityEnderArrow extends AbstractMBArrow {
+
     public static float tpRange = 32.0F;
     public static String PARTICLES = "portal", SOUND = "mob.endermen.portal";
 
@@ -34,12 +36,8 @@ public class EntityEnderArrow extends AbstractMBArrow {
         super(par1World, par2EntityLivingBase, par3);
     }
 
-    public EntityEnderArrow(
-            World par1World,
-            EntityLivingBase par2EntityLivingBase,
-            EntityLivingBase par3EntityLivingBase,
-            float par4,
-            float par5) {
+    public EntityEnderArrow(World par1World, EntityLivingBase par2EntityLivingBase,
+            EntityLivingBase par3EntityLivingBase, float par4, float par5) {
         super(par1World, par2EntityLivingBase, par3EntityLivingBase, par4, par5);
     }
 
@@ -52,11 +50,9 @@ public class EntityEnderArrow extends AbstractMBArrow {
                     tryTeleport((EntityLivingBase) entityHit);
                 } else if (shootingEntity instanceof EntityLivingBase) {
                     if (shootingEntity instanceof EntityPlayerMP
-                            && !(((EntityPlayerMP) this.shootingEntity)
-                                            .playerNetServerHandler
-                                            .func_147362_b()
-                                            .isChannelOpen()
-                                    && shootingEntity.worldObj == this.worldObj)) return false;
+                            && !(((EntityPlayerMP) this.shootingEntity).playerNetServerHandler.func_147362_b()
+                                    .isChannelOpen() && shootingEntity.worldObj == this.worldObj))
+                        return false;
                     double x = shootingEntity.posX;
                     double y = shootingEntity.posY;
                     double z = shootingEntity.posZ;
@@ -68,8 +64,11 @@ public class EntityEnderArrow extends AbstractMBArrow {
                             getDamageAgainst((EntityLivingBase) shootingEntity));
                     if (handleTeleportEvent(event)) {
                         event = new EnderTeleportEvent(
-                                (EntityLivingBase) entityHit, x + 0.5F, y, z + 0.5F, getDamageAgainst((EntityLivingBase)
-                                        entityHit));
+                                (EntityLivingBase) entityHit,
+                                x + 0.5F,
+                                y,
+                                z + 0.5F,
+                                getDamageAgainst((EntityLivingBase) entityHit));
                         handleTeleportEvent(event);
                     }
                 }
@@ -80,16 +79,16 @@ public class EntityEnderArrow extends AbstractMBArrow {
     }
 
     /**
-     * Handle calculating teleport damage.
-     * Takes into account the feather falling enchanted boots on a player, no matter the type of damage done
+     * Handle calculating teleport damage. Takes into account the feather falling enchanted boots on a player, no matter
+     * the type of damage done
      *
      * @param entityHit that will be damaged
      * @return the value of the damage posted into EnderTeleportEvent
      */
     public float getDamageAgainst(EntityLivingBase entityHit) {
         if (entityHit instanceof EntityPlayer) {
-            int fall = EnchantmentHelper.getEnchantmentLevel(
-                    Enchantment.featherFalling.effectId, entityHit.getEquipmentInSlot(1));
+            int fall = EnchantmentHelper
+                    .getEnchantmentLevel(Enchantment.featherFalling.effectId, entityHit.getEquipmentInSlot(1));
             return (float) getDamage() * 2.5F - 0.5F * fall;
         }
         return entityHit.getMaxHealth() / 10;
@@ -124,21 +123,17 @@ public class EntityEnderArrow extends AbstractMBArrow {
                 Block block = this.worldObj.getBlock(i, j - 1, k);
                 if (block.getMaterial().blocksMovement()) {
                     entity.setPosition(entity.posX, entity.posY, entity.posZ);
-                    if (this.worldObj
-                            .getCollidingBoundingBoxes(entity, entity.boundingBox)
-                            .isEmpty()) {
+                    if (this.worldObj.getCollidingBoundingBoxes(entity, entity.boundingBox).isEmpty()) {
                         success = true;
                         for (int l = 0; l < 128; ++l) {
                             double d6 = (double) l / 127.0D;
                             float f = (this.rand.nextFloat() - 0.5F) * 0.2F;
                             float f1 = (this.rand.nextFloat() - 0.5F) * 0.2F;
                             float f2 = (this.rand.nextFloat() - 0.5F) * 0.2F;
-                            double d7 = x
-                                    + (entity.posX - x) * d6
+                            double d7 = x + (entity.posX - x) * d6
                                     + (this.rand.nextDouble() - 0.5D) * (double) entity.width * 2.0D;
                             double d8 = y + (entity.posY - y) * d6 + this.rand.nextDouble() * (double) entity.height;
-                            double d9 = z
-                                    + (entity.posZ - z) * d6
+                            double d9 = z + (entity.posZ - z) * d6
                                     + (this.rand.nextDouble() - 0.5D) * (double) entity.width * 2.0D;
                             this.worldObj.spawnParticle(PARTICLES, d7, d8, d9, (double) f, (double) f1, (double) f2);
                         }
@@ -194,14 +189,16 @@ public class EntityEnderArrow extends AbstractMBArrow {
                 return;
             }
             if (shootingEntity instanceof EntityPlayerMP
-                    && !(((EntityPlayerMP) this.shootingEntity)
-                                    .playerNetServerHandler
-                                    .func_147362_b()
-                                    .isChannelOpen()
-                            && shootingEntity.worldObj == this.worldObj)) return;
-            handleTeleportEvent(new EnderTeleportEvent(
-                    (EntityLivingBase) shootingEntity, x + 0.5F, y, z + 0.5F, getDamageAgainst((EntityLivingBase)
-                            shootingEntity)));
+                    && !(((EntityPlayerMP) this.shootingEntity).playerNetServerHandler.func_147362_b().isChannelOpen()
+                            && shootingEntity.worldObj == this.worldObj))
+                return;
+            handleTeleportEvent(
+                    new EnderTeleportEvent(
+                            (EntityLivingBase) shootingEntity,
+                            x + 0.5F,
+                            y,
+                            z + 0.5F,
+                            getDamageAgainst((EntityLivingBase) shootingEntity)));
         }
     }
 

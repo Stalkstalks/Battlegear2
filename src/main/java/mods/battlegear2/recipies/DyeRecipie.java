@@ -1,7 +1,9 @@
 package mods.battlegear2.recipies;
 
 import java.util.ArrayList;
+
 import mods.battlegear2.api.IDyable;
+
 import net.minecraft.block.BlockColored;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.init.Items;
@@ -11,6 +13,7 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
 
 public final class DyeRecipie implements IRecipe {
+
     @Override
     public boolean matches(InventoryCrafting par1InventoryCrafting, World par2World) {
         ItemStack dyableStack = null;

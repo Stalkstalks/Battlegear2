@@ -3,6 +3,7 @@ package mods.battlegear2.client.renderer;
 import mods.battlegear2.api.core.IBattlePlayer;
 import mods.battlegear2.client.utils.BattlegearRenderHelper;
 import mods.battlegear2.items.ItemQuiver;
+
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -10,9 +11,11 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
+
 import org.lwjgl.opengl.GL11;
 
 public class QuiverItremRenderer implements IItemRenderer {
+
     private RenderItem itemRenderer;
 
     @Override
@@ -52,7 +55,7 @@ public class QuiverItremRenderer implements IItemRenderer {
                 GL11.glColor3f(red, green, blue);
                 // MOJANG derp fixes:
                 GL11.glEnable(GL11.GL_ALPHA_TEST);
-                //    GL11.glEnable(GL11.GL_BLEND);
+                // GL11.glEnable(GL11.GL_BLEND);
                 itemRenderer.renderIcon(0, 0, icon, 16, 16);
                 GL11.glColor3f(1, 1, 1);
                 icon = quiver.quiverDetails;

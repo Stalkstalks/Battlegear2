@@ -10,6 +10,7 @@ import net.minecraft.world.World;
 
 /**
  * An arrow which is effective against fire immune creatures
+ * 
  * @author Seitenca
  *
  */
@@ -23,12 +24,8 @@ public class EntityIceArrow extends AbstractMBArrow {
         super(par1World, par2EntityLivingBase, par3);
     }
 
-    public EntityIceArrow(
-            World par1World,
-            EntityLivingBase par2EntityLivingBase,
-            EntityLivingBase par3EntityLivingBase,
-            float par4,
-            float par5) {
+    public EntityIceArrow(World par1World, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase,
+            float par4, float par5) {
         super(par1World, par2EntityLivingBase, par3EntityLivingBase, par4, par5);
     }
 
@@ -37,14 +34,14 @@ public class EntityIceArrow extends AbstractMBArrow {
         boolean flag = false;
         if (entityHit.isImmuneToFire()) {
             entityHit.attackEntityFrom(
-                    new EntityDamageSourceIndirect("frost", null, shootingEntity)
-                            .setProjectile()
+                    new EntityDamageSourceIndirect("frost", null, shootingEntity).setProjectile()
                             .setDamageBypassesArmor(),
                     amount + 10);
         }
         if (entityHit instanceof EntityLivingBase) {
             entityHit.attackEntityFrom(
-                    new EntityDamageSourceIndirect("default", null, shootingEntity).setProjectile(), amount - 2);
+                    new EntityDamageSourceIndirect("default", null, shootingEntity).setProjectile(),
+                    amount - 2);
             ((EntityLivingBase) entityHit).addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 200, 1));
             flag = true;
         }

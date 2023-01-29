@@ -3,19 +3,18 @@ package mods.battlegear2.client.gui.controls;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.item.ItemDye;
+
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 /**
- * User: nerd-boy
- * Date: 2/08/13
- * Time: 12:20 PM
- * TODO: Add discription
+ * User: nerd-boy Date: 2/08/13 Time: 12:20 PM TODO: Add discription
  */
 public class GuiColourPicker extends GuiButton {
 
@@ -77,8 +76,7 @@ public class GuiColourPicker extends GuiButton {
                 x,
                 y,
                 (type & ALPHA_SELECTION) == ALPHA_SELECTION ? 80 : 64,
-                48 + (type & DEFAULT_COLOURS) == DEFAULT_COLOURS
-                        ? 0
+                48 + (type & DEFAULT_COLOURS) == DEFAULT_COLOURS ? 0
                         : 16 + (type & COLOUR_DISPLAY) == COLOUR_DISPLAY ? 0 : 16,
                 "");
 
@@ -102,8 +100,7 @@ public class GuiColourPicker extends GuiButton {
         int[] pixels = sb_buffer.getTextureData();
         for (int s = 0; s < RES; s++) {
             for (int b = 0; b < RES; b++) {
-                pixels[s * RES + b] = Color.getHSBColor(selectedHSB[0], 1 - (float) s / RES, (float) b / RES)
-                                .getRGB()
+                pixels[s * RES + b] = Color.getHSBColor(selectedHSB[0], 1 - (float) s / RES, (float) b / RES).getRGB()
                         | 0xFF000000;
             }
         }
@@ -145,8 +142,7 @@ public class GuiColourPicker extends GuiButton {
             return true;
         }
 
-        if (isSwitchOn(ALPHA_SELECTION)
-                && x >= alpha_start_x
+        if (isSwitchOn(ALPHA_SELECTION) && x >= alpha_start_x
                 && x < 12 + alpha_start_x
                 && y >= sb_start_y
                 && y < 48 + sb_start_y) {
@@ -296,8 +292,8 @@ public class GuiColourPicker extends GuiButton {
     public void selectColour(int rgb) {
 
         this.selectedRGB = rgb;
-        this.selectedHSB =
-                Color.RGBtoHSB((rgb & 0x00FF0000) >> 16, (rgb & 0x0000FF00) >> 8, (rgb & 0x000000FF), new float[3]);
+        this.selectedHSB = Color
+                .RGBtoHSB((rgb & 0x00FF0000) >> 16, (rgb & 0x0000FF00) >> 8, (rgb & 0x000000FF), new float[3]);
         selected_alpha = ((float) ((rgb & 0xFF000000) >>> 24)) / 255F;
 
         if (enabled && visible) {
@@ -310,7 +306,7 @@ public class GuiColourPicker extends GuiButton {
     }
 
     public void selectColour(float hue, float sat, float bright, float alpha) {
-        this.selectedHSB = new float[] {hue, sat, bright};
+        this.selectedHSB = new float[] { hue, sat, bright };
         this.selected_alpha = alpha;
         this.selectedRGB = (Color.HSBtoRGB(hue, sat, bright) & 0x00FFFFFF) | (((int) (alpha * 255)) << 24);
 
@@ -331,8 +327,8 @@ public class GuiColourPicker extends GuiButton {
         listeners.add(listener);
     }
 
-    public void drawTexturedModalRect(
-            int x, int y, int width, int height, int tex_x, int tex_y, int tex_width, int tex_height) {
+    public void drawTexturedModalRect(int x, int y, int width, int height, int tex_x, int tex_y, int tex_width,
+            int tex_height) {
         // float f = 0.00390625F;
         // float f1 = 0.00390625F;
 
@@ -359,8 +355,11 @@ public class GuiColourPicker extends GuiButton {
                 (double) ((float) (tex_x + tex_width) * f),
                 (double) ((float) (tex_y + 0) * f1));
         tessellator.addVertexWithUV(
-                (double) (x + 0), (double) (y + 0), (double) this.zLevel, (double) ((float) (tex_x + 0) * f), (double)
-                        ((float) (tex_y + 0) * f1));
+                (double) (x + 0),
+                (double) (y + 0),
+                (double) this.zLevel,
+                (double) ((float) (tex_x + 0) * f),
+                (double) ((float) (tex_y + 0) * f1));
         tessellator.draw();
     }
 

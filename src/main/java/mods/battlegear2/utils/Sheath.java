@@ -1,12 +1,14 @@
 package mods.battlegear2.utils;
 
 import java.util.Locale;
+
 import net.minecraft.client.resources.I18n;
 
 /**
  * Created by GotoLink on 19/01/2015.
  */
 public enum Sheath {
+
     BACK,
     HIP,
     NONE;
@@ -22,14 +24,13 @@ public enum Sheath {
     }
 
     public static String[] names() {
-        return new String[] {"BACK", "HIP", "NONE"};
+        return new String[] { "BACK", "HIP", "NONE" };
     }
 
     public static Sheath from(String text) {
         try {
             return valueOf(text);
-        } catch (Exception silent) {
-        }
+        } catch (Exception silent) {}
         return NONE;
     }
 }

@@ -1,14 +1,13 @@
 package mods.battlegear2.packet;
 
-import io.netty.buffer.ByteBuf;
 import mods.battlegear2.Battlegear;
+
 import net.minecraft.entity.player.EntityPlayer;
 
+import io.netty.buffer.ByteBuf;
+
 /**
- * User: nerd-boy
- * Date: 26/06/13
- * Time: 1:38 PM
- * TODO: Add discription
+ * User: nerd-boy Date: 26/06/13 Time: 1:38 PM TODO: Add discription
  */
 public final class BattlegearGUIPacket extends AbstractMBPacket {
 

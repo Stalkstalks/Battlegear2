@@ -2,6 +2,7 @@ package mods.battlegear2.client.heraldry.tools;
 
 import mods.battlegear2.api.heraldry.ITool;
 import mods.battlegear2.client.utils.ImageData;
+
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.util.ResourceLocation;
 
@@ -74,14 +75,10 @@ public class FloodFillTool implements ITool {
     private boolean isSame(int rgb1, int rgb2) {
 
         /*
-        int diff = 0;
-        diff += (((rgb1>>24) & 0x000000FF) - ((rgb2>>24) & 0x000000FF));
-        diff += (((rgb1>>16) & 0x000000FF) - ((rgb2>>16) & 0x000000FF));
-        diff += (((rgb1>>8) & 0x000000FF) - ((rgb2>>8) & 0x000000FF));
-        diff += (((rgb1>>0) & 0x000000FF) - ((rgb2>>0) & 0x000000FF));
-
-        return diff <= threshold;
-        */
+         * int diff = 0; diff += (((rgb1>>24) & 0x000000FF) - ((rgb2>>24) & 0x000000FF)); diff += (((rgb1>>16) &
+         * 0x000000FF) - ((rgb2>>16) & 0x000000FF)); diff += (((rgb1>>8) & 0x000000FF) - ((rgb2>>8) & 0x000000FF)); diff
+         * += (((rgb1>>0) & 0x000000FF) - ((rgb2>>0) & 0x000000FF)); return diff <= threshold;
+         */
 
         return rgb1 == rgb2;
     }

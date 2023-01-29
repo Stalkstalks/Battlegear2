@@ -1,12 +1,16 @@
 package mods.battlegear2.client.model;
 
 import java.util.Random;
+
 import mods.battlegear2.client.utils.BattlegearRenderHelper;
+
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
+
 import org.lwjgl.opengl.GL11;
 
 public class QuiverModel extends ModelBase {
+
     private final ModelRenderer body;
     private final ModelRenderer quiverBase;
     private final ModelRenderer quiverRight;
@@ -20,7 +24,7 @@ public class QuiverModel extends ModelBase {
         super();
         Random r = new Random();
         for (int i = 0; i < 10; i++) {
-            arrowPos[i] = new float[] {r.nextFloat() * 2F / 16F, r.nextFloat() * 4F, r.nextFloat() * 3F / 16F};
+            arrowPos[i] = new float[] { r.nextFloat() * 2F / 16F, r.nextFloat() * 4F, r.nextFloat() * 3F / 16F };
         }
 
         this.textureWidth = 64;

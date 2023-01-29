@@ -15,6 +15,7 @@ import mods.battlegear2.api.shield.IShield;
 import mods.battlegear2.client.BattlegearClientTickHandeler;
 import mods.battlegear2.utils.BattlegearConfig;
 import mods.battlegear2.utils.Sheath;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
@@ -37,6 +38,7 @@ import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.event.RenderPlayerEvent;
+
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
@@ -91,7 +93,10 @@ public final class BattlegearRenderHelper {
             GL11.glPushMatrix();
             GL11.glRotatef(rotation, 1.0F, 0.0F, 0.0F);
             GL11.glRotatef(
-                    player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * frame, 0.0F, 1.0F, 0.0F);
+                    player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * frame,
+                    0.0F,
+                    1.0F,
+                    0.0F);
             RenderHelper.enableStandardItemLighting();
             GL11.glPopMatrix();
             float var6;
@@ -109,8 +114,8 @@ public final class BattlegearRenderHelper {
                     0);
             int var8 = var18 % 65536;
             int var9 = var18 / 65536;
-            OpenGlHelper.setLightmapTextureCoords(
-                    OpenGlHelper.lightmapTexUnit, (float) var8 / 1.0F, (float) var9 / 1.0F);
+            OpenGlHelper
+                    .setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) var8 / 1.0F, (float) var9 / 1.0F);
             float var10;
             float var21;
             float var20;
@@ -149,11 +154,19 @@ public final class BattlegearRenderHelper {
                     GL11.glRotatef(25, 0, 0, 1);
                     GL11.glRotatef(325 - 35 * MathHelper.sin(swingProgress * (float) Math.PI), 0, 1, 0);
 
-                    if (!BattlegearUtils.RENDER_BUS.post(new PreRenderPlayerElement(
-                            preRender, true, PlayerElementType.ItemOffhand, offhandRender.getItemToRender())))
+                    if (!BattlegearUtils.RENDER_BUS.post(
+                            new PreRenderPlayerElement(
+                                    preRender,
+                                    true,
+                                    PlayerElementType.ItemOffhand,
+                                    offhandRender.getItemToRender())))
                         itemRenderer.renderItem(player, offhandRender.getItemToRender(), 0);
-                    BattlegearUtils.RENDER_BUS.post(new PostRenderPlayerElement(
-                            postRender, true, PlayerElementType.ItemOffhand, offhandRender.getItemToRender()));
+                    BattlegearUtils.RENDER_BUS.post(
+                            new PostRenderPlayerElement(
+                                    postRender,
+                                    true,
+                                    PlayerElementType.ItemOffhand,
+                                    offhandRender.getItemToRender()));
                     GL11.glPopMatrix();
 
                 } else {
@@ -164,11 +177,7 @@ public final class BattlegearRenderHelper {
 
                         if (action == EnumAction.eat || action == EnumAction.drink) {
                             var21 = (float) player.getItemInUseCount() - frame + 1.0F;
-                            var10 = 1.0F
-                                    - var21
-                                            / (float) offhandRender
-                                                    .getItemToRender()
-                                                    .getMaxItemUseDuration();
+                            var10 = 1.0F - var21 / (float) offhandRender.getItemToRender().getMaxItemUseDuration();
                             var11 = 1.0F - var10;
                             var11 = var11 * var11 * var11;
                             var11 = var11 * var11 * var11;
@@ -243,7 +252,9 @@ public final class BattlegearRenderHelper {
 
                             if (var14 > 0.1F) {
                                 GL11.glTranslatef(
-                                        0.0F, MathHelper.sin((var13 - 0.1F) * 1.3F) * 0.01F * (var14 - 0.1F), 0.0F);
+                                        0.0F,
+                                        MathHelper.sin((var13 - 0.1F) * 1.3F) * 0.01F * (var14 - 0.1F),
+                                        0.0F);
                             }
 
                             GL11.glTranslatef(0.0F, 0.0F, var14 * 0.1F);
@@ -261,27 +272,28 @@ public final class BattlegearRenderHelper {
                     if (offhandRender.getItemToRender().getItem().shouldRotateAroundWhenRendering()) {
                         GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
                     }
-                    if (!BattlegearUtils.RENDER_BUS.post(new PreRenderPlayerElement(
-                            preRender, true, PlayerElementType.ItemOffhand, offhandRender.getItemToRender()))) {
+                    if (!BattlegearUtils.RENDER_BUS.post(
+                            new PreRenderPlayerElement(
+                                    preRender,
+                                    true,
+                                    PlayerElementType.ItemOffhand,
+                                    offhandRender.getItemToRender()))) {
 
                         itemRenderer.renderItem(player, offhandRender.getItemToRender(), 0);
                         if (offhandRender.getItemToRender().getItem().requiresMultipleRenderPasses()) {
-                            for (int x = 1;
-                                    x
-                                            < offhandRender
-                                                    .getItemToRender()
-                                                    .getItem()
-                                                    .getRenderPasses(offhandRender
-                                                            .getItemToRender()
-                                                            .getItemDamage());
-                                    x++) {
+                            for (int x = 1; x < offhandRender.getItemToRender().getItem()
+                                    .getRenderPasses(offhandRender.getItemToRender().getItemDamage()); x++) {
                                 applyColorFromItemStack(offhandRender.getItemToRender(), x);
                                 itemRenderer.renderItem(player, offhandRender.getItemToRender(), x);
                             }
                         }
                     }
-                    BattlegearUtils.RENDER_BUS.post(new PostRenderPlayerElement(
-                            postRender, true, PlayerElementType.ItemOffhand, offhandRender.getItemToRender()));
+                    BattlegearUtils.RENDER_BUS.post(
+                            new PostRenderPlayerElement(
+                                    postRender,
+                                    true,
+                                    PlayerElementType.ItemOffhand,
+                                    offhandRender.getItemToRender()));
 
                     GL11.glPopMatrix();
                 }
@@ -315,12 +327,12 @@ public final class BattlegearRenderHelper {
                 GL11.glScalef(1.0F, 1.0F, -1.0F);
                 GL11.glTranslatef(5.6F, 0.0F, 0.0F);
                 GL11.glScalef(1.0F, 1.0F, 1.0F);
-                if (!BattlegearUtils.RENDER_BUS.post(
-                        new PreRenderPlayerElement(preRender, true, PlayerElementType.Offhand, null))) {
+                if (!BattlegearUtils.RENDER_BUS
+                        .post(new PreRenderPlayerElement(preRender, true, PlayerElementType.Offhand, null))) {
                     var26.renderFirstPersonArm(mc.thePlayer);
                 }
-                BattlegearUtils.RENDER_BUS.post(
-                        new PostRenderPlayerElement(postRender, true, PlayerElementType.Offhand, null));
+                BattlegearUtils.RENDER_BUS
+                        .post(new PostRenderPlayerElement(postRender, true, PlayerElementType.Offhand, null));
 
                 GL11.glPopMatrix();
             }
@@ -343,8 +355,7 @@ public final class BattlegearRenderHelper {
             sameItem = true;
         }
 
-        if (var2 != null
-                && offhandRender.getItemToRender() != null
+        if (var2 != null && offhandRender.getItemToRender() != null
                 && var2 != offhandRender.getItemToRender()
                 && var2.getItem() == offhandRender.getItemToRender().getItem()
                 && var2.getItemDamage() == offhandRender.getItemToRender().getItemDamage()) {
@@ -376,8 +387,8 @@ public final class BattlegearRenderHelper {
             float offhandSwing = 0.0F;
 
             if (player.isBattlemode()) {
-                ItemStack offhand =
-                        ((InventoryPlayerBattle) ((EntityPlayer) entity).inventory).getCurrentOffhandWeapon();
+                ItemStack offhand = ((InventoryPlayerBattle) ((EntityPlayer) entity).inventory)
+                        .getCurrentOffhandWeapon();
                 if (offhand != null && offhand.getItem() instanceof IShield) {
                     offhandSwing = (float) player.getSpecialActionTimer()
                             / (float) ((IShield) offhand.getItem()).getBashTimer(offhand);
@@ -391,8 +402,8 @@ public final class BattlegearRenderHelper {
                     biped.bipedLeftArm.rotateAngleY -= biped.bipedBody.rotateAngleY;
                     biped.bipedLeftArm.rotateAngleX -= biped.bipedBody.rotateAngleY;
                 }
-                biped.bipedBody.rotateAngleY =
-                        -MathHelper.sin(MathHelper.sqrt_float(offhandSwing) * (float) Math.PI * 2.0F) * 0.2F;
+                biped.bipedBody.rotateAngleY = -MathHelper
+                        .sin(MathHelper.sqrt_float(offhandSwing) * (float) Math.PI * 2.0F) * 0.2F;
 
                 // biped.bipedRightArm.rotationPointZ = MathHelper.sin(biped.bipedBody.rotateAngleY) * 5.0F;
                 // biped.bipedRightArm.rotationPointX = -MathHelper.cos(biped.bipedBody.rotateAngleY) * 5.0F;
@@ -405,8 +416,8 @@ public final class BattlegearRenderHelper {
                 float f6 = 1.0F - offhandSwing;
                 f6 = 1.0F - f6 * f6 * f6;
                 double f8 = MathHelper.sin(f6 * (float) Math.PI) * 1.2D;
-                double f10 =
-                        MathHelper.sin(offhandSwing * (float) Math.PI) * -(biped.bipedHead.rotateAngleX - 0.7F) * 0.75F;
+                double f10 = MathHelper.sin(offhandSwing * (float) Math.PI) * -(biped.bipedHead.rotateAngleX - 0.7F)
+                        * 0.75F;
                 biped.bipedLeftArm.rotateAngleX -= f8 + f10;
                 biped.bipedLeftArm.rotateAngleY += biped.bipedBody.rotateAngleY * 3.0F;
                 biped.bipedLeftArm.rotateAngleZ = MathHelper.sin(offhandSwing * (float) Math.PI) * -0.4F;
@@ -427,8 +438,8 @@ public final class BattlegearRenderHelper {
 
             GL11.glPushMatrix();
             modelBipedMain.bipedLeftArm.postRender(RENDER_UNIT);
-            BattlegearUtils.RENDER_BUS.post(
-                    new PostRenderPlayerElement(postRender, false, PlayerElementType.Offhand, null));
+            BattlegearUtils.RENDER_BUS
+                    .post(new PostRenderPlayerElement(postRender, false, PlayerElementType.Offhand, null));
 
             GL11.glTranslatef(RENDER_UNIT, 7 * RENDER_UNIT, RENDER_UNIT);
 
@@ -454,16 +465,14 @@ public final class BattlegearRenderHelper {
                 GL11.glRotatef(-10.0F, 1.0F, 0.0F, 0.0F);
                 GL11.glRotatef(-45.0F, 0.0F, 1.0F, 0.0F);
                 GL11.glRotatef(25.0F, 0.0F, 0.0F, 1.0F);
-                if (!BattlegearUtils.RENDER_BUS.post(
-                        new PreRenderPlayerElement(preRender, false, PlayerElementType.ItemOffhand, var21))) {
+                if (!BattlegearUtils.RENDER_BUS
+                        .post(new PreRenderPlayerElement(preRender, false, PlayerElementType.ItemOffhand, var21))) {
                     renderItemAllPasses(par1EntityPlayer, var21);
                 }
             } else {
 
-                if (var21.getItem() instanceof ItemBlock
-                        && (is3D
-                                || RenderBlocks.renderItemIn3d(
-                                        Block.getBlockFromItem(var21.getItem()).getRenderType()))) {
+                if (var21.getItem() instanceof ItemBlock && (is3D
+                        || RenderBlocks.renderItemIn3d(Block.getBlockFromItem(var21.getItem()).getRenderType()))) {
                     GL11.glTranslatef(0.0F, 3 * RENDER_UNIT, -5 * RENDER_UNIT);
                     var7 = 0.5F * 0.75F;
                     GL11.glRotatef(20.0F, 1.0F, 0.0F, 0.0F);
@@ -504,13 +513,13 @@ public final class BattlegearRenderHelper {
                     GL11.glRotatef(20.0F, 0.0F, 0.0F, 1.0F);
                 }
 
-                if (!BattlegearUtils.RENDER_BUS.post(
-                        new PreRenderPlayerElement(preRender, false, PlayerElementType.ItemOffhand, var21))) {
+                if (!BattlegearUtils.RENDER_BUS
+                        .post(new PreRenderPlayerElement(preRender, false, PlayerElementType.ItemOffhand, var21))) {
                     renderItemAllPasses(par1EntityPlayer, var21);
                 }
             }
-            BattlegearUtils.RENDER_BUS.post(
-                    new PostRenderPlayerElement(postRender, false, PlayerElementType.ItemOffhand, var21));
+            BattlegearUtils.RENDER_BUS
+                    .post(new PostRenderPlayerElement(postRender, false, PlayerElementType.ItemOffhand, var21));
             GL11.glPopMatrix();
         } else {
             if (!((IBattlePlayer) par1EntityPlayer).isBattlemode())
@@ -579,13 +588,13 @@ public final class BattlegearRenderHelper {
                 GL11.glRotatef(40.0F, 0.0F, 1.0F, 0.0F);
             }
 
-            if (!BattlegearUtils.RENDER_BUS.post(
-                    new PreRenderSheathed(preRender, onBack, backCount, true, mainhandSheathed))) {
+            if (!BattlegearUtils.RENDER_BUS
+                    .post(new PreRenderSheathed(preRender, onBack, backCount, true, mainhandSheathed))) {
                 renderItemAllPasses(dummyEntity, mainhandSheathed);
             }
 
-            BattlegearUtils.RENDER_BUS.post(
-                    new PostRenderSheathed(postRender, onBack, backCount, true, mainhandSheathed));
+            BattlegearUtils.RENDER_BUS
+                    .post(new PostRenderSheathed(postRender, onBack, backCount, true, mainhandSheathed));
 
             GL11.glPopMatrix();
         }
@@ -627,13 +636,13 @@ public final class BattlegearRenderHelper {
                 GL11.glRotatef(35F, 1.0F, 0.0F, 0.0F);
                 GL11.glRotatef(40.0F, 0.0F, 1.0F, 0.0F);
             }
-            if (!BattlegearUtils.RENDER_BUS.post(
-                    new PreRenderSheathed(preRender, onBack, backCount, false, offhandSheathed))) {
+            if (!BattlegearUtils.RENDER_BUS
+                    .post(new PreRenderSheathed(preRender, onBack, backCount, false, offhandSheathed))) {
                 renderItemAllPasses(dummyEntity, offhandSheathed);
             }
 
-            BattlegearUtils.RENDER_BUS.post(
-                    new PostRenderSheathed(postRender, onBack, backCount, false, offhandSheathed));
+            BattlegearUtils.RENDER_BUS
+                    .post(new PostRenderSheathed(postRender, onBack, backCount, false, offhandSheathed));
             GL11.glPopMatrix();
         }
     }

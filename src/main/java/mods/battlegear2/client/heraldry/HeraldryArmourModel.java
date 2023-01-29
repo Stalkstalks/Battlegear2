@@ -1,13 +1,14 @@
 package mods.battlegear2.client.heraldry;
 
-import cpw.mods.fml.client.FMLClientHandler;
 import java.util.List;
+
 import mods.battlegear2.api.heraldry.HeraldryData;
 import mods.battlegear2.api.heraldry.IHeraldyArmour;
 import mods.battlegear2.api.heraldry.PatternStore;
 import mods.battlegear2.heraldry.HelaldyArmourPositions;
 import mods.battlegear2.heraldry.HeraldryIcon;
 import mods.battlegear2.heraldry.SigilHelper;
+
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.renderer.ItemRenderer;
@@ -15,7 +16,10 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
+
+import cpw.mods.fml.client.FMLClientHandler;
 
 public class HeraldryArmourModel extends ModelBiped {
 
@@ -82,11 +86,8 @@ public class HeraldryArmourModel extends ModelBiped {
                     }
                 }
 
-                FMLClientHandler.instance()
-                        .getClient()
-                        .renderEngine
-                        .bindTexture(new ResourceLocation(heraldryItem.getBaseArmourPath(
-                                armourSlot))); // .bindTexture(heraldryItem.getBaseArmourPath(armourSlot));
+                FMLClientHandler.instance().getClient().renderEngine
+                        .bindTexture(new ResourceLocation(heraldryItem.getBaseArmourPath(armourSlot))); // .bindTexture(heraldryItem.getBaseArmourPath(armourSlot));
                 float[] colour = SigilHelper.getPrimaryColourArray(code);
                 GL11.glColor3f(colour[0], colour[1], colour[2]);
                 this.bipedHead.render(par7);
@@ -114,11 +115,12 @@ public class HeraldryArmourModel extends ModelBiped {
                 GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
                 GL11.glMatrixMode(GL11.GL_TEXTURE);
 
-                FMLClientHandler.instance()
-                        .getClient()
-                        .renderEngine
-                        .bindTexture(new ResourceLocation(heraldryItem.getPatternArmourPath(
-                                PatternStore.DEFAULT, new HeraldryData(code).getPatternIndex(), armourSlot)));
+                FMLClientHandler.instance().getClient().renderEngine.bindTexture(
+                        new ResourceLocation(
+                                heraldryItem.getPatternArmourPath(
+                                        PatternStore.DEFAULT,
+                                        new HeraldryData(code).getPatternIndex(),
+                                        armourSlot)));
                 GL11.glLoadIdentity();
 
                 GL11.glMatrixMode(GL11.GL_MODELVIEW);
@@ -147,8 +149,8 @@ public class HeraldryArmourModel extends ModelBiped {
                         float[] colourIconSecondary = SigilHelper.getSigilSecondaryColourArray(code);
 
                         GL11.glPushMatrix();
-                        HelaldyArmourPositions pos = HelaldyArmourPositions.values()[
-                                SigilHelper.getSigilPosition(code).ordinal()];
+                        HelaldyArmourPositions pos = HelaldyArmourPositions.values()[SigilHelper.getSigilPosition(code)
+                                .ordinal()];
 
                         bipedBody.postRender(0.0625F);
                         GL11.glTranslatef(-5 * 0.0625F, 0.0625F, -3 * 0.0625F - 0.001F);
@@ -223,15 +225,8 @@ public class HeraldryArmourModel extends ModelBiped {
     /**
      * Renders an item held in hand as a 2D texture with thickness
      */
-    public static void renderTexturedQuad(
-            Tessellator par0Tessellator,
-            float par1,
-            float par2,
-            float par3,
-            float par4,
-            int par5,
-            int par6,
-            float par7) {
+    public static void renderTexturedQuad(Tessellator par0Tessellator, float par1, float par2, float par3, float par4,
+            int par5, int par6, float par7) {
         par0Tessellator.startDrawingQuads();
         par0Tessellator.setNormal(0.0F, 0.0F, 1.0F);
         par0Tessellator.addVertexWithUV(0.0D, 0.0D, 0.0D, (double) par1, (double) par4);

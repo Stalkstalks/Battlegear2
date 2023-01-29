@@ -4,11 +4,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
 
 public class GuiToggleButton extends GuiButton {
-    public static final ResourceLocation resourceLocation =
-            new ResourceLocation("battlegear2", "textures/gui/widgets-extra.png");
+
+    public static final ResourceLocation resourceLocation = new ResourceLocation(
+            "battlegear2",
+            "textures/gui/widgets-extra.png");
     private boolean isSelected = false;
     private GuiToggleButton[] siblingButtons;
 
@@ -39,8 +42,7 @@ public class GuiToggleButton extends GuiButton {
             FontRenderer fontrenderer = par1Minecraft.fontRenderer;
             par1Minecraft.getTextureManager().bindTexture(resourceLocation);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            this.field_146123_n = par2 >= this.xPosition
-                    && par3 >= this.yPosition
+            this.field_146123_n = par2 >= this.xPosition && par3 >= this.yPosition
                     && par2 < this.xPosition + this.width
                     && par3 < this.yPosition + this.height;
             int k = this.getHoverState(this.field_146123_n);
@@ -71,11 +73,8 @@ public class GuiToggleButton extends GuiButton {
     }
 
     /**
-     * Returns
-     * 0 if the button is disabled
-     * 1 if the mouse is NOT hovering over this button (and it IS selected)
-     * 2 if it IS hovering over this button.
-     * 3 if the mouse is NOT hovering over this button (and it IS NOT selected)
+     * Returns 0 if the button is disabled 1 if the mouse is NOT hovering over this button (and it IS selected) 2 if it
+     * IS hovering over this button. 3 if the mouse is NOT hovering over this button (and it IS NOT selected)
      */
     @Override
     public int getHoverState(boolean par1) {

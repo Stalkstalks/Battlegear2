@@ -3,12 +3,14 @@ package mods.battlegear2.client.gui.controls;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
@@ -20,8 +22,8 @@ public class GuiToggeableButton extends GuiButton {
     private ResourceLocation image;
     private List<String> tooltip;
 
-    public GuiToggeableButton(
-            int id, int x, int y, int w, int h, String tooltip, boolean isOn, ResourceLocation image) {
+    public GuiToggeableButton(int id, int x, int y, int w, int h, String tooltip, boolean isOn,
+            ResourceLocation image) {
         super(id, x, y, w, h, "");
 
         this.tooltip = new ArrayList<String>(1);
@@ -117,8 +119,8 @@ public class GuiToggeableButton extends GuiButton {
         }
     }
 
-    public void drawTexturedModalRect(
-            int x, int y, int width, int height, int tex_x, int tex_y, int tex_width, int tex_height) {
+    public void drawTexturedModalRect(int x, int y, int width, int height, int tex_x, int tex_y, int tex_width,
+            int tex_height) {
         // float f = 0.00390625F;
         // float f1 = 0.00390625F;
 
@@ -145,8 +147,11 @@ public class GuiToggeableButton extends GuiButton {
                 (double) ((float) (tex_x + tex_width) * f),
                 (double) ((float) (tex_y + 0) * f1));
         tessellator.addVertexWithUV(
-                (double) (x + 0), (double) (y + 0), (double) this.zLevel, (double) ((float) (tex_x + 0) * f), (double)
-                        ((float) (tex_y + 0) * f1));
+                (double) (x + 0),
+                (double) (y + 0),
+                (double) this.zLevel,
+                (double) ((float) (tex_x + 0) * f),
+                (double) ((float) (tex_y + 0) * f1));
         tessellator.draw();
     }
 }

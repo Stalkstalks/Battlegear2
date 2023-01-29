@@ -4,6 +4,7 @@ import mods.battlegear2.api.core.InventoryPlayerBattle;
 import mods.battlegear2.api.quiver.IArrowContainer2;
 import mods.battlegear2.api.quiver.QuiverArrowRegistry;
 import mods.battlegear2.items.ItemMBArrow;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -25,12 +26,8 @@ public abstract class AbstractMBArrow extends EntityArrow {
         super(par1World, par2EntityLivingBase, par3);
     }
 
-    public AbstractMBArrow(
-            World par1World,
-            EntityLivingBase par2EntityLivingBase,
-            EntityLivingBase par3EntityLivingBase,
-            float par4,
-            float par5) {
+    public AbstractMBArrow(World par1World, EntityLivingBase par2EntityLivingBase,
+            EntityLivingBase par3EntityLivingBase, float par4, float par5) {
         super(par1World, par2EntityLivingBase, par3EntityLivingBase, par4, par5);
     }
 
@@ -49,23 +46,29 @@ public abstract class AbstractMBArrow extends EntityArrow {
 
     /**
      * Helper generation method for skeletons
-     * @param type the new type of the arrow
-     * @param arrow the original arrow fired by the skeleton
+     * 
+     * @param type     the new type of the arrow
+     * @param arrow    the original arrow fired by the skeleton
      * @param skeleton the shooter
      * @return
      */
     public static AbstractMBArrow generate(int type, EntityArrow arrow, EntitySkeleton skeleton) {
         AbstractMBArrow mbArrow = null;
-        if (arrow != null
-                && skeleton != null
+        if (arrow != null && skeleton != null
                 && skeleton.getAttackTarget() != null
                 && type < ItemMBArrow.arrows.length) {
             try {
-                mbArrow = ItemMBArrow.arrows[type]
-                        .getConstructor(
-                                World.class, EntityLivingBase.class, EntityLivingBase.class, float.class, float.class)
-                        .newInstance(arrow.worldObj, skeleton, skeleton.getAttackTarget(), 1.6F, (float)
-                                (14 - skeleton.worldObj.difficultySetting.getDifficultyId() * 4));
+                mbArrow = ItemMBArrow.arrows[type].getConstructor(
+                        World.class,
+                        EntityLivingBase.class,
+                        EntityLivingBase.class,
+                        float.class,
+                        float.class).newInstance(
+                                arrow.worldObj,
+                                skeleton,
+                                skeleton.getAttackTarget(),
+                                1.6F,
+                                (float) (14 - skeleton.worldObj.difficultySetting.getDifficultyId() * 4));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -79,11 +82,13 @@ public abstract class AbstractMBArrow extends EntityArrow {
             if (this.canBePickedUp == 1 && !tryPickArrow(par1EntityPlayer)) {
                 return;
             }
-            boolean flag =
-                    this.canBePickedUp == 1 || this.canBePickedUp == 2 && par1EntityPlayer.capabilities.isCreativeMode;
+            boolean flag = this.canBePickedUp == 1
+                    || this.canBePickedUp == 2 && par1EntityPlayer.capabilities.isCreativeMode;
             if (flag) {
                 this.playSound(
-                        "random.pop", 0.2F, ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.7F + 1.0F) * 2.0F);
+                        "random.pop",
+                        0.2F,
+                        ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.7F + 1.0F) * 2.0F);
                 par1EntityPlayer.onItemPickup(this, 1); // That second parameter is unused
                 this.setDead();
             }
@@ -92,6 +97,7 @@ public abstract class AbstractMBArrow extends EntityArrow {
 
     /**
      * The actual act of picking up an arrow, taken out of the colliding event, just in case
+     * 
      * @param player trying to pick up the arrow
      * @return false if the arrow couldn't be added to the player inventory
      */
@@ -116,6 +122,7 @@ public abstract class AbstractMBArrow extends EntityArrow {
 
     /**
      * Could be abstracted, but using the registry is easier
+     * 
      * @return the stack to be picked up, if any
      */
     public ItemStack getPickedUpItem() {

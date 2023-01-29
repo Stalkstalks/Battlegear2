@@ -4,9 +4,11 @@ import mods.battlegear2.api.heraldry.HeraldryData;
 import mods.battlegear2.api.heraldry.PatternStore;
 import mods.battlegear2.api.heraldry.RefreshableTexture;
 import mods.battlegear2.client.gui.BattlegearSigilGUI;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
 
 public class GuiPatternScrollList extends GUIScrollList {
@@ -19,8 +21,8 @@ public class GuiPatternScrollList extends GUIScrollList {
     public GuiPatternScrollList(BattlegearSigilGUI parent, int width, int top, int bottom, int left) {
         super(width, top + 20, bottom - 20, left, 20);
         this.parent = parent;
-        dynamicTextures = new RefreshableTexture
-                [PatternStore.DEFAULT.patterns.get(parent.getCurrentData().getPatternIndex()).length];
+        dynamicTextures = new RefreshableTexture[PatternStore.DEFAULT.patterns
+                .get(parent.getCurrentData().getPatternIndex()).length];
         for (int i = 0; i < dynamicTextures.length; i++) {
             dynamicTextures[i] = new RefreshableTexture(32, 32);
         }
@@ -70,8 +72,7 @@ public class GuiPatternScrollList extends GUIScrollList {
         GL11.glDisable(GL11.GL_ALPHA_TEST);
 
         dynamicTextures[var1].updateDynamicTexture();
-        ResourceLocation rl = Minecraft.getMinecraft()
-                .getTextureManager()
+        ResourceLocation rl = Minecraft.getMinecraft().getTextureManager()
                 .getDynamicTextureLocation("gui_dynamic_pattern_" + var1, dynamicTextures[var1]);
         Minecraft.getMinecraft().getTextureManager().bindTexture(rl);
         drawTexturedModalRect(var5, var2 - listWidth / 2 - 8, var3, 16, 16, 0);

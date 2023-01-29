@@ -1,11 +1,11 @@
 package mods.battlegear2.heraldry;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.util.ArrayList;
 import java.util.List;
+
 import mods.battlegear2.api.heraldry.IFlagHolder;
 import mods.battlegear2.items.HeraldryCrest;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -15,12 +15,14 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 /**
- * User: nerd-boy
- * Date: 2/08/13
- * Time: 2:33 PM
+ * User: nerd-boy Date: 2/08/13 Time: 2:33 PM
  */
 public class TileEntityFlagPole extends TileEntity implements IFlagHolder {
+
     private static final int MAX_FLAGS = 4;
     private ArrayList<ItemStack> flags;
     public boolean receiveUpdates = false;
@@ -36,15 +38,30 @@ public class TileEntityFlagPole extends TileEntity implements IFlagHolder {
         switch (side) {
             case 0:
                 return AxisAlignedBB.getBoundingBox(
-                        xCoord - flags.size(), yCoord, zCoord, xCoord + flags.size() + 1, yCoord + 1, zCoord + 1);
+                        xCoord - flags.size(),
+                        yCoord,
+                        zCoord,
+                        xCoord + flags.size() + 1,
+                        yCoord + 1,
+                        zCoord + 1);
             case 1:
             case 2:
                 return AxisAlignedBB.getBoundingBox(
-                        xCoord, yCoord - flags.size(), zCoord, xCoord + 1, yCoord + flags.size() + 1, zCoord + 1);
+                        xCoord,
+                        yCoord - flags.size(),
+                        zCoord,
+                        xCoord + 1,
+                        yCoord + flags.size() + 1,
+                        zCoord + 1);
         }
 
         return AxisAlignedBB.getBoundingBox(
-                xCoord - flags.size(), yCoord, zCoord, xCoord + flags.size() + 1, yCoord + 1, zCoord + 1);
+                xCoord - flags.size(),
+                yCoord,
+                zCoord,
+                xCoord + flags.size() + 1,
+                yCoord + 1,
+                zCoord + 1);
     }
 
     @Override
@@ -121,11 +138,9 @@ public class TileEntityFlagPole extends TileEntity implements IFlagHolder {
     @Override
     public void updateEntity() {
         if (!getWorldObj().isRemote && canUpdate() && getWorldObj().rand.nextInt(100) == 0) {
-            List entities = getWorldObj()
-                    .getEntitiesWithinAABB(
-                            EntityLivingBase.class,
-                            AxisAlignedBB.getBoundingBox(
-                                    xCoord - 3, yCoord, zCoord - 3, xCoord + 3, yCoord + 1, zCoord + 3));
+            List entities = getWorldObj().getEntitiesWithinAABB(
+                    EntityLivingBase.class,
+                    AxisAlignedBB.getBoundingBox(xCoord - 3, yCoord, zCoord - 3, xCoord + 3, yCoord + 1, zCoord + 3));
             if (entities.isEmpty()) spawnUnit();
         }
     }

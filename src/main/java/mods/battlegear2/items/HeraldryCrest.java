@@ -1,12 +1,12 @@
 package mods.battlegear2.items;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.util.List;
+
 import mods.battlegear2.Battlegear;
 import mods.battlegear2.api.heraldry.HeraldryData;
 import mods.battlegear2.api.heraldry.IHeraldryItem;
 import mods.battlegear2.gui.BattlegearGUIHandeler;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemMap;
@@ -17,7 +17,11 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.MapData;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 public class HeraldryCrest extends ItemMap implements IHeraldryItem {
+
     public HeraldryCrest() {
         super();
         this.setMaxStackSize(1);

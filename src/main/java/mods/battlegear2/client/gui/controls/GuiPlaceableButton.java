@@ -2,7 +2,6 @@ package mods.battlegear2.client.gui.controls;
 
 import static mods.battlegear2.client.ClientProxy.tconstructEnabled;
 
-import cpw.mods.fml.client.config.GuiUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -10,9 +9,12 @@ import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.renderer.InventoryEffectRenderer;
 import net.minecraft.util.ResourceLocation;
 
+import cpw.mods.fml.client.config.GuiUtils;
+
 public abstract class GuiPlaceableButton extends GuiButton {
-    public static final ResourceLocation CREATIVE_TABS =
-            new ResourceLocation("textures/gui/container/creative_inventory/tabs.png");
+
+    public static final ResourceLocation CREATIVE_TABS = new ResourceLocation(
+            "textures/gui/container/creative_inventory/tabs.png");
     public static final int HEIGHT = 20, TAB_DIM = 28, TAB_BORDER = 3;
     protected int deltaY = 0;
     private final String oldName;
@@ -23,12 +25,11 @@ public abstract class GuiPlaceableButton extends GuiButton {
     }
 
     /**
-     * Change the button position.
-     * Default is a 2-row pattern
+     * Change the button position. Default is a 2-row pattern
      *
-     * @param count the order of the button in the drawn list
+     * @param count   the order of the button in the drawn list
      * @param guiLeft starting horizontal position
-     * @param guiTop starting vertical position
+     * @param guiTop  starting vertical position
      */
     public void place(int count, int guiLeft, int guiTop) {
         this.xPosition = guiLeft + (count / 2) * width;
@@ -78,8 +79,7 @@ public abstract class GuiPlaceableButton extends GuiButton {
                     this.yPosition += deltaY;
                 }
             }
-            this.field_146123_n = mouseX >= this.xPosition
-                    && mouseY >= this.yPosition
+            this.field_146123_n = mouseX >= this.xPosition && mouseY >= this.yPosition
                     && mouseX < this.xPosition + this.width
                     && mouseY < this.yPosition + this.height;
             int k = this.getHoverState(this.field_146123_n);

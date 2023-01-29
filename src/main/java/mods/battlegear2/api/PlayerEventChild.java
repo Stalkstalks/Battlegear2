@@ -1,6 +1,5 @@
 package mods.battlegear2.api;
 
-import cpw.mods.fml.common.eventhandler.Cancelable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
@@ -11,6 +10,8 @@ import net.minecraftforge.event.entity.player.ArrowLooseEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+
+import cpw.mods.fml.common.eventhandler.Cancelable;
 
 public abstract class PlayerEventChild extends PlayerEvent {
 
@@ -48,6 +49,7 @@ public abstract class PlayerEventChild extends PlayerEvent {
      * Event fired when a shield successfully blocks an attack (in {@link LivingHurtEvent})
      */
     public static class ShieldBlockEvent extends PlayerEventChild {
+
         public final ItemStack shield;
         public final DamageSource source;
         public final float ammount; // use same name as other Forge events
@@ -57,7 +59,8 @@ public abstract class PlayerEventChild extends PlayerEvent {
          */
         public boolean performAnimation = true;
         /**
-         * If the shield should be damaged based on the ammount and the result of {@link IShield#getDamageReduction(ItemStack, DamageSource)}
+         * If the shield should be damaged based on the ammount and the result of
+         * {@link IShield#getDamageReduction(ItemStack, DamageSource)}
          */
         public boolean damageShield = true;
 
@@ -70,13 +73,13 @@ public abstract class PlayerEventChild extends PlayerEvent {
     }
 
     /**
-     * Called when a player right clicks in battlemode
-     * The parent event can be either {@link PlayerInteractEvent} or {@link EntityInteractEvent} if the OffhandAttackEvent allowed swinging
-     * Both {@link ItemStack} can be null
-     * If cancelled, no offhand swinging will be performed
+     * Called when a player right clicks in battlemode The parent event can be either {@link PlayerInteractEvent} or
+     * {@link EntityInteractEvent} if the OffhandAttackEvent allowed swinging Both {@link ItemStack} can be null If
+     * cancelled, no offhand swinging will be performed
      */
     @Cancelable
     public static class OffhandSwingEvent extends PlayerEventChild {
+
         public final ItemStack mainHand;
         public final ItemStack offHand;
 
@@ -101,9 +104,8 @@ public abstract class PlayerEventChild extends PlayerEvent {
     }
 
     /**
-     * Called when a player right clicks an entity in battlemode
-     * Both {@link ItemStack} can be null
-     * Cancelling will prevent any further processing and prevails over the boolean fields
+     * Called when a player right clicks an entity in battlemode Both {@link ItemStack} can be null Cancelling will
+     * prevent any further processing and prevails over the boolean fields
      */
     @Cancelable
     public static class OffhandAttackEvent extends PlayerEventChild {
@@ -113,21 +115,19 @@ public abstract class PlayerEventChild extends PlayerEvent {
          */
         public boolean swingOffhand = true;
         /**
-         * If we should perform an attack on the entity with the offhand item
-         * Note: Will post {@link AttackEntityEvent} and {@link Item#onLeftClickEntity(ItemStack, EntityPlayer, Entity)}
-         * with {@link InventoryPlayer#currentItem} offset to the offhand.
+         * If we should perform an attack on the entity with the offhand item Note: Will post {@link AttackEntityEvent}
+         * and {@link Item#onLeftClickEntity(ItemStack, EntityPlayer, Entity)} with {@link InventoryPlayer#currentItem}
+         * offset to the offhand.
          */
         public boolean shouldAttack = true;
         /**
          * If we should Prevent {@link PlayerInteractEvent.Action.RIGHT_CLICK_AIR} and
-         * {@link ItemStack#useItemRightClick(World, EntityPlayer)}
-         * from being called for the item in main hand.
+         * {@link ItemStack#useItemRightClick(World, EntityPlayer)} from being called for the item in main hand.
          */
         public boolean cancelParent = true;
         /**
-         * The base entity interaction event
-         * This event has already been posted in EventBus, handled by all potential listeners and was not cancelled.
-         * Changing its state will have no effect.
+         * The base entity interaction event This event has already been posted in EventBus, handled by all potential
+         * listeners and was not cancelled. Changing its state will have no effect.
          */
         public final EntityInteractEvent event;
         /**
@@ -158,11 +158,13 @@ public abstract class PlayerEventChild extends PlayerEvent {
 
     /**
      * This event replicates the event usage of {@link PlayerInteractEvent} for the item in left hand on right click,
-     * allowing support for other mods that use such event to customize item usage
-     * {@link Item#onItemUseFirst}, {@link Item#onItemRightClick} and {@link Item#onItemUse} will then get called the same way as with the item in the player right hand for PlayerInteractEvent
+     * allowing support for other mods that use such event to customize item usage {@link Item#onItemUseFirst},
+     * {@link Item#onItemRightClick} and {@link Item#onItemUse} will then get called the same way as with the item in
+     * the player right hand for PlayerInteractEvent
      */
     @Cancelable
     public static class UseOffhandItemEvent extends PlayerEventChild {
+
         /**
          * If we should call the OffhandSwingEvent and perform swinging animation
          */
@@ -172,7 +174,8 @@ public abstract class PlayerEventChild extends PlayerEvent {
          */
         public final ItemStack offhand;
         /**
-         * The equivalent {@link PlayerInteractEvent} that would have been triggered if the offhand item was held in right hand and right click was pressed
+         * The equivalent {@link PlayerInteractEvent} that would have been triggered if the offhand item was held in
+         * right hand and right click was pressed
          */
         public final PlayerInteractEvent event;
 
@@ -189,6 +192,7 @@ public abstract class PlayerEventChild extends PlayerEvent {
     }
 
     public static class QuiverArrowEvent extends PlayerEventChild {
+
         /**
          * The event from which this occurred
          */
@@ -221,10 +225,12 @@ public abstract class PlayerEventChild extends PlayerEvent {
         }
 
         /**
-         * Event fired after an arrow has been selected and taken from a {@link IArrowContainer2}, before it is actually spawned
+         * Event fired after an arrow has been selected and taken from a {@link IArrowContainer2}, before it is actually
+         * spawned
          */
         @Cancelable
         public static class Firing extends QuiverArrowEvent {
+
             /**
              * Damage done to the bow after arrow is fired
              */
@@ -262,12 +268,12 @@ public abstract class PlayerEventChild extends PlayerEvent {
         }
 
         /**
-         * The DEFAULT result for this event is the vanilla charge calculated value
-         * Use setNewCharge to override the value with the one provided
-         * Change the event result to DENY to prevent further processing
+         * The DEFAULT result for this event is the vanilla charge calculated value Use setNewCharge to override the
+         * value with the one provided Change the event result to DENY to prevent further processing
          */
         @HasResult
         public static class ChargeCalculations extends QuiverArrowEvent {
+
             /**
              * Returned value if the result is set to allow
              */

@@ -1,16 +1,12 @@
 package mods.battlegear2.packet;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.eventhandler.Event;
-import cpw.mods.fml.common.network.ByteBufUtils;
-import cpw.mods.fml.relauncher.Side;
-import io.netty.buffer.ByteBuf;
 import mods.battlegear2.Battlegear;
 import mods.battlegear2.BattlemodeHookContainerClass;
 import mods.battlegear2.BukkitWrapper;
 import mods.battlegear2.api.PlayerEventChild;
 import mods.battlegear2.api.core.BattlegearUtils;
 import mods.battlegear2.api.core.InventoryPlayerBattle;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -24,7 +20,14 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.eventhandler.Event;
+import cpw.mods.fml.common.network.ByteBufUtils;
+import cpw.mods.fml.relauncher.Side;
+import io.netty.buffer.ByteBuf;
+
 public final class OffhandPlaceBlockPacket extends AbstractMBPacket {
+
     public static final String packetName = "MB2|Place";
     private int xPosition;
     private int yPosition;
@@ -42,8 +45,8 @@ public final class OffhandPlaceBlockPacket extends AbstractMBPacket {
 
     public OffhandPlaceBlockPacket() {}
 
-    public OffhandPlaceBlockPacket(
-            int par1, int par2, int par3, int par4, ItemStack par5ItemStack, float par6, float par7, float par8) {
+    public OffhandPlaceBlockPacket(int par1, int par2, int par3, int par4, ItemStack par5ItemStack, float par6,
+            float par7, float par8) {
         this.xPosition = par1;
         this.yPosition = par2;
         this.zPosition = par3;
@@ -96,7 +99,13 @@ public final class OffhandPlaceBlockPacket extends AbstractMBPacket {
         if (direction == 255) {
             if (offhandWeapon == null) return;
             PlayerInteractEvent event = new PlayerInteractEvent(
-                    player, PlayerInteractEvent.Action.RIGHT_CLICK_AIR, 0, 0, 0, -1, player.getEntityWorld());
+                    player,
+                    PlayerInteractEvent.Action.RIGHT_CLICK_AIR,
+                    0,
+                    0,
+                    0,
+                    -1,
+                    player.getEntityWorld());
             BukkitWrapper.callBukkitInteractEvent(event, offhandWeapon);
             MinecraftForge.EVENT_BUS.post(new PlayerEventChild.UseOffhandItemEvent(event, offhandWeapon));
             if (event.useItem != Event.Result.DENY) {
@@ -119,13 +128,21 @@ public final class OffhandPlaceBlockPacket extends AbstractMBPacket {
                         && player.getDistanceSq((double) i + 0.5D, (double) j + 0.5D, (double) k + 0.5D) < dist
                         && !mcServer.isBlockProtected(player.getEntityWorld(), i, j, k, player)) {
                     activateBlockOrUseItem(
-                            (EntityPlayerMP) player, offhandWeapon, i, j, k, l, xOffset, yOffset, zOffset);
+                            (EntityPlayerMP) player,
+                            offhandWeapon,
+                            i,
+                            j,
+                            k,
+                            l,
+                            xOffset,
+                            yOffset,
+                            zOffset);
                 }
             }
         }
         if (flag) {
-            ((EntityPlayerMP) player)
-                    .playerNetServerHandler.sendPacket(new S23PacketBlockChange(i, j, k, player.getEntityWorld()));
+            ((EntityPlayerMP) player).playerNetServerHandler
+                    .sendPacket(new S23PacketBlockChange(i, j, k, player.getEntityWorld()));
             if (l == 0) {
                 --j;
             }
@@ -144,8 +161,8 @@ public final class OffhandPlaceBlockPacket extends AbstractMBPacket {
             if (l == 5) {
                 ++i;
             }
-            ((EntityPlayerMP) player)
-                    .playerNetServerHandler.sendPacket(new S23PacketBlockChange(i, j, k, player.getEntityWorld()));
+            ((EntityPlayerMP) player).playerNetServerHandler
+                    .sendPacket(new S23PacketBlockChange(i, j, k, player.getEntityWorld()));
         }
         offhandWeapon = ((InventoryPlayerBattle) player.inventory).getCurrentOffhandWeapon();
 
@@ -162,30 +179,29 @@ public final class OffhandPlaceBlockPacket extends AbstractMBPacket {
             ((EntityPlayerMP) player).isChangingQuantityOnly = false;
 
             if (!ItemStack.areItemStacksEqual(
-                    ((InventoryPlayerBattle) player.inventory).getCurrentOffhandWeapon(), this.itemStack)) {
+                    ((InventoryPlayerBattle) player.inventory).getCurrentOffhandWeapon(),
+                    this.itemStack)) {
                 Battlegear.packetHandler.sendPacketToPlayer(
-                        new BattlegearSyncItemPacket(player).generatePacket(), (EntityPlayerMP) player);
+                        new BattlegearSyncItemPacket(player).generatePacket(),
+                        (EntityPlayerMP) player);
             }
         }
     }
 
     /**
-     * From ItemInWorldManager:
-     * Activate the clicked on block, or use the given itemStack.
+     * From ItemInWorldManager: Activate the clicked on block, or use the given itemStack.
      */
-    public boolean activateBlockOrUseItem(
-            EntityPlayerMP playerMP,
-            ItemStack itemStack,
-            int x,
-            int y,
-            int z,
-            int side,
-            float xOffset,
-            float yOffset,
-            float zOffset) {
+    public boolean activateBlockOrUseItem(EntityPlayerMP playerMP, ItemStack itemStack, int x, int y, int z, int side,
+            float xOffset, float yOffset, float zOffset) {
         World theWorld = playerMP.getEntityWorld();
         PlayerInteractEvent event = new PlayerInteractEvent(
-                playerMP, PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK, x, y, z, side, theWorld);
+                playerMP,
+                PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK,
+                x,
+                y,
+                z,
+                side,
+                theWorld);
         BukkitWrapper.callBukkitInteractEvent(event, itemStack);
         MinecraftForge.EVENT_BUS.post(new PlayerEventChild.UseOffhandItemEvent(event, itemStack));
         if (event.isCanceled()) {
@@ -194,10 +210,8 @@ public final class OffhandPlaceBlockPacket extends AbstractMBPacket {
         }
 
         BattlegearUtils.refreshAttributes(playerMP, false);
-        if (itemStack != null
-                && itemStack
-                        .getItem()
-                        .onItemUseFirst(itemStack, playerMP, theWorld, x, y, z, side, xOffset, yOffset, zOffset)) {
+        if (itemStack != null && itemStack.getItem()
+                .onItemUseFirst(itemStack, playerMP, theWorld, x, y, z, side, xOffset, yOffset, zOffset)) {
             if (itemStack.stackSize <= 0) ForgeEventFactory.onPlayerDestroyItem(playerMP, itemStack);
             BattlegearUtils.refreshAttributes(playerMP, true);
             return true;

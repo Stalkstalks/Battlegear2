@@ -1,16 +1,11 @@
 package mods.battlegear2.client;
 
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.network.internal.FMLProxyPacket;
-import cpw.mods.fml.common.registry.GameData;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+
 import mods.battlegear2.Battlegear;
 import mods.battlegear2.CommonProxy;
 import mods.battlegear2.api.core.BattlegearUtils;
@@ -25,6 +20,7 @@ import mods.battlegear2.packet.BattlegearAnimationPacket;
 import mods.battlegear2.packet.SpecialActionPacket;
 import mods.battlegear2.utils.BattlegearConfig;
 import mods.battlegear2.utils.EnumBGAnimations;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.Entity;
@@ -40,6 +36,13 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
+
+import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.network.internal.FMLProxyPacket;
+import cpw.mods.fml.common.registry.GameData;
 
 public final class ClientProxy extends CommonProxy {
 
@@ -68,21 +71,19 @@ public final class ClientProxy extends CommonProxy {
     @Override
     public void sendAnimationPacket(EnumBGAnimations animation, EntityPlayer entityPlayer) {
         if (entityPlayer instanceof EntityClientPlayerMP) {
-            ((EntityClientPlayerMP) entityPlayer)
-                    .sendQueue.addToSendQueue(new BattlegearAnimationPacket(animation, entityPlayer).generatePacket());
+            ((EntityClientPlayerMP) entityPlayer).sendQueue
+                    .addToSendQueue(new BattlegearAnimationPacket(animation, entityPlayer).generatePacket());
         }
     }
 
     @Override
     public void startFlash(EntityPlayer player, float damage) {
-        if (player.getCommandSenderName()
-                .equals(Minecraft.getMinecraft().thePlayer.getCommandSenderName())) {
+        if (player.getCommandSenderName().equals(Minecraft.getMinecraft().thePlayer.getCommandSenderName())) {
             BattlegearClientTickHandeler.resetFlash();
             ItemStack offhand = ((InventoryPlayerBattle) player.inventory).getCurrentOffhandWeapon();
 
-            if (offhand != null && offhand.getItem() instanceof IShield)
-                BattlegearClientTickHandeler.reduceBlockTime(
-                        ((IShield) offhand.getItem()).getDamageDecayRate(offhand, damage));
+            if (offhand != null && offhand.getItem() instanceof IShield) BattlegearClientTickHandeler
+                    .reduceBlockTime(((IShield) offhand.getItem()).getDamageDecayRate(offhand, damage));
         }
     }
 
@@ -112,8 +113,8 @@ public final class ClientProxy extends CommonProxy {
             MinecraftForgeClient.registerItemRenderer(BattlegearConfig.quiver, new QuiverItremRenderer());
         if (BattlegearConfig.banner != null
                 && Arrays.binarySearch(BattlegearConfig.disabledRenderers, "flagpole") < 0) {
-            MinecraftForgeClient.registerItemRenderer(
-                    Item.getItemFromBlock(BattlegearConfig.banner), new FlagPoleItemRenderer());
+            MinecraftForgeClient
+                    .registerItemRenderer(Item.getItemFromBlock(BattlegearConfig.banner), new FlagPoleItemRenderer());
             ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFlagPole.class, new FlagPoleTileRenderer());
         }
         if (Battlegear.debug) {
@@ -179,8 +180,7 @@ public final class ClientProxy extends CommonProxy {
                 float f1 = 1.0F;
                 List list = mc.theWorld.getEntitiesWithinAABBExcludingEntity(
                         mc.renderViewEntity,
-                        mc.renderViewEntity
-                                .boundingBox
+                        mc.renderViewEntity.boundingBox
                                 .addCoord(vec31.xCoord * d0, vec31.yCoord * d0, vec31.zCoord * d0)
                                 .expand((double) f1, (double) f1, (double) f1));
                 double d2 = d1;
@@ -222,47 +222,36 @@ public final class ClientProxy extends CommonProxy {
     @Override
     public void tryUseTConstruct() {
         try {
-            Object tcManager =
-                    Class.forName("tconstruct.TConstruct").getField("pulsar").get(null);
-            if ((Boolean) tcManager
-                    .getClass()
-                    .getMethod("isPulseLoaded", String.class)
+            Object tcManager = Class.forName("tconstruct.TConstruct").getField("pulsar").get(null);
+            if ((Boolean) tcManager.getClass().getMethod("isPulseLoaded", String.class)
                     .invoke(tcManager, "Tinkers' Armory")) {
                 Class<?> tabRegistry = Class.forName("tconstruct.client.tabs.TabRegistry");
                 Class abstractTab = Class.forName("tconstruct.client.tabs.AbstractTab");
                 Method registerTab = tabRegistry.getMethod("registerTab", abstractTab);
                 updateTab = tabRegistry.getMethod("updateTabValues", int.class, int.class, Class.class);
                 addTabs = tabRegistry.getMethod("addTabsToList", List.class);
-                registerTab.invoke(
-                        null,
-                        Class.forName("mods.battlegear2.client.gui.controls.EquipGearTab")
-                                .newInstance());
+                registerTab
+                        .invoke(null, Class.forName("mods.battlegear2.client.gui.controls.EquipGearTab").newInstance());
                 if (Battlegear.debug) {
-                    registerTab.invoke(
-                            null,
-                            Class.forName("mods.battlegear2.client.gui.controls.SigilTab")
-                                    .newInstance());
+                    registerTab
+                            .invoke(null, Class.forName("mods.battlegear2.client.gui.controls.SigilTab").newInstance());
                 }
                 tconstructEnabled = true;
             }
-        } catch (Throwable ignored) {
-        }
+        } catch (Throwable ignored) {}
     }
 
     @Override
     public void tryUseDynamicLight(EntityPlayer player, ItemStack stack) {
         if (player == null && stack == null) {
-            dynLightPlayerMod = Loader.instance()
-                    .getIndexedModList()
-                    .get("DynamicLights_thePlayer")
-                    .getMod();
+            dynLightPlayerMod = Loader.instance().getIndexedModList().get("DynamicLights_thePlayer").getMod();
             if (dynLightPlayerMod != null) {
                 try {
                     refresh = Class.forName("mods.battlegear2.client.utils.DualHeldLight")
                             .getMethod("refresh", EntityPlayer.class, int.class, int.class);
                     // First attempt: retrieve private method from mod instance directly
-                    dynLightFromItemStack =
-                            dynLightPlayerMod.getClass().getDeclaredMethod("getLightFromItemStack", ItemStack.class);
+                    dynLightFromItemStack = dynLightPlayerMod.getClass()
+                            .getDeclaredMethod("getLightFromItemStack", ItemStack.class);
                     dynLightFromItemStack.setAccessible(true);
                 } catch (Exception first) { // Second attempt: retrieve method from mod config helper
                     try {

@@ -1,12 +1,11 @@
 package mods.battlegear2.api.weapons;
 
 import java.util.UUID;
+
 import net.minecraft.entity.ai.attributes.RangedAttribute;
 
 /**
- * Created by GotoLink on 31/10/2014.
- * Hold references from battlegear weapon attributes
- * No-OP
+ * Created by GotoLink on 31/10/2014. Hold references from battlegear weapon attributes No-OP
  */
 public interface Attributes {
 

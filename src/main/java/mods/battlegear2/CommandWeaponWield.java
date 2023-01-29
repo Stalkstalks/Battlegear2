@@ -1,22 +1,27 @@
 package mods.battlegear2;
 
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
-import cpw.mods.fml.common.registry.GameData;
-import cpw.mods.fml.common.registry.GameRegistry;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+
 import mods.battlegear2.api.weapons.WeaponRegistry;
 import mods.battlegear2.packet.WieldSetPacket;
+
 import net.minecraft.command.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
+
+import cpw.mods.fml.common.registry.GameData;
+import cpw.mods.fml.common.registry.GameRegistry;
+
 /**
  * Command that can be used by op to set held/named items in the WeaponRegistry and tinker its sensitivity
+ * 
  * @author GotoLink
  */
 public final class CommandWeaponWield extends CommandBase {
@@ -26,14 +31,14 @@ public final class CommandWeaponWield extends CommandBase {
     private CommandWeaponWield() {}
 
     /**
-     * Item searching modes: current for getting the held {@link ItemStack}, name for getting an itemstack from the {@link GameRegistry} by name
-     * Available operations: on the selected sensitivities
+     * Item searching modes: current for getting the held {@link ItemStack}, name for getting an itemstack from the
+     * {@link GameRegistry} by name Available operations: on the selected sensitivities
      */
-    public final String[] searchModes = {"current", "name", "sensitivity"};
+    public final String[] searchModes = { "current", "name", "sensitivity" };
     /**
      * Sensitivity operations
      */
-    public final String[] operations = {"add", "remove", "get"};
+    public final String[] operations = { "add", "remove", "get" };
     /**
      * Selected sensitivities for the WeaponRegistry comparison algorithm
      */
@@ -45,11 +50,8 @@ public final class CommandWeaponWield extends CommandBase {
     }
 
     /**
-     * <current> <handWielding:both|left|right> [player] [use:true]
-     * OR
-     * <name> <handWielding:both|left|right> <item name> [use:true]
-     * OR
-     * <sensitivity> <operation:add|remove|get> <ore|type|id|damage|nbt>
+     * <current> <handWielding:both|left|right> [player] [use:true] OR <name> <handWielding:both|left|right> <item name>
+     * [use:true] OR <sensitivity> <operation:add|remove|get> <ore|type|id|damage|nbt>
      */
     @Override
     public String getCommandUsage(ICommandSender var1) {
@@ -70,33 +72,31 @@ public final class CommandWeaponWield extends CommandBase {
                 }
             } else if (var2.length < 5) {
                 if (var2[0].equals(searchModes[0])) // current
-                itemStack = getPlayer(var1, var2[2]).getCurrentEquippedItem();
+                    itemStack = getPlayer(var1, var2[2]).getCurrentEquippedItem();
                 else if (var2[0].equals(searchModes[1])) { // name
                     String[] splits = var2[2].split(":", 2);
                     if (splits.length == 2) itemStack = GameRegistry.findItemStack(splits[0], splits[1], 1);
                 } else if (var2[0].equals(searchModes[2])) { // sensitivity
                     if (var2[1].equals(operations[0])) { // add
                         try {
-                            WeaponRegistry.Sensitivity sens =
-                                    WeaponRegistry.Sensitivity.valueOf(var2[2].toUpperCase(Locale.ENGLISH));
+                            WeaponRegistry.Sensitivity sens = WeaponRegistry.Sensitivity
+                                    .valueOf(var2[2].toUpperCase(Locale.ENGLISH));
                             if (sensitivities.add(sens.name()) && WeaponRegistry.addSensitivity(sens)) {
                                 func_152373_a(var1, this, "commands.weaponwield.sensitivity.added", sens);
                                 var1.addChatMessage(new ChatComponentText(sensitivities.toString()));
                                 return;
                             }
-                        } catch (IllegalArgumentException ignored) {
-                        }
+                        } catch (IllegalArgumentException ignored) {}
                     } else if (var2[1].equals(operations[1])) { // remove
                         try {
-                            WeaponRegistry.Sensitivity sens =
-                                    WeaponRegistry.Sensitivity.valueOf(var2[2].toUpperCase(Locale.ENGLISH));
+                            WeaponRegistry.Sensitivity sens = WeaponRegistry.Sensitivity
+                                    .valueOf(var2[2].toUpperCase(Locale.ENGLISH));
                             if (sensitivities.remove(sens.name()) && WeaponRegistry.removeSensitivity(sens)) {
                                 func_152373_a(var1, this, "commands.weaponwield.sensitivity.removed", sens);
                                 var1.addChatMessage(new ChatComponentText(sensitivities.toString()));
                                 return;
                             }
-                        } catch (IllegalArgumentException ignored) {
-                        }
+                        } catch (IllegalArgumentException ignored) {}
                     }
                 }
             }
@@ -131,17 +131,17 @@ public final class CommandWeaponWield extends CommandBase {
             if (par2ArrayOfStr[0].equals(searchModes[0]) || par2ArrayOfStr[0].equals(searchModes[1]))
                 return getListOfStringsMatchingLastWord(par2ArrayOfStr, getNames(WeaponRegistry.Wield.values(), true));
             else if (par2ArrayOfStr[0].equals(searchModes[2])) // sensitivity
-            return getListOfStringsMatchingLastWord(par2ArrayOfStr, operations);
+                return getListOfStringsMatchingLastWord(par2ArrayOfStr, operations);
         } else if (par2ArrayOfStr.length == 3) {
             if (par2ArrayOfStr[0].equals(searchModes[0])) // current
-            return getListOfStringsMatchingLastWord(
-                        par2ArrayOfStr, MinecraftServer.getServer().getAllUsernames());
+                return getListOfStringsMatchingLastWord(par2ArrayOfStr, MinecraftServer.getServer().getAllUsernames());
             else if (par2ArrayOfStr[0].equals(searchModes[1])) // name
-            return getListOfStringsFromIterableMatchingLastWord(
-                        par2ArrayOfStr, GameData.getItemRegistry().getKeys());
+                return getListOfStringsFromIterableMatchingLastWord(
+                        par2ArrayOfStr,
+                        GameData.getItemRegistry().getKeys());
             else if (par2ArrayOfStr[0].equals(searchModes[2])) { // sensitivity
                 if (par2ArrayOfStr[1].equals(operations[0])) // add
-                return getListOfStringsFromIterableMatchingLastWord(
+                    return getListOfStringsFromIterableMatchingLastWord(
                             par2ArrayOfStr,
                             Sets.difference(
                                     ImmutableSet.copyOf(getNames(WeaponRegistry.Sensitivity.values(), false)),

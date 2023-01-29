@@ -1,9 +1,11 @@
 package mods.battlegear2.heraldry;
 
 import mods.battlegear2.Battlegear;
+
 import net.minecraft.util.ResourceLocation;
 
 public enum HeraldryIcon {
+
     Blank("blank"), // Yes (need gimp file)
     // 16* ASOIAF
     Wolf("wolf"), // Stark Yes
@@ -27,8 +29,9 @@ public enum HeraldryIcon {
     BirdHead("birdhead"), // Yes
     Tree("tree"), // Yes
     Triforce("tri"),
-// Snake("snake"),
-;
+    // Snake("snake"),
+    ;
+
     private String name;
 
     private HeraldryIcon(String name) {

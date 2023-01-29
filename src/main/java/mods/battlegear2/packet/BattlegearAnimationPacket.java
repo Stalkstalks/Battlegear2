@@ -1,16 +1,16 @@
 package mods.battlegear2.packet;
 
-import cpw.mods.fml.common.network.ByteBufUtils;
-import io.netty.buffer.ByteBuf;
 import mods.battlegear2.api.core.IBattlePlayer;
 import mods.battlegear2.utils.EnumBGAnimations;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.WorldServer;
 
+import cpw.mods.fml.common.network.ByteBufUtils;
+import io.netty.buffer.ByteBuf;
+
 /**
- * User: nerd-boy
- * Date: 26/06/13
- * Time: 1:47 PM
+ * User: nerd-boy Date: 26/06/13 Time: 1:47 PM
  */
 public final class BattlegearAnimationPacket extends AbstractMBPacket {
 

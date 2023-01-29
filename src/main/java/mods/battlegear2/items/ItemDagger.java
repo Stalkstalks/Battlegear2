@@ -1,11 +1,10 @@
 package mods.battlegear2.items;
 
-import com.google.common.collect.Multimap;
-import cpw.mods.fml.common.registry.GameRegistry;
 import mods.battlegear2.Battlegear;
 import mods.battlegear2.api.weapons.IBackStabbable;
 import mods.battlegear2.api.weapons.IExtendedReachWeapon;
 import mods.battlegear2.api.weapons.IHitTimeModifier;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -13,7 +12,11 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EntityDamageSource;
 
+import com.google.common.collect.Multimap;
+import cpw.mods.fml.common.registry.GameRegistry;
+
 public class ItemDagger extends OneHandedWeapon implements IBackStabbable, IHitTimeModifier, IExtendedReachWeapon {
+
     private final float hitTime;
     private final float reach;
 
@@ -28,7 +31,7 @@ public class ItemDagger extends OneHandedWeapon implements IBackStabbable, IHitT
 
     @Override
     public boolean func_150897_b(Block par1Block) // Daggers can harvest tallgrass and wool
-            {
+    {
         return par1Block == Blocks.tallgrass || par1Block == Blocks.wool;
     }
 
@@ -52,7 +55,8 @@ public class ItemDagger extends OneHandedWeapon implements IBackStabbable, IHitT
     @Override // Here we simply cause more damage (hit will touch twice, one here and the other called vanilla)
     public boolean onBackStab(EntityLivingBase entityHit, EntityLivingBase entityHitting) {
         return entityHit.attackEntityFrom(
-                new EntityDamageSource(Battlegear.CUSTOM_DAMAGE_SOURCE + ".backstab", entityHitting), this.baseDamage);
+                new EntityDamageSource(Battlegear.CUSTOM_DAMAGE_SOURCE + ".backstab", entityHitting),
+                this.baseDamage);
     }
 
     @Override

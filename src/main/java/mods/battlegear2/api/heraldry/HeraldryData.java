@@ -30,17 +30,11 @@ public class HeraldryData {
     private byte[] byteArray = null;
     private List<Crest> crests;
 
-    public HeraldryData(
-            int patternStoreIndex,
-            byte pattern,
-            int pattern_col_1,
-            int pattern_col_2,
-            int pattern_col_3,
-            List<Crest> crests,
-            byte[] extraData) {
+    public HeraldryData(int patternStoreIndex, byte pattern, int pattern_col_1, int pattern_col_2, int pattern_col_3,
+            List<Crest> crests, byte[] extraData) {
         this.storageIndex = patternStoreIndex;
         this.pattern = pattern;
-        this.patternColours = new int[] {pattern_col_1, pattern_col_2, pattern_col_3};
+        this.patternColours = new int[] { pattern_col_1, pattern_col_2, pattern_col_3 };
         this.crests = crests;
         this.extraData = extraData;
     }
@@ -53,7 +47,7 @@ public class HeraldryData {
 
             storageIndex = input.readInt();
             pattern = input.readByte();
-            patternColours = new int[] {input.readInt(), input.readInt(), input.readInt()};
+            patternColours = new int[] { input.readInt(), input.readInt(), input.readInt() };
             byte crestCount = input.readByte();
             crests = new ArrayList<Crest>(crestCount);
             for (int i = 0; i < crestCount; i++) {
@@ -166,6 +160,12 @@ public class HeraldryData {
     @Override
     public HeraldryData clone() {
         return new HeraldryData(
-                storageIndex, pattern, patternColours[0], patternColours[1], patternColours[2], crests, extraData);
+                storageIndex,
+                pattern,
+                patternColours[0],
+                patternColours[1],
+                patternColours[2],
+                crests,
+                extraData);
     }
 }

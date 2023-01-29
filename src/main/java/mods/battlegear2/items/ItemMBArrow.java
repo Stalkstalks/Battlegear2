@@ -1,10 +1,10 @@
 package mods.battlegear2.items;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.util.List;
+
 import mods.battlegear2.api.quiver.DispenseArrow;
 import mods.battlegear2.items.arrows.*;
+
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,40 +16,25 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 public class ItemMBArrow extends Item {
-    public static final String[] names = {
-        "holy", "ice", "explosive", "ender", "flame", "piercing", "poison", "mystery", "leech"
-    };
-    public static final Class<? extends AbstractMBArrow>[] arrows = new Class[] {
-        EntityHolyArrow.class,
-        EntityIceArrow.class,
-        EntityExplossiveArrow.class,
-        EntityEnderArrow.class,
-        EntityFlameArrow.class,
-        EntityPiercingArrow.class,
-        EntityPoisonArrow.class,
-        EntityLoveArrow.class,
-        EntityLeechArrow.class
-    };
-    public static final Item[] component = {
-        Items.golden_apple,
-        Items.snowball,
-        Items.gunpowder,
-        Items.ender_pearl,
-        Items.flint,
-        Items.diamond,
-        Items.nether_star,
-        Items.cookie,
-        Items.ghast_tear
-    };
+
+    public static final String[] names = { "holy", "ice", "explosive", "ender", "flame", "piercing", "poison",
+            "mystery", "leech" };
+    public static final Class<? extends AbstractMBArrow>[] arrows = new Class[] { EntityHolyArrow.class,
+            EntityIceArrow.class, EntityExplossiveArrow.class, EntityEnderArrow.class, EntityFlameArrow.class,
+            EntityPiercingArrow.class, EntityPoisonArrow.class, EntityLoveArrow.class, EntityLeechArrow.class };
+    public static final Item[] component = { Items.golden_apple, Items.snowball, Items.gunpowder, Items.ender_pearl,
+            Items.flint, Items.diamond, Items.nether_star, Items.cookie, Items.ghast_tear };
     public static final DispenseArrow dispensable = new DispenseArrow() {
+
         @Override
         protected EntityArrow getArrowEntity(World world, ItemStack itemStack) {
             if (itemStack.getItemDamage() < arrows.length) {
                 try {
-                    return arrows[itemStack.getItemDamage()]
-                            .getConstructor(World.class)
-                            .newInstance(world);
+                    return arrows[itemStack.getItemDamage()].getConstructor(World.class).newInstance(world);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

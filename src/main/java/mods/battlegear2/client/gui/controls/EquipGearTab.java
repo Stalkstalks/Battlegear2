@@ -2,8 +2,10 @@ package mods.battlegear2.client.gui.controls;
 
 import mods.battlegear2.client.gui.BattleEquipGUI;
 import mods.battlegear2.utils.BattlegearConfig;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
+
 import tconstruct.client.tabs.AbstractTab;
 // Tinker's Construct support class, for gear inventory
 

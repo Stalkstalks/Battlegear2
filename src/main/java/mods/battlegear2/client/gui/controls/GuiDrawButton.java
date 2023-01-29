@@ -5,6 +5,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.ScaledResolution;
 
 public class GuiDrawButton extends GuiButton {
+
     private final IDrawnHandler drawer;
     private final int initX, initY;
     private boolean dragged = false;
@@ -19,8 +20,7 @@ public class GuiDrawButton extends GuiButton {
 
     @Override
     public void drawButton(Minecraft mc, int mouseX, int mouseY) {
-        this.field_146123_n = mouseX >= this.xPosition
-                && mouseY >= this.yPosition
+        this.field_146123_n = mouseX >= this.xPosition && mouseY >= this.yPosition
                 && mouseX < this.xPosition + this.width
                 && mouseY < this.yPosition + this.height;
         this.drawer.drawElement(new ScaledResolution(mc, mc.displayWidth, mc.displayHeight), xPosition, yPosition);
@@ -63,6 +63,7 @@ public class GuiDrawButton extends GuiButton {
     }
 
     public static interface IDrawnHandler {
+
         public void drawElement(ScaledResolution resolution, int varX, int varY);
     }
 }

@@ -1,12 +1,11 @@
 package mods.battlegear2;
 
-import cpw.mods.fml.common.eventhandler.EventPriority;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import mods.battlegear2.api.core.BattlegearUtils;
 import mods.battlegear2.api.core.InventoryPlayerBattle;
 import mods.battlegear2.items.ItemMBArrow;
 import mods.battlegear2.items.arrows.AbstractMBArrow;
 import mods.battlegear2.utils.BattlegearConfig;
+
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
@@ -18,6 +17,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 
+import cpw.mods.fml.common.eventhandler.EventPriority;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+
 public final class MobHookContainerClass {
 
     public static final MobHookContainerClass INSTANCE = new MobHookContainerClass();
@@ -25,15 +27,15 @@ public final class MobHookContainerClass {
     private MobHookContainerClass() {}
 
     /**
-     * The key used when registering/loading the arrow data (as byte) into/from the {@link EntitySkeleton}s {@link net.minecraft.entity.DataWatcher}
+     * The key used when registering/loading the arrow data (as byte) into/from the {@link EntitySkeleton}s
+     * {@link net.minecraft.entity.DataWatcher}
      */
     public static final int Skell_Arrow_Datawatcher = 25;
 
     /**
-     * Listen to {@link EntityJoinWorldEvent} :
-     * Adds random special {@link EntityArrow}s data to {@link EntitySkeleton}s {@link net.minecraft.entity.DataWatcher} (for display)
-     * Replace the vanilla fired {@link EntityArrow} with the custom {@link AbstractMBArrow} (for actual action)
-     * Note: Fails silently
+     * Listen to {@link EntityJoinWorldEvent} : Adds random special {@link EntityArrow}s data to {@link EntitySkeleton}s
+     * {@link net.minecraft.entity.DataWatcher} (for display) Replace the vanilla fired {@link EntityArrow} with the
+     * custom {@link AbstractMBArrow} (for actual action) Note: Fails silently
      *
      * Move arrows position slightly to the left when fired from a bow in left hand
      */
@@ -50,8 +52,7 @@ public final class MobHookContainerClass {
                         break;
                     }
                 }
-            } catch (Exception ignored) {
-            }
+            } catch (Exception ignored) {}
 
         } else if (event.entity instanceof EntityArrow) {
             EntityArrow arrow = ((EntityArrow) event.entity);
@@ -73,22 +74,23 @@ public final class MobHookContainerClass {
                             pow = Math.max(0.1F, pow);
                             pow = Math.min(1, pow);
 
-                            int i = EnchantmentHelper.getEnchantmentLevel(
-                                    Enchantment.power.effectId, skeleton.getHeldItem());
-                            int j = EnchantmentHelper.getEnchantmentLevel(
-                                    Enchantment.punch.effectId, skeleton.getHeldItem());
-                            mbArrow.setDamage((double) (pow * 2.0F)
-                                    + skeleton.getRNG().nextGaussian() * 0.25D
-                                    + (double) ((float) skeleton.worldObj.difficultySetting.getDifficultyId() * 0.11F));
+                            int i = EnchantmentHelper
+                                    .getEnchantmentLevel(Enchantment.power.effectId, skeleton.getHeldItem());
+                            int j = EnchantmentHelper
+                                    .getEnchantmentLevel(Enchantment.punch.effectId, skeleton.getHeldItem());
+                            mbArrow.setDamage(
+                                    (double) (pow * 2.0F) + skeleton.getRNG().nextGaussian() * 0.25D
+                                            + (double) ((float) skeleton.worldObj.difficultySetting.getDifficultyId()
+                                                    * 0.11F));
 
                             if (i > 0) mbArrow.setDamage(mbArrow.getDamage() + (double) i * 0.5D + 0.5D);
 
                             if (j > 0) mbArrow.setKnockbackStrength(j);
 
-                            if (EnchantmentHelper.getEnchantmentLevel(
-                                                    Enchantment.flame.effectId, skeleton.getHeldItem())
-                                            > 0
-                                    || skeleton.getSkeletonType() == 1) mbArrow.setFire(100);
+                            if (EnchantmentHelper
+                                    .getEnchantmentLevel(Enchantment.flame.effectId, skeleton.getHeldItem()) > 0
+                                    || skeleton.getSkeletonType() == 1)
+                                mbArrow.setFire(100);
 
                             skeleton.worldObj.spawnEntityInWorld(mbArrow);
                         }
@@ -100,19 +102,11 @@ public final class MobHookContainerClass {
                             .getCurrentOffhandWeapon();
                     if (offhand != null && BattlegearUtils.isBow(offhand.getItem())) {
                         arrow.setPosition(
-                                arrow.posX
-                                        + 2
-                                                * (double) (MathHelper.cos(arrow.shootingEntity.rotationYaw
-                                                                / 180.0F
-                                                                * (float) Math.PI)
-                                                        * 0.16F),
+                                arrow.posX + 2 * (double) (MathHelper
+                                        .cos(arrow.shootingEntity.rotationYaw / 180.0F * (float) Math.PI) * 0.16F),
                                 arrow.posY,
-                                arrow.posZ
-                                        + 2
-                                                * (double) (MathHelper.sin(arrow.shootingEntity.rotationYaw
-                                                                / 180.0F
-                                                                * (float) Math.PI)
-                                                        * 0.16F));
+                                arrow.posZ + 2 * (double) (MathHelper
+                                        .sin(arrow.shootingEntity.rotationYaw / 180.0F * (float) Math.PI) * 0.16F));
                     }
                 }
             }

@@ -2,6 +2,7 @@ package mods.battlegear2.heraldry;
 
 import mods.battlegear2.api.heraldry.IHeraldryItem;
 import mods.battlegear2.utils.BattlegearConfig;
+
 import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;

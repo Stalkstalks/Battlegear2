@@ -3,8 +3,11 @@ package mods.battlegear2.client.heraldry;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+
 import javax.imageio.ImageIO;
+
 import mods.battlegear2.api.core.BattlegearUtils;
+
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 
@@ -21,13 +24,13 @@ public class CrestImages implements Comparable<CrestImages> {
     private BufferedImage imageCache = null;
     private int lastRGB;
 
-    public static final ResourceLocation crestNames =
-            new ResourceLocation("battlegear2:textures/heraldry/crests/names");
+    public static final ResourceLocation crestNames = new ResourceLocation(
+            "battlegear2:textures/heraldry/crests/names");
 
     private CrestImages() {
         ID = 0;
         name = "None";
-        col = new byte[][] {{0}};
+        col = new byte[][] { { 0 } };
         images[ID] = this;
     }
 
@@ -36,7 +39,10 @@ public class CrestImages implements Comparable<CrestImages> {
         this.name = name;
 
         BufferedImage sub = image.getSubimage(
-                x_pos * X_AMOUNT, y_pos * Y_AMOUNT, image.getWidth() / X_AMOUNT, image.getHeight() / Y_AMOUNT);
+                x_pos * X_AMOUNT,
+                y_pos * Y_AMOUNT,
+                image.getWidth() / X_AMOUNT,
+                image.getHeight() / Y_AMOUNT);
         col = new byte[sub.getWidth()][sub.getHeight()];
         for (int x = 0; x < sub.getWidth(); x++) {
             for (int y = 0; y < sub.getHeight(); y++) {
@@ -67,8 +73,7 @@ public class CrestImages implements Comparable<CrestImages> {
 
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(
-                    new InputStreamReader(rm.getResource(crestNames).getInputStream()));
+            reader = new BufferedReader(new InputStreamReader(rm.getResource(crestNames).getInputStream()));
 
             int current_sheet = 0;
             int currentID = 0;
@@ -79,9 +84,11 @@ public class CrestImages implements Comparable<CrestImages> {
                 if (line.startsWith("Sheet: ")) {
                     currentID = 0;
                     current_sheet = Integer.parseInt(String.valueOf(line.charAt(line.length() - 1)));
-                    image = ImageIO.read(rm.getResource(new ResourceLocation(
-                                    "battlegear2:textures/heraldry/crests/icons-" + current_sheet + ".png"))
-                            .getInputStream());
+                    image = ImageIO.read(
+                            rm.getResource(
+                                    new ResourceLocation(
+                                            "battlegear2:textures/heraldry/crests/icons-" + current_sheet + ".png"))
+                                    .getInputStream());
 
                 } else {
                     String[] names = line.split(",");
@@ -104,9 +111,15 @@ public class CrestImages implements Comparable<CrestImages> {
     @Override
     public String toString() {
         return "CrestImages{" + "ID="
-                + ID + ", name='"
-                + name + ", size='"
-                + col.length + "x" + col[0].length + '\'' + '}';
+                + ID
+                + ", name='"
+                + name
+                + ", size='"
+                + col.length
+                + "x"
+                + col[0].length
+                + '\''
+                + '}';
     }
 
     @Override

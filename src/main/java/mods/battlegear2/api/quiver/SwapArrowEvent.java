@@ -1,16 +1,18 @@
 package mods.battlegear2.api.quiver;
 
-import cpw.mods.fml.common.eventhandler.Cancelable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 
+import cpw.mods.fml.common.eventhandler.Cancelable;
+
 /**
- * Event triggered when about to swap slot in quiver.
- * Cancel to stay on currently selected slot, or change slotStep to step over the next slot
+ * Event triggered when about to swap slot in quiver. Cancel to stay on currently selected slot, or change slotStep to
+ * step over the next slot
  */
 @Cancelable
 public class SwapArrowEvent extends PlayerEvent {
+
     /**
      * {@link ItemStack} holding a {@link IArrowContainer2} item
      */

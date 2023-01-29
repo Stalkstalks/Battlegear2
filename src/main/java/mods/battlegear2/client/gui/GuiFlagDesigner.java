@@ -5,8 +5,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.IntBuffer;
 import java.util.Arrays;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
 import mods.battlegear2.Battlegear;
 import mods.battlegear2.api.heraldry.IHeraldryItem;
 import mods.battlegear2.api.heraldry.ITool;
@@ -15,6 +17,7 @@ import mods.battlegear2.client.heraldry.tools.*;
 import mods.battlegear2.client.utils.*;
 import mods.battlegear2.packet.BattlegearChangeHeraldryPacket;
 import mods.battlegear2.utils.FileExtension;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -26,6 +29,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatAllowedCharacters;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
@@ -34,6 +38,7 @@ import org.lwjgl.opengl.GL11;
  * Created by Aaron on 3/08/13.
  */
 public class GuiFlagDesigner extends GuiScreen {
+
     public static boolean FcLoadImages = true;
     public static int BUFFER_SIZE = 10;
     private GuiColourPicker colourPicker;
@@ -105,6 +110,7 @@ public class GuiFlagDesigner extends GuiScreen {
     public GuiFlagDesigner(EntityPlayer player) {
         this.player = player;
         fc = new JFileChooser() {
+
             @Override
             protected JDialog createDialog(Component parent) throws HeadlessException {
                 // intercept the dialog created by JFileChooser
@@ -188,15 +194,15 @@ public class GuiFlagDesigner extends GuiScreen {
             if (par1 == '\b') {
                 if (((TextTool) selectedTool).text.length() > 0) {
 
-                    ((TextTool) selectedTool).text =
-                            ((TextTool) selectedTool).text.substring(0, ((TextTool) selectedTool).text.length() - 1);
+                    ((TextTool) selectedTool).text = ((TextTool) selectedTool).text
+                            .substring(0, ((TextTool) selectedTool).text.length() - 1);
                 }
 
             } else if (par1 == '\n' || par1 == '\r') {
 
                 int next = (bufferPointer + 1) % BUFFER_SIZE;
-                imageBuffer[next] =
-                        Arrays.copyOf(imageBuffer[bufferPointer], ImageData.IMAGE_RES * ImageData.IMAGE_RES);
+                imageBuffer[next] = Arrays
+                        .copyOf(imageBuffer[bufferPointer], ImageData.IMAGE_RES * ImageData.IMAGE_RES);
                 bufferPointer = next;
 
                 // Clear the next
@@ -242,31 +248,41 @@ public class GuiFlagDesigner extends GuiScreen {
         y_canvus_start = y_lpanel_start;
         y_rpanel_start = y_lpanel_start;
 
-        this.buttonList.add(new GuiButton(
-                ID_OK,
-                6 + x_rpanel_start,
-                y_rpanel_start + y_rpanel_height - 25,
-                80,
-                20,
-                StatCollector.translateToLocal("gui.done")));
-        this.buttonList.add(new GuiButton(
-                ID_SAVE, guiLeft + 5, guiTop + 5, 100, 20, StatCollector.translateToLocal("flag.design.save")));
-        this.buttonList.add(new GuiButton(
-                ID_LOAD,
-                guiLeft + 5 + 100 + 11,
-                guiTop + 5,
-                100,
-                20,
-                StatCollector.translateToLocal("flag.design.load")));
-        this.buttonList.add(new GuiButton(
-                ID_LOAD_SECTION,
-                guiLeft + 5 + 200 + 22,
-                guiTop + 5,
-                100,
-                20,
-                StatCollector.translateToLocal("flag.design.load.sections")));
+        this.buttonList.add(
+                new GuiButton(
+                        ID_OK,
+                        6 + x_rpanel_start,
+                        y_rpanel_start + y_rpanel_height - 25,
+                        80,
+                        20,
+                        StatCollector.translateToLocal("gui.done")));
+        this.buttonList.add(
+                new GuiButton(
+                        ID_SAVE,
+                        guiLeft + 5,
+                        guiTop + 5,
+                        100,
+                        20,
+                        StatCollector.translateToLocal("flag.design.save")));
+        this.buttonList.add(
+                new GuiButton(
+                        ID_LOAD,
+                        guiLeft + 5 + 100 + 11,
+                        guiTop + 5,
+                        100,
+                        20,
+                        StatCollector.translateToLocal("flag.design.load")));
+        this.buttonList.add(
+                new GuiButton(
+                        ID_LOAD_SECTION,
+                        guiLeft + 5 + 200 + 22,
+                        guiTop + 5,
+                        100,
+                        20,
+                        StatCollector.translateToLocal("flag.design.load.sections")));
         colourPicker = new GuiColourPicker(ID_COLOUR_PICKER, x_rpanel_start + 6, y_rpanel_start + 5, 0xFF000000, 7);
         colourPicker.addListener(new IControlListener() {
+
             @Override
             public void actionPreformed(GuiButton button) {
                 int rgb = colourPicker.getRGB();
@@ -306,12 +322,18 @@ public class GuiFlagDesigner extends GuiScreen {
             this.buttonList.add(toggleButtons[i]);
 
             try {
-                int[] rgbs = TextureUtil.readImageData(
-                        Minecraft.getMinecraft().getResourceManager(), tools[i].getToolImage());
+                int[] rgbs = TextureUtil
+                        .readImageData(Minecraft.getMinecraft().getResourceManager(), tools[i].getToolImage());
                 IntBuffer buffer = IntBuffer.wrap(rgbs);
                 int res = (int) Math.sqrt(buffer.array().length);
                 cursors[i + 1] = new org.lwjgl.input.Cursor(
-                        res, res, i == 1 || i == 2 ? res / 2 : 0, i == 1 || i == 2 ? res / 2 : 0, 1, buffer, null);
+                        res,
+                        res,
+                        i == 1 || i == 2 ? res / 2 : 0,
+                        i == 1 || i == 2 ? res / 2 : 0,
+                        1,
+                        buffer,
+                        null);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -320,7 +342,14 @@ public class GuiFlagDesigner extends GuiScreen {
         selectedTool = tools[0];
 
         slider = new GuiSliderAlt(
-                SLIDER, guiLeft, guiTop + 25 + 5 * 22, 80, StatCollector.translateToLocal("gui.threshold"), 0, 0, 64);
+                SLIDER,
+                guiLeft,
+                guiTop + 25 + 5 * 22,
+                80,
+                StatCollector.translateToLocal("gui.threshold"),
+                0,
+                0,
+                64);
 
         // this.buttonList.add(slider);
 
@@ -385,8 +414,8 @@ public class GuiFlagDesigner extends GuiScreen {
                         Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT));
             } else {
                 int next = (bufferPointer + 1) % BUFFER_SIZE;
-                imageBuffer[next] =
-                        Arrays.copyOf(imageBuffer[bufferPointer], ImageData.IMAGE_RES * ImageData.IMAGE_RES);
+                imageBuffer[next] = Arrays
+                        .copyOf(imageBuffer[bufferPointer], ImageData.IMAGE_RES * ImageData.IMAGE_RES);
                 bufferPointer = next;
 
                 // Clear the next
@@ -420,8 +449,8 @@ public class GuiFlagDesigner extends GuiScreen {
         if (!Mouse.getEventButtonState() && Mouse.getEventButton() == 0) {
             if (selectedTool instanceof RectangleTool) {
                 int next = (bufferPointer + 1) % BUFFER_SIZE;
-                imageBuffer[next] =
-                        Arrays.copyOf(imageBuffer[bufferPointer], ImageData.IMAGE_RES * ImageData.IMAGE_RES);
+                imageBuffer[next] = Arrays
+                        .copyOf(imageBuffer[bufferPointer], ImageData.IMAGE_RES * ImageData.IMAGE_RES);
                 bufferPointer = next;
 
                 // Clear the next
@@ -503,7 +532,12 @@ public class GuiFlagDesigner extends GuiScreen {
         // Draw Top Panel
         drawTexturedModalRect(x_tpanel_start, y_tpanel_start, 0, 0, x_tpanel_width / 2, y_tpanel_height);
         drawTexturedModalRect(
-                x_tpanel_start + x_tpanel_width / 2, y_tpanel_start, 0, 30, x_tpanel_width / 2, y_tpanel_height);
+                x_tpanel_start + x_tpanel_width / 2,
+                y_tpanel_start,
+                0,
+                30,
+                x_tpanel_width / 2,
+                y_tpanel_height);
         // drawRect(x_tpanel_start, y_tpanel_start, x_tpanel_start + x_tpanel_width, y_tpanel_start + y_tpanel_height,
         // 0xFFAAAAAA);
 
@@ -557,11 +591,10 @@ public class GuiFlagDesigner extends GuiScreen {
             case ID_OK:
                 ItemStack stack = player.getCurrentEquippedItem();
                 if (stack != null && stack.getItem() instanceof IHeraldryItem) {
-                    ((IHeraldryItem) stack.getItem())
-                            .setHeraldry(
-                                    stack,
-                                    new ImageData(imageBuffer[bufferPointer], ImageData.IMAGE_RES, ImageData.IMAGE_RES)
-                                            .getByteArray());
+                    ((IHeraldryItem) stack.getItem()).setHeraldry(
+                            stack,
+                            new ImageData(imageBuffer[bufferPointer], ImageData.IMAGE_RES, ImageData.IMAGE_RES)
+                                    .getByteArray());
                     Battlegear.packetHandler.sendPacketToServer(
                             new BattlegearChangeHeraldryPacket(((IHeraldryItem) stack.getItem()).getHeraldry(stack))
                                     .generatePacket());
@@ -570,8 +603,10 @@ public class GuiFlagDesigner extends GuiScreen {
                 break;
             case ID_SAVE:
                 if (fc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-                    BufferedImage image =
-                            new BufferedImage(ImageData.IMAGE_RES, ImageData.IMAGE_RES, BufferedImage.TYPE_4BYTE_ABGR);
+                    BufferedImage image = new BufferedImage(
+                            ImageData.IMAGE_RES,
+                            ImageData.IMAGE_RES,
+                            BufferedImage.TYPE_4BYTE_ABGR);
                     int[] pixels = imageBuffer[bufferPointer];
                     for (int x = 0; x < image.getWidth(); x++) {
                         for (int y = 0; y < image.getHeight(); y++) {
@@ -599,12 +634,14 @@ public class GuiFlagDesigner extends GuiScreen {
                 if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
                     try {
                         ImageData image = new ImageData(
-                                ImageIO.read(fc.getSelectedFile()), ImageData.IMAGE_RES, ImageData.IMAGE_RES);
+                                ImageIO.read(fc.getSelectedFile()),
+                                ImageData.IMAGE_RES,
+                                ImageData.IMAGE_RES);
                         image.setTexture(imageBuffer[bufferPointer]);
 
                         int next = (bufferPointer + 1) % BUFFER_SIZE;
-                        imageBuffer[next] =
-                                Arrays.copyOf(imageBuffer[bufferPointer], ImageData.IMAGE_RES * ImageData.IMAGE_RES);
+                        imageBuffer[next] = Arrays
+                                .copyOf(imageBuffer[bufferPointer], ImageData.IMAGE_RES * ImageData.IMAGE_RES);
                         bufferPointer = next;
                         imageBuffer[(bufferPointer + 1) % BUFFER_SIZE] = null;
 
@@ -623,14 +660,16 @@ public class GuiFlagDesigner extends GuiScreen {
                         dialog.setVisible(true);
 
                         if (dialog.imageSection != null) {
-                            ImageData image =
-                                    new ImageData(dialog.imageSection, ImageData.IMAGE_RES, ImageData.IMAGE_RES);
+                            ImageData image = new ImageData(
+                                    dialog.imageSection,
+                                    ImageData.IMAGE_RES,
+                                    ImageData.IMAGE_RES);
 
                             image.setTexture(imageBuffer[bufferPointer]);
 
                             int next = (bufferPointer + 1) % BUFFER_SIZE;
-                            imageBuffer[next] = Arrays.copyOf(
-                                    imageBuffer[bufferPointer], ImageData.IMAGE_RES * ImageData.IMAGE_RES);
+                            imageBuffer[next] = Arrays
+                                    .copyOf(imageBuffer[bufferPointer], ImageData.IMAGE_RES * ImageData.IMAGE_RES);
                             bufferPointer = next;
                             imageBuffer[(bufferPointer + 1) % BUFFER_SIZE] = null;
                         }
@@ -648,8 +687,8 @@ public class GuiFlagDesigner extends GuiScreen {
         }
     }
 
-    public void drawTexturedModalRect(
-            int x, int y, int width, int height, int tex_x, int tex_y, int tex_width, int tex_height) {
+    public void drawTexturedModalRect(int x, int y, int width, int height, int tex_x, int tex_y, int tex_width,
+            int tex_height) {
         float f = 1F;
         float f1 = 1F;
         Tessellator tessellator = Tessellator.instance;
@@ -673,8 +712,11 @@ public class GuiFlagDesigner extends GuiScreen {
                 (double) ((float) (tex_x + tex_width) * f),
                 (double) ((float) (tex_y + 0) * f1));
         tessellator.addVertexWithUV(
-                (double) (x + 0), (double) (y + 0), (double) this.zLevel, (double) ((float) (tex_x + 0) * f), (double)
-                        ((float) (tex_y + 0) * f1));
+                (double) (x + 0),
+                (double) (y + 0),
+                (double) this.zLevel,
+                (double) ((float) (tex_x + 0) * f),
+                (double) ((float) (tex_y + 0) * f1));
         tessellator.draw();
     }
 }

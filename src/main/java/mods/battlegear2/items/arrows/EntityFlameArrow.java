@@ -8,6 +8,7 @@ import net.minecraft.world.World;
 
 /**
  * An arrow which sets living entities or blocks on flame
+ * 
  * @author GotoLink
  *
  */
@@ -23,12 +24,8 @@ public class EntityFlameArrow extends AbstractMBArrow {
         isImmuneToFire = true;
     }
 
-    public EntityFlameArrow(
-            World par1World,
-            EntityLivingBase par2EntityLivingBase,
-            EntityLivingBase par3EntityLivingBase,
-            float par4,
-            float par5) {
+    public EntityFlameArrow(World par1World, EntityLivingBase par2EntityLivingBase,
+            EntityLivingBase par3EntityLivingBase, float par4, float par5) {
         super(par1World, par2EntityLivingBase, par3EntityLivingBase, par4, par5);
         isImmuneToFire = true;
     }

@@ -2,9 +2,11 @@ package mods.battlegear2.client.gui.controls;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+
 import org.lwjgl.opengl.GL11;
 
 public class GuiSliderAlt extends GuiButton {
+
     /** The value of this slider control. */
     public float sliderValue = 1.0F;
 
@@ -37,7 +39,12 @@ public class GuiSliderAlt extends GuiButton {
 
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             this.drawTexturedModalRect(
-                    this.xPosition + (int) (this.sliderValue * (float) (this.width - 8)), this.yPosition, 0, 66, 4, 20);
+                    this.xPosition + (int) (this.sliderValue * (float) (this.width - 8)),
+                    this.yPosition,
+                    0,
+                    66,
+                    4,
+                    20);
             this.drawTexturedModalRect(
                     this.xPosition + (int) (this.sliderValue * (float) (this.width - 8)) + 4,
                     this.yPosition,

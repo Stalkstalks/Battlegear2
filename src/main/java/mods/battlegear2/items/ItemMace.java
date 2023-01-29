@@ -1,19 +1,22 @@
 package mods.battlegear2.items;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import mods.battlegear2.api.weapons.IPotionEffect;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
+
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemMace extends OneHandedWeapon implements IPotionEffect {
 
@@ -47,7 +50,9 @@ public class ItemMace extends OneHandedWeapon implements IPotionEffect {
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
         super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
-        par3List.add(EnumChatFormatting.GOLD + StatCollector.translateToLocal("attribute.name.weapon.daze") + " "
-                + percentFormat.format(stunChance));
+        par3List.add(
+                EnumChatFormatting.GOLD + StatCollector.translateToLocal("attribute.name.weapon.daze")
+                        + " "
+                        + percentFormat.format(stunChance));
     }
 }

@@ -1,18 +1,21 @@
 package mods.battlegear2.client.renderer;
 
 import mods.battlegear2.heraldry.BlockFlagPole;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
+
 import org.lwjgl.opengl.GL11;
 
 /**
  * Created by Aaron on 2/08/13.
  */
 public class FlagPoleItemRenderer implements IItemRenderer {
+
     private BlockFlagPole pole;
     private Item itemCache;
 
@@ -58,46 +61,102 @@ public class FlagPoleItemRenderer implements IItemRenderer {
             case EQUIPPED:
                 tess.startDrawingQuads();
                 tess.addVertexWithUV(
-                        7F / 16F, size, 0, icon.getInterpolatedU(dims[0]), icon.getInterpolatedV((dims[4])));
+                        7F / 16F,
+                        size,
+                        0,
+                        icon.getInterpolatedU(dims[0]),
+                        icon.getInterpolatedV((dims[4])));
                 tess.addVertexWithUV(
-                        9F / 16F, size, 0, icon.getInterpolatedU(dims[1]), icon.getInterpolatedV((dims[4])));
+                        9F / 16F,
+                        size,
+                        0,
+                        icon.getInterpolatedU(dims[1]),
+                        icon.getInterpolatedV((dims[4])));
                 tess.addVertexWithUV(9F / 16F, 0, 0, icon.getInterpolatedU(dims[1]), icon.getInterpolatedV(dims[0]));
                 tess.addVertexWithUV(7F / 16F, 0, 0, icon.getInterpolatedU(dims[0]), icon.getInterpolatedV(dims[0]));
                 tess.draw();
 
                 tess.startDrawingQuads();
                 tess.addVertexWithUV(
-                        7F / 16F, 0, 0F / 16F, icon.getInterpolatedU(dims[1]), icon.getInterpolatedV(dims[0]));
+                        7F / 16F,
+                        0,
+                        0F / 16F,
+                        icon.getInterpolatedU(dims[1]),
+                        icon.getInterpolatedV(dims[0]));
                 tess.addVertexWithUV(
-                        7F / 16F, 0, 2F / 16F, icon.getInterpolatedU((dims[2])), icon.getInterpolatedV(dims[0]));
+                        7F / 16F,
+                        0,
+                        2F / 16F,
+                        icon.getInterpolatedU((dims[2])),
+                        icon.getInterpolatedV(dims[0]));
                 tess.addVertexWithUV(
-                        7F / 16F, size, 2F / 16F, icon.getInterpolatedU((dims[2])), icon.getInterpolatedV((dims[4])));
+                        7F / 16F,
+                        size,
+                        2F / 16F,
+                        icon.getInterpolatedU((dims[2])),
+                        icon.getInterpolatedV((dims[4])));
                 tess.addVertexWithUV(
-                        7F / 16F, size, 0F / 16F, icon.getInterpolatedU(dims[1]), icon.getInterpolatedV((dims[4])));
+                        7F / 16F,
+                        size,
+                        0F / 16F,
+                        icon.getInterpolatedU(dims[1]),
+                        icon.getInterpolatedV((dims[4])));
                 tess.draw();
 
                 tess.startDrawingQuads();
                 tess.addVertexWithUV(
-                        7F / 16F, 0, 2F / 16F, icon.getInterpolatedU((dims[2])), icon.getInterpolatedV(dims[0]));
+                        7F / 16F,
+                        0,
+                        2F / 16F,
+                        icon.getInterpolatedU((dims[2])),
+                        icon.getInterpolatedV(dims[0]));
                 tess.addVertexWithUV(
-                        9F / 16F, 0, 2F / 16F, icon.getInterpolatedU((dims[3])), icon.getInterpolatedV(dims[0]));
+                        9F / 16F,
+                        0,
+                        2F / 16F,
+                        icon.getInterpolatedU((dims[3])),
+                        icon.getInterpolatedV(dims[0]));
                 tess.addVertexWithUV(
-                        9F / 16F, size, 2F / 16F, icon.getInterpolatedU((dims[3])), icon.getInterpolatedV((dims[4])));
+                        9F / 16F,
+                        size,
+                        2F / 16F,
+                        icon.getInterpolatedU((dims[3])),
+                        icon.getInterpolatedV((dims[4])));
                 tess.addVertexWithUV(
-                        7F / 16F, size, 2F / 16F, icon.getInterpolatedU((dims[2])), icon.getInterpolatedV((dims[4])));
+                        7F / 16F,
+                        size,
+                        2F / 16F,
+                        icon.getInterpolatedU((dims[2])),
+                        icon.getInterpolatedV((dims[4])));
                 tess.draw();
 
                 tess.startDrawingQuads();
                 tess.addVertexWithUV(
-                        9F / 16F, size, 0F / 16F, icon.getInterpolatedU((dims[3])), icon.getInterpolatedV((dims[4])));
+                        9F / 16F,
+                        size,
+                        0F / 16F,
+                        icon.getInterpolatedU((dims[3])),
+                        icon.getInterpolatedV((dims[4])));
 
                 tess.addVertexWithUV(
-                        9F / 16F, size, 2F / 16F, icon.getInterpolatedU((dims[4])), icon.getInterpolatedV((dims[4])));
+                        9F / 16F,
+                        size,
+                        2F / 16F,
+                        icon.getInterpolatedU((dims[4])),
+                        icon.getInterpolatedV((dims[4])));
 
                 tess.addVertexWithUV(
-                        9F / 16F, 0, 2F / 16F, icon.getInterpolatedU((dims[4])), icon.getInterpolatedV(dims[0]));
+                        9F / 16F,
+                        0,
+                        2F / 16F,
+                        icon.getInterpolatedU((dims[4])),
+                        icon.getInterpolatedV(dims[0]));
                 tess.addVertexWithUV(
-                        9F / 16F, 0, 0F / 16F, icon.getInterpolatedU((dims[3])), icon.getInterpolatedV(dims[0]));
+                        9F / 16F,
+                        0,
+                        0F / 16F,
+                        icon.getInterpolatedU((dims[3])),
+                        icon.getInterpolatedV(dims[0]));
                 tess.draw();
 
                 icon = pole.getIcon(0, poleType);
@@ -127,13 +186,29 @@ public class FlagPoleItemRenderer implements IItemRenderer {
 
                 tess.startDrawingQuads();
                 tess.addVertexWithUV(
-                        7F / 16F, 0, 0F / 16F, icon.getInterpolatedU(dims[1]), icon.getInterpolatedV(dims[0]));
+                        7F / 16F,
+                        0,
+                        0F / 16F,
+                        icon.getInterpolatedU(dims[1]),
+                        icon.getInterpolatedV(dims[0]));
                 tess.addVertexWithUV(
-                        7F / 16F, 0, 2F / 16F, icon.getInterpolatedU((dims[2])), icon.getInterpolatedV(dims[0]));
+                        7F / 16F,
+                        0,
+                        2F / 16F,
+                        icon.getInterpolatedU((dims[2])),
+                        icon.getInterpolatedV(dims[0]));
                 tess.addVertexWithUV(
-                        7F / 16F, 1, 2F / 16F, icon.getInterpolatedU((dims[2])), icon.getInterpolatedV((dims[4])));
+                        7F / 16F,
+                        1,
+                        2F / 16F,
+                        icon.getInterpolatedU((dims[2])),
+                        icon.getInterpolatedV((dims[4])));
                 tess.addVertexWithUV(
-                        7F / 16F, 1, 0F / 16F, icon.getInterpolatedU(dims[1]), icon.getInterpolatedV((dims[4])));
+                        7F / 16F,
+                        1,
+                        0F / 16F,
+                        icon.getInterpolatedU(dims[1]),
+                        icon.getInterpolatedV((dims[4])));
                 tess.draw();
 
                 break;

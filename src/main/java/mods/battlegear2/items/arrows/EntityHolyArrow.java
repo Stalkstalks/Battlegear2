@@ -18,12 +18,8 @@ public class EntityHolyArrow extends AbstractMBArrow {
         super(par1World, par2EntityLivingBase, par3);
     }
 
-    public EntityHolyArrow(
-            World par1World,
-            EntityLivingBase par2EntityLivingBase,
-            EntityLivingBase par3EntityLivingBase,
-            float par4,
-            float par5) {
+    public EntityHolyArrow(World par1World, EntityLivingBase par2EntityLivingBase,
+            EntityLivingBase par3EntityLivingBase, float par4, float par5) {
         super(par1World, par2EntityLivingBase, par3EntityLivingBase, par4, par5);
     }
 
@@ -32,14 +28,14 @@ public class EntityHolyArrow extends AbstractMBArrow {
         boolean flag = false;
         if (entityHit.isCreatureType(EnumCreatureType.monster, false)) {
             entityHit.attackEntityFrom(
-                    new EntityDamageSourceIndirect("holy", null, shootingEntity)
-                            .setProjectile()
+                    new EntityDamageSourceIndirect("holy", null, shootingEntity).setProjectile()
                             .setDamageBypassesArmor(),
                     amount + 5);
         }
         if (entityHit instanceof EntityLivingBase) {
             entityHit.attackEntityFrom(
-                    new EntityDamageSourceIndirect("default", null, shootingEntity).setProjectile(), amount - 2);
+                    new EntityDamageSourceIndirect("default", null, shootingEntity).setProjectile(),
+                    amount - 2);
             flag = true;
         }
         setDead();

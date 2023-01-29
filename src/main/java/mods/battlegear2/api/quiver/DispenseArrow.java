@@ -10,8 +10,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 /**
- * Created by GotoLink on 07/11/2014.
- * A generic dispensing arrow behavior for {@link BlockDispenser]
+ * Created by GotoLink on 07/11/2014. A generic dispensing arrow behavior for {@link BlockDispenser]
  */
 public abstract class DispenseArrow extends BehaviorDefaultDispenseItem {
 
@@ -34,18 +33,18 @@ public abstract class DispenseArrow extends BehaviorDefaultDispenseItem {
     /**
      * Instantiate the arrow.
      *
-     * @param world where the dispenser is, and inside which the arrow will spawn
+     * @param world     where the dispenser is, and inside which the arrow will spawn
      * @param itemStack that the dispenser selected
      * @return null to default to the item dispensing
      */
     protected abstract EntityArrow getArrowEntity(World world, ItemStack itemStack);
 
     /**
-     * Set the arrow properties after instantiation, but before spawn.
-     * Default to setting position, direction, and the pick up flag.
+     * Set the arrow properties after instantiation, but before spawn. Default to setting position, direction, and the
+     * pick up flag.
      *
-     * @param arrow that was instantiated
-     * @param iPosition the dispenser position
+     * @param arrow      that was instantiated
+     * @param iPosition  the dispenser position
      * @param enumfacing the dispenser face
      */
     protected void setArrowProperties(EntityArrow arrow, IPosition iPosition, EnumFacing enumfacing) {
@@ -61,8 +60,7 @@ public abstract class DispenseArrow extends BehaviorDefaultDispenseItem {
     }
 
     /**
-     * After the arrow has been successfully spawned.
-     * Default to making a copy of the given stack with one size less.
+     * After the arrow has been successfully spawned. Default to making a copy of the given stack with one size less.
      *
      * @param itemStack inside the dispenser, to consume from
      */

@@ -1,25 +1,29 @@
 package mods.battlegear2.api;
 
+import java.lang.reflect.Constructor;
+import java.util.*;
+
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentData;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.config.Property;
+
+import org.apache.logging.log4j.Level;
+
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ObjectArrays;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Primitives;
 import cpw.mods.fml.common.FMLLog;
-import java.lang.reflect.Constructor;
-import java.util.*;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentData;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.config.Property;
-import org.apache.logging.log4j.Level;
 
 /**
- * Created by GotoLink on 11/10/2014.
- * Help to manage collections of enchantments, build new optional instances, find available ids...
+ * Created by GotoLink on 11/10/2014. Help to manage collections of enchantments, build new optional instances, find
+ * available ids...
  */
 public class EnchantmentHelper {
+
     /**
      * Reservation system for new enchantments id, requested using {@link #takeNextAvailableId}
      */
@@ -30,6 +34,7 @@ public class EnchantmentHelper {
 
     public EnchantmentHelper() {
         enchants = Sets.newTreeSet(new Comparator<Enchantment>() {
+
             @Override
             public int compare(Enchantment o1, Enchantment o2) {
                 return o1.effectId - o2.effectId;
@@ -59,16 +64,17 @@ public class EnchantmentHelper {
     }
 
     /**
-     * Give maxed-out enchantments books from the enchantments list.
-     * Used by battlegear creative tab for its display list
+     * Give maxed-out enchantments books from the enchantments list. Used by battlegear creative tab for its display
+     * list
      *
      * @return list containing the enchantment books
      */
     public Collection<ItemStack> getEnchantmentBooks() {
         Collection<ItemStack> list = new ArrayList<ItemStack>(enchants.size());
         for (Enchantment enchantment : enchants) {
-            list.add(Items.enchanted_book.getEnchantedItemStack(
-                    new EnchantmentData(enchantment, enchantment.getMaxLevel())));
+            list.add(
+                    Items.enchanted_book
+                            .getEnchantedItemStack(new EnchantmentData(enchantment, enchantment.getMaxLevel())));
         }
         return list;
     }
@@ -83,9 +89,8 @@ public class EnchantmentHelper {
     }
 
     /**
-     * Get the next available id for a new enchantment, makes no reservation.
-     * Will always return the same result till a new enchantment is added to {@link Enchantment#enchantmentsList}
-     * Recommended when registering lone enchantments
+     * Get the next available id for a new enchantment, makes no reservation. Will always return the same result till a
+     * new enchantment is added to {@link Enchantment#enchantmentsList} Recommended when registering lone enchantments
      *
      * @param startingId to start search from (included)
      * @return {@link #INVALID} if no id above the given one is available, or the next available id
@@ -100,8 +105,8 @@ public class EnchantmentHelper {
     }
 
     /**
-     * Get the next available id for a new enchantment, makes an internal reservation.
-     * Can be used when searching multiple available ids
+     * Get the next available id for a new enchantment, makes an internal reservation. Can be used when searching
+     * multiple available ids
      *
      * @param startingId to start search from (included)
      * @return {@link #INVALID} if no id above the given one is available, or the next available id
@@ -127,9 +132,8 @@ public class EnchantmentHelper {
     }
 
     /**
-     * Get the next available id for a new enchantment, makes an internal reservation.
-     * Can be used when searching multiple available ids
-     * The given argument is untouched if {@link #INVALID} is returned
+     * Get the next available id for a new enchantment, makes an internal reservation. Can be used when searching
+     * multiple available ids The given argument is untouched if {@link #INVALID} is returned
      *
      * @param property read as an int {@link Property#getInt()} and refreshed with the new available id
      * @return {@link #INVALID} if no id above the given one is available, or the next available id
@@ -147,18 +151,17 @@ public class EnchantmentHelper {
     }
 
     /**
-     * Build an optional enchantment.
-     * When instantiating, the first argument will always be the enchantment id,
-     * while the others have unwrapped types based on the {@code args} array
+     * Build an optional enchantment. When instantiating, the first argument will always be the enchantment id, while
+     * the others have unwrapped types based on the {@code args} array
      *
      * @param property to take the integer value as default enchantment id
-     * @param name to name the enchantment, null or empty to not call {@link Enchantment#setName(String)}
-     * @param type class to instantiate once an available id is found
-     * @param args additional arguments used on the constructor when instantiating
+     * @param name     to name the enchantment, null or empty to not call {@link Enchantment#setName(String)}
+     * @param type     class to instantiate once an available id is found
+     * @param args     additional arguments used on the constructor when instantiating
      * @return the optional enchantment
      */
-    public static Optional<Enchantment> build(
-            Property property, String name, Class<? extends Enchantment> type, Object... args) {
+    public static Optional<Enchantment> build(Property property, String name, Class<? extends Enchantment> type,
+            Object... args) {
         int id = takeNextAvailableId(property);
         if (id != INVALID && type != null) {
             Enchantment enchantment = null;
@@ -200,13 +203,12 @@ public class EnchantmentHelper {
      * Get the enchantment level on the given stack.
      *
      * @param enchantmentOptional the optional enchantment
-     * @param itemStack to search enchantment on, can be null
+     * @param itemStack           to search enchantment on, can be null
      * @return 0 if the enchantment doesn't exist, or stack is null, the level of the enchantment otherwise
      */
     public static int getEnchantmentLevel(Optional<Enchantment> enchantmentOptional, ItemStack itemStack) {
-        if (enchantmentOptional.isPresent())
-            return net.minecraft.enchantment.EnchantmentHelper.getEnchantmentLevel(
-                    enchantmentOptional.get().effectId, itemStack);
+        if (enchantmentOptional.isPresent()) return net.minecraft.enchantment.EnchantmentHelper
+                .getEnchantmentLevel(enchantmentOptional.get().effectId, itemStack);
         else return 0;
     }
 }

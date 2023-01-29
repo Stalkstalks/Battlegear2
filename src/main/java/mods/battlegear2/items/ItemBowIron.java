@@ -1,7 +1,5 @@
 package mods.battlegear2.items;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -15,6 +13,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ArrowLooseEvent;
 import net.minecraftforge.event.entity.player.ArrowNockEvent;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemBowIron extends ItemBow {
 
@@ -73,7 +74,10 @@ public class ItemBowIron extends ItemBow {
 
             p_77615_1_.damageItem(1, p_77615_3_);
             p_77615_2_.playSoundAtEntity(
-                    p_77615_3_, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
+                    p_77615_3_,
+                    "random.bow",
+                    1.0F,
+                    1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
 
             if (flag) {
                 entityarrow.canBePickedUp = 2;

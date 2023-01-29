@@ -1,19 +1,19 @@
 package mods.battlegear2.client.utils;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
 import mods.battlegear2.api.heraldry.IHeraldryItem;
+
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.item.ItemStack;
 
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+
 /**
- * User: nerd-boy
- * Date: 2/08/13
- * Time: 3:02 PM
- * TODO: Add discription
+ * User: nerd-boy Date: 2/08/13 Time: 3:02 PM TODO: Add discription
  */
 public class ImageCache {
+
     public static int CACHE_SIZE = 25;
     private static ItemStack temp;
 
@@ -30,14 +30,13 @@ public class ImageCache {
     }
 
     private static final LoadingCache<String, DynamicTexture> imageCache = CacheBuilder.newBuilder()
-            .maximumSize(CACHE_SIZE)
-            .build(new CacheLoader<String, DynamicTexture>() {
+            .maximumSize(CACHE_SIZE).build(new CacheLoader<String, DynamicTexture>() {
+
                 @Override
                 public DynamicTexture load(String key) throws Exception {
                     DynamicTexture texture = new DynamicTexture(ImageData.IMAGE_RES, ImageData.IMAGE_RES);
 
-                    if (temp != null
-                            && temp.getItem() instanceof IHeraldryItem
+                    if (temp != null && temp.getItem() instanceof IHeraldryItem
                             && ((IHeraldryItem) temp.getItem()).hasHeraldry(temp)) {
 
                         new ImageData(((IHeraldryItem) temp.getItem()).getHeraldry(temp))
@@ -54,8 +53,7 @@ public class ImageCache {
 
     public static void setTexture(ItemStack stack) {
 
-        if (stack != null
-                && stack.getItem() instanceof IHeraldryItem
+        if (stack != null && stack.getItem() instanceof IHeraldryItem
                 && ((IHeraldryItem) stack.getItem()).hasHeraldry(stack)) {
             ImageData id = new ImageData(((IHeraldryItem) stack.getItem()).getHeraldry(stack));
             id.setTexture(test1.getTextureData());
