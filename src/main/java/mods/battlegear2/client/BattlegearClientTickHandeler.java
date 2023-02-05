@@ -61,7 +61,7 @@ public final class BattlegearClientTickHandeler {
     public static final BattlegearClientTickHandeler INSTANCE = new BattlegearClientTickHandeler();
 
     private BattlegearClientTickHandeler() {
-        drawWeapons = new KeyBinding("Draw Weapons", Keyboard.KEY_R, "key.categories.battlegear");
+        drawWeapons = new KeyBinding("Draw Weapons", Keyboard.KEY_G, "key.categories.battlegear");
         special = new KeyBinding("Special", Keyboard.KEY_NONE, "key.categories.battlegear");
         ClientRegistry.registerKeyBinding(drawWeapons);
         ClientRegistry.registerKeyBinding(special);
