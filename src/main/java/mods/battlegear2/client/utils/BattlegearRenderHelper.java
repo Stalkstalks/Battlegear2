@@ -85,7 +85,8 @@ public final class BattlegearRenderHelper {
 
         if (offhandRender.getOffHandItemToRender() != dummyStack) {
             float progress = offhandRender.getPrevEquippedOffHandProgress()
-                    + (offhandRender.getEquippedOffHandProgress() - offhandRender.getPrevEquippedOffHandProgress()) * frame;
+                    + (offhandRender.getEquippedOffHandProgress() - offhandRender.getPrevEquippedOffHandProgress())
+                            * frame;
 
             EntityClientPlayerMP player = mc.thePlayer;
 
@@ -177,7 +178,8 @@ public final class BattlegearRenderHelper {
 
                         if (action == EnumAction.eat || action == EnumAction.drink) {
                             var21 = (float) player.getItemInUseCount() - frame + 1.0F;
-                            var10 = 1.0F - var21 / (float) offhandRender.getOffHandItemToRender().getMaxItemUseDuration();
+                            var10 = 1.0F
+                                    - var21 / (float) offhandRender.getOffHandItemToRender().getMaxItemUseDuration();
                             var11 = 1.0F - var10;
                             var11 = var11 * var11 * var11;
                             var11 = var11 * var11 * var11;
@@ -349,7 +351,8 @@ public final class BattlegearRenderHelper {
         EntityPlayer var1 = mc.thePlayer;
         ItemStack var2 = ((IBattlePlayer) var1).isBattlemode() ? var1.inventory.getStackInSlot(slot) : dummyStack;
 
-        boolean sameItem = offhandRender.getEquippedItemOffhandSlot() == slot && var2 == offhandRender.getOffHandItemToRender();
+        boolean sameItem = offhandRender.getEquippedItemOffhandSlot() == slot
+                && var2 == offhandRender.getOffHandItemToRender();
 
         if (offhandRender.getOffHandItemToRender() == null && var2 == null) {
             sameItem = true;

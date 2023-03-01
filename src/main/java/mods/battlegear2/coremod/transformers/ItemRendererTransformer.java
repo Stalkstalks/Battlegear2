@@ -114,7 +114,11 @@ public final class ItemRendererTransformer extends TransformerBase {
                 generateSetter(itemRendererClass, "setEquippedOffHandProgress", "equippedOffHandProgress", "F"));
         methods.add(
                 methods.size(),
-                generateSetter(itemRendererClass, "setPrevEquippedOffHandProgress", "prevEquippedOffHandProgress", "F"));
+                generateSetter(
+                        itemRendererClass,
+                        "setPrevEquippedOffHandProgress",
+                        "prevEquippedOffHandProgress",
+                        "F"));
         methods.add(
                 methods.size(),
                 generateGetter(
@@ -130,7 +134,11 @@ public final class ItemRendererTransformer extends TransformerBase {
                 generateGetter(itemRendererClass, "getEquippedOffHandProgress", "equippedOffHandProgress", "F"));
         methods.add(
                 methods.size(),
-                generateGetter(itemRendererClass, "getPrevEquippedOffHandProgress", "prevEquippedOffHandProgress", "F"));
+                generateGetter(
+                        itemRendererClass,
+                        "getPrevEquippedOffHandProgress",
+                        "prevEquippedOffHandProgress",
+                        "F"));
         return found == 2;
     }
 
