@@ -236,7 +236,7 @@ public final class BattlegearClientTickHandeler {
                 if (useItemEvent.offhand.stackSize == 0) {
                     BattlegearUtils.setPlayerOffhandItem(player, null);
                 } else if (useItemEvent.offhand.stackSize != size || mc.playerController.isInCreativeMode()) {
-                    ((IOffhandRender) mc.entityRenderer.itemRenderer).setEquippedProgress(0.0F);
+                    ((IOffhandRender) mc.entityRenderer.itemRenderer).setEquippedOffHandProgress(0.0F);
                 }
             }
         }
@@ -264,7 +264,7 @@ public final class BattlegearClientTickHandeler {
                 if (flag) {
                     if (useItemEvent.swingOffhand)
                         BattlegearUtils.sendOffSwingEvent(useItemEvent.event, useItemEvent.offhand);
-                    ((IOffhandRender) mc.entityRenderer.itemRenderer).setEquippedProgress(0.0F);
+                    ((IOffhandRender) mc.entityRenderer.itemRenderer).setEquippedOffHandProgress(0.0F);
                 }
             }
         }

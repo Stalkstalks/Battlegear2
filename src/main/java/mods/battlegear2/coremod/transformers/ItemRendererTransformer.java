@@ -103,34 +103,42 @@ public final class ItemRendererTransformer extends TransformerBase {
                 methods.size(),
                 generateSetter(
                         itemRendererClass,
-                        "setItemToRender",
+                        "setOffHandItemToRender",
                         "offHandItemToRender",
                         "L" + itemStackClass + ";"));
         methods.add(
                 methods.size(),
-                generateSetter(itemRendererClass, "setEquippedItemSlot", "equippedItemOffhandSlot", "I"));
+                generateSetter(itemRendererClass, "serEquippedItemOffhandSlot", "equippedItemOffhandSlot", "I"));
         methods.add(
                 methods.size(),
-                generateSetter(itemRendererClass, "setEquippedProgress", "equippedOffHandProgress", "F"));
+                generateSetter(itemRendererClass, "setEquippedOffHandProgress", "equippedOffHandProgress", "F"));
         methods.add(
                 methods.size(),
-                generateSetter(itemRendererClass, "setPrevEquippedProgress", "prevEquippedOffHandProgress", "F"));
+                generateSetter(
+                        itemRendererClass,
+                        "setPrevEquippedOffHandProgress",
+                        "prevEquippedOffHandProgress",
+                        "F"));
         methods.add(
                 methods.size(),
                 generateGetter(
                         itemRendererClass,
-                        "getItemToRender",
+                        "getOffHandItemToRender",
                         "offHandItemToRender",
                         "L" + itemStackClass + ";"));
         methods.add(
                 methods.size(),
-                generateGetter(itemRendererClass, "getEquippedItemSlot", "equippedItemOffhandSlot", "I"));
+                generateGetter(itemRendererClass, "getEquippedItemOffhandSlot", "equippedItemOffhandSlot", "I"));
         methods.add(
                 methods.size(),
-                generateGetter(itemRendererClass, "getEquippedProgress", "equippedOffHandProgress", "F"));
+                generateGetter(itemRendererClass, "getEquippedOffHandProgress", "equippedOffHandProgress", "F"));
         methods.add(
                 methods.size(),
-                generateGetter(itemRendererClass, "getPrevEquippedProgress", "prevEquippedOffHandProgress", "F"));
+                generateGetter(
+                        itemRendererClass,
+                        "getPrevEquippedOffHandProgress",
+                        "prevEquippedOffHandProgress",
+                        "F"));
         return found == 2;
     }
 
