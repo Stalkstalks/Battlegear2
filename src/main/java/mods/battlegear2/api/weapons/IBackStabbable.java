@@ -6,7 +6,7 @@ public interface IBackStabbable {
 
     /**
      * Action to perform on back stabbing
-     * 
+     *
      * @param entityHit
      * @param entityHitting
      * @return true if it adds an hitting action

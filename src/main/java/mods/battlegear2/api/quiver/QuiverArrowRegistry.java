@@ -1,10 +1,11 @@
 package mods.battlegear2.api.quiver;
 
-import java.util.*;
-
-import mods.battlegear2.api.ISensible;
-import mods.battlegear2.api.core.InventoryPlayerBattle;
-import mods.battlegear2.items.ItemQuiver;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,6 +18,10 @@ import net.minecraft.world.World;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterators;
+
+import mods.battlegear2.api.ISensible;
+import mods.battlegear2.api.core.InventoryPlayerBattle;
+import mods.battlegear2.items.ItemQuiver;
 
 public class QuiverArrowRegistry {
 
@@ -33,7 +38,7 @@ public class QuiverArrowRegistry {
 
     /**
      * Adds an item to the known arrow lists, not metadata sensitive
-     * 
+     *
      * @param itemId      the item id
      * @param entityArrow the class from which the arrow entity will be constructed by the default fire handler (can be
      *                    null, if custom fire handler is desired)
@@ -45,7 +50,7 @@ public class QuiverArrowRegistry {
 
     /**
      * Adds an item to the known arrow lists
-     * 
+     *
      * @param itemId       the item id
      * @param itemMetadata the item damage value, as metadata
      * @param entityArrow  the class from which the arrow entity will be constructed by the default fire handler (can be
@@ -59,9 +64,9 @@ public class QuiverArrowRegistry {
     /**
      * NBT sensitive version, can be called through FMLInterModComms.sendMessage("battlegear2", "Arrow", itemStack);
      * Will not fire from a quiver by {@link DefaultArrowFire}
-     * 
-     * @see #addArrowFireHandler(IArrowFireHandler) to enable the arrow firing from a quiver
+     *
      * @param stack holding the arrow
+     * @see #addArrowFireHandler(IArrowFireHandler) to enable the arrow firing from a quiver
      */
     public static void addArrowToRegistry(ItemStack stack) {
         addArrowToRegistry(stack, null);
@@ -71,7 +76,7 @@ public class QuiverArrowRegistry {
      * NBT sensitive version, can be called through FMLInterModComms.sendMessage("battlegear2", "Arrow:"+classPath,
      * itemStack); where classPath is the full class path for the arrow class will defer to
      * {@link #addArrowToRegistry(ItemStack)} in case of error
-     * 
+     *
      * @param stack       holding the arrow
      * @param entityArrow the class from which the arrow entity will be constructed by {@link DefaultArrowFire} (can be
      *                    null, if custom fire handler is desired)
@@ -87,7 +92,7 @@ public class QuiverArrowRegistry {
      * Adds a new quiver selection algorithm to the known list, can be called through
      * FMLInterModComms.sendMessage("battlegear2", "QuiverSelection", classpath); where classPath is the full class path
      * for the class implementing IQuiverSelection, and said class has a default constructor to built from
-     * 
+     *
      * @param handler the selection algorithm to add
      * @return true if it could be added
      */
@@ -101,7 +106,7 @@ public class QuiverArrowRegistry {
      * Adds a new arrow firing handler to the known list, can be called through
      * FMLInterModComms.sendMessage("battlegear2", "FireHandler", classpath); where classPath is the full class path for
      * the class implementing IArrowFireHandler, and said class has a default constructor to built from
-     * 
+     *
      * @param handler the firing handler to add
      * @return true if it could be added
      */
@@ -114,7 +119,7 @@ public class QuiverArrowRegistry {
     /**
      * Search for an ItemStack whose item is an {@link IArrowContainer2}, to be used either by a compatible mainhand bow
      * or offhand bow
-     * 
+     *
      * @param entityPlayer the player being searched for an arrow container
      * @return the first non-null itemstack found through the quiver selection algorithms
      */
@@ -130,7 +135,7 @@ public class QuiverArrowRegistry {
 
     /**
      * Search for an ItemStack whose item is an {@link IArrowContainer2}
-     * 
+     *
      * @param bow          the "bow" in use, not necessarily a {@link ItemBow}
      * @param entityPlayer the player using it
      * @return the first non-null itemstack found through the quiver selection algorithms
@@ -148,7 +153,7 @@ public class QuiverArrowRegistry {
 
     /**
      * Search for an {@link EntityArrow} to be spawned, used by the default {@link ItemQuiver}
-     * 
+     *
      * @param arrow  the stack which should define the arrow as item
      * @param world  world
      * @param player player using a bow to fire an arrow
@@ -214,7 +219,7 @@ public class QuiverArrowRegistry {
 
     /**
      * Check if the given ItemStack has been registered
-     * 
+     *
      * @param test the ItemStack to check
      * @return true if that ItemStack has been registered, with NBT or not
      */
@@ -224,7 +229,7 @@ public class QuiverArrowRegistry {
 
     /**
      * Check if the given ItemStack has been registered
-     * 
+     *
      * @param test             the ItemStack to check
      * @param compareFullStack if the full ItemStack should be checked, or only its Item
      * @return true if that ItemStack has been registered
@@ -236,7 +241,7 @@ public class QuiverArrowRegistry {
 
     /**
      * Check if the given ItemStack has been registered
-     * 
+     *
      * @param test   the ItemStack to check
      * @param senses defines the meaningful ItemStack differences for the identification
      * @return true if a known similarity has been found

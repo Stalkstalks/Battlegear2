@@ -20,7 +20,6 @@ public interface IHandListener {
      *                      opposite (right) hand item interaction has been cancelled. WHEN isOffhand is FALSE,
      *                      {@link PlayerInteractEvent#useItem} decide whether to use the mainhandStack but is DENY by
      *                      default
-     *
      * @param mainhandStack content of the mainhand slot (right hand)
      * @param offhandStack  content of the offhand slot (left hand)
      * @param isOffhand     true if this item is in the offhand slot, false if it is in the mainhand slot

@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
  * armor) or on the hip (opposite side to the hand slot it is stored in) Note:Default behavior is dependent on
  * Battlegear configuration This interface can be implemented in a {@link net.minecraft.item.Item} instance to decide
  * where to actually render it
- * 
+ *
  * @see RenderPlayerEventChild.PreRenderSheathed
  * @see RenderPlayerEventChild.PostRenderSheathed for more flexibility over the rendering
  */
@@ -16,7 +16,7 @@ public interface ISheathed {
 
     /**
      * Returns true if this item should always be sheathed on the back, false if it should be sheathed on the hip
-     * 
+     *
      * @param item the {@link ItemStack} to be sheathed
      */
     public boolean sheatheOnBack(ItemStack item);

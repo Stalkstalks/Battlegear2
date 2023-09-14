@@ -27,7 +27,7 @@ public class PatternStore {
 
     /**
      * Deconstruct an image and store its data for later use
-     * 
+     *
      * @param image
      * @return the index used to get the data back
      */
@@ -45,7 +45,7 @@ public class PatternStore {
 
     /**
      * See {@link #buildPatternFrom(java.awt.image.BufferedImage)}
-     * 
+     *
      * @throws IOException if the image can't be read
      */
     public int[][][][] buildPatternFrom(ResourceLocation image) throws IOException {
@@ -54,7 +54,7 @@ public class PatternStore {
 
     /**
      * See {@link #buildPatternFrom(java.awt.image.BufferedImage)}
-     * 
+     *
      * @throws IOException if the image can't be read
      */
     public int[][][][] buildPatternFrom(InputStream resourceStream) throws IOException {
@@ -63,7 +63,7 @@ public class PatternStore {
 
     /**
      * Analyse the given image by cutting it into subimages
-     * 
+     *
      * @param image
      * @return the subimages rgb values into arrays
      */

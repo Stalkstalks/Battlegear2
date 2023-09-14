@@ -9,9 +9,8 @@ import net.minecraft.world.World;
 
 /**
  * An arrow which deals wither effect on living entities
- * 
- * @author GotoLink
  *
+ * @author GotoLink
  */
 public class EntityPoisonArrow extends AbstractMBArrow {
 

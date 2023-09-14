@@ -1,19 +1,19 @@
 package mods.battlegear2.items;
 
-import mods.battlegear2.api.weapons.IPenetrateWeapon;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLog;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.item.ItemStack;
 
 import com.google.common.collect.Multimap;
+
 import cpw.mods.fml.common.registry.GameRegistry;
+import mods.battlegear2.api.weapons.IPenetrateWeapon;
 
 // Should we make this also use the heraldry? It actually doesn't look as good as the sword (and makes the sword a
 // little more special)
 public class ItemWaraxe extends OneHandedWeapon implements IPenetrateWeapon { // implements IHeraldyItem{ Don't know if
-                                                                              // we want to do this or not
+    // we want to do this or not
 
     /*
      * private Icon baseIcon; private Icon trimIcon; private Icon postRenderIcon;

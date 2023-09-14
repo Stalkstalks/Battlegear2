@@ -3,9 +3,10 @@ package mods.battlegear2.coremod.transformers;
 import java.util.Iterator;
 import java.util.List;
 
-import mods.battlegear2.api.core.BattlegearTranslator;
+import org.objectweb.asm.tree.FieldNode;
+import org.objectweb.asm.tree.MethodNode;
 
-import org.objectweb.asm.tree.*;
+import mods.battlegear2.api.core.BattlegearTranslator;
 
 public final class EntityOtherPlayerMPTransformer extends TransformerBase {
 

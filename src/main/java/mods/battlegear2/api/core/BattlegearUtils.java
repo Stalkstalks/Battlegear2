@@ -3,13 +3,6 @@ package mods.battlegear2.api.core;
 import java.io.Closeable;
 import java.io.IOException;
 
-import mods.battlegear2.api.*;
-import mods.battlegear2.api.quiver.IArrowContainer2;
-import mods.battlegear2.api.quiver.ISpecialBow;
-import mods.battlegear2.api.shield.IShield;
-import mods.battlegear2.api.weapons.IBattlegearWeapon;
-import mods.battlegear2.api.weapons.WeaponRegistry;
-
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -19,7 +12,18 @@ import net.minecraft.entity.ai.attributes.BaseAttributeMap;
 import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.item.*;
+import net.minecraft.item.EnumAction;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemBow;
+import net.minecraft.item.ItemBucket;
+import net.minecraft.item.ItemEnderPearl;
+import net.minecraft.item.ItemFireball;
+import net.minecraft.item.ItemFlintAndSteel;
+import net.minecraft.item.ItemSnowball;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
+import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTSizeTracker;
 import net.minecraft.nbt.NBTTagCompound;
@@ -38,7 +42,18 @@ import net.minecraftforge.oredict.OreDictionary;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
+
 import cpw.mods.fml.common.eventhandler.EventBus;
+import mods.battlegear2.api.IAllowItem;
+import mods.battlegear2.api.IOffhandDual;
+import mods.battlegear2.api.IOffhandWield;
+import mods.battlegear2.api.IUsableItem;
+import mods.battlegear2.api.PlayerEventChild;
+import mods.battlegear2.api.quiver.IArrowContainer2;
+import mods.battlegear2.api.quiver.ISpecialBow;
+import mods.battlegear2.api.shield.IShield;
+import mods.battlegear2.api.weapons.IBattlegearWeapon;
+import mods.battlegear2.api.weapons.WeaponRegistry;
 
 /**
  * Store commonly used method, mostly for the {@link EntityPlayer} {@link ItemStack}s management
@@ -92,7 +107,7 @@ public class BattlegearUtils {
 
     /**
      * Helper method to check if player is in battlemode
-     * 
+     *
      * @param player the target player entity
      * @return true if in battlemode
      */
@@ -103,7 +118,7 @@ public class BattlegearUtils {
 
     /**
      * Helper method to set a player item, offset from the current one
-     * 
+     *
      * @param player the target player entity
      * @param stack  holding the item to set
      * @param offset from the current item
@@ -129,7 +144,7 @@ public class BattlegearUtils {
 
     /**
      * Defines a generic weapon
-     * 
+     *
      * @param main the item to check
      * @return true if the item is a generic weapon
      */
@@ -137,8 +152,8 @@ public class BattlegearUtils {
         if (main.getItem() instanceof IBattlegearWeapon) // Our generic weapon flag
             return true;
         else if (main.getMaxStackSize() == 1 && main.getMaxDamage() > 0 && !main.getHasSubtypes()) // Usual values for
-                                                                                                   // tools, sword, and
-                                                                                                   // bow
+            // tools, sword, and
+            // bow
             return true;
         else if (main == prevNotWieldable) // Prevent lag from check spam
             return false;
@@ -146,7 +161,7 @@ public class BattlegearUtils {
             return true;
         else if (checkWeaponOreDictEntries(main)) return true;
         else if (!checkForRightClickFunction(main)) { // Make sure there are no special functions for offhand/mainhand
-                                                      // weapons
+            // weapons
             WeaponRegistry.addDualWeapon(main); // register so as not to make that costly check again
             return true;
         }
@@ -156,7 +171,7 @@ public class BattlegearUtils {
 
     /**
      * Checks if an item is a GT weapon based on OreDict entries
-     * 
+     *
      * @param main the item to check
      * @return true if the item is a GT weapon
      */
@@ -205,7 +220,7 @@ public class BattlegearUtils {
         if (main == null) return true;
         else if (main.getItem() instanceof IAllowItem) // An item using the API
             return ((IAllowItem) main.getItem()).allowOffhand(main, off); // defined by the item TODO pass through third
-                                                                          // parameter
+        // parameter
         else if (main.getItem() instanceof IArrowContainer2) // A quiver
             return true; // anything ?
         else if (usagePriorAttack(main, wielder, false)) // "Usable" item
@@ -224,9 +239,9 @@ public class BattlegearUtils {
         else if (off.getItem() instanceof IOffhandDual) // An item using the API
             return ((IOffhandDual) off.getItem()).isOffhandHandDual(off); // defined by the item
         else if (off.getItem() instanceof IShield || off.getItem() instanceof IArrowContainer2 || usagePriorAttack(off)) // Shield,
-                                                                                                                         // Quiver,
-                                                                                                                         // or
-                                                                                                                         // "usable"
+            // Quiver,
+            // or
+            // "usable"
             return true; // always
         else if (isWeapon(off)) // A generic weapon
             return checkWeaponOreDictEntries(off) || off.getAttributeModifiers().containsKey(genericAttack)
@@ -236,7 +251,7 @@ public class BattlegearUtils {
 
     /**
      * Defines a item which can be wield in the left hand
-     * 
+     *
      * @param off     The item to be wield in left hand
      * @param wielder The player trying to wield this item
      * @return true if the item is allowed in left hand
@@ -272,7 +287,7 @@ public class BattlegearUtils {
 
     /**
      * Defines a item which "use" (effect on right click) should have priority over its "attack" (effect on left click)
-     * 
+     *
      * @param itemStack the item which will be "used", instead of attacking
      * @param wielder   The player trying to use or attack with this item
      * @return true if such item prefer being "used"
@@ -291,7 +306,7 @@ public class BattlegearUtils {
 
     /**
      * Defines items that are usually usable (the vanilla instances do, at least), and that battlemode can support
-     * 
+     *
      * @param item the instance to consider for usability
      * @return true if it is commonly usable
      */
@@ -306,7 +321,7 @@ public class BattlegearUtils {
 
     /**
      * Defines a bow
-     * 
+     *
      * @param item the instance
      * @return true if it is considered a generic enough bow
      */
@@ -380,7 +395,7 @@ public class BattlegearUtils {
 
     /**
      * Writes a {@link ItemStack} to the OutputStream
-     * 
+     *
      * @param par1DataOutputStream the output stream
      * @param par0ItemStack        to write
      * @throws IOException
@@ -406,7 +421,7 @@ public class BattlegearUtils {
 
     /**
      * Writes a compressed {@link NBTTagCompound} to the output
-     * 
+     *
      * @param par0NBTTagCompound
      * @param par1DataOutputStream
      * @throws IOException
@@ -424,7 +439,7 @@ public class BattlegearUtils {
 
     /**
      * Helper to recreate a player battle inventory from reflection with minimal effort
-     * 
+     *
      * @param entityPlayer the target player
      * @return the new InventoryPlayerBattle instance
      */
@@ -435,7 +450,7 @@ public class BattlegearUtils {
     /**
      * Helper method to request a new slot within player inventory All data and hooks are handled by
      * {@link InventoryPlayerBattle} The slot content display is to be done by the modder
-     * 
+     *
      * @param entityPlayer the player whose inventory will be expanded
      * @param type         the type of inventory which will be expanded
      * @return the new slot index, or Integer.MIN_VALUE if it is not possible to expand further
@@ -449,7 +464,7 @@ public class BattlegearUtils {
      * Hotswap the "current item" value to the offhand, then refresh the player attributes according to the newly
      * selected item Reset everything back if the attack is cancelled by {@link AttackEntityEvent} or
      * {@link Item#onLeftClickEntity(ItemStack, EntityPlayer, Entity)} Used as a hook by {@link IBattlePlayer}
-     * 
+     *
      * @param player     the attacker
      * @param par1Entity the attacked
      */
@@ -572,7 +587,7 @@ public class BattlegearUtils {
      * interact with {@link ItemStack#interactWithEntity(EntityPlayer, EntityLivingBase)} in the same order When
      * necessary, hotswap the "current item" value to the offhand, then refresh the player attributes according to the
      * newly selected item
-     * 
+     *
      * @return true if any interaction happened, actually bypassing subsequent
      *         PlayerInteractEvent.Action.RIGHT_CLICK_AIR and PlayerControllerMP#sendUseItem on client side
      */
@@ -599,8 +614,8 @@ public class BattlegearUtils {
                 }
                 itemInteract = itemstack.interactWithEntity(entityPlayer, (EntityLivingBase) entity);
                 if (!itemInteract && !offset && BattlegearUtils.isPlayerInBattlemode(entityPlayer)) { // No interaction
-                                                                                                      // with right hand
-                                                                                                      // item
+                    // with right hand
+                    // item
                     offset = true;
                     itemstack = refreshAttributes(entityPlayer, false);
                     if (itemstack != null) { // Try left hand item
@@ -638,7 +653,7 @@ public class BattlegearUtils {
             return itemInteract;
         } else { // Had interaction with the entity
             if (itemstack != null && itemstack == entityPlayer.getCurrentEquippedItem()) { // The interaction kept the
-                                                                                           // stack identity
+                // stack identity
                 if (!entityPlayer.capabilities.isCreativeMode) {
                     if (itemstack.stackSize <= 0) entityPlayer.destroyCurrentEquippedItem();
                 } else if (itemstack.stackSize < copyStack.stackSize) {
@@ -654,7 +669,7 @@ public class BattlegearUtils {
 
     /**
      * Helper to send {@link PlayerEventChild.OffhandSwingEvent}
-     * 
+     *
      * @param event       the "parent" event
      * @param offhandItem the item stack held in offhand
      */
@@ -669,7 +684,6 @@ public class BattlegearUtils {
      *
      * @param fromOffhand if true, sets from left hand to right hand, else, the opposite
      * @return the currently equipped stack, after swapping
-     *
      */
     public static ItemStack refreshAttributes(EntityPlayer entityPlayer, boolean fromOffhand) {
         final ItemStack oldItem = entityPlayer.getCurrentEquippedItem();
@@ -685,7 +699,7 @@ public class BattlegearUtils {
 
     /**
      * Refresh the attribute map by removing from the old item and applying the current item
-     * 
+     *
      * @param attributeMap the map to refresh
      * @param oldItem      the old item whose attributes will be removed
      * @param currentItem  the current item whose attributes will be applied
@@ -697,7 +711,7 @@ public class BattlegearUtils {
 
     /**
      * Helper to close a stream fail-safely by printing the error stack trace
-     * 
+     *
      * @param c the stream to close
      */
     public static void closeStream(Closeable c) {
@@ -712,7 +726,7 @@ public class BattlegearUtils {
 
     /**
      * Patch over the PlayerUseItemEvent.Finish in EntityPlayer#onItemUseFinish() to pass the previous stacksize
-     * 
+     *
      * @param entityPlayer      the {@link EntityPlayer} who finished using the itemInUse
      * @param itemInUse         the {@link ItemStack} which finished being used
      * @param itemInUseCount    the {@link EntityPlayer} item use count
@@ -750,7 +764,7 @@ public class BattlegearUtils {
 
     /**
      * Patch in EntityPlayer#onUpdate() to support hotswap of itemInUse
-     * 
+     *
      * @param entityPlayer
      * @param itemInUse
      * @return

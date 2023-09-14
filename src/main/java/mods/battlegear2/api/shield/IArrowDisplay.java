@@ -5,9 +5,8 @@ import net.minecraft.item.ItemStack;
 /**
  * Defines an {@link Item} that can hold arrows as an internal variable Used by {@link ItemShield} to display blocked
  * arrows
- * 
- * @author GotoLink
  *
+ * @author GotoLink
  */
 public interface IArrowDisplay {
 

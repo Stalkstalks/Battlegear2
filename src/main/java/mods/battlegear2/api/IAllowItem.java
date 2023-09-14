@@ -11,7 +11,6 @@ public interface IAllowItem {
     /**
      * Returns true if this mainhand {@link ItemStack} (right hand) allows the offhand (left hand) to be placed in the
      * partner offhand slot
-     *
      */
     public boolean allowOffhand(ItemStack mainhand, ItemStack offhand);
 }

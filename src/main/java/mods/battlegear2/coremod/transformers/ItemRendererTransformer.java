@@ -3,12 +3,12 @@ package mods.battlegear2.coremod.transformers;
 import java.util.Iterator;
 import java.util.List;
 
-import mods.battlegear2.api.core.BattlegearTranslator;
-import mods.battlegear2.api.core.IOffhandRender;
-
 import org.apache.logging.log4j.Level;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.*;
+
+import mods.battlegear2.api.core.BattlegearTranslator;
+import mods.battlegear2.api.core.IOffhandRender;
 
 public final class ItemRendererTransformer extends TransformerBase {
 

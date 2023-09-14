@@ -2,9 +2,9 @@ package mods.battlegear2.coremod.transformers;
 
 import java.util.Iterator;
 
-import mods.battlegear2.api.core.BattlegearTranslator;
-
 import org.objectweb.asm.tree.*;
+
+import mods.battlegear2.api.core.BattlegearTranslator;
 
 public final class ItemStackTransformer extends TransformerMethodProcess {
 

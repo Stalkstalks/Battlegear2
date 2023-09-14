@@ -8,21 +8,19 @@ import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.eventhandler.Event.Result;
 
 /**
- *
  * This interface gives custom {@link ItemBow}s greater control over the default Battlegear2 {@link ItemQuiver}
  * behavior; specifically, it allows bows to determine whether they may be drawn during the {@link ArrowNockEvent} and
  * to return custom lists of {@link IArrowFireHandler} during {@link QuiverArrowRegistry#getArrowType}.
- *
+ * <p>
  * Those methods are solely for customizing behavior using the default ItemQuiver: custom quiver implementations may or
  * may not call these.
- *
+ * <p>
  * Note: Can also serve as a flag for a custom {@link Item} to have a "bow" behavior, without extending {@link ItemBow},
  * that is, -being detected by default {@link ItemQuiver} -being rendered back-sheathed, though {@link ISheathed} can
  * change this -work with bow {@link BaseEnchantment} though {@link IEnchantable} can change this -is used in priority,
  * instead of attacking, though {@link IUsableItem} can change this
  *
  * @author coolAlias
- *
  */
 public interface ISpecialBow {
 
@@ -44,11 +42,11 @@ public interface ISpecialBow {
      * Allows the custom bow to determine if it may be nocked or not during the {@link ArrowNockEvent}. This is almost
      * entirely cosmetic, as a player using a quiver may hot-swap to any arrow, but allows modders to signal immediately
      * that the bow may not be fired in its current state.
-     *
+     * <p>
      * Note that this is before any arrow is determined by the nock event, so each implementation must determine if an
      * appropriate arrow is available or not, whether via the current quiver item or some other inventory-searching
      * algorithm.
-     *
+     * <p>
      * If the nock event is ALLOWed or the DEFAULT behavior determines that it should be allowed, then the bow will be
      * set in use automatically.
      *

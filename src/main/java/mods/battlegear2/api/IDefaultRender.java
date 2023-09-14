@@ -18,14 +18,14 @@ public interface IDefaultRender {
 
     /**
      * Called before anything else
-     * 
+     *
      * @return false to disable all features of this interface
      */
     public boolean useDefaultRenderer();
 
     /**
      * Called when registering the {@link IItemRenderer} for this item
-     * 
+     *
      * @return the type of renderer to use
      */
     public RenderType getRenderer();
@@ -33,7 +33,7 @@ public interface IDefaultRender {
     /**
      * Called by Battlegear2 configuration GUI when the rendering option is toggled Use this to react, using another
      * renderer when this one is disabled for example
-     * 
+     *
      * @param isEnabled the new rendering state: on true, the renderer is going to be used, on false, it is disabled
      */
     public void setRenderState(boolean isEnabled);

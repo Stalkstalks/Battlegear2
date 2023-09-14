@@ -1,8 +1,5 @@
 package mods.battlegear2.items.arrows;
 
-import mods.battlegear2.api.core.IBattlePlayer;
-import mods.battlegear2.items.ItemMBArrow;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityCreature;
@@ -14,11 +11,13 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 
+import mods.battlegear2.api.core.IBattlePlayer;
+import mods.battlegear2.items.ItemMBArrow;
+
 /**
  * An arrow which deals weird effects on living entities
- * 
- * @author GotoLink
  *
+ * @author GotoLink
  */
 public class EntityLoveArrow extends AbstractMBArrow {
 

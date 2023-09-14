@@ -1,12 +1,22 @@
 package mods.battlegear2.client.utils;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
-import javax.swing.*;
+import javax.swing.AbstractAction;
+import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.LayoutStyle;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -311,14 +321,14 @@ public class ImageSplitDialog extends JDialog {
         int height = 250;
 
         if (before.getWidth() != width || before.getHeight() != height) { // If the hight of the image is not our
-                                                                          // targert
+            // targert
             scaled = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB); // Create a new empty image of the
-                                                                                    // target size
+            // target size
             AffineTransform at = new AffineTransform(); // Create a new Affine Transform
             at.scale((float) width / before.getWidth(), (float) height / before.getHeight()); // Scale the image to the
-                                                                                              // size we want
+            // size we want
             AffineTransformOp scaleOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BICUBIC); // use the bi linear
-                                                                                                   // transfomation mode
+            // transfomation mode
             scaled = scaleOp.filter(before, scaled); // Scale it
         }
 

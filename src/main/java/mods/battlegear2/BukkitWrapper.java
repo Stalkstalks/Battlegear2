@@ -69,7 +69,7 @@ public class BukkitWrapper {
 
     /**
      * Send the player interaction data to Bukkit, if it exists Then apply the answer states to the interaction data
-     * 
+     *
      * @param playerInteracted the interaction data
      * @param stack            data added by Battlegear, hopefully not messed up by Bukkit
      */
@@ -112,7 +112,7 @@ public class BukkitWrapper {
 
     /**
      * Search Bukkit event factory class within jar
-     * 
+     *
      * @throws ClassNotFoundException
      */
     private static Class<?> exploreJar(JarFile jarPath, String relPath) throws ClassNotFoundException, IOException {
@@ -131,7 +131,7 @@ public class BukkitWrapper {
 
     /**
      * Search Bukkit event factory class within directories
-     * 
+     *
      * @throws ClassNotFoundException
      */
     private static Class<?> exploreDir(File directory, String pkgname) throws ClassNotFoundException {

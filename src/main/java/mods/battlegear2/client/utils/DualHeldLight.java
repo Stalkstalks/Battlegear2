@@ -53,7 +53,7 @@ public final class DualHeldLight implements IDynamicLightSource {
 
     /**
      * Called by player tick if the offhand {@link ItemStack} changed
-     * 
+     *
      * @param player   the player entity concerned by the change
      * @param newLight light value defined by DynamicLight for the new {@link ItemStack}
      * @param oldLight light value defined by DynamicLight for the previous {@link ItemStack} (unused because caching is

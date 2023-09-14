@@ -1,11 +1,5 @@
 package mods.battlegear2;
 
-import mods.battlegear2.api.core.BattlegearUtils;
-import mods.battlegear2.api.core.InventoryPlayerBattle;
-import mods.battlegear2.items.ItemMBArrow;
-import mods.battlegear2.items.arrows.AbstractMBArrow;
-import mods.battlegear2.utils.BattlegearConfig;
-
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
@@ -19,6 +13,11 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import mods.battlegear2.api.core.BattlegearUtils;
+import mods.battlegear2.api.core.InventoryPlayerBattle;
+import mods.battlegear2.items.ItemMBArrow;
+import mods.battlegear2.items.arrows.AbstractMBArrow;
+import mods.battlegear2.utils.BattlegearConfig;
 
 public final class MobHookContainerClass {
 
@@ -36,7 +35,7 @@ public final class MobHookContainerClass {
      * Listen to {@link EntityJoinWorldEvent} : Adds random special {@link EntityArrow}s data to {@link EntitySkeleton}s
      * {@link net.minecraft.entity.DataWatcher} (for display) Replace the vanilla fired {@link EntityArrow} with the
      * custom {@link AbstractMBArrow} (for actual action) Note: Fails silently
-     *
+     * <p>
      * Move arrows position slightly to the left when fired from a bow in left hand
      */
     @SubscribeEvent(priority = EventPriority.LOW)

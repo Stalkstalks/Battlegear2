@@ -2,8 +2,6 @@ package mods.battlegear2;
 
 import java.util.Map;
 
-import mods.battlegear2.api.weapons.*;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.BaseAttributeMap;
@@ -20,6 +18,12 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import mods.battlegear2.api.weapons.Attributes;
+import mods.battlegear2.api.weapons.IBackStabbable;
+import mods.battlegear2.api.weapons.IHitTimeModifier;
+import mods.battlegear2.api.weapons.IPenetrateWeapon;
+import mods.battlegear2.api.weapons.IPotionEffect;
+import mods.battlegear2.api.weapons.ISpecialEffect;
 
 /**
  * User: nerd-boy Date: 30/07/13 Time: 12:36 PM Events registered with MinecraftForge event bus on default priority:
@@ -68,7 +72,7 @@ public final class WeaponHookContainerClass {
                     if (!entityHit.worldObj.isRemote) {
                         if (stack.getItem() instanceof IHitTimeModifier) {
                             if (hurtResistanceTimeTemp > entityHit.maxHurtResistantTime * 0.5F) { // Hit shield is in
-                                                                                                  // effect
+                                // effect
                                 int timeModifier = ((IHitTimeModifier) stack.getItem()).getHitTime(stack, entityHit);
                                 boolean apply = timeModifier != 0;
                                 // If the shield is supposed to be reduced, don't re-apply the effect every time

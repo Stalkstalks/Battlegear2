@@ -43,7 +43,7 @@ public class InventoryPlayerBattle extends InventoryPlayer {
 
     /**
      * Returns a new slot index according to the type
-     * 
+     *
      * @param type determines which inventory array to expand
      * @return the new slot index, or Integer.MIN_VALUE if it is not possible to expand further
      */
@@ -77,7 +77,7 @@ public class InventoryPlayerBattle extends InventoryPlayer {
 
     /**
      * Patch used for "set current slot" vanilla packets
-     * 
+     *
      * @param id the value to test for currentItem setting
      * @return true if it is possible for currentItem to be set with this value
      */
@@ -110,7 +110,7 @@ public class InventoryPlayerBattle extends InventoryPlayer {
 
     /**
      * Allows the item switching in "battlemode", delegates to parent method if in normal mode
-     * 
+     *
      * @return the currently selected {@link ItemStack}
      */
     @Override
@@ -120,7 +120,7 @@ public class InventoryPlayerBattle extends InventoryPlayer {
 
     /**
      * Changes currentItem and currentItemStack based on a given target
-     * 
+     *
      * @param targetItem        the newly selected item
      * @param targetDamage      the newly selected item damage
      * @param compareWithDamage if item damage should matter when searching for the target in the inventory
@@ -134,7 +134,7 @@ public class InventoryPlayerBattle extends InventoryPlayer {
 
     /**
      * Scroll the currentItem possible values
-     * 
+     *
      * @param direction if >0: in the natural order, if <0: in the opposite order
      */
     @Override
@@ -162,7 +162,7 @@ public class InventoryPlayerBattle extends InventoryPlayer {
 
     /**
      * Clears all slots that contain the target item with given damage
-     * 
+     *
      * @param targetId     if null, not specific
      * @param targetDamage if <0, not specific
      * @return the total number of items cleared
@@ -218,7 +218,7 @@ public class InventoryPlayerBattle extends InventoryPlayer {
 
     /**
      * Get if a specified item id is inside the inventory.
-     * 
+     *
      * @param par1 the item to search for
      */
     @Override
@@ -233,7 +233,7 @@ public class InventoryPlayerBattle extends InventoryPlayer {
 
     /**
      * Removes from an inventory slot up to a specified number of items and returns them in a new stack.
-     * 
+     *
      * @param slot   to remove from
      * @param amount to remove in the item stack
      * @return the removed items in a item stack, if any
@@ -266,7 +266,7 @@ public class InventoryPlayerBattle extends InventoryPlayer {
 
     /**
      * Get the stack in given slot, when closing the container
-     * 
+     *
      * @param slot to get the content from
      * @return the stack that is stored in given slot
      */
@@ -281,7 +281,7 @@ public class InventoryPlayerBattle extends InventoryPlayer {
 
     /**
      * Sets the given item stack to the specified slot in the inventory
-     * 
+     *
      * @param slot      whose content will change
      * @param itemStack to put in the slot
      */
@@ -292,7 +292,7 @@ public class InventoryPlayerBattle extends InventoryPlayer {
 
     /**
      * Sets the given item stack to the specified slot in the inventory, mark as dirty according to the boolean argument
-     * 
+     *
      * @param slot      whose content will change
      * @param itemStack to put in the slot
      * @param changed   if the inventory packet should be sent next tick
@@ -308,7 +308,7 @@ public class InventoryPlayerBattle extends InventoryPlayer {
 
     /**
      * UNUSED Get the current item "action value" against a block
-     * 
+     *
      * @param block that the player is acting against
      * @return some action value of the current item against given block
      */
@@ -385,7 +385,6 @@ public class InventoryPlayerBattle extends InventoryPlayer {
     }
 
     /**
-     *
      * @param slot to get the content from
      * @return the content of the given slot
      */
@@ -399,7 +398,6 @@ public class InventoryPlayerBattle extends InventoryPlayer {
     }
 
     /**
-     *
      * @return the usual number of slots for vanilla inventory (not hardcoded)
      */
     @Override
@@ -424,7 +422,7 @@ public class InventoryPlayerBattle extends InventoryPlayer {
 
     /**
      * Copy the slots content from another instance, usually for changing dimensions
-     * 
+     *
      * @param par1InventoryPlayer the instance to copy from
      */
     @Override
@@ -442,7 +440,7 @@ public class InventoryPlayerBattle extends InventoryPlayer {
 
     /**
      * Get the offset item (for the left hand)
-     * 
+     *
      * @return the item held in left hand, if any
      */
     public ItemStack getCurrentOffhandWeapon() {

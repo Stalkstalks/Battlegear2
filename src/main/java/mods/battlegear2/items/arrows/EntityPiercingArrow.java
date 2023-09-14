@@ -18,9 +18,8 @@ import net.minecraftforge.common.IShearable;
 
 /**
  * An arrow which deals damage through armors and shields, shears things, and breaks glass blocks
- * 
- * @author GotoLink
  *
+ * @author GotoLink
  */
 public class EntityPiercingArrow extends AbstractMBArrow {
 

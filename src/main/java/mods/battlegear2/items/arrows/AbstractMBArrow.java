@@ -1,10 +1,5 @@
 package mods.battlegear2.items.arrows;
 
-import mods.battlegear2.api.core.InventoryPlayerBattle;
-import mods.battlegear2.api.quiver.IArrowContainer2;
-import mods.battlegear2.api.quiver.QuiverArrowRegistry;
-import mods.battlegear2.items.ItemMBArrow;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -15,6 +10,11 @@ import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+
+import mods.battlegear2.api.core.InventoryPlayerBattle;
+import mods.battlegear2.api.quiver.IArrowContainer2;
+import mods.battlegear2.api.quiver.QuiverArrowRegistry;
+import mods.battlegear2.items.ItemMBArrow;
 
 public abstract class AbstractMBArrow extends EntityArrow {
 
@@ -46,7 +46,7 @@ public abstract class AbstractMBArrow extends EntityArrow {
 
     /**
      * Helper generation method for skeletons
-     * 
+     *
      * @param type     the new type of the arrow
      * @param arrow    the original arrow fired by the skeleton
      * @param skeleton the shooter
@@ -97,7 +97,7 @@ public abstract class AbstractMBArrow extends EntityArrow {
 
     /**
      * The actual act of picking up an arrow, taken out of the colliding event, just in case
-     * 
+     *
      * @param player trying to pick up the arrow
      * @return false if the arrow couldn't be added to the player inventory
      */
@@ -122,7 +122,7 @@ public abstract class AbstractMBArrow extends EntityArrow {
 
     /**
      * Could be abstracted, but using the registry is easier
-     * 
+     *
      * @return the stack to be picked up, if any
      */
     public ItemStack getPickedUpItem() {

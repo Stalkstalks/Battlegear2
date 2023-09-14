@@ -7,10 +7,14 @@ import org.lwjgl.opengl.GL11;
 
 public class GuiSliderAlt extends GuiButton {
 
-    /** The value of this slider control. */
+    /**
+     * The value of this slider control.
+     */
     public float sliderValue = 1.0F;
 
-    /** Is this slider control being dragged. */
+    /**
+     * Is this slider control being dragged.
+     */
     public boolean dragging;
 
     private int min;

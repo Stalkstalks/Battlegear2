@@ -6,13 +6,12 @@ import net.minecraft.item.ItemStack;
 
 /**
  * Defines an {@link Item} that can catch {@link IProjectile} Used by {@link ItemShield} to block arrows
- * 
+ *
  * @author GotoLink
  */
 public interface IArrowCatcher {
 
     /**
-     *
      * @param shield     the {@link ItemStack} corresponding to the shield in use
      * @param player     the {@link EntityPlayer} holding the shield
      * @param projectile heading towards the shield
