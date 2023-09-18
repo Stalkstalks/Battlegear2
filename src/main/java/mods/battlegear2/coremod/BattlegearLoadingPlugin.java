@@ -36,8 +36,8 @@ public final class BattlegearLoadingPlugin implements IEarlyMixinLoader, IFMLLoa
 
     public static final String[] transformers = new String[] { EntityPlayerTransformer, ModelBipedTransformer,
             NetClientHandlerTransformer, NetServerHandlerTransformer, PlayerControllerMPTransformer,
-            ItemRendererTransformer, MinecraftTransformer, ItemInWorldTransformer,
-            EntityAIControlledTransformer, EntityOtherPlayerMPTransformer, };
+            ItemRendererTransformer, MinecraftTransformer, ItemInWorldTransformer, EntityAIControlledTransformer,
+            EntityOtherPlayerMPTransformer, };
 
     @Override
     public String[] getASMTransformerClass() {
@@ -74,6 +74,7 @@ public final class BattlegearLoadingPlugin implements IEarlyMixinLoader, IFMLLoa
     @Override
     public List<String> getMixins(Set<String> loadedCoreMods) {
         final List<String> mixins = new ArrayList<>();
+        mixins.add("MixinEntityPlayer");
         mixins.add("MixinItemStack");
         mixins.add("MixinNetHandlerPlayServer");
         if (FMLLaunchHandler.side().isClient()) {}

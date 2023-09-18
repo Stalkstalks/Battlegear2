@@ -738,6 +738,21 @@ public class BattlegearUtils {
     public static ItemStack beforeFinishUseEvent(EntityPlayer entityPlayer, ItemStack itemInUse, int itemInUseCount,
             ItemStack result, int previousStackSize) {
         result = ForgeEventFactory.onItemUseFinish(entityPlayer, itemInUse, itemInUseCount, result);
+        return beforeFinishUseEvent(entityPlayer, itemInUse, result, previousStackSize);
+    }
+
+    /**
+     * Patch over the PlayerUseItemEvent.Finish in EntityPlayer#onItemUseFinish() to pass the previous stacksize
+     *
+     * @param entityPlayer      the {@link EntityPlayer} who finished using the itemInUse
+     * @param itemInUse         the {@link ItemStack} which finished being used
+     * @param previousStackSize the itemInUse {@link ItemStack#stackSize} before
+     *                          {@link ItemStack#onFoodEaten(World, EntityPlayer)}
+     * @param result            from itemInUse#onFoodEaten(entityPlayer.worldObj, entityPlayer)
+     * @return the final resulting {@link ItemStack}
+     */
+    public static ItemStack beforeFinishUseEvent(EntityPlayer entityPlayer, ItemStack itemInUse, ItemStack result,
+            int previousStackSize) {
         if (isPlayerInBattlemode(entityPlayer)) {
             if (result != itemInUse || (result != null && result.stackSize != previousStackSize)) {
                 // Compare with either hands content
