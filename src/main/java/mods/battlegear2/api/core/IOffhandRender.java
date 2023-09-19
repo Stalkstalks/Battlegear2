@@ -1,5 +1,6 @@
 package mods.battlegear2.api.core;
 
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.item.ItemStack;
 
 /**
@@ -10,19 +11,19 @@ import net.minecraft.item.ItemStack;
  */
 public interface IOffhandRender {
 
-    public ItemStack getOffHandItemToRender();
+    ItemStack getOffHandItemToRender();
 
-    public void setOffHandItemToRender(ItemStack item);
+    void setOffHandItemToRender(ItemStack item);
 
-    public int getEquippedItemOffhandSlot();
+    int getEquippedItemOffhandSlot();
 
-    public void serEquippedItemOffhandSlot(int slot);
+    void serEquippedItemOffhandSlot(int slot);
 
-    public float getEquippedOffHandProgress();
+    float getEquippedOffHandProgress();
 
-    public void setEquippedOffHandProgress(float progress);
+    void setEquippedOffHandProgress(float progress);
 
-    public float getPrevEquippedOffHandProgress();
+    float getPrevEquippedOffHandProgress();
 
-    public void setPrevEquippedOffHandProgress(float progress);
+    void setPrevEquippedOffHandProgress(float progress);
 }

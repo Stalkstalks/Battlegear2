@@ -26,7 +26,6 @@ public final class BattlegearLoadingPlugin implements IEarlyMixinLoader, IFMLLoa
     public static final String NetClientHandlerTransformer = "mods.battlegear2.coremod.transformers.NetClientHandlerTransformer";
     public static final String NetServerHandlerTransformer = "mods.battlegear2.coremod.transformers.NetServerHandlerTransformer";
     public static final String PlayerControllerMPTransformer = "mods.battlegear2.coremod.transformers.PlayerControllerMPTransformer";
-    public static final String ItemRendererTransformer = "mods.battlegear2.coremod.transformers.ItemRendererTransformer";
     public static final String MinecraftTransformer = "mods.battlegear2.coremod.transformers.MinecraftTransformer";
     public static final String ItemInWorldTransformer = "mods.battlegear2.coremod.transformers.ItemInWorldTransformer";
     public static final String EntityAIControlledTransformer = "mods.battlegear2.coremod.transformers.EntityAIControlledByPlayerTransformer";
@@ -34,8 +33,8 @@ public final class BattlegearLoadingPlugin implements IEarlyMixinLoader, IFMLLoa
     public static File debugOutputLocation;
 
     public static final String[] transformers = new String[] { EntityPlayerTransformer, NetClientHandlerTransformer,
-            NetServerHandlerTransformer, PlayerControllerMPTransformer, ItemRendererTransformer, MinecraftTransformer,
-            ItemInWorldTransformer, EntityAIControlledTransformer, EntityOtherPlayerMPTransformer, };
+            NetServerHandlerTransformer, PlayerControllerMPTransformer, MinecraftTransformer, ItemInWorldTransformer,
+            EntityAIControlledTransformer, EntityOtherPlayerMPTransformer, };
 
     @Override
     public String[] getASMTransformerClass() {
@@ -77,6 +76,7 @@ public final class BattlegearLoadingPlugin implements IEarlyMixinLoader, IFMLLoa
         mixins.add("MixinNetHandlerPlayServer");
         if (FMLLaunchHandler.side().isClient()) {
             mixins.add("MixinEntityOtherPlayerMP");
+            mixins.add("MixinItemRenderer");
             mixins.add("MixinModelBiped");
             mixins.add("MixinNetHandlerPlayClient");
         }
