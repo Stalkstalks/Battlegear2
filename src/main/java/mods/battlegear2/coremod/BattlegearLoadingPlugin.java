@@ -76,6 +76,7 @@ public final class BattlegearLoadingPlugin implements IEarlyMixinLoader, IFMLLoa
         mixins.add("MixinItemStack");
         mixins.add("MixinNetHandlerPlayServer");
         if (FMLLaunchHandler.side().isClient()) {
+            mixins.add("MixinEntityOtherPlayerMP");
             mixins.add("MixinModelBiped");
         }
         return mixins;
