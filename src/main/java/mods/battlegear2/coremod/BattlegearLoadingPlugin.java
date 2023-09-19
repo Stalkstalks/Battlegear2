@@ -22,23 +22,18 @@ import mods.battlegear2.api.core.BattlegearTranslator;
 @MCVersion("1.7.10")
 public final class BattlegearLoadingPlugin implements IEarlyMixinLoader, IFMLLoadingPlugin {
 
-    public static final String EntityPlayerTransformer = "mods.battlegear2.coremod.transformers.EntityPlayerTransformer";
-    public static final String NetClientHandlerTransformer = "mods.battlegear2.coremod.transformers.NetClientHandlerTransformer";
-    public static final String NetServerHandlerTransformer = "mods.battlegear2.coremod.transformers.NetServerHandlerTransformer";
-    public static final String PlayerControllerMPTransformer = "mods.battlegear2.coremod.transformers.PlayerControllerMPTransformer";
-    public static final String MinecraftTransformer = "mods.battlegear2.coremod.transformers.MinecraftTransformer";
-    public static final String ItemInWorldTransformer = "mods.battlegear2.coremod.transformers.ItemInWorldTransformer";
-    public static final String EntityAIControlledTransformer = "mods.battlegear2.coremod.transformers.EntityAIControlledByPlayerTransformer";
-    public static final String EntityOtherPlayerMPTransformer = "mods.battlegear2.coremod.transformers.EntityOtherPlayerMPTransformer";
     public static File debugOutputLocation;
-
-    public static final String[] transformers = new String[] { EntityPlayerTransformer, NetClientHandlerTransformer,
-            NetServerHandlerTransformer, PlayerControllerMPTransformer, MinecraftTransformer, ItemInWorldTransformer,
-            EntityAIControlledTransformer, EntityOtherPlayerMPTransformer, };
 
     @Override
     public String[] getASMTransformerClass() {
-        return transformers;
+        return new String[] { "mods.battlegear2.coremod.transformers.EntityAIControlledByPlayerTransformer",
+                "mods.battlegear2.coremod.transformers.EntityOtherPlayerMPTransformer",
+                "mods.battlegear2.coremod.transformers.EntityPlayerTransformer",
+                "mods.battlegear2.coremod.transformers.ItemInWorldTransformer",
+                "mods.battlegear2.coremod.transformers.MinecraftTransformer",
+                "mods.battlegear2.coremod.transformers.NetClientHandlerTransformer",
+                "mods.battlegear2.coremod.transformers.NetServerHandlerTransformer",
+                "mods.battlegear2.coremod.transformers.PlayerControllerMPTransformer" };
     }
 
     @Override
@@ -48,7 +43,6 @@ public final class BattlegearLoadingPlugin implements IEarlyMixinLoader, IFMLLoa
 
     @Override
     public String getModContainerClass() {
-        // return "mods.battlegear2.coremod.BattlegearCoremodContainer";
         return null;
     }
 
