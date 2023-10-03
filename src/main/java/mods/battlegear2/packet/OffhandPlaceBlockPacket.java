@@ -23,7 +23,7 @@ import mods.battlegear2.BattlemodeHookContainerClass;
 import mods.battlegear2.BukkitWrapper;
 import mods.battlegear2.api.PlayerEventChild;
 import mods.battlegear2.api.core.BattlegearUtils;
-import mods.battlegear2.api.core.InventoryPlayerBattle;
+import mods.battlegear2.api.core.IInventoryPlayerBattle;
 
 public final class OffhandPlaceBlockPacket extends AbstractMBPacket {
 
@@ -88,7 +88,7 @@ public final class OffhandPlaceBlockPacket extends AbstractMBPacket {
             return;
         }
         if (player == null || !(player instanceof EntityPlayerMP)) return;
-        ItemStack offhandWeapon = ((InventoryPlayerBattle) player.inventory).getCurrentOffhandWeapon();
+        ItemStack offhandWeapon = ((IInventoryPlayerBattle) player.inventory).battlegear2$getCurrentOffhandWeapon();
         boolean flag = true;
         int i = xPosition;
         int j = yPosition;
@@ -163,7 +163,7 @@ public final class OffhandPlaceBlockPacket extends AbstractMBPacket {
             ((EntityPlayerMP) player).playerNetServerHandler
                     .sendPacket(new S23PacketBlockChange(i, j, k, player.getEntityWorld()));
         }
-        offhandWeapon = ((InventoryPlayerBattle) player.inventory).getCurrentOffhandWeapon();
+        offhandWeapon = ((IInventoryPlayerBattle) player.inventory).battlegear2$getCurrentOffhandWeapon();
 
         if (offhandWeapon != null && offhandWeapon.stackSize <= 0) {
             BattlegearUtils.setPlayerOffhandItem(player, null);
@@ -173,12 +173,13 @@ public final class OffhandPlaceBlockPacket extends AbstractMBPacket {
             ((EntityPlayerMP) player).isChangingQuantityOnly = true;
             BattlegearUtils.setPlayerOffhandItem(
                     player,
-                    ItemStack.copyItemStack(((InventoryPlayerBattle) player.inventory).getCurrentOffhandWeapon()));
+                    ItemStack.copyItemStack(
+                            ((IInventoryPlayerBattle) player.inventory).battlegear2$getCurrentOffhandWeapon()));
             player.openContainer.detectAndSendChanges();
             ((EntityPlayerMP) player).isChangingQuantityOnly = false;
 
             if (!ItemStack.areItemStacksEqual(
-                    ((InventoryPlayerBattle) player.inventory).getCurrentOffhandWeapon(),
+                    ((IInventoryPlayerBattle) player.inventory).battlegear2$getCurrentOffhandWeapon(),
                     this.itemStack)) {
                 Battlegear.packetHandler.sendPacketToPlayer(
                         new BattlegearSyncItemPacket(player).generatePacket(),

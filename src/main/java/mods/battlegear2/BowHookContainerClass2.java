@@ -15,7 +15,7 @@ import net.minecraftforge.event.entity.player.ArrowNockEvent;
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import mods.battlegear2.api.PlayerEventChild;
-import mods.battlegear2.api.core.InventoryPlayerBattle;
+import mods.battlegear2.api.core.IInventoryPlayerBattle;
 import mods.battlegear2.api.quiver.IArrowContainer2;
 import mods.battlegear2.api.quiver.IQuiverSelection;
 import mods.battlegear2.api.quiver.ISpecialBow;
@@ -37,7 +37,7 @@ public final class BowHookContainerClass2 {
 
         @Override
         public ItemStack getQuiverFor(ItemStack bow, EntityPlayer player) {
-            ItemStack offhand = ((InventoryPlayerBattle) player.inventory).getCurrentOffhandWeapon();
+            ItemStack offhand = ((IInventoryPlayerBattle) player.inventory).battlegear2$getCurrentOffhandWeapon();
             if (bow != offhand) return isLoadedContainer(offhand, bow, player) ? offhand : null;
             else {
                 offhand = player.getCurrentEquippedItem();

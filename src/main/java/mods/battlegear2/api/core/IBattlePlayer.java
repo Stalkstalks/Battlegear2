@@ -31,8 +31,6 @@ public interface IBattlePlayer {
     void battlegear2$attackTargetEntityWithCurrentOffItem(Entity target);
 
     /**
-     * Checks {@link InventoryPlayerBattle#isBattlemode()}, to see if current item is offset in the battle slots range
-     *
      * @return true if player has pressed the bound key to activate dual-wielding, resulting in current item offset
      */
     boolean battlegear2$isBattlemode();

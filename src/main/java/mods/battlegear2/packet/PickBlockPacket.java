@@ -9,7 +9,7 @@ import io.netty.buffer.ByteBuf;
 import mods.battlegear2.Battlegear;
 import mods.battlegear2.api.core.BattlegearUtils;
 import mods.battlegear2.api.core.IBattlePlayer;
-import mods.battlegear2.api.core.InventoryPlayerBattle;
+import mods.battlegear2.api.core.IInventoryPlayerBattle;
 
 public final class PickBlockPacket extends AbstractMBPacket {
 
@@ -45,7 +45,7 @@ public final class PickBlockPacket extends AbstractMBPacket {
                 e.printStackTrace();
                 return;
             }
-            if (InventoryPlayerBattle.isValidSwitch(slot)) {
+            if (IInventoryPlayerBattle.isValidSwitch(slot)) {
                 player.inventory.currentItem = slot;
                 if (player.capabilities.isCreativeMode
                         && !ItemStack.areItemStacksEqual(stack, player.getCurrentEquippedItem())) {

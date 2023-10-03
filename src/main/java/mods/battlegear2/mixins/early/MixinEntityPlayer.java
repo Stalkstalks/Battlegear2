@@ -17,17 +17,15 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 
 import mods.battlegear2.api.core.BattlegearUtils;
 import mods.battlegear2.api.core.IBattlePlayer;
-import mods.battlegear2.api.core.InventoryPlayerBattle;
+import mods.battlegear2.api.core.IInventoryPlayerBattle;
 
 @Mixin(EntityPlayer.class)
 public abstract class MixinEntityPlayer extends EntityLivingBase implements IBattlePlayer {
 
     @Shadow
     private ItemStack itemInUse;
-    // TODO change the inventory management to not override the vanilla InventoryPlayer,
-    // and instead create another field in the class that handles it ?
-    public InventoryPlayer inventory = new InventoryPlayerBattle((EntityPlayer) (Object) this);
-
+    @Shadow
+    public InventoryPlayer inventory;
     @Unique
     private float battlegear2$offHandSwingProgress = 0F;
     @Unique
@@ -77,7 +75,7 @@ public abstract class MixinEntityPlayer extends EntityLivingBase implements IBat
                     target = "Lnet/minecraft/entity/player/InventoryPlayer;getCurrentItem()Lnet/minecraft/item/ItemStack;"))
     private ItemStack battlegear2$onUpdate$getCurrentItem(ItemStack currentItemStack) {
         if (BattlegearUtils.isPlayerInBattlemode((EntityPlayer) (Object) this)) {
-            ItemStack itemStack = ((InventoryPlayerBattle) this.inventory).getCurrentOffhandWeapon();
+            ItemStack itemStack = ((IInventoryPlayerBattle) this.inventory).battlegear2$getCurrentOffhandWeapon();
             if (itemInUse == itemStack) {
                 return itemStack;
             }

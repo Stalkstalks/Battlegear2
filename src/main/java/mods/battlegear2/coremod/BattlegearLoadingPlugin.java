@@ -67,9 +67,11 @@ public final class BattlegearLoadingPlugin implements IEarlyMixinLoader, IFMLLoa
         final List<String> mixins = new ArrayList<>();
         mixins.add("MixinEntityPlayer");
         mixins.add("MixinItemStack");
+        mixins.add("MixinInventoryPlayer");
         mixins.add("MixinNetHandlerPlayServer");
         if (FMLLaunchHandler.side().isClient()) {
             mixins.add("MixinEntityOtherPlayerMP");
+            mixins.add("MixinInventoryPlayerClient");
             mixins.add("MixinItemRenderer");
             mixins.add("MixinModelBiped");
             mixins.add("MixinNetHandlerPlayClient");

@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.mojang.authlib.GameProfile;
 
 import mods.battlegear2.api.core.BattlegearUtils;
-import mods.battlegear2.api.core.InventoryPlayerBattle;
+import mods.battlegear2.api.core.IInventoryPlayerBattle;
 
 @Mixin(EntityOtherPlayerMP.class)
 public abstract class MixinEntityOtherPlayerMP extends AbstractClientPlayer {
@@ -38,7 +38,7 @@ public abstract class MixinEntityOtherPlayerMP extends AbstractClientPlayer {
         if (BattlegearUtils.isPlayerInBattlemode(this)) {
             ci.cancel();
             ItemStack itemStack = this.getCurrentEquippedItem();
-            ItemStack offhand = ((InventoryPlayerBattle) this.inventory).getCurrentOffhandWeapon();
+            ItemStack offhand = ((IInventoryPlayerBattle) this.inventory).battlegear2$getCurrentOffhandWeapon();
             if (offhand != null && BattlegearUtils.usagePriorAttack(offhand, this, true)) {
                 itemStack = offhand;
             }

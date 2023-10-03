@@ -42,8 +42,8 @@ import mods.battlegear2.api.RenderPlayerEventChild.PreRenderPlayerElement;
 import mods.battlegear2.api.RenderPlayerEventChild.PreRenderSheathed;
 import mods.battlegear2.api.core.BattlegearUtils;
 import mods.battlegear2.api.core.IBattlePlayer;
+import mods.battlegear2.api.core.IInventoryPlayerBattle;
 import mods.battlegear2.api.core.IOffhandRender;
-import mods.battlegear2.api.core.InventoryPlayerBattle;
 import mods.battlegear2.api.shield.IArrowDisplay;
 import mods.battlegear2.api.shield.IShield;
 import mods.battlegear2.client.BattlegearClientTickHandeler;
@@ -359,7 +359,7 @@ public final class BattlegearRenderHelper {
         IOffhandRender offhandRender = (IOffhandRender) itemRenderer;
         offhandRender
                 .battlegear2$setPrevEquippedOffHandProgress(offhandRender.battlegear2$getEquippedOffHandProgress());
-        int slot = mc.thePlayer.inventory.currentItem + InventoryPlayerBattle.WEAPON_SETS;
+        int slot = mc.thePlayer.inventory.currentItem + IInventoryPlayerBattle.WEAPON_SETS;
         EntityPlayer var1 = mc.thePlayer;
         ItemStack var2 = ((IBattlePlayer) var1).battlegear2$isBattlemode() ? var1.inventory.getStackInSlot(slot)
                 : dummyStack;
@@ -404,8 +404,8 @@ public final class BattlegearRenderHelper {
             float offhandSwing = 0.0F;
 
             if (player.battlegear2$isBattlemode()) {
-                ItemStack offhand = ((InventoryPlayerBattle) ((EntityPlayer) entity).inventory)
-                        .getCurrentOffhandWeapon();
+                ItemStack offhand = ((IInventoryPlayerBattle) ((EntityPlayer) entity).inventory)
+                        .battlegear2$getCurrentOffhandWeapon();
                 if (offhand != null && offhand.getItem() instanceof IShield) {
                     offhandSwing = (float) player.battlegear2$getSpecialActionTimer()
                             / (float) ((IShield) offhand.getItem()).getBashTimer(offhand);
@@ -444,7 +444,7 @@ public final class BattlegearRenderHelper {
 
     public static void renderItemIn3rdPerson(EntityPlayer par1EntityPlayer, ModelBiped modelBipedMain, float frame) {
 
-        ItemStack var21 = ((InventoryPlayerBattle) par1EntityPlayer.inventory).getCurrentOffhandWeapon();
+        ItemStack var21 = ((IInventoryPlayerBattle) par1EntityPlayer.inventory).battlegear2$getCurrentOffhandWeapon();
 
         if (var21 != null) {
 
