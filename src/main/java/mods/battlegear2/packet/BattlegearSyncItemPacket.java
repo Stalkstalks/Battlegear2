@@ -59,7 +59,7 @@ public final class BattlegearSyncItemPacket extends AbstractMBPacket {
                     this.player.setItemInUse(inUse, time);
                 }
             }
-            ((IBattlePlayer) this.player).setSpecialActionTimer(0);
+            ((IBattlePlayer) this.player).battlegear2$setSpecialActionTimer(0);
         }
     }
 

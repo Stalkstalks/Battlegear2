@@ -75,15 +75,15 @@ public final class BattlegearClientTickHandeler {
                 EntityClientPlayerMP player = mc.thePlayer;
                 if (event.phase == TickEvent.Phase.START) {
                     if (!specialDone && special.getIsKeyPressed()
-                            && ((IBattlePlayer) player).getSpecialActionTimer() == 0) {
+                            && ((IBattlePlayer) player).battlegear2$getSpecialActionTimer() == 0) {
                         ItemStack quiver = QuiverArrowRegistry.getArrowContainer(player);
 
                         if (quiver != null) {
                             FMLProxyPacket p = new BattlegearAnimationPacket(EnumBGAnimations.SpecialAction, player)
                                     .generatePacket();
                             Battlegear.packetHandler.sendPacketToServer(p);
-                            ((IBattlePlayer) player).setSpecialActionTimer(2);
-                        } else if (((IBattlePlayer) player).isBattlemode()) {
+                            ((IBattlePlayer) player).battlegear2$setSpecialActionTimer(2);
+                        } else if (((IBattlePlayer) player).battlegear2$isBattlemode()) {
                             ItemStack offhand = ((InventoryPlayerBattle) player.inventory).getCurrentOffhandWeapon();
 
                             if (offhand != null && offhand.getItem() instanceof IShield) {
@@ -95,8 +95,8 @@ public final class BattlegearClientTickHandeler {
                                             EnumBGAnimations.SpecialAction,
                                             player).generatePacket();
                                     Battlegear.packetHandler.sendPacketToServer(p);
-                                    ((IBattlePlayer) player)
-                                            .setSpecialActionTimer(((IShield) offhand.getItem()).getBashTimer(offhand));
+                                    ((IBattlePlayer) player).battlegear2$setSpecialActionTimer(
+                                            ((IShield) offhand.getItem()).getBashTimer(offhand));
 
                                     blockBar -= shieldBashPenalty;
                                 }
@@ -107,7 +107,7 @@ public final class BattlegearClientTickHandeler {
                         specialDone = false;
                     }
                     if (!drawDone && drawWeapons.getIsKeyPressed()) {
-                        if (((IBattlePlayer) player).isBattlemode()) {
+                        if (((IBattlePlayer) player).battlegear2$isBattlemode()) {
                             previousBattlemode = player.inventory.currentItem;
                             player.inventory.currentItem = previousNormal;
                         } else {
@@ -119,9 +119,9 @@ public final class BattlegearClientTickHandeler {
                     } else if (drawDone && !drawWeapons.getIsKeyPressed()) {
                         drawDone = false;
                     }
-                    inBattle = ((IBattlePlayer) player).isBattlemode();
+                    inBattle = ((IBattlePlayer) player).battlegear2$isBattlemode();
                 } else {
-                    if (inBattle && !((IBattlePlayer) player).isBattlemode()) {
+                    if (inBattle && !((IBattlePlayer) player).battlegear2$isBattlemode()) {
                         for (int i = 0; i < InventoryPlayerBattle.WEAPON_SETS; ++i) {
                             if (mc.gameSettings.keyBindsHotbar[i].getIsKeyPressed()) {
                                 previousBattlemode = InventoryPlayerBattle.OFFSET + i;
@@ -147,7 +147,7 @@ public final class BattlegearClientTickHandeler {
     }
 
     public void tickStart(EntityPlayer player) {
-        if (((IBattlePlayer) player).isBattlemode()) {
+        if (((IBattlePlayer) player).battlegear2$isBattlemode()) {
             ItemStack offhand = ((InventoryPlayerBattle) player.inventory).getCurrentOffhandWeapon();
             if (offhand != null) {
                 if (offhand.getItem() instanceof IShield) {

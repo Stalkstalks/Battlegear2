@@ -37,13 +37,13 @@ public final class BattlegearTickHandeler {
                 ((WorldServer) entityPlayer.worldObj).getEntityTracker()
                         .func_151248_b(entityPlayer, new BattlegearSyncItemPacket(entityPlayer).generatePacket());
 
-                ((IBattlePlayer) entityPlayer).setSpecialActionTimer(0);
+                ((IBattlePlayer) entityPlayer).battlegear2$setSpecialActionTimer(0);
 
                 ((InventoryPlayerBattle) entityPlayer.inventory).hasChanged = entityPlayer.ticksExisted < 10;
 
             }
             // Force update every 3 seconds
-            else if (((IBattlePlayer) entityPlayer).isBattlemode()
+            else if (((IBattlePlayer) entityPlayer).battlegear2$isBattlemode()
                     && entityPlayer.ticksExisted % BattlegearConfig.updateRate == 0
                     && !entityPlayer.isUsingItem()) {
                         ((WorldServer) entityPlayer.worldObj).getEntityTracker().func_151248_b(
@@ -54,9 +54,9 @@ public final class BattlegearTickHandeler {
     }
 
     public void tickEnd(EntityPlayer entityPlayer) {
-        int timer = ((IBattlePlayer) entityPlayer).getSpecialActionTimer();
+        int timer = ((IBattlePlayer) entityPlayer).battlegear2$getSpecialActionTimer();
         if (timer > 0) {
-            ((IBattlePlayer) entityPlayer).setSpecialActionTimer(timer - 1);
+            ((IBattlePlayer) entityPlayer).battlegear2$setSpecialActionTimer(timer - 1);
             int targetTime = -1;
             ItemStack offhand = ((InventoryPlayerBattle) entityPlayer.inventory).getCurrentOffhandWeapon();
             if (offhand != null && offhand.getItem() instanceof IShield) {

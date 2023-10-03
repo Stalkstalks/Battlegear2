@@ -13,7 +13,7 @@ public enum EnumBGAnimations {
 
         @Override
         public void processAnimation(IBattlePlayer entity) {
-            entity.swingOffItem();
+            entity.battlegear2$swingOffItem();
         }
     },
     SpecialAction {
@@ -22,7 +22,7 @@ public enum EnumBGAnimations {
         public void processAnimation(IBattlePlayer entity) {
             ItemStack offhand = ((InventoryPlayerBattle) ((EntityPlayer) entity).inventory).getCurrentOffhandWeapon();
             if (offhand != null && offhand.getItem() instanceof IShield) {
-                entity.setSpecialActionTimer(((IShield) offhand.getItem()).getBashTimer(offhand));
+                entity.battlegear2$setSpecialActionTimer(((IShield) offhand.getItem()).getBashTimer(offhand));
             }
         }
     };

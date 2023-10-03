@@ -147,7 +147,7 @@ public final class BattlegearRenderHelper {
                 if (offhandRender.getOffHandItemToRender().getItem() instanceof IShield) {
                     GL11.glPushMatrix();
 
-                    float swingProgress = (float) ((IBattlePlayer) player).getSpecialActionTimer()
+                    float swingProgress = (float) ((IBattlePlayer) player).battlegear2$getSpecialActionTimer()
                             / (float) ((IShield) offhandRender.getOffHandItemToRender().getItem())
                                     .getBashTimer(offhandRender.getOffHandItemToRender());
 
@@ -156,7 +156,7 @@ public final class BattlegearRenderHelper {
                             -0.65F * var7 - (1.0F - progress) * 0.6F - 0.4F,
                             -0.9F * var7 + 0.1F - 0.25F * MathHelper.sin(swingProgress * (float) Math.PI));
 
-                    if (((IBattlePlayer) player).isBlockingWithShield()) {
+                    if (((IBattlePlayer) player).battlegear2$isBlockingWithShield()) {
                         GL11.glTranslatef(0.25F, 0.15F, 0);
                     }
 
@@ -204,7 +204,7 @@ public final class BattlegearRenderHelper {
                             GL11.glRotatef(var12 * 30.0F, 0.0F, 0.0F, 1.0F);
                         }
                     } else {
-                        var20 = ((IBattlePlayer) player).getOffSwingProgress(frame);
+                        var20 = ((IBattlePlayer) player).battlegear2$getOffSwingProgress(frame);
                         var21 = MathHelper.sin(var20 * (float) Math.PI);
                         var10 = MathHelper.sin(MathHelper.sqrt_float(var20) * (float) Math.PI);
                         // Flip the (x direction)
@@ -220,7 +220,7 @@ public final class BattlegearRenderHelper {
                     GL11.glRotatef(-45.0F, 0.0F, 1.0F, 0.0F);
 
                     GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-                    var20 = ((IBattlePlayer) player).getOffSwingProgress(frame);
+                    var20 = ((IBattlePlayer) player).battlegear2$getOffSwingProgress(frame);
 
                     var21 = MathHelper.sin(var20 * var20 * (float) Math.PI);
                     var10 = MathHelper.sin(MathHelper.sqrt_float(var20) * (float) Math.PI);
@@ -312,7 +312,7 @@ public final class BattlegearRenderHelper {
 
                 GL11.glScalef(-1.0F, 1.0F, 1.0F);
 
-                var20 = ((IBattlePlayer) player).getOffSwingProgress(frame);
+                var20 = ((IBattlePlayer) player).battlegear2$getOffSwingProgress(frame);
                 var21 = MathHelper.sin(var20 * (float) Math.PI);
                 var10 = MathHelper.sin(MathHelper.sqrt_float(var20) * (float) Math.PI);
                 GL11.glTranslatef(
@@ -357,7 +357,8 @@ public final class BattlegearRenderHelper {
         offhandRender.setPrevEquippedOffHandProgress(offhandRender.getEquippedOffHandProgress());
         int slot = mc.thePlayer.inventory.currentItem + InventoryPlayerBattle.WEAPON_SETS;
         EntityPlayer var1 = mc.thePlayer;
-        ItemStack var2 = ((IBattlePlayer) var1).isBattlemode() ? var1.inventory.getStackInSlot(slot) : dummyStack;
+        ItemStack var2 = ((IBattlePlayer) var1).battlegear2$isBattlemode() ? var1.inventory.getStackInSlot(slot)
+                : dummyStack;
 
         boolean sameItem = offhandRender.getEquippedItemOffhandSlot() == slot
                 && var2 == offhandRender.getOffHandItemToRender();
@@ -397,14 +398,14 @@ public final class BattlegearRenderHelper {
             IBattlePlayer player = (IBattlePlayer) entity;
             float offhandSwing = 0.0F;
 
-            if (player.isBattlemode()) {
+            if (player.battlegear2$isBattlemode()) {
                 ItemStack offhand = ((InventoryPlayerBattle) ((EntityPlayer) entity).inventory)
                         .getCurrentOffhandWeapon();
                 if (offhand != null && offhand.getItem() instanceof IShield) {
-                    offhandSwing = (float) player.getSpecialActionTimer()
+                    offhandSwing = (float) player.battlegear2$getSpecialActionTimer()
                             / (float) ((IShield) offhand.getItem()).getBashTimer(offhand);
                 } else {
-                    offhandSwing = player.getOffSwingProgress(frame);
+                    offhandSwing = player.battlegear2$getOffSwingProgress(frame);
                 }
             }
 
@@ -533,7 +534,7 @@ public final class BattlegearRenderHelper {
                     .post(new PostRenderPlayerElement(postRender, false, PlayerElementType.ItemOffhand, var21));
             GL11.glPopMatrix();
         } else {
-            if (!((IBattlePlayer) par1EntityPlayer).isBattlemode())
+            if (!((IBattlePlayer) par1EntityPlayer).battlegear2$isBattlemode())
                 renderSheathedItems(par1EntityPlayer, modelBipedMain, frame);
         }
     }

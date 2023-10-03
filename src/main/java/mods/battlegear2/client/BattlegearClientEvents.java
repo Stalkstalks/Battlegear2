@@ -146,7 +146,7 @@ public final class BattlegearClientEvents {
                     ItemStack mainhand = entityPlayer.inventory.getCurrentItem();
                     renderer.modelArmorChestplate.heldItemRight = renderer.modelArmor.heldItemRight = renderer.modelBipedMain.heldItemRight = mainhand
                             != null ? 1 : 0;
-                } else if (((IBattlePlayer) entityPlayer).isBlockingWithShield()) {
+                } else if (((IBattlePlayer) entityPlayer).battlegear2$isBlockingWithShield()) {
                     renderer.modelArmorChestplate.heldItemLeft = renderer.modelArmor.heldItemLeft = renderer.modelBipedMain.heldItemLeft = 3;
                 }
             }
@@ -304,7 +304,7 @@ public final class BattlegearClientEvents {
             if (mc.thePlayer != null) {
                 if (event.button - 100 == mc.gameSettings.keyBindPickBlock.getKeyCode()) {
                     event.setCanceled(true);
-                    if (!((IBattlePlayer) mc.thePlayer).isBattlemode()) {
+                    if (!((IBattlePlayer) mc.thePlayer).battlegear2$isBattlemode()) {
                         boolean isCreative = mc.thePlayer.capabilities.isCreativeMode;
                         ItemStack stack = getItemFromPointedAt(mc.objectMouseOver, mc.thePlayer);
                         if (stack != null) {

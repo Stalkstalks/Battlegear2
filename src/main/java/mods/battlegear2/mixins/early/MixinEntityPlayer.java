@@ -122,7 +122,7 @@ public abstract class MixinEntityPlayer extends EntityLivingBase implements IBat
     }
 
     @Override
-    public void swingOffItem() {
+    public void battlegear2$swingOffItem() {
         if (!this.battlegear2$isOffHandSwingInProgress
                 || this.battlegear2$offHandSwingProgressInt >= this.getArmSwingAnimationEnd() / 2
                 || this.battlegear2$offHandSwingProgressInt < 0) {
@@ -132,7 +132,7 @@ public abstract class MixinEntityPlayer extends EntityLivingBase implements IBat
     }
 
     @Override
-    public float getOffSwingProgress(float frame) {
+    public float battlegear2$getOffSwingProgress(float frame) {
         float diff = this.battlegear2$offHandSwingProgress - this.battlegear2$prevOffHandSwingProgress;
         if (diff < 0.0F) {
             ++diff;
@@ -140,32 +140,32 @@ public abstract class MixinEntityPlayer extends EntityLivingBase implements IBat
         return this.battlegear2$prevOffHandSwingProgress + diff * frame;
     }
 
-    public void attackTargetEntityWithCurrentOffItem(Entity target) {
+    public void battlegear2$attackTargetEntityWithCurrentOffItem(Entity target) {
         BattlegearUtils.attackTargetEntityWithCurrentOffItem((EntityPlayer) (Object) this, target);
     }
 
     @Override
-    public boolean isBattlemode() {
+    public boolean battlegear2$isBattlemode() {
         return BattlegearUtils.isPlayerInBattlemode((EntityPlayer) (Object) this);
     }
 
     @Override
-    public boolean isBlockingWithShield() {
+    public boolean battlegear2$isBlockingWithShield() {
         return BattlegearUtils.canBlockWithShield((EntityPlayer) (Object) this) && this.battlegear2$isShielding;
     }
 
     @Override
-    public void setBlockingWithShield(boolean block) {
+    public void battlegear2$setBlockingWithShield(boolean block) {
         this.battlegear2$isShielding = block && BattlegearUtils.canBlockWithShield((EntityPlayer) (Object) this);
     }
 
     @Override
-    public int getSpecialActionTimer() {
+    public int battlegear2$getSpecialActionTimer() {
         return this.battlegear2$specialActionTimer;
     }
 
     @Override
-    public void setSpecialActionTimer(int time) {
+    public void battlegear2$setSpecialActionTimer(int time) {
         this.battlegear2$specialActionTimer = time;
     }
 

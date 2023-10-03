@@ -35,7 +35,7 @@ public final class BattlegearShieldBlockPacket extends AbstractMBPacket {
                 if (entity.worldObj instanceof WorldServer) {
                     ((WorldServer) entity.worldObj).getEntityTracker().func_151248_b(entity, this.generatePacket());
                 }
-                ((IBattlePlayer) entity).setBlockingWithShield(block);
+                ((IBattlePlayer) entity).battlegear2$setBlockingWithShield(block);
             }
         }
     }

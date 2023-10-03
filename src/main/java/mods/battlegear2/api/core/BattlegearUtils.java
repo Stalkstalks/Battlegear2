@@ -102,7 +102,7 @@ public class BattlegearUtils {
      * Helper method to check if player is using {@link IShield}
      */
     public static boolean isBlockingWithShield(EntityPlayer player) {
-        return ((IBattlePlayer) player).isBlockingWithShield();
+        return ((IBattlePlayer) player).battlegear2$isBlockingWithShield();
     }
 
     /**
@@ -643,7 +643,7 @@ public class BattlegearUtils {
                     }
                     if (offAttackEvent.shouldAttack) {
                         ((IBattlePlayer) event.entityPlayer)
-                                .attackTargetEntityWithCurrentOffItem(offAttackEvent.getTarget());
+                                .battlegear2$attackTargetEntityWithCurrentOffItem(offAttackEvent.getTarget());
                     }
                     if (offAttackEvent.cancelParent) {
                         return true;
@@ -675,7 +675,7 @@ public class BattlegearUtils {
      */
     public static void sendOffSwingEvent(PlayerEvent event, ItemStack offhandItem) {
         if (!MinecraftForge.EVENT_BUS.post(new PlayerEventChild.OffhandSwingEvent(event, offhandItem))) {
-            ((IBattlePlayer) event.entityPlayer).swingOffItem();
+            ((IBattlePlayer) event.entityPlayer).battlegear2$swingOffItem();
         }
     }
 

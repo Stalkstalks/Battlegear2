@@ -86,7 +86,7 @@ public final class BattlemodeHookContainerClass {
      */
     @SubscribeEvent
     public void attackEntity(AttackEntityEvent event) {
-        if (((IBattlePlayer) event.entityPlayer).getSpecialActionTimer() > 0) {
+        if (((IBattlePlayer) event.entityPlayer).battlegear2$getSpecialActionTimer() > 0) {
             event.setCanceled(true);
             return;
         }
@@ -105,10 +105,10 @@ public final class BattlemodeHookContainerClass {
     @SubscribeEvent
     public void playerInteract(PlayerInteractEvent event) {
         if (isFake(event.entityPlayer)) return;
-        if (((IBattlePlayer) event.entityPlayer).getSpecialActionTimer() > 0) {
+        if (((IBattlePlayer) event.entityPlayer).battlegear2$getSpecialActionTimer() > 0) {
             event.setCanceled(true);
             event.entityPlayer.isSwingInProgress = false;
-        } else if (((IBattlePlayer) event.entityPlayer).isBattlemode()) {
+        } else if (((IBattlePlayer) event.entityPlayer).battlegear2$isBattlemode()) {
             if (event.action == PlayerInteractEvent.Action.LEFT_CLICK_BLOCK) { // Left click
                 ItemStack mainHandItem = event.entityPlayer.getCurrentEquippedItem();
                 if (mainHandItem != null && mainHandItem.getItem() instanceof IHandListener) {
@@ -230,7 +230,7 @@ public final class BattlemodeHookContainerClass {
             event.setCanceled(true);
         }
         if (!MinecraftForge.EVENT_BUS.post(event)) {
-            ((IBattlePlayer) event.entityPlayer).swingOffItem();
+            ((IBattlePlayer) event.entityPlayer).battlegear2$swingOffItem();
         }
     }
 
@@ -245,7 +245,7 @@ public final class BattlemodeHookContainerClass {
     @SubscribeEvent(priority = EventPriority.LOW)
     public void playerInteractEntity(EntityInteractEvent event) {
         if (isFake(event.entityPlayer)) return;
-        if (((IBattlePlayer) event.entityPlayer).getSpecialActionTimer() > 0) {
+        if (((IBattlePlayer) event.entityPlayer).battlegear2$getSpecialActionTimer() > 0) {
             event.setCanceled(true);
             event.entityPlayer.isSwingInProgress = false;
         }
@@ -335,9 +335,9 @@ public final class BattlemodeHookContainerClass {
         if (isFake(event.entity)) return;
         if (event.entity instanceof IBattlePlayer) {
             EntityPlayer player = (EntityPlayer) event.entity;
-            if (((IBattlePlayer) player).getSpecialActionTimer() > 0) {
+            if (((IBattlePlayer) player).battlegear2$getSpecialActionTimer() > 0) {
                 event.setCanceled(true);
-            } else if (((IBattlePlayer) player).isBlockingWithShield()) {
+            } else if (((IBattlePlayer) player).battlegear2$isBlockingWithShield()) {
                 final ItemStack shield = ((InventoryPlayerBattle) player.inventory).getCurrentOffhandWeapon();
                 final float dmg = event.ammount;
                 if (((IShield) shield.getItem()).canBlock(shield, event.source)) {
@@ -430,7 +430,7 @@ public final class BattlemodeHookContainerClass {
                     && event.source.getEntity() instanceof IBattlePlayer
                     && !isFake(event.source.getEntity())) {
                 EntityPlayer player = (EntityPlayer) event.source.getEntity();
-                if (((IBattlePlayer) player).isBattlemode()) {
+                if (((IBattlePlayer) player).battlegear2$isBattlemode()) {
                     stack = ((InventoryPlayerBattle) player.inventory).getCurrentOffhandWeapon();
                     addLootFromEnchant(stack, event.drops);
                 }
