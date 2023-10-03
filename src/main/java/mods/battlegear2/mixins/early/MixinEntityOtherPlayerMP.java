@@ -34,7 +34,7 @@ public abstract class MixinEntityOtherPlayerMP extends AbstractClientPlayer {
                     target = "Lnet/minecraft/client/entity/EntityOtherPlayerMP;isItemInUse:Z",
                     shift = At.Shift.BEFORE,
                     ordinal = 0))
-    private void battlegear$isItemInUseHook(CallbackInfo ci) {
+    private void battlegear2$isItemInUseHook(CallbackInfo ci) {
         if (BattlegearUtils.isPlayerInBattlemode(this)) {
             ci.cancel();
             ItemStack itemStack = this.getCurrentEquippedItem();

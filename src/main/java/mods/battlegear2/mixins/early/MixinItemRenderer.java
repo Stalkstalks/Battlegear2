@@ -39,42 +39,42 @@ public class MixinItemRenderer implements IOffhandRender {
     }
 
     @Override
-    public ItemStack getOffHandItemToRender() {
+    public ItemStack battlegear2$getOffHandItemToRender() {
         return this.battlegear2$offHandItemToRender;
     }
 
     @Override
-    public void setOffHandItemToRender(ItemStack item) {
+    public void battlegear2$setOffHandItemToRender(ItemStack item) {
         this.battlegear2$offHandItemToRender = item;
     }
 
     @Override
-    public int getEquippedItemOffhandSlot() {
+    public int battlegear2$getEquippedItemOffhandSlot() {
         return this.battlegear2$equippedItemOffhandSlot;
     }
 
     @Override
-    public void serEquippedItemOffhandSlot(int slot) {
+    public void battlegear2$serEquippedItemOffhandSlot(int slot) {
         this.battlegear2$equippedItemOffhandSlot = slot;
     }
 
     @Override
-    public float getEquippedOffHandProgress() {
+    public float battlegear2$getEquippedOffHandProgress() {
         return this.battlegear2$equippedOffHandProgress;
     }
 
     @Override
-    public void setEquippedOffHandProgress(float progress) {
+    public void battlegear2$setEquippedOffHandProgress(float progress) {
         this.battlegear2$equippedOffHandProgress = progress;
     }
 
     @Override
-    public float getPrevEquippedOffHandProgress() {
+    public float battlegear2$getPrevEquippedOffHandProgress() {
         return this.battlegear2$prevEquippedOffHandProgress;
     }
 
     @Override
-    public void setPrevEquippedOffHandProgress(float progress) {
+    public void battlegear2$setPrevEquippedOffHandProgress(float progress) {
         this.battlegear2$prevEquippedOffHandProgress = progress;
     }
 }

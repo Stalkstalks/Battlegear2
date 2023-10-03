@@ -11,19 +11,19 @@ import net.minecraft.item.ItemStack;
  */
 public interface IOffhandRender {
 
-    ItemStack getOffHandItemToRender();
+    ItemStack battlegear2$getOffHandItemToRender();
 
-    void setOffHandItemToRender(ItemStack item);
+    void battlegear2$setOffHandItemToRender(ItemStack item);
 
-    int getEquippedItemOffhandSlot();
+    int battlegear2$getEquippedItemOffhandSlot();
 
-    void serEquippedItemOffhandSlot(int slot);
+    void battlegear2$serEquippedItemOffhandSlot(int slot);
 
-    float getEquippedOffHandProgress();
+    float battlegear2$getEquippedOffHandProgress();
 
-    void setEquippedOffHandProgress(float progress);
+    void battlegear2$setEquippedOffHandProgress(float progress);
 
-    float getPrevEquippedOffHandProgress();
+    float battlegear2$getPrevEquippedOffHandProgress();
 
-    void setPrevEquippedOffHandProgress(float progress);
+    void battlegear2$setPrevEquippedOffHandProgress(float progress);
 }
