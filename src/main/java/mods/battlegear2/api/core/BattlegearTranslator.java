@@ -1,14 +1,15 @@
 package mods.battlegear2.api.core;
 
+import mods.battlegear2.asm.loader.BattlegearLoadingPlugin;
+
 /**
  * Core Translator for Battlegear Coremod and Reflection usage Allows to run Battlegear in both dev and "srg" (post-
  * FMLDeobfuscatingRemapper) environments
  */
-public class BattlegearTranslator {
+public class BattlegearTranslator {// TODO delete
 
     // Setting this to true will enable the output of all edited classes as .class files
     public static boolean debug = false;
-    public static boolean obfuscatedEnv;
 
     @Deprecated
     public static String getMapedFieldName(String className, String fieldName, String devName) {
@@ -16,11 +17,11 @@ public class BattlegearTranslator {
     }
 
     public static String getMapedFieldName(String fieldName, String devName) {
-        return obfuscatedEnv ? fieldName : devName;
+        return BattlegearLoadingPlugin.isObf() ? fieldName : devName;
     }
 
     public static String getMapedClassName(String className) {
-        return new StringBuilder("net/minecraft/").append(className.replace(".", "/")).toString();
+        return "net/minecraft/" + className.replace(".", "/");
     }
 
     @Deprecated
@@ -29,7 +30,7 @@ public class BattlegearTranslator {
     }
 
     public static String getMapedMethodName(String methodName, String devName) {
-        return obfuscatedEnv ? methodName : devName;
+        return BattlegearLoadingPlugin.isObf() ? methodName : devName;
     }
 
     @Deprecated

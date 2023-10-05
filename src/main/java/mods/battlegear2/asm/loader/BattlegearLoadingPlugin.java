@@ -1,10 +1,13 @@
-package mods.battlegear2.coremod;
+package mods.battlegear2.asm.loader;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.gtnewhorizon.gtnhmixins.IEarlyMixinLoader;
 
@@ -14,26 +17,21 @@ import cpw.mods.fml.relauncher.IFMLLoadingPlugin.MCVersion;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin.Name;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin.SortingIndex;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin.TransformerExclusions;
-import mods.battlegear2.api.core.BattlegearTranslator;
+import mods.battlegear2.asm.transformers.InventoryArrayAccessTransformer;
 
-@TransformerExclusions({ "mods.battlegear2.coremod" })
+@TransformerExclusions({ "mods.battlegear2.asm.loader", "mods.battlegear2.asm.transformers" })
 @Name("Mine and Blade: Battlegear2")
 @SortingIndex(1500)
 @MCVersion("1.7.10")
 public final class BattlegearLoadingPlugin implements IEarlyMixinLoader, IFMLLoadingPlugin {
 
-    public static File debugOutputLocation;
+    public static final Logger logger = LogManager.getLogger("ASM Battlegear2");
+    private static boolean isObf;
+    private static File debugOutputLocation;
 
     @Override
     public String[] getASMTransformerClass() {
-        return new String[] { "mods.battlegear2.coremod.transformers.EntityAIControlledByPlayerTransformer",
-                "mods.battlegear2.coremod.transformers.EntityOtherPlayerMPTransformer",
-                "mods.battlegear2.coremod.transformers.EntityPlayerTransformer",
-                "mods.battlegear2.coremod.transformers.ItemInWorldTransformer",
-                "mods.battlegear2.coremod.transformers.MinecraftTransformer",
-                "mods.battlegear2.coremod.transformers.NetClientHandlerTransformer",
-                "mods.battlegear2.coremod.transformers.NetServerHandlerTransformer",
-                "mods.battlegear2.coremod.transformers.PlayerControllerMPTransformer" };
+        return new String[] { InventoryArrayAccessTransformer.class.getName() };
     }
 
     @Override
@@ -54,7 +52,7 @@ public final class BattlegearLoadingPlugin implements IEarlyMixinLoader, IFMLLoa
     @Override
     public void injectData(Map<String, Object> data) {
         debugOutputLocation = new File(data.get("mcLocation").toString(), "bg edited classes");
-        BattlegearTranslator.obfuscatedEnv = (boolean) data.get("runtimeDeobfuscationEnabled");
+        isObf = (boolean) data.get("runtimeDeobfuscationEnabled");
     }
 
     @Override
@@ -77,6 +75,14 @@ public final class BattlegearLoadingPlugin implements IEarlyMixinLoader, IFMLLoa
             mixins.add("MixinNetHandlerPlayClient");
         }
         return mixins;
+    }
+
+    public static boolean isObf() {
+        return isObf;
+    }
+
+    public static File getDebugOutputLocation() {
+        return debugOutputLocation;
     }
 
 }
