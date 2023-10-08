@@ -53,6 +53,7 @@ import mods.battlegear2.api.quiver.ISpecialBow;
 import mods.battlegear2.api.shield.IShield;
 import mods.battlegear2.api.weapons.IBattlegearWeapon;
 import mods.battlegear2.api.weapons.WeaponRegistry;
+import mods.battlegear2.asm.loader.BattlegearLoadingPlugin;
 
 /**
  * Store commonly used method, mostly for the {@link EntityPlayer} {@link ItemStack}s management
@@ -67,9 +68,8 @@ public class BattlegearUtils {
      * Method names that are not allowed in {@link Item} subclasses for common wielding
      */
     private static final String[] itemBlackListMethodNames = {
-            BattlegearTranslator.getMapedMethodName("func_77648_a", "onItemUse"),
-            BattlegearTranslator.getMapedMethodName("onItemUseFirst", "onItemUseFirst"), // Added by Forge
-            BattlegearTranslator.getMapedMethodName("func_77659_a", "onItemRightClick") };
+            BattlegearLoadingPlugin.isObf() ? "func_77648_a" : "onItemUse", "onItemUseFirst", // Added by Forge
+            BattlegearLoadingPlugin.isObf() ? "func_77659_a" : "onItemRightClick" };
     /**
      * Method arguments classes that are not allowed in {@link Item} subclasses for common wielding
      */
