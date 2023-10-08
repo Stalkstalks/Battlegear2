@@ -1,6 +1,5 @@
 package mods.battlegear2.asm.loader;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +26,6 @@ public final class BattlegearLoadingPlugin implements IEarlyMixinLoader, IFMLLoa
 
     public static final Logger logger = LogManager.getLogger("ASM Battlegear2");
     private static boolean isObf;
-    private static File debugOutputLocation;
 
     @Override
     public String[] getASMTransformerClass() {
@@ -51,7 +49,6 @@ public final class BattlegearLoadingPlugin implements IEarlyMixinLoader, IFMLLoa
 
     @Override
     public void injectData(Map<String, Object> data) {
-        debugOutputLocation = new File(data.get("mcLocation").toString(), "bg edited classes");
         isObf = (boolean) data.get("runtimeDeobfuscationEnabled");
     }
 
@@ -79,10 +76,6 @@ public final class BattlegearLoadingPlugin implements IEarlyMixinLoader, IFMLLoa
 
     public static boolean isObf() {
         return isObf;
-    }
-
-    public static File getDebugOutputLocation() {
-        return debugOutputLocation;
     }
 
 }
