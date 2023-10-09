@@ -24,6 +24,7 @@ import org.objectweb.asm.tree.LabelNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.VarInsnNode;
+import org.spongepowered.asm.mixin.transformer.ClassInfo;
 
 import mods.battlegear2.asm.MethodMapping;
 import mods.battlegear2.asm.loader.BattlegearLoadingPlugin;
@@ -83,7 +84,7 @@ public class InventoryArrayAccessTransformer implements IClassTransformer {
             final ClassReader classReader = new ClassReader(basicClass);
             classReader.accept(classNode, ClassReader.SKIP_DEBUG);
             transform(classNode, targetClassesAndMethods.get(transformedName));
-            final ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
+            final ClassWriter classWriter = new SafeClassWriter(ClassWriter.COMPUTE_FRAMES);
             classNode.accept(classWriter);
             basicClass = classWriter.toByteArray();
             saveTransformedClass(basicClass, transformedName + "_post");
@@ -92,47 +93,64 @@ public class InventoryArrayAccessTransformer implements IClassTransformer {
         return basicClass;
     }
 
+    private static class SafeClassWriter extends ClassWriter {
+
+        public SafeClassWriter(int flags) {
+            super(flags);
+        }
+
+        // we use this implementation because the default implementation
+        // triggers classloading, and we don't want that
+        @Override
+        protected String getCommonSuperClass(String type1, String type2) {
+            return ClassInfo.getCommonSuperClass(type1, type2).getName();
+        }
+    }
+
     private static void transform(ClassNode classNode, MethodMapping targetMethod) {
+        int injectionCount = -1;
         for (final MethodNode methodNode : classNode.methods) {
-            if (methodNode.name.equals(targetMethod.getName())) {
+            if ((methodNode.name + methodNode.desc).equals(targetMethod.getMapping())) {
                 if (targetMethod == MethodMapping.NETHANDLERPLAYSERVER$PROCESSPLAYERBLOCKPLACEMENT) {
                     cleanUnsafeArrayAccess(methodNode.instructions);
                     fixNetHandlerServerNPE(methodNode.instructions);
                 }
-                final int injectionCount = wrapInventoryAccess(methodNode.instructions);
-                final int expectedCount = targetMethod.targetCount;
-                if (injectionCount == expectedCount) {
-                    final String msg = "Transformed " + classNode.name
-                            + "#"
-                            + targetMethod.clearName
-                            + " to wrap "
-                            + injectionCount
-                            + " inventory access array";
-                    if (BattlegearLoadingPlugin.isObf()) {
-                        BattlegearLoadingPlugin.logger.debug(msg);
-                    } else {
-                        BattlegearLoadingPlugin.logger.info(msg);
-                    }
-                } else if (injectionCount < expectedCount) {
-                    BattlegearLoadingPlugin.logger.error(
-                            "Expected " + expectedCount
-                                    + " injections, but could only inject "
-                                    + injectionCount
-                                    + " time when transforming "
-                                    + classNode.name
-                                    + "#"
-                                    + targetMethod.clearName);
-                } else {
-                    BattlegearLoadingPlugin.logger.error(
-                            "Expected " + expectedCount
-                                    + " injections, but injected "
-                                    + injectionCount
-                                    + " times when transforming "
-                                    + classNode.name
-                                    + "#"
-                                    + targetMethod.clearName);
-                }
+                injectionCount = wrapInventoryAccess(methodNode.instructions);
             }
+        }
+        final int expectedCount = targetMethod.targetCount;
+        if (injectionCount == -1) {
+            BattlegearLoadingPlugin.logger.error("Couldn't find target method in " + classNode.name);
+        } else if (injectionCount == expectedCount) {
+            final String msg = "Transformed " + classNode.name
+                    + "#"
+                    + targetMethod.clearMapping
+                    + " to wrap "
+                    + injectionCount
+                    + " inventory access array";
+            if (BattlegearLoadingPlugin.isObf()) {
+                BattlegearLoadingPlugin.logger.debug(msg);
+            } else {
+                BattlegearLoadingPlugin.logger.info(msg);
+            }
+        } else if (injectionCount < expectedCount) {
+            BattlegearLoadingPlugin.logger.error(
+                    "Expected " + expectedCount
+                            + " injections, but could only inject "
+                            + injectionCount
+                            + " time when transforming "
+                            + classNode.name
+                            + "#"
+                            + targetMethod.clearMapping);
+        } else {
+            BattlegearLoadingPlugin.logger.error(
+                    "Expected " + expectedCount
+                            + " injections, but injected "
+                            + injectionCount
+                            + " times when transforming "
+                            + classNode.name
+                            + "#"
+                            + targetMethod.clearMapping);
         }
     }
 
@@ -352,7 +370,7 @@ public class InventoryArrayAccessTransformer implements IClassTransformer {
 
     private static boolean isPlayerInventoryFieldNode(AbstractInsnNode node) {
         return node instanceof FieldInsnNode && node.getOpcode() == Opcodes.GETFIELD
-                && (((FieldInsnNode) node).owner.equals(deobf("xy", "net/minecraft/entity/player/EntityPlayer"))
+                && (((FieldInsnNode) node).owner.equals(deobf("yz", "net/minecraft/entity/player/EntityPlayer"))
                         || ((FieldInsnNode) node).owner
                                 .equals(deobf("bll", "net/minecraft/client/entity/EntityOtherPlayerMP"))
                         || ((FieldInsnNode) node).owner
@@ -378,9 +396,9 @@ public class InventoryArrayAccessTransformer implements IClassTransformer {
     }
 
     private void saveTransformedClass(final byte[] data, final String transformedName) {
-         if (BattlegearLoadingPlugin.isObf()) {
-         return;
-         }
+        if (BattlegearLoadingPlugin.isObf()) {
+            return;
+        }
         if (outputDir == null) {
             emptyClassOutputFolder();
         }

@@ -4,27 +4,34 @@ import mods.battlegear2.asm.loader.BattlegearLoadingPlugin;
 
 public enum MethodMapping {
 
-    ENTITYAICONTROLLEDBYPLAYER$UPDATETASK("func_75246_d", "updateTask", 1),
-    ENTITYOTHERPLAYERMP$SETCURRENTITEMORARMOR("func_70062_b", "setCurrentItemOrArmor", 1),
-    ENTITYPLAYER$SETCURRENTITEMORARMOR("func_70062_b", "setCurrentItemOrArmor", 1),
-    ITEMINWORLDMANAGER$TRYUSEITEM("func_73085_a", "tryUseItem", 2),
-    MINECRAFT$RIGHTCLICKMOUSE("func_147121_ag", "func_147121_ag", 1),
-    NETHANDLERPLAYCLIENT$HANDLESPAWNPLAYER("func_147237_a", "handleSpawnPlayer", 2),
-    NETHANDLERPLAYSERVER$PROCESSPLAYERBLOCKPLACEMENT("func_147346_a", "processPlayerBlockPlacement", 2),
-    PLAYERCONTROLLERMP$SENDUSEITEM("func_78769_a", "sendUseItem", 2);
+    ENTITYAICONTROLLEDBYPLAYER$UPDATETASK("e()V", "updateTask()V", 1),
+    ENTITYOTHERPLAYERMP$SETCURRENTITEMORARMOR("c(ILadd;)V", "setCurrentItemOrArmor(ILnet/minecraft/item/ItemStack;)V",
+            1),
+    ENTITYPLAYER$SETCURRENTITEMORARMOR("c(ILadd;)V", "setCurrentItemOrArmor(ILnet/minecraft/item/ItemStack;)V", 1),
+    ITEMINWORLDMANAGER$TRYUSEITEM("a(Lyz;Lahb;Ladd;)Z",
+            "tryUseItem(Lnet/minecraft/entity/player/EntityPlayer;Lnet/minecraft/world/World;Lnet/minecraft/item/ItemStack;)Z",
+            2),
+    MINECRAFT$RIGHTCLICKMOUSE("am()V", "func_147121_ag()V", 1),
+    NETHANDLERPLAYCLIENT$HANDLESPAWNPLAYER("a(Lgb;)V",
+            "handleSpawnPlayer(Lnet/minecraft/network/play/server/S0CPacketSpawnPlayer;)V", 2),
+    NETHANDLERPLAYSERVER$PROCESSPLAYERBLOCKPLACEMENT("a(Ljo;)V",
+            "processPlayerBlockPlacement(Lnet/minecraft/network/play/client/C08PacketPlayerBlockPlacement;)V", 2),
+    PLAYERCONTROLLERMP$SENDUSEITEM("a(Lyz;Lahb;Ladd;)Z",
+            "sendUseItem(Lnet/minecraft/entity/player/EntityPlayer;Lnet/minecraft/world/World;Lnet/minecraft/item/ItemStack;)Z",
+            2);
 
-    private final String srgName;
-    public final String clearName;
+    private final String obfMapping;
+    public final String clearMapping;
     public final int targetCount;
 
-    MethodMapping(String srgName, String clearName, int targetCount) {
-        this.srgName = srgName;
-        this.clearName = clearName;
+    MethodMapping(String obfMapping, String clearMapping, int targetCount) {
+        this.obfMapping = obfMapping;
+        this.clearMapping = clearMapping;
         this.targetCount = targetCount;
     }
 
-    public String getName() {
-        return BattlegearLoadingPlugin.isObf() ? this.srgName : this.clearName;
+    public String getMapping() {
+        return BattlegearLoadingPlugin.isObf() ? this.obfMapping : this.clearMapping;
     }
 
 }
