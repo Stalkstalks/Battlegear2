@@ -14,13 +14,11 @@ import cpw.mods.fml.relauncher.FMLLaunchHandler;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin.MCVersion;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin.Name;
-import cpw.mods.fml.relauncher.IFMLLoadingPlugin.SortingIndex;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin.TransformerExclusions;
 import mods.battlegear2.asm.transformers.InventoryArrayAccessTransformer;
 
 @TransformerExclusions({ "mods.battlegear2.asm.loader", "mods.battlegear2.asm.transformers" })
-@Name("Mine and Blade: Battlegear2")
-@SortingIndex(1500)
+@Name("ASM Battlegear2")
 @MCVersion("1.7.10")
 public final class BattlegearLoadingPlugin implements IEarlyMixinLoader, IFMLLoadingPlugin {
 

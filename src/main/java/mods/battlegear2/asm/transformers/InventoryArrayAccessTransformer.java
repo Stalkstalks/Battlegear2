@@ -78,6 +78,7 @@ public class InventoryArrayAccessTransformer implements IClassTransformer {
             return null;
         }
         if (targetClassesAndMethods.containsKey(transformedName)) {
+            saveTransformedClass(basicClass, transformedName + "_pre");
             final ClassNode classNode = new ClassNode();
             final ClassReader classReader = new ClassReader(basicClass);
             classReader.accept(classNode, ClassReader.SKIP_DEBUG);
@@ -85,7 +86,7 @@ public class InventoryArrayAccessTransformer implements IClassTransformer {
             final ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
             classNode.accept(classWriter);
             basicClass = classWriter.toByteArray();
-            saveTransformedClass(basicClass, transformedName);
+            saveTransformedClass(basicClass, transformedName + "_post");
             return basicClass;
         }
         return basicClass;
@@ -205,7 +206,9 @@ public class InventoryArrayAccessTransformer implements IClassTransformer {
                                                         Opcodes.INVOKESTATIC,
                                                         "mods/battlegear2/asm/hooks/InventoryAccessHook",
                                                         "setPlayerCurrentItem",
-                                                        "(Lnet/minecraft/entity/player/EntityPlayer;Lnet/minecraft/item/ItemStack;)Z",
+                                                        deobf(
+                                                                "(Lyz;Ladd;)Z",
+                                                                "(Lnet/minecraft/entity/player/EntityPlayer;Lnet/minecraft/item/ItemStack;)Z"),
                                                         false));
                                         list.add(new JumpInsnNode(Opcodes.IFNE, label));
                                         instructions.insertBefore(firstNode, list);
@@ -256,9 +259,9 @@ public class InventoryArrayAccessTransformer implements IClassTransformer {
                                             insnNode,
                                             new MethodInsnNode(
                                                     Opcodes.INVOKEVIRTUAL,
-                                                    "net/minecraft/entity/player/InventoryPlayer",
-                                                    BattlegearLoadingPlugin.isObf() ? "func_70448_g" : "getCurrentItem",
-                                                    "()Lnet/minecraft/item/ItemStack;",
+                                                    deobf("yx", "net/minecraft/entity/player/InventoryPlayer"),
+                                                    deobf("h", "getCurrentItem"),
+                                                    deobf("()Ladd;", "()Lnet/minecraft/item/ItemStack;"),
                                                     false));
                                     list.remove(insnNode);
                                     list.remove(secondNode);
@@ -319,64 +322,65 @@ public class InventoryArrayAccessTransformer implements IClassTransformer {
 
     private static boolean isChangingQuantityOnlyFieldNode(AbstractInsnNode node) {
         return node instanceof FieldInsnNode && node.getOpcode() == Opcodes.PUTFIELD
-                && ((FieldInsnNode) node).owner.equals("net/minecraft/entity/player/EntityPlayerMP")
-                && ((FieldInsnNode) node).name
-                        .equals(BattlegearLoadingPlugin.isObf() ? "field_71137_h" : "isChangingQuantityOnly")
+                && ((FieldInsnNode) node).owner.equals(deobf("mw", "net/minecraft/entity/player/EntityPlayerMP"))
+                && ((FieldInsnNode) node).name.equals(deobf("g", "isChangingQuantityOnly"))
                 && ((FieldInsnNode) node).desc.equals("Z");
     }
 
     private static boolean isGetSlotFromInventoryNode(AbstractInsnNode node) {
         return node instanceof MethodInsnNode && node.getOpcode() == Opcodes.INVOKEVIRTUAL
-                && ((MethodInsnNode) node).owner.equals("net/minecraft/inventory/Container")
-                && ((MethodInsnNode) node).name
-                        .equals(BattlegearLoadingPlugin.isObf() ? "func_75147_a" : "getSlotFromInventory")
-                && ((MethodInsnNode) node).desc
-                        .equals("(Lnet/minecraft/inventory/IInventory;I)Lnet/minecraft/inventory/Slot;");
+                && ((MethodInsnNode) node).owner.equals(deobf("zs", "net/minecraft/inventory/Container"))
+                && ((MethodInsnNode) node).name.equals(deobf("a", "getSlotFromInventory"))
+                && ((MethodInsnNode) node).desc.equals(
+                        deobf("(Lrb;I)Laay;", "(Lnet/minecraft/inventory/IInventory;I)Lnet/minecraft/inventory/Slot;"));
     }
 
     private static boolean isLoadPlayerNode(AbstractInsnNode node) {
         return (node instanceof VarInsnNode && node.getOpcode() == Opcodes.ALOAD)
                 || (node instanceof FieldInsnNode && node.getOpcode() == Opcodes.GETFIELD
-                        && ((FieldInsnNode) node).owner.equals("net/minecraft/client/Minecraft")
-                        && ((FieldInsnNode) node).name
-                                .equals(BattlegearLoadingPlugin.isObf() ? "field_71439_g" : "thePlayer")
-                        && ((FieldInsnNode) node).desc.equals("Lnet/minecraft/client/entity/EntityClientPlayerMP;"))
-                || (node instanceof FieldInsnNode && node.getOpcode() == Opcodes.GETFIELD
-                        && ((FieldInsnNode) node).owner.equals("net/minecraft/network/NetHandlerPlayServer")
-                        && ((FieldInsnNode) node).name
-                                .equals(BattlegearLoadingPlugin.isObf() ? "field_147369_b" : "playerEntity")
-                        && ((FieldInsnNode) node).desc.equals("Lnet/minecraft/entity/player/EntityPlayerMP;"));
+                        && ((FieldInsnNode) node).owner.equals(deobf("bao", "net/minecraft/client/Minecraft"))
+                        && ((FieldInsnNode) node).name.equals(deobf("h", "thePlayer"))
+                        && ((FieldInsnNode) node).desc
+                                .equals(deobf("Lbjk;", "Lnet/minecraft/client/entity/EntityClientPlayerMP;"))
+                        || (node instanceof FieldInsnNode && node.getOpcode() == Opcodes.GETFIELD
+                                && ((FieldInsnNode) node).owner
+                                        .equals(deobf("nh", "net/minecraft/network/NetHandlerPlayServer"))
+                                && ((FieldInsnNode) node).name.equals(deobf("b", "playerEntity"))
+                                && ((FieldInsnNode) node).desc
+                                        .equals(deobf("Lmw;", "Lnet/minecraft/entity/player/EntityPlayerMP;"))));
     }
 
     private static boolean isPlayerInventoryFieldNode(AbstractInsnNode node) {
         return node instanceof FieldInsnNode && node.getOpcode() == Opcodes.GETFIELD
-                && (((FieldInsnNode) node).owner.equals("net/minecraft/entity/player/EntityPlayer")
-                        || ((FieldInsnNode) node).owner.equals("net/minecraft/client/entity/EntityOtherPlayerMP")
-                        || ((FieldInsnNode) node).owner.equals("net/minecraft/client/entity/EntityClientPlayerMP")
-                        || ((FieldInsnNode) node).owner.equals("net/minecraft/entity/player/EntityPlayerMP"))
-                && ((FieldInsnNode) node).name.equals(BattlegearLoadingPlugin.isObf() ? "field_71071_by" : "inventory")
-                && ((FieldInsnNode) node).desc.equals("Lnet/minecraft/entity/player/InventoryPlayer;");
+                && (((FieldInsnNode) node).owner.equals(deobf("xy", "net/minecraft/entity/player/EntityPlayer"))
+                        || ((FieldInsnNode) node).owner
+                                .equals(deobf("bll", "net/minecraft/client/entity/EntityOtherPlayerMP"))
+                        || ((FieldInsnNode) node).owner
+                                .equals(deobf("bjk", "net/minecraft/client/entity/EntityClientPlayerMP"))
+                        || ((FieldInsnNode) node).owner
+                                .equals(deobf("mw", "net/minecraft/entity/player/EntityPlayerMP")))
+                && ((FieldInsnNode) node).name.equals(deobf("bm", "inventory"))
+                && ((FieldInsnNode) node).desc.equals(deobf("Lyx;", "Lnet/minecraft/entity/player/InventoryPlayer;"));
     }
 
     private static boolean isMainInventoryFieldNode(AbstractInsnNode node) {
         return node instanceof FieldInsnNode && node.getOpcode() == Opcodes.GETFIELD
-                && ((FieldInsnNode) node).owner.equals("net/minecraft/entity/player/InventoryPlayer")
-                && ((FieldInsnNode) node).name
-                        .equals(BattlegearLoadingPlugin.isObf() ? "field_70462_a" : "mainInventory")
-                && ((FieldInsnNode) node).desc.equals("[Lnet/minecraft/item/ItemStack;");
+                && ((FieldInsnNode) node).owner.equals(deobf("yx", "net/minecraft/entity/player/InventoryPlayer"))
+                && ((FieldInsnNode) node).name.equals(deobf("a", "mainInventory"))
+                && ((FieldInsnNode) node).desc.equals(deobf("[Ladd;", "[Lnet/minecraft/item/ItemStack;"));
     }
 
     private static boolean isCurrentItemFieldNode(AbstractInsnNode node) {
         return node instanceof FieldInsnNode && node.getOpcode() == Opcodes.GETFIELD
-                && ((FieldInsnNode) node).owner.equals("net/minecraft/entity/player/InventoryPlayer")
-                && ((FieldInsnNode) node).name.equals(BattlegearLoadingPlugin.isObf() ? "field_70461_c" : "currentItem")
+                && ((FieldInsnNode) node).owner.equals(deobf("yx", "net/minecraft/entity/player/InventoryPlayer"))
+                && ((FieldInsnNode) node).name.equals(deobf("c", "currentItem"))
                 && ((FieldInsnNode) node).desc.equals("I");
     }
 
     private void saveTransformedClass(final byte[] data, final String transformedName) {
-        if (BattlegearLoadingPlugin.isObf()) {
-            return;
-        }
+         if (BattlegearLoadingPlugin.isObf()) {
+         return;
+         }
         if (outputDir == null) {
             emptyClassOutputFolder();
         }
@@ -408,6 +412,10 @@ public class InventoryArrayAccessTransformer implements IClassTransformer {
             // noinspection ResultOfMethodCallIgnored
             outputDir.mkdirs();
         }
+    }
+
+    private static String deobf(String obf, String clean) {
+        return BattlegearLoadingPlugin.isObf() ? obf : clean;
     }
 
 }
