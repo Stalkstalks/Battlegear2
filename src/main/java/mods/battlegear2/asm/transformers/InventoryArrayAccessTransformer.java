@@ -82,7 +82,7 @@ public class InventoryArrayAccessTransformer implements IClassTransformer {
             saveTransformedClass(basicClass, transformedName + "_pre");
             final ClassNode classNode = new ClassNode();
             final ClassReader classReader = new ClassReader(basicClass);
-            classReader.accept(classNode, ClassReader.SKIP_DEBUG);
+            classReader.accept(classNode, 0);
             transform(classNode, targetClassesAndMethods.get(transformedName));
             final ClassWriter classWriter = new SafeClassWriter(ClassWriter.COMPUTE_FRAMES);
             classNode.accept(classWriter);
