@@ -4,7 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
 import mods.battlegear2.api.core.IBattlePlayer;
-import mods.battlegear2.api.core.InventoryPlayerBattle;
+import mods.battlegear2.api.core.IInventoryPlayerBattle;
 import mods.battlegear2.api.shield.IShield;
 
 public enum EnumBGAnimations {
@@ -13,16 +13,17 @@ public enum EnumBGAnimations {
 
         @Override
         public void processAnimation(IBattlePlayer entity) {
-            entity.swingOffItem();
+            entity.battlegear2$swingOffItem();
         }
     },
     SpecialAction {
 
         @Override
         public void processAnimation(IBattlePlayer entity) {
-            ItemStack offhand = ((InventoryPlayerBattle) ((EntityPlayer) entity).inventory).getCurrentOffhandWeapon();
+            ItemStack offhand = ((IInventoryPlayerBattle) ((EntityPlayer) entity).inventory)
+                    .battlegear2$getCurrentOffhandWeapon();
             if (offhand != null && offhand.getItem() instanceof IShield) {
-                entity.setSpecialActionTimer(((IShield) offhand.getItem()).getBashTimer(offhand));
+                entity.battlegear2$setSpecialActionTimer(((IShield) offhand.getItem()).getBashTimer(offhand));
             }
         }
     };

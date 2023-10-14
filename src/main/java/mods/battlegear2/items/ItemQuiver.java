@@ -149,7 +149,7 @@ public class ItemQuiver extends Item implements IArrowContainer2, IDyable {
 
     /**
      * Convenience feature for "AnonymousProductions" dude
-     * 
+     *
      * @param bow
      * @param loadedArrow
      */

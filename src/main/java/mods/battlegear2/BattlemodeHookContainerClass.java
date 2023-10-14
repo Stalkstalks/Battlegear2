@@ -32,8 +32,7 @@ import mods.battlegear2.api.IOffhandListener;
 import mods.battlegear2.api.PlayerEventChild;
 import mods.battlegear2.api.core.BattlegearUtils;
 import mods.battlegear2.api.core.IBattlePlayer;
-import mods.battlegear2.api.core.InventoryExceptionEvent;
-import mods.battlegear2.api.core.InventoryPlayerBattle;
+import mods.battlegear2.api.core.IInventoryPlayerBattle;
 import mods.battlegear2.api.heraldry.IFlagHolder;
 import mods.battlegear2.api.heraldry.IHeraldryItem;
 import mods.battlegear2.api.quiver.IArrowContainer2;
@@ -58,18 +57,12 @@ public final class BattlemodeHookContainerClass {
     /**
      * Crash the game if our inventory has been replaced by something else, or the coremod failed Also synchronize
      * battle inventory
-     * 
+     *
      * @param event that spawned the player
      */
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onEntityJoin(EntityJoinWorldEvent event) {
         if (event.entity instanceof EntityPlayer && !(isFake(event.entity))) {
-            if (!(((EntityPlayer) event.entity).inventory instanceof InventoryPlayerBattle)
-                    && !MinecraftForge.EVENT_BUS.post(new InventoryExceptionEvent((EntityPlayer) event.entity))) {
-                throw new RuntimeException(
-                        "Player inventory has been replaced with "
-                                + ((EntityPlayer) event.entity).inventory.getClass());
-            }
             if (event.entity instanceof EntityPlayerMP) {
                 Battlegear.packetHandler.sendPacketToPlayer(
                         new BattlegearSyncItemPacket((EntityPlayer) event.entity).generatePacket(),
@@ -81,12 +74,12 @@ public final class BattlemodeHookContainerClass {
     /**
      * Cancel the attack if the player reach is lowered by some types of items, or if barehanded Note: Applies to either
      * hands, since item is hotswap before this event for offhand weapons
-     * 
+     *
      * @param event for the player attacking an entity
      */
     @SubscribeEvent
     public void attackEntity(AttackEntityEvent event) {
-        if (((IBattlePlayer) event.entityPlayer).getSpecialActionTimer() > 0) {
+        if (((IBattlePlayer) event.entityPlayer).battlegear2$getSpecialActionTimer() > 0) {
             event.setCanceled(true);
             return;
         }
@@ -105,10 +98,10 @@ public final class BattlemodeHookContainerClass {
     @SubscribeEvent
     public void playerInteract(PlayerInteractEvent event) {
         if (isFake(event.entityPlayer)) return;
-        if (((IBattlePlayer) event.entityPlayer).getSpecialActionTimer() > 0) {
+        if (((IBattlePlayer) event.entityPlayer).battlegear2$getSpecialActionTimer() > 0) {
             event.setCanceled(true);
             event.entityPlayer.isSwingInProgress = false;
-        } else if (((IBattlePlayer) event.entityPlayer).isBattlemode()) {
+        } else if (((IBattlePlayer) event.entityPlayer).battlegear2$isBattlemode()) {
             if (event.action == PlayerInteractEvent.Action.LEFT_CLICK_BLOCK) { // Left click
                 ItemStack mainHandItem = event.entityPlayer.getCurrentEquippedItem();
                 if (mainHandItem != null && mainHandItem.getItem() instanceof IHandListener) {
@@ -117,7 +110,8 @@ public final class BattlemodeHookContainerClass {
                     Event.Result swing = ((IHandListener) mainHandItem.getItem()).onClickBlock(
                             copy,
                             mainHandItem,
-                            ((InventoryPlayerBattle) event.entityPlayer.inventory).getCurrentOffhandWeapon(),
+                            ((IInventoryPlayerBattle) event.entityPlayer.inventory)
+                                    .battlegear2$getCurrentOffhandWeapon(),
                             false);
                     if (swing != Event.Result.DEFAULT) {
                         event.entityPlayer.isSwingInProgress = false;
@@ -130,8 +124,8 @@ public final class BattlemodeHookContainerClass {
                     }
                 }
             } else { // Right click
-                ItemStack offhandItem = ((InventoryPlayerBattle) event.entityPlayer.inventory)
-                        .getCurrentOffhandWeapon();
+                ItemStack offhandItem = ((IInventoryPlayerBattle) event.entityPlayer.inventory)
+                        .battlegear2$getCurrentOffhandWeapon();
                 if (offhandItem == null) {
                     sendOffSwingEvent(event, null, null);
                 } else if (BattlegearUtils.usagePriorAttack(offhandItem, event.entityPlayer, true)) {
@@ -173,7 +167,7 @@ public final class BattlemodeHookContainerClass {
 
     /**
      * Make a complete copy of the argument.
-     * 
+     *
      * @param event to copy over
      * @return the copy
      */
@@ -230,7 +224,7 @@ public final class BattlemodeHookContainerClass {
             event.setCanceled(true);
         }
         if (!MinecraftForge.EVENT_BUS.post(event)) {
-            ((IBattlePlayer) event.entityPlayer).swingOffItem();
+            ((IBattlePlayer) event.entityPlayer).battlegear2$swingOffItem();
         }
     }
 
@@ -245,7 +239,7 @@ public final class BattlemodeHookContainerClass {
     @SubscribeEvent(priority = EventPriority.LOW)
     public void playerInteractEntity(EntityInteractEvent event) {
         if (isFake(event.entityPlayer)) return;
-        if (((IBattlePlayer) event.entityPlayer).getSpecialActionTimer() > 0) {
+        if (((IBattlePlayer) event.entityPlayer).battlegear2$getSpecialActionTimer() > 0) {
             event.setCanceled(true);
             event.entityPlayer.isSwingInProgress = false;
         }
@@ -335,10 +329,11 @@ public final class BattlemodeHookContainerClass {
         if (isFake(event.entity)) return;
         if (event.entity instanceof IBattlePlayer) {
             EntityPlayer player = (EntityPlayer) event.entity;
-            if (((IBattlePlayer) player).getSpecialActionTimer() > 0) {
+            if (((IBattlePlayer) player).battlegear2$getSpecialActionTimer() > 0) {
                 event.setCanceled(true);
-            } else if (((IBattlePlayer) player).isBlockingWithShield()) {
-                final ItemStack shield = ((InventoryPlayerBattle) player.inventory).getCurrentOffhandWeapon();
+            } else if (((IBattlePlayer) player).battlegear2$isBlockingWithShield()) {
+                final ItemStack shield = ((IInventoryPlayerBattle) player.inventory)
+                        .battlegear2$getCurrentOffhandWeapon();
                 final float dmg = event.ammount;
                 if (((IShield) shield.getItem()).canBlock(shield, event.source)) {
                     boolean shouldBlock = true;
@@ -374,7 +369,7 @@ public final class BattlemodeHookContainerClass {
                             if (shield.getItem() instanceof IArrowCatcher) {
                                 if (((IArrowCatcher) shield.getItem())
                                         .catchArrow(shield, player, (IProjectile) event.source.getSourceOfDamage())) {
-                                    ((InventoryPlayerBattle) player.inventory).hasChanged = true;
+                                    ((IInventoryPlayerBattle) player.inventory).battlegear2$setDirty(true);
                                 }
                             }
                         }
@@ -382,12 +377,12 @@ public final class BattlemodeHookContainerClass {
                         if (blockEvent.damageShield && !player.capabilities.isCreativeMode) {
                             float red = ((IShield) shield.getItem()).getDamageReduction(shield, event.source);
                             if (red < dmg) {
-                                player.inventory.currentItem += InventoryPlayerBattle.WEAPON_SETS;
+                                player.inventory.currentItem += IInventoryPlayerBattle.WEAPON_SETS;
                                 shield.damageItem(Math.round(dmg - red), player);
                                 if (shield.stackSize <= 0) {
                                     player.destroyCurrentEquippedItem();
                                 }
-                                player.inventory.currentItem -= InventoryPlayerBattle.WEAPON_SETS;
+                                player.inventory.currentItem -= IInventoryPlayerBattle.WEAPON_SETS;
                             }
                         }
                     }
@@ -430,8 +425,8 @@ public final class BattlemodeHookContainerClass {
                     && event.source.getEntity() instanceof IBattlePlayer
                     && !isFake(event.source.getEntity())) {
                 EntityPlayer player = (EntityPlayer) event.source.getEntity();
-                if (((IBattlePlayer) player).isBattlemode()) {
-                    stack = ((InventoryPlayerBattle) player.inventory).getCurrentOffhandWeapon();
+                if (((IBattlePlayer) player).battlegear2$isBattlemode()) {
+                    stack = ((IInventoryPlayerBattle) player.inventory).battlegear2$getCurrentOffhandWeapon();
                     addLootFromEnchant(stack, event.drops);
                 }
             }

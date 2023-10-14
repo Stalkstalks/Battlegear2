@@ -43,7 +43,7 @@ import mods.battlegear2.api.EnchantmentHelper;
 import mods.battlegear2.api.IDyable;
 import mods.battlegear2.api.RenderItemBarEvent;
 import mods.battlegear2.api.core.IBattlePlayer;
-import mods.battlegear2.api.core.InventoryPlayerBattle;
+import mods.battlegear2.api.core.IInventoryPlayerBattle;
 import mods.battlegear2.api.quiver.IArrowContainer2;
 import mods.battlegear2.api.quiver.QuiverArrowRegistry;
 import mods.battlegear2.api.weapons.IBackStabbable;
@@ -132,7 +132,7 @@ public final class BattlegearClientEvents {
     public void renderPlayerLeftItemUsage(RenderLivingEvent.Pre event) {
         if (event.entity instanceof EntityPlayer) {
             EntityPlayer entityPlayer = (EntityPlayer) event.entity;
-            ItemStack offhand = ((InventoryPlayerBattle) entityPlayer.inventory).getCurrentOffhandWeapon();
+            ItemStack offhand = ((IInventoryPlayerBattle) entityPlayer.inventory).battlegear2$getCurrentOffhandWeapon();
             if (offhand != null && event.renderer instanceof RenderPlayer) {
                 RenderPlayer renderer = ((RenderPlayer) event.renderer);
                 renderer.modelArmorChestplate.heldItemLeft = renderer.modelArmor.heldItemLeft = renderer.modelBipedMain.heldItemLeft = 1;
@@ -146,7 +146,7 @@ public final class BattlegearClientEvents {
                     ItemStack mainhand = entityPlayer.inventory.getCurrentItem();
                     renderer.modelArmorChestplate.heldItemRight = renderer.modelArmor.heldItemRight = renderer.modelBipedMain.heldItemRight = mainhand
                             != null ? 1 : 0;
-                } else if (((IBattlePlayer) entityPlayer).isBlockingWithShield()) {
+                } else if (((IBattlePlayer) entityPlayer).battlegear2$isBlockingWithShield()) {
                     renderer.modelArmorChestplate.heldItemLeft = renderer.modelArmor.heldItemLeft = renderer.modelBipedMain.heldItemLeft = 3;
                 }
             }
@@ -304,7 +304,7 @@ public final class BattlegearClientEvents {
             if (mc.thePlayer != null) {
                 if (event.button - 100 == mc.gameSettings.keyBindPickBlock.getKeyCode()) {
                     event.setCanceled(true);
-                    if (!((IBattlePlayer) mc.thePlayer).isBattlemode()) {
+                    if (!((IBattlePlayer) mc.thePlayer).battlegear2$isBattlemode()) {
                         boolean isCreative = mc.thePlayer.capabilities.isCreativeMode;
                         ItemStack stack = getItemFromPointedAt(mc.objectMouseOver, mc.thePlayer);
                         if (stack != null) {
@@ -338,7 +338,7 @@ public final class BattlegearClientEvents {
 
     /**
      * Equivalent code to the creative pick block
-     * 
+     *
      * @param target The client target vector
      * @param player The player trying to pick
      * @return the stack expected for the creative pick button
@@ -518,7 +518,7 @@ public final class BattlegearClientEvents {
 
     /**
      * Helper method to add buttons to a gui when opened
-     * 
+     *
      * @param buttons the List<GuiButton> of the opened gui
      * @param guiLeft horizontal placement parameter
      * @param guiTop  vertical placement parameter
@@ -530,7 +530,7 @@ public final class BattlegearClientEvents {
                 GuiPlaceableButton button = tab.copy();
                 button.place(count, guiLeft, guiTop);
                 button.id = buttons.size() + 2; // Due to GuiInventory and GuiContainerCreative button performed
-                                                // actions, without them
+                // actions, without them
                 // having buttons...
                 count++;
                 buttons.add(button);

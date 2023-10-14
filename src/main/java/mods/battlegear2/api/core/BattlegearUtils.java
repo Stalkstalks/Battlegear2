@@ -11,7 +11,6 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.BaseAttributeMap;
 import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -54,6 +53,7 @@ import mods.battlegear2.api.quiver.ISpecialBow;
 import mods.battlegear2.api.shield.IShield;
 import mods.battlegear2.api.weapons.IBattlegearWeapon;
 import mods.battlegear2.api.weapons.WeaponRegistry;
+import mods.battlegear2.asm.loader.BattlegearLoadingPlugin;
 
 /**
  * Store commonly used method, mostly for the {@link EntityPlayer} {@link ItemStack}s management
@@ -67,14 +67,13 @@ public class BattlegearUtils {
     /**
      * Method names that are not allowed in {@link Item} subclasses for common wielding
      */
-    private static String[] itemBlackListMethodNames = {
-            BattlegearTranslator.getMapedMethodName("func_77648_a", "onItemUse"),
-            BattlegearTranslator.getMapedMethodName("onItemUseFirst", "onItemUseFirst"), // Added by Forge
-            BattlegearTranslator.getMapedMethodName("func_77659_a", "onItemRightClick") };
+    private static final String[] itemBlackListMethodNames = {
+            BattlegearLoadingPlugin.isObf() ? "func_77648_a" : "onItemUse", "onItemUseFirst", // Added by Forge
+            BattlegearLoadingPlugin.isObf() ? "func_77659_a" : "onItemRightClick" };
     /**
      * Method arguments classes that are not allowed in {@link Item} subclasses for common wielding
      */
-    private static Class[][] itemBlackListMethodParams = {
+    private static final Class[][] itemBlackListMethodParams = {
             new Class[] { ItemStack.class, EntityPlayer.class, World.class, int.class, int.class, int.class, int.class,
                     float.class, float.class, float.class },
             new Class[] { ItemStack.class, EntityPlayer.class, World.class, int.class, int.class, int.class, int.class,
@@ -85,16 +84,13 @@ public class BattlegearUtils {
     /**
      * The generic attack damage key for {@link ItemStack#getAttributeModifiers()}
      */
-    private static String genericAttack = SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName();
+    private static final String genericAttack = SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName();
 
     /**
      * Helper method to check if player can use {@link IShield}
      */
     public static boolean canBlockWithShield(EntityPlayer player) {
-        if (!(player.inventory instanceof InventoryPlayerBattle)) {
-            return false;
-        }
-        ItemStack offhand = ((InventoryPlayerBattle) player.inventory).getCurrentOffhandWeapon();
+        ItemStack offhand = ((IInventoryPlayerBattle) player.inventory).battlegear2$getCurrentOffhandWeapon();
         return offhand != null && offhand.getItem() instanceof IShield;
     }
 
@@ -102,30 +98,29 @@ public class BattlegearUtils {
      * Helper method to check if player is using {@link IShield}
      */
     public static boolean isBlockingWithShield(EntityPlayer player) {
-        return ((IBattlePlayer) player).isBlockingWithShield();
+        return ((IBattlePlayer) player).battlegear2$isBlockingWithShield();
     }
 
     /**
      * Helper method to check if player is in battlemode
-     * 
+     *
      * @param player the target player entity
      * @return true if in battlemode
      */
     public static boolean isPlayerInBattlemode(EntityPlayer player) {
-        return player.inventory instanceof InventoryPlayerBattle
-                && ((InventoryPlayerBattle) player.inventory).isBattlemode();
+        return ((IInventoryPlayerBattle) player.inventory).battlegear2$isBattlemode();
     }
 
     /**
      * Helper method to set a player item, offset from the current one
-     * 
+     *
      * @param player the target player entity
      * @param stack  holding the item to set
      * @param offset from the current item
      */
     public static void setPlayerCurrentItem(EntityPlayer player, ItemStack stack, int offset) {
-        ((InventoryPlayerBattle) (player.inventory))
-                .setInventorySlotContents(player.inventory.currentItem + offset, stack, false);
+        ((IInventoryPlayerBattle) (player.inventory))
+                .battlegear2$setInventorySlotContents(player.inventory.currentItem + offset, stack, false);
     }
 
     /*
@@ -139,12 +134,12 @@ public class BattlegearUtils {
      * Helper method to set the offhand item, if battlemode is activated
      */
     public static void setPlayerOffhandItem(EntityPlayer player, ItemStack stack) {
-        if (isPlayerInBattlemode(player)) setPlayerCurrentItem(player, stack, InventoryPlayerBattle.WEAPON_SETS);
+        if (isPlayerInBattlemode(player)) setPlayerCurrentItem(player, stack, IInventoryPlayerBattle.WEAPON_SETS);
     }
 
     /**
      * Defines a generic weapon
-     * 
+     *
      * @param main the item to check
      * @return true if the item is a generic weapon
      */
@@ -152,8 +147,8 @@ public class BattlegearUtils {
         if (main.getItem() instanceof IBattlegearWeapon) // Our generic weapon flag
             return true;
         else if (main.getMaxStackSize() == 1 && main.getMaxDamage() > 0 && !main.getHasSubtypes()) // Usual values for
-                                                                                                   // tools, sword, and
-                                                                                                   // bow
+            // tools, sword, and
+            // bow
             return true;
         else if (main == prevNotWieldable) // Prevent lag from check spam
             return false;
@@ -161,7 +156,7 @@ public class BattlegearUtils {
             return true;
         else if (checkWeaponOreDictEntries(main)) return true;
         else if (!checkForRightClickFunction(main)) { // Make sure there are no special functions for offhand/mainhand
-                                                      // weapons
+            // weapons
             WeaponRegistry.addDualWeapon(main); // register so as not to make that costly check again
             return true;
         }
@@ -171,7 +166,7 @@ public class BattlegearUtils {
 
     /**
      * Checks if an item is a GT weapon based on OreDict entries
-     * 
+     *
      * @param main the item to check
      * @return true if the item is a GT weapon
      */
@@ -220,7 +215,7 @@ public class BattlegearUtils {
         if (main == null) return true;
         else if (main.getItem() instanceof IAllowItem) // An item using the API
             return ((IAllowItem) main.getItem()).allowOffhand(main, off); // defined by the item TODO pass through third
-                                                                          // parameter
+        // parameter
         else if (main.getItem() instanceof IArrowContainer2) // A quiver
             return true; // anything ?
         else if (usagePriorAttack(main, wielder, false)) // "Usable" item
@@ -239,9 +234,9 @@ public class BattlegearUtils {
         else if (off.getItem() instanceof IOffhandDual) // An item using the API
             return ((IOffhandDual) off.getItem()).isOffhandHandDual(off); // defined by the item
         else if (off.getItem() instanceof IShield || off.getItem() instanceof IArrowContainer2 || usagePriorAttack(off)) // Shield,
-                                                                                                                         // Quiver,
-                                                                                                                         // or
-                                                                                                                         // "usable"
+            // Quiver,
+            // or
+            // "usable"
             return true; // always
         else if (isWeapon(off)) // A generic weapon
             return checkWeaponOreDictEntries(off) || off.getAttributeModifiers().containsKey(genericAttack)
@@ -251,7 +246,7 @@ public class BattlegearUtils {
 
     /**
      * Defines a item which can be wield in the left hand
-     * 
+     *
      * @param off     The item to be wield in left hand
      * @param wielder The player trying to wield this item
      * @return true if the item is allowed in left hand
@@ -287,7 +282,7 @@ public class BattlegearUtils {
 
     /**
      * Defines a item which "use" (effect on right click) should have priority over its "attack" (effect on left click)
-     * 
+     *
      * @param itemStack the item which will be "used", instead of attacking
      * @param wielder   The player trying to use or attack with this item
      * @return true if such item prefer being "used"
@@ -306,7 +301,7 @@ public class BattlegearUtils {
 
     /**
      * Defines items that are usually usable (the vanilla instances do, at least), and that battlemode can support
-     * 
+     *
      * @param item the instance to consider for usability
      * @return true if it is commonly usable
      */
@@ -321,7 +316,7 @@ public class BattlegearUtils {
 
     /**
      * Defines a bow
-     * 
+     *
      * @param item the instance
      * @return true if it is considered a generic enough bow
      */
@@ -395,7 +390,7 @@ public class BattlegearUtils {
 
     /**
      * Writes a {@link ItemStack} to the OutputStream
-     * 
+     *
      * @param par1DataOutputStream the output stream
      * @param par0ItemStack        to write
      * @throws IOException
@@ -421,7 +416,7 @@ public class BattlegearUtils {
 
     /**
      * Writes a compressed {@link NBTTagCompound} to the output
-     * 
+     *
      * @param par0NBTTagCompound
      * @param par1DataOutputStream
      * @throws IOException
@@ -438,33 +433,11 @@ public class BattlegearUtils {
     }
 
     /**
-     * Helper to recreate a player battle inventory from reflection with minimal effort
-     * 
-     * @param entityPlayer the target player
-     * @return the new InventoryPlayerBattle instance
-     */
-    public static InventoryPlayer replaceInventory(EntityPlayer entityPlayer) {
-        return new InventoryPlayerBattle(entityPlayer);
-    }
-
-    /**
-     * Helper method to request a new slot within player inventory All data and hooks are handled by
-     * {@link InventoryPlayerBattle} The slot content display is to be done by the modder
-     * 
-     * @param entityPlayer the player whose inventory will be expanded
-     * @param type         the type of inventory which will be expanded
-     * @return the new slot index, or Integer.MIN_VALUE if it is not possible to expand further
-     */
-    public static int requestInventorySpace(EntityPlayer entityPlayer, InventorySlotType type) {
-        return ((InventoryPlayerBattle) entityPlayer.inventory).requestNewSlot(type);
-    }
-
-    /**
      * Basically, a copy of {@link EntityPlayer#attackTargetEntityWithCurrentItem(Entity)}, adapted for the offhand
      * Hotswap the "current item" value to the offhand, then refresh the player attributes according to the newly
      * selected item Reset everything back if the attack is cancelled by {@link AttackEntityEvent} or
      * {@link Item#onLeftClickEntity(ItemStack, EntityPlayer, Entity)} Used as a hook by {@link IBattlePlayer}
-     * 
+     *
      * @param player     the attacker
      * @param par1Entity the attacked
      */
@@ -587,7 +560,7 @@ public class BattlegearUtils {
      * interact with {@link ItemStack#interactWithEntity(EntityPlayer, EntityLivingBase)} in the same order When
      * necessary, hotswap the "current item" value to the offhand, then refresh the player attributes according to the
      * newly selected item
-     * 
+     *
      * @return true if any interaction happened, actually bypassing subsequent
      *         PlayerInteractEvent.Action.RIGHT_CLICK_AIR and PlayerControllerMP#sendUseItem on client side
      */
@@ -614,8 +587,8 @@ public class BattlegearUtils {
                 }
                 itemInteract = itemstack.interactWithEntity(entityPlayer, (EntityLivingBase) entity);
                 if (!itemInteract && !offset && BattlegearUtils.isPlayerInBattlemode(entityPlayer)) { // No interaction
-                                                                                                      // with right hand
-                                                                                                      // item
+                    // with right hand
+                    // item
                     offset = true;
                     itemstack = refreshAttributes(entityPlayer, false);
                     if (itemstack != null) { // Try left hand item
@@ -632,8 +605,8 @@ public class BattlegearUtils {
                 refreshAttributes(entityPlayer, true);
             }
             if (!itemInteract && BattlegearUtils.isPlayerInBattlemode(entityPlayer)) {
-                ItemStack offhandItem = ((InventoryPlayerBattle) event.entityPlayer.inventory)
-                        .getCurrentOffhandWeapon();
+                ItemStack offhandItem = ((IInventoryPlayerBattle) event.entityPlayer.inventory)
+                        .battlegear2$getCurrentOffhandWeapon();
                 PlayerEventChild.OffhandAttackEvent offAttackEvent = new PlayerEventChild.OffhandAttackEvent(
                         event,
                         offhandItem);
@@ -643,7 +616,7 @@ public class BattlegearUtils {
                     }
                     if (offAttackEvent.shouldAttack) {
                         ((IBattlePlayer) event.entityPlayer)
-                                .attackTargetEntityWithCurrentOffItem(offAttackEvent.getTarget());
+                                .battlegear2$attackTargetEntityWithCurrentOffItem(offAttackEvent.getTarget());
                     }
                     if (offAttackEvent.cancelParent) {
                         return true;
@@ -653,7 +626,7 @@ public class BattlegearUtils {
             return itemInteract;
         } else { // Had interaction with the entity
             if (itemstack != null && itemstack == entityPlayer.getCurrentEquippedItem()) { // The interaction kept the
-                                                                                           // stack identity
+                // stack identity
                 if (!entityPlayer.capabilities.isCreativeMode) {
                     if (itemstack.stackSize <= 0) entityPlayer.destroyCurrentEquippedItem();
                 } else if (itemstack.stackSize < copyStack.stackSize) {
@@ -669,13 +642,13 @@ public class BattlegearUtils {
 
     /**
      * Helper to send {@link PlayerEventChild.OffhandSwingEvent}
-     * 
+     *
      * @param event       the "parent" event
      * @param offhandItem the item stack held in offhand
      */
     public static void sendOffSwingEvent(PlayerEvent event, ItemStack offhandItem) {
         if (!MinecraftForge.EVENT_BUS.post(new PlayerEventChild.OffhandSwingEvent(event, offhandItem))) {
-            ((IBattlePlayer) event.entityPlayer).swingOffItem();
+            ((IBattlePlayer) event.entityPlayer).battlegear2$swingOffItem();
         }
     }
 
@@ -684,14 +657,13 @@ public class BattlegearUtils {
      *
      * @param fromOffhand if true, sets from left hand to right hand, else, the opposite
      * @return the currently equipped stack, after swapping
-     *
      */
     public static ItemStack refreshAttributes(EntityPlayer entityPlayer, boolean fromOffhand) {
         final ItemStack oldItem = entityPlayer.getCurrentEquippedItem();
         if (fromOffhand) {
-            entityPlayer.inventory.currentItem -= InventoryPlayerBattle.WEAPON_SETS;
+            entityPlayer.inventory.currentItem -= IInventoryPlayerBattle.WEAPON_SETS;
         } else {
-            entityPlayer.inventory.currentItem += InventoryPlayerBattle.WEAPON_SETS;
+            entityPlayer.inventory.currentItem += IInventoryPlayerBattle.WEAPON_SETS;
         }
         final ItemStack newStack = entityPlayer.getCurrentEquippedItem();
         refreshAttributes(entityPlayer.getAttributeMap(), oldItem, newStack);
@@ -700,7 +672,7 @@ public class BattlegearUtils {
 
     /**
      * Refresh the attribute map by removing from the old item and applying the current item
-     * 
+     *
      * @param attributeMap the map to refresh
      * @param oldItem      the old item whose attributes will be removed
      * @param currentItem  the current item whose attributes will be applied
@@ -712,7 +684,7 @@ public class BattlegearUtils {
 
     /**
      * Helper to close a stream fail-safely by printing the error stack trace
-     * 
+     *
      * @param c the stream to close
      */
     public static void closeStream(Closeable c) {
@@ -727,7 +699,7 @@ public class BattlegearUtils {
 
     /**
      * Patch over the PlayerUseItemEvent.Finish in EntityPlayer#onItemUseFinish() to pass the previous stacksize
-     * 
+     *
      * @param entityPlayer      the {@link EntityPlayer} who finished using the itemInUse
      * @param itemInUse         the {@link ItemStack} which finished being used
      * @param itemInUseCount    the {@link EntityPlayer} item use count
@@ -739,6 +711,21 @@ public class BattlegearUtils {
     public static ItemStack beforeFinishUseEvent(EntityPlayer entityPlayer, ItemStack itemInUse, int itemInUseCount,
             ItemStack result, int previousStackSize) {
         result = ForgeEventFactory.onItemUseFinish(entityPlayer, itemInUse, itemInUseCount, result);
+        return beforeFinishUseEvent(entityPlayer, itemInUse, result, previousStackSize);
+    }
+
+    /**
+     * Patch over the PlayerUseItemEvent.Finish in EntityPlayer#onItemUseFinish() to pass the previous stacksize
+     *
+     * @param entityPlayer      the {@link EntityPlayer} who finished using the itemInUse
+     * @param itemInUse         the {@link ItemStack} which finished being used
+     * @param previousStackSize the itemInUse {@link ItemStack#stackSize} before
+     *                          {@link ItemStack#onFoodEaten(World, EntityPlayer)}
+     * @param result            from itemInUse#onFoodEaten(entityPlayer.worldObj, entityPlayer)
+     * @return the final resulting {@link ItemStack}
+     */
+    public static ItemStack beforeFinishUseEvent(EntityPlayer entityPlayer, ItemStack itemInUse, ItemStack result,
+            int previousStackSize) {
         if (isPlayerInBattlemode(entityPlayer)) {
             if (result != itemInUse || (result != null && result.stackSize != previousStackSize)) {
                 // Compare with either hands content
@@ -748,13 +735,14 @@ public class BattlegearUtils {
                     } else {
                         setPlayerCurrentItem(entityPlayer, result);
                     }
-                } else if (itemInUse == ((InventoryPlayerBattle) entityPlayer.inventory).getCurrentOffhandWeapon()) {
-                    if (result != null && result.stackSize == 0) {
-                        setPlayerOffhandItem(entityPlayer, null);
-                    } else {
-                        setPlayerOffhandItem(entityPlayer, result);
-                    }
-                }
+                } else if (itemInUse
+                        == ((IInventoryPlayerBattle) entityPlayer.inventory).battlegear2$getCurrentOffhandWeapon()) {
+                            if (result != null && result.stackSize == 0) {
+                                setPlayerOffhandItem(entityPlayer, null);
+                            } else {
+                                setPlayerOffhandItem(entityPlayer, result);
+                            }
+                        }
             }
             // Reset stuff so that vanilla doesn't do anything
             entityPlayer.clearItemInUse();
@@ -765,14 +753,15 @@ public class BattlegearUtils {
 
     /**
      * Patch in EntityPlayer#onUpdate() to support hotswap of itemInUse
-     * 
+     *
      * @param entityPlayer
      * @param itemInUse
      * @return
      */
     public static ItemStack getCurrentItemOnUpdate(EntityPlayer entityPlayer, ItemStack itemInUse) {
         if (isPlayerInBattlemode(entityPlayer)) {
-            ItemStack itemStack = ((InventoryPlayerBattle) entityPlayer.inventory).getCurrentOffhandWeapon();
+            ItemStack itemStack = ((IInventoryPlayerBattle) entityPlayer.inventory)
+                    .battlegear2$getCurrentOffhandWeapon();
             if (itemInUse == itemStack) {
                 return itemStack;
             }
@@ -790,7 +779,7 @@ public class BattlegearUtils {
         if (itemStack == entityPlayer.getCurrentEquippedItem()) {
             entityPlayer.destroyCurrentEquippedItem();
         } else {
-            ItemStack orig = ((InventoryPlayerBattle) entityPlayer.inventory).getCurrentOffhandWeapon();
+            ItemStack orig = ((IInventoryPlayerBattle) entityPlayer.inventory).battlegear2$getCurrentOffhandWeapon();
             if (orig == itemStack) {
                 setPlayerOffhandItem(entityPlayer, null);
                 ForgeEventFactory.onPlayerDestroyItem(entityPlayer, orig);

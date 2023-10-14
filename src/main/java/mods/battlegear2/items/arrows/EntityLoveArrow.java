@@ -16,9 +16,8 @@ import mods.battlegear2.items.ItemMBArrow;
 
 /**
  * An arrow which deals weird effects on living entities
- * 
- * @author GotoLink
  *
+ * @author GotoLink
  */
 public class EntityLoveArrow extends AbstractMBArrow {
 
@@ -68,7 +67,7 @@ public class EntityLoveArrow extends AbstractMBArrow {
                     entityitem.delayBeforeCanPickup = PICKUP_TIME;
                     entityitem.func_145797_a(entityHit.getCommandSenderName());
                 }
-                if (!((IBattlePlayer) entityHit).isBattlemode())
+                if (!((IBattlePlayer) entityHit).battlegear2$isBattlemode())
                     ((EntityPlayer) entityHit).inventory.setInventorySlotContents(
                             ((EntityPlayer) entityHit).inventory.currentItem,
                             new ItemStack(ItemMBArrow.component[5]));

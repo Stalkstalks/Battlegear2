@@ -5,7 +5,6 @@ import net.minecraft.entity.EntityLivingBase;
 public interface ISpecialEffect {
 
     /**
-     *
      * @param entityHit     The entity the effect will be applied to.
      * @param entityHitting
      * @return true if it adds an hitting action

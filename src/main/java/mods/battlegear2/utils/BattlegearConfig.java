@@ -563,7 +563,7 @@ public class BattlegearConfig {
 
     /**
      * Remap old item names for consistency
-     * 
+     *
      * @param mapping received from the event
      * @return true if remap was successful
      */
@@ -610,7 +610,7 @@ public class BattlegearConfig {
 
     /**
      * Sets a new item instance from a {@link NBTTagCompound}, used in received IMCMessage
-     * 
+     *
      * @param nbtValue [Item:Dagger/Mace/Spear/Waraxe; Material (ToolMaterial name); Name (registration name); other
      *                 values]
      * @return true if an item was successfully initiated

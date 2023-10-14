@@ -10,9 +10,8 @@ import net.minecraft.world.World;
 
 /**
  * An arrow which is effective against fire immune creatures
- * 
- * @author Seitenca
  *
+ * @author Seitenca
  */
 public class EntityIceArrow extends AbstractMBArrow {
 

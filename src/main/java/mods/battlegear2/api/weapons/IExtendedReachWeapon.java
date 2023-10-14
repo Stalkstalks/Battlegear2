@@ -7,7 +7,7 @@ public interface IExtendedReachWeapon {
     /**
      * The distance the weapon will hit Note: a positive value, ie more reach, will <strong>only</strong> work for main
      * hand weapons
-     * 
+     *
      * @param stack
      * @return
      */

@@ -11,7 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
-import mods.battlegear2.api.core.InventoryPlayerBattle;
+import mods.battlegear2.api.core.IInventoryPlayerBattle;
 import mods.battlegear2.api.quiver.IArrowContainer2;
 import mods.battlegear2.api.quiver.QuiverArrowRegistry;
 import mods.battlegear2.items.ItemMBArrow;
@@ -46,7 +46,7 @@ public abstract class AbstractMBArrow extends EntityArrow {
 
     /**
      * Helper generation method for skeletons
-     * 
+     *
      * @param type     the new type of the arrow
      * @param arrow    the original arrow fired by the skeleton
      * @param skeleton the shooter
@@ -97,23 +97,21 @@ public abstract class AbstractMBArrow extends EntityArrow {
 
     /**
      * The actual act of picking up an arrow, taken out of the colliding event, just in case
-     * 
+     *
      * @param player trying to pick up the arrow
      * @return false if the arrow couldn't be added to the player inventory
      */
     public boolean tryPickArrow(EntityPlayer player) {
         ItemStack arrow = getPickedUpItem();
         if (arrow != null) {
-            if (player.inventory instanceof InventoryPlayerBattle) {
-                ItemStack offhand = ((InventoryPlayerBattle) player.inventory).getCurrentOffhandWeapon();
-                if (offhand != null && offhand.getItem() instanceof IArrowContainer2) {
-                    final int size = arrow.stackSize;
-                    ItemStack arrowLeft = ((IArrowContainer2) offhand.getItem()).addArrows(offhand, arrow);
-                    if (arrowLeft == null || arrowLeft.stackSize < size) {
-                        if (arrowLeft != null && arrowLeft.stackSize > 0)
-                            worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX, posY, posZ, arrowLeft));
-                        return true;
-                    }
+            ItemStack offhand = ((IInventoryPlayerBattle) player.inventory).battlegear2$getCurrentOffhandWeapon();
+            if (offhand != null && offhand.getItem() instanceof IArrowContainer2) {
+                final int size = arrow.stackSize;
+                ItemStack arrowLeft = ((IArrowContainer2) offhand.getItem()).addArrows(offhand, arrow);
+                if (arrowLeft == null || arrowLeft.stackSize < size) {
+                    if (arrowLeft != null && arrowLeft.stackSize > 0)
+                        worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX, posY, posZ, arrowLeft));
+                    return true;
                 }
             }
         }
@@ -122,7 +120,7 @@ public abstract class AbstractMBArrow extends EntityArrow {
 
     /**
      * Could be abstracted, but using the registry is easier
-     * 
+     *
      * @return the stack to be picked up, if any
      */
     public ItemStack getPickedUpItem() {

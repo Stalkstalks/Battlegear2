@@ -13,7 +13,7 @@ public interface ISensible<T> {
 
     /**
      * Predicate filtering, uses a comparing object of same type and iterating over multiple instance of above interface
-     * 
+     *
      * @param <T>
      */
     final class Filter<T> implements Predicate<T> {

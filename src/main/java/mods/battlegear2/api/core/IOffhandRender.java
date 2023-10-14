@@ -6,24 +6,24 @@ import net.minecraft.item.ItemStack;
 /**
  * Interface added to {@link ItemRenderer} to support offhand rendering Note that, they only provide access to added
  * fields for the offhand, NOT the fields for the mainhand
- * 
+ *
  * @author GotoLink
  */
 public interface IOffhandRender {
 
-    public ItemStack getOffHandItemToRender();
+    ItemStack battlegear2$getOffHandItemToRender();
 
-    public void setOffHandItemToRender(ItemStack item);
+    void battlegear2$setOffHandItemToRender(ItemStack item);
 
-    public int getEquippedItemOffhandSlot();
+    int battlegear2$getEquippedItemOffhandSlot();
 
-    public void serEquippedItemOffhandSlot(int slot);
+    void battlegear2$serEquippedItemOffhandSlot(int slot);
 
-    public float getEquippedOffHandProgress();
+    float battlegear2$getEquippedOffHandProgress();
 
-    public void setEquippedOffHandProgress(float progress);
+    void battlegear2$setEquippedOffHandProgress(float progress);
 
-    public float getPrevEquippedOffHandProgress();
+    float battlegear2$getPrevEquippedOffHandProgress();
 
-    public void setPrevEquippedOffHandProgress(float progress);
+    void battlegear2$setPrevEquippedOffHandProgress(float progress);
 }

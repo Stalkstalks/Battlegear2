@@ -24,7 +24,7 @@ import mods.battlegear2.packet.WieldSetPacket;
 
 /**
  * Command that can be used by op to set held/named items in the WeaponRegistry and tinker its sensitivity
- * 
+ *
  * @author GotoLink
  */
 public final class CommandWeaponWield extends CommandBase {

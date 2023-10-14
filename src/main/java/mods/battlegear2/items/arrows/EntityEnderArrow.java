@@ -19,9 +19,8 @@ import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 
 /**
  * An arrow which teleports living entities or blocks on contact
- * 
- * @author GotoLink
  *
+ * @author GotoLink
  */
 public class EntityEnderArrow extends AbstractMBArrow {
 

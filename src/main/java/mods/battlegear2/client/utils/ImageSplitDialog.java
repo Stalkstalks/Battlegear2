@@ -321,14 +321,14 @@ public class ImageSplitDialog extends JDialog {
         int height = 250;
 
         if (before.getWidth() != width || before.getHeight() != height) { // If the hight of the image is not our
-                                                                          // targert
+            // targert
             scaled = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB); // Create a new empty image of the
-                                                                                    // target size
+            // target size
             AffineTransform at = new AffineTransform(); // Create a new Affine Transform
             at.scale((float) width / before.getWidth(), (float) height / before.getHeight()); // Scale the image to the
-                                                                                              // size we want
+            // size we want
             AffineTransformOp scaleOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BICUBIC); // use the bi linear
-                                                                                                   // transfomation mode
+            // transfomation mode
             scaled = scaleOp.filter(before, scaled); // Scale it
         }
 

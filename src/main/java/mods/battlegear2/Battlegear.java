@@ -32,10 +32,7 @@ import mods.battlegear2.gui.BattlegearGUIHandeler;
 import mods.battlegear2.packet.BattlegearPacketHandeler;
 import mods.battlegear2.utils.BattlegearConfig;
 
-@Mod(
-        modid = Battlegear.MODID,
-        version = "GRADLETOKEN_VERSION",
-        guiFactory = "mods.battlegear2.gui.BattlegearGuiFactory")
+@Mod(modid = Battlegear.MODID, version = Tags.VERSION, guiFactory = "mods.battlegear2.gui.BattlegearGuiFactory")
 public class Battlegear {
 
     public static final String MODID = "battlegear2";
@@ -108,15 +105,15 @@ public class Battlegear {
                             Class<?> clazz = null;
                             try {
                                 if (message.key.indexOf(":") > 0) clazz = Class.forName(message.key.split(":")[1]); // Complete
-                                                                                                                    // key
-                                                                                                                    // should
-                                                                                                                    // look
-                                                                                                                    // like
-                                                                                                                    // Arrow:class-path
+                                // key
+                                // should
+                                // look
+                                // like
+                                // Arrow:class-path
                             } catch (Exception ignored) {}
                             if (clazz != null && EntityArrow.class.isAssignableFrom(clazz)) { // The arrow entity should
-                                                                                              // use EntityArrow, at
-                                                                                              // least as a
+                                // use EntityArrow, at
+                                // least as a
                                 // superclass
                                 QuiverArrowRegistry.addArrowToRegistry(stack, (Class<? extends EntityArrow>) clazz);
                                 success = true;
@@ -168,7 +165,7 @@ public class Battlegear {
 
     /**
      * Basic version checker, support having different build number on each side
-     * 
+     *
      * @param mods        the data sent from FML handshake packet
      * @param remoteParty the side that sent this data
      * @return true if we allow this to run

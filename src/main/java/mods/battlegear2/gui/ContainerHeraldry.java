@@ -4,7 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 
-import mods.battlegear2.api.core.InventoryPlayerBattle;
+import mods.battlegear2.api.core.IInventoryPlayerBattle;
 
 public class ContainerHeraldry extends ContainerLocalPlayer {
 
@@ -14,19 +14,19 @@ public class ContainerHeraldry extends ContainerLocalPlayer {
         this.addSlotToContainer(
                 new HeraldrySlot(
                         inventoryPlayer,
-                        InventoryPlayerBattle.OFFSET + InventoryPlayerBattle.EXTRA_ITEMS + 1,
+                        IInventoryPlayerBattle.OFFSET + IInventoryPlayerBattle.EXTRA_ITEMS + 1,
                         -40,
                         -22));
         this.addSlotToContainer(
                 new HeraldrySlot(
                         inventoryPlayer,
-                        InventoryPlayerBattle.OFFSET + InventoryPlayerBattle.EXTRA_ITEMS + 2,
+                        IInventoryPlayerBattle.OFFSET + IInventoryPlayerBattle.EXTRA_ITEMS + 2,
                         -20,
                         -22));
         this.addSlotToContainer(
                 new HeraldrySlot(
                         inventoryPlayer,
-                        InventoryPlayerBattle.OFFSET + InventoryPlayerBattle.EXTRA_ITEMS + 3,
+                        IInventoryPlayerBattle.OFFSET + IInventoryPlayerBattle.EXTRA_ITEMS + 3,
                         0,
                         -22));
         // Default bar

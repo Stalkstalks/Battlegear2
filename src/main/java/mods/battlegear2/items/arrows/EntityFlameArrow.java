@@ -8,9 +8,8 @@ import net.minecraft.world.World;
 
 /**
  * An arrow which sets living entities or blocks on flame
- * 
- * @author GotoLink
  *
+ * @author GotoLink
  */
 public class EntityFlameArrow extends AbstractMBArrow {
 

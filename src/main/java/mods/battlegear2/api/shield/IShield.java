@@ -48,7 +48,7 @@ public interface IShield {
     /**
      * Returns the block angle in degrees that the shield can block. This angle is taken as 0 degrees being directly in
      * front of the player. The shield will block between -blockAngle to blockangle
-     * 
+     *
      * @param shield The {@link ItemStack} representing the shield
      * @return The maximum angle the shield should be able to block at
      */
@@ -65,7 +65,7 @@ public interface IShield {
     /**
      * Called after a successful block, if {@link mods.battlegear2.api.PlayerEventChild.ShieldBlockEvent] allowed
      * additional blocking animation A common additional animation might include a sound, particle effects, etc.
-     * 
+     *
      * @param player
      * @param amount
      */
@@ -74,7 +74,7 @@ public interface IShield {
     /**
      * Called after a successful block, if {@link mods.battlegear2.api.PlayerEventChild.ShieldBlockEvent] allowed damage
      * to be done and the player isn't in creative mode
-     * 
+     *
      * @param shield The {@link ItemStack} representing the shield
      * @param source The {@link DamageSource} representing the current damage
      * @return The amount of damage from the source that won't be dealt to the shield

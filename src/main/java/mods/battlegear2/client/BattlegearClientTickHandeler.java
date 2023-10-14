@@ -33,8 +33,8 @@ import mods.battlegear2.api.EnchantmentHelper;
 import mods.battlegear2.api.PlayerEventChild;
 import mods.battlegear2.api.core.BattlegearUtils;
 import mods.battlegear2.api.core.IBattlePlayer;
+import mods.battlegear2.api.core.IInventoryPlayerBattle;
 import mods.battlegear2.api.core.IOffhandRender;
-import mods.battlegear2.api.core.InventoryPlayerBattle;
 import mods.battlegear2.api.quiver.QuiverArrowRegistry;
 import mods.battlegear2.api.shield.IShield;
 import mods.battlegear2.api.weapons.IExtendedReachWeapon;
@@ -53,7 +53,7 @@ public final class BattlegearClientTickHandeler {
     private float blockBar = 1;
     private float partialTick;
     private boolean wasBlocking = false;
-    private int previousBattlemode = InventoryPlayerBattle.OFFSET;
+    private int previousBattlemode = IInventoryPlayerBattle.OFFSET;
     private int previousNormal = 0;
     private int flashTimer;
     private boolean specialDone = false, drawDone = false, inBattle = false;
@@ -75,16 +75,17 @@ public final class BattlegearClientTickHandeler {
                 EntityClientPlayerMP player = mc.thePlayer;
                 if (event.phase == TickEvent.Phase.START) {
                     if (!specialDone && special.getIsKeyPressed()
-                            && ((IBattlePlayer) player).getSpecialActionTimer() == 0) {
+                            && ((IBattlePlayer) player).battlegear2$getSpecialActionTimer() == 0) {
                         ItemStack quiver = QuiverArrowRegistry.getArrowContainer(player);
 
                         if (quiver != null) {
                             FMLProxyPacket p = new BattlegearAnimationPacket(EnumBGAnimations.SpecialAction, player)
                                     .generatePacket();
                             Battlegear.packetHandler.sendPacketToServer(p);
-                            ((IBattlePlayer) player).setSpecialActionTimer(2);
-                        } else if (((IBattlePlayer) player).isBattlemode()) {
-                            ItemStack offhand = ((InventoryPlayerBattle) player.inventory).getCurrentOffhandWeapon();
+                            ((IBattlePlayer) player).battlegear2$setSpecialActionTimer(2);
+                        } else if (((IBattlePlayer) player).battlegear2$isBattlemode()) {
+                            ItemStack offhand = ((IInventoryPlayerBattle) player.inventory)
+                                    .battlegear2$getCurrentOffhandWeapon();
 
                             if (offhand != null && offhand.getItem() instanceof IShield) {
                                 float shieldBashPenalty = 0.33F - 0.06F
@@ -95,8 +96,8 @@ public final class BattlegearClientTickHandeler {
                                             EnumBGAnimations.SpecialAction,
                                             player).generatePacket();
                                     Battlegear.packetHandler.sendPacketToServer(p);
-                                    ((IBattlePlayer) player)
-                                            .setSpecialActionTimer(((IShield) offhand.getItem()).getBashTimer(offhand));
+                                    ((IBattlePlayer) player).battlegear2$setSpecialActionTimer(
+                                            ((IShield) offhand.getItem()).getBashTimer(offhand));
 
                                     blockBar -= shieldBashPenalty;
                                 }
@@ -107,7 +108,7 @@ public final class BattlegearClientTickHandeler {
                         specialDone = false;
                     }
                     if (!drawDone && drawWeapons.getIsKeyPressed()) {
-                        if (((IBattlePlayer) player).isBattlemode()) {
+                        if (((IBattlePlayer) player).battlegear2$isBattlemode()) {
                             previousBattlemode = player.inventory.currentItem;
                             player.inventory.currentItem = previousNormal;
                         } else {
@@ -119,12 +120,12 @@ public final class BattlegearClientTickHandeler {
                     } else if (drawDone && !drawWeapons.getIsKeyPressed()) {
                         drawDone = false;
                     }
-                    inBattle = ((IBattlePlayer) player).isBattlemode();
+                    inBattle = ((IBattlePlayer) player).battlegear2$isBattlemode();
                 } else {
-                    if (inBattle && !((IBattlePlayer) player).isBattlemode()) {
-                        for (int i = 0; i < InventoryPlayerBattle.WEAPON_SETS; ++i) {
+                    if (inBattle && !((IBattlePlayer) player).battlegear2$isBattlemode()) {
+                        for (int i = 0; i < IInventoryPlayerBattle.WEAPON_SETS; ++i) {
                             if (mc.gameSettings.keyBindsHotbar[i].getIsKeyPressed()) {
-                                previousBattlemode = InventoryPlayerBattle.OFFSET + i;
+                                previousBattlemode = IInventoryPlayerBattle.OFFSET + i;
                             }
                         }
                         player.inventory.currentItem = previousBattlemode;
@@ -146,9 +147,9 @@ public final class BattlegearClientTickHandeler {
         }
     }
 
-    public void tickStart(EntityPlayer player) {
-        if (((IBattlePlayer) player).isBattlemode()) {
-            ItemStack offhand = ((InventoryPlayerBattle) player.inventory).getCurrentOffhandWeapon();
+    private void tickStart(EntityPlayer player) {
+        if (((IBattlePlayer) player).battlegear2$isBattlemode()) {
+            ItemStack offhand = ((IInventoryPlayerBattle) player.inventory).battlegear2$getCurrentOffhandWeapon();
             if (offhand != null) {
                 if (offhand.getItem() instanceof IShield) {
                     if (flashTimer == FLASH_MAX) {
@@ -235,12 +236,12 @@ public final class BattlegearClientTickHandeler {
                 if (useItemEvent.offhand.stackSize == 0) {
                     BattlegearUtils.setPlayerOffhandItem(player, null);
                 } else if (useItemEvent.offhand.stackSize != size || mc.playerController.isInCreativeMode()) {
-                    ((IOffhandRender) mc.entityRenderer.itemRenderer).setEquippedOffHandProgress(0.0F);
+                    ((IOffhandRender) mc.entityRenderer.itemRenderer).battlegear2$setEquippedOffHandProgress(0.0F);
                 }
             }
         }
         if (flag) {
-            offhand = ((InventoryPlayerBattle) player.inventory).getCurrentOffhandWeapon();
+            offhand = ((IInventoryPlayerBattle) player.inventory).battlegear2$getCurrentOffhandWeapon();
             PlayerEventChild.UseOffhandItemEvent useItemEvent = new PlayerEventChild.UseOffhandItemEvent(
                     new PlayerInteractEvent(
                             player,
@@ -263,7 +264,7 @@ public final class BattlegearClientTickHandeler {
                 if (flag) {
                     if (useItemEvent.swingOffhand)
                         BattlegearUtils.sendOffSwingEvent(useItemEvent.event, useItemEvent.offhand);
-                    ((IOffhandRender) mc.entityRenderer.itemRenderer).setEquippedOffHandProgress(0.0F);
+                    ((IOffhandRender) mc.entityRenderer.itemRenderer).battlegear2$setEquippedOffHandProgress(0.0F);
                 }
             }
         }
@@ -329,8 +330,8 @@ public final class BattlegearClientTickHandeler {
         }
     }
 
-    public void tickEnd(EntityPlayer player) {
-        ItemStack offhand = ((InventoryPlayerBattle) player.inventory).getCurrentOffhandWeapon();
+    private void tickEnd(EntityPlayer player) {
+        ItemStack offhand = ((IInventoryPlayerBattle) player.inventory).battlegear2$getCurrentOffhandWeapon();
         Battlegear.proxy.tryUseDynamicLight(player, offhand);
         // If we use a shield
         if (offhand != null && offhand.getItem() instanceof IShield) {
@@ -387,6 +388,6 @@ public final class BattlegearClientTickHandeler {
     }
 
     public static ItemStack getPreviousOffhand(EntityPlayer player) {
-        return player.inventory.getStackInSlot(INSTANCE.previousBattlemode + InventoryPlayerBattle.WEAPON_SETS);
+        return player.inventory.getStackInSlot(INSTANCE.previousBattlemode + IInventoryPlayerBattle.WEAPON_SETS);
     }
 }

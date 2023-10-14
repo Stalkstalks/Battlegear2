@@ -14,7 +14,7 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import mods.battlegear2.api.core.BattlegearUtils;
-import mods.battlegear2.api.core.InventoryPlayerBattle;
+import mods.battlegear2.api.core.IInventoryPlayerBattle;
 import mods.battlegear2.items.ItemMBArrow;
 import mods.battlegear2.items.arrows.AbstractMBArrow;
 import mods.battlegear2.utils.BattlegearConfig;
@@ -35,7 +35,7 @@ public final class MobHookContainerClass {
      * Listen to {@link EntityJoinWorldEvent} : Adds random special {@link EntityArrow}s data to {@link EntitySkeleton}s
      * {@link net.minecraft.entity.DataWatcher} (for display) Replace the vanilla fired {@link EntityArrow} with the
      * custom {@link AbstractMBArrow} (for actual action) Note: Fails silently
-     *
+     * <p>
      * Move arrows position slightly to the left when fired from a bow in left hand
      */
     @SubscribeEvent(priority = EventPriority.LOW)
@@ -97,8 +97,8 @@ public final class MobHookContainerClass {
                 }
             } else if (arrow.shootingEntity instanceof EntityPlayer) {
                 if (BattlegearUtils.isPlayerInBattlemode((EntityPlayer) arrow.shootingEntity)) {
-                    ItemStack offhand = ((InventoryPlayerBattle) ((EntityPlayer) arrow.shootingEntity).inventory)
-                            .getCurrentOffhandWeapon();
+                    ItemStack offhand = ((IInventoryPlayerBattle) ((EntityPlayer) arrow.shootingEntity).inventory)
+                            .battlegear2$getCurrentOffhandWeapon();
                     if (offhand != null && BattlegearUtils.isBow(offhand.getItem())) {
                         arrow.setPosition(
                                 arrow.posX + 2 * (double) (MathHelper

@@ -7,9 +7,8 @@ import net.minecraft.world.World;
 
 /**
  * An arrow which causes explosions
- * 
- * @author GotoLink
  *
+ * @author GotoLink
  */
 public class EntityExplossiveArrow extends AbstractMBArrow {
 

@@ -12,9 +12,8 @@ import net.minecraft.world.World;
 
 /**
  * An arrow which sucks living entities life force to give it to the shooter
- * 
- * @author GotoLink
  *
+ * @author GotoLink
  */
 public class EntityLeechArrow extends AbstractMBArrow {
 
@@ -41,8 +40,8 @@ public class EntityLeechArrow extends AbstractMBArrow {
             if (entityHit.attackEntityFrom(getLeechDamage(), value)) { // Try leech
                 if (shootingEntity instanceof EntityLivingBase) ((EntityLivingBase) shootingEntity).heal(value);
                 ((EntityLivingBase) entityHit).addPotionEffect(new PotionEffect(Potion.weakness.getId(), 40)); // Weaken
-                                                                                                               // the
-                                                                                                               // opponent
+                // the
+                // opponent
             }
             ((EntityLivingBase) entityHit)
                     .setArrowCountInEntity(((EntityLivingBase) entityHit).getArrowCountInEntity() + 1);
@@ -57,7 +56,7 @@ public class EntityLeechArrow extends AbstractMBArrow {
         if (!worldObj.isRemote) {
             worldObj.spawnEntityInWorld(
                     new EntityPotion(worldObj, x, y, z, new ItemStack(Items.potionitem, 1, SPLASH_WEAKNESS))); // Splash
-                                                                                                               // weakness
+            // weakness
         }
         this.setDead();
     }

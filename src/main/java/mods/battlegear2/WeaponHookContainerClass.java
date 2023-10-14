@@ -72,7 +72,7 @@ public final class WeaponHookContainerClass {
                     if (!entityHit.worldObj.isRemote) {
                         if (stack.getItem() instanceof IHitTimeModifier) {
                             if (hurtResistanceTimeTemp > entityHit.maxHurtResistantTime * 0.5F) { // Hit shield is in
-                                                                                                  // effect
+                                // effect
                                 int timeModifier = ((IHitTimeModifier) stack.getItem()).getHitTime(stack, entityHit);
                                 boolean apply = timeModifier != 0;
                                 // If the shield is supposed to be reduced, don't re-apply the effect every time

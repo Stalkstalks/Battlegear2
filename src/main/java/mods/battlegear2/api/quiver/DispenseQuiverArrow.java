@@ -17,7 +17,7 @@ public class DispenseQuiverArrow extends DispenseArrow {
 
     /**
      * The item that will attempt to use the arrow container, by default
-     * 
+     *
      * @see #getUsedBow(ItemStack)
      */
     private final Item bow;
@@ -77,7 +77,7 @@ public class DispenseQuiverArrow extends DispenseArrow {
 
     /**
      * Prevent container stack size from being reduced
-     * 
+     *
      * @param itemStack inside the dispenser, to consume from
      */
     @Override

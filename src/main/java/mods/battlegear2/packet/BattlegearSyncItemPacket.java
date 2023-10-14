@@ -8,7 +8,7 @@ import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
 import mods.battlegear2.api.core.BattlegearUtils;
 import mods.battlegear2.api.core.IBattlePlayer;
-import mods.battlegear2.api.core.InventoryPlayerBattle;
+import mods.battlegear2.api.core.IInventoryPlayerBattle;
 
 /**
  * User: nerd-boy Date: 26/06/13 Time: 1:40 PM
@@ -38,19 +38,21 @@ public final class BattlegearSyncItemPacket extends AbstractMBPacket {
         this.player = player.worldObj.getPlayerEntityByName(user);
         if (this.player != null) {
             int current = inputStream.readInt();
-            if (InventoryPlayerBattle.isValidSwitch(current)) this.player.inventory.currentItem = current;
+            if (IInventoryPlayerBattle.isValidSwitch(current)) {
+                this.player.inventory.currentItem = current;
+            }
             if (player.worldObj.isRemote) {
                 ItemStack temp = ByteBufUtils.readItemStack(inputStream);
                 if (!ItemStack.areItemStacksEqual(this.player.getCurrentEquippedItem(), temp))
                     BattlegearUtils.setPlayerCurrentItem(this.player, temp);
 
-                for (int i = 0; i < InventoryPlayerBattle.EXTRA_INV_SIZE; i++) {
+                for (int i = 0; i < IInventoryPlayerBattle.EXTRA_INV_SIZE; i++) {
                     ItemStack stack = ByteBufUtils.readItemStack(inputStream);
                     if (!ItemStack.areItemStacksEqual(
-                            this.player.inventory.getStackInSlot(InventoryPlayerBattle.OFFSET + i),
+                            this.player.inventory.getStackInSlot(IInventoryPlayerBattle.OFFSET + i),
                             stack))
-                        ((InventoryPlayerBattle) this.player.inventory)
-                                .setInventorySlotContents(InventoryPlayerBattle.OFFSET + i, stack, false);
+                        ((IInventoryPlayerBattle) this.player.inventory)
+                                .battlegear2$setInventorySlotContents(IInventoryPlayerBattle.OFFSET + i, stack, false);
                 }
             } else if (BattlegearUtils.isPlayerInBattlemode(this.player)) { // Using data sent only by client
                 ItemStack inUse = ByteBufUtils.readItemStack(inputStream);
@@ -59,7 +61,7 @@ public final class BattlegearSyncItemPacket extends AbstractMBPacket {
                     this.player.setItemInUse(inUse, time);
                 }
             }
-            ((IBattlePlayer) this.player).setSpecialActionTimer(0);
+            ((IBattlePlayer) this.player).battlegear2$setSpecialActionTimer(0);
         }
     }
 
@@ -75,8 +77,8 @@ public final class BattlegearSyncItemPacket extends AbstractMBPacket {
         if (!player.worldObj.isRemote) {
             ByteBufUtils.writeItemStack(out, inventory.getCurrentItem());
 
-            for (int i = 0; i < InventoryPlayerBattle.EXTRA_INV_SIZE; i++) {
-                ByteBufUtils.writeItemStack(out, inventory.getStackInSlot(i + InventoryPlayerBattle.OFFSET));
+            for (int i = 0; i < IInventoryPlayerBattle.EXTRA_INV_SIZE; i++) {
+                ByteBufUtils.writeItemStack(out, inventory.getStackInSlot(i + IInventoryPlayerBattle.OFFSET));
             }
         } else if (BattlegearUtils.isPlayerInBattlemode(player)) { // client-side only thing
             ByteBufUtils.writeItemStack(out, player.getItemInUse());

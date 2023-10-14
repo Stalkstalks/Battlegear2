@@ -9,7 +9,7 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 
 import mods.battlegear2.Battlegear;
-import mods.battlegear2.api.core.InventoryPlayerBattle;
+import mods.battlegear2.api.core.IInventoryPlayerBattle;
 import mods.battlegear2.packet.BattlegearSyncItemPacket;
 
 public class ContainerBattle extends ContainerLocalPlayer {
@@ -36,11 +36,11 @@ public class ContainerBattle extends ContainerLocalPlayer {
         }
 
         // Weapon Slots[40-45] even slots for main, odd slots for offhand
-        for (int x = 0; x < InventoryPlayerBattle.WEAPON_SETS; x++) {
-            WeaponSlot main = new WeaponSlot(inventoryPlayer, x + InventoryPlayerBattle.OFFSET, 78, 15 + x * 18, true);
+        for (int x = 0; x < IInventoryPlayerBattle.WEAPON_SETS; x++) {
+            WeaponSlot main = new WeaponSlot(inventoryPlayer, x + IInventoryPlayerBattle.OFFSET, 78, 15 + x * 18, true);
             WeaponSlot offhand = new WeaponSlot(
                     inventoryPlayer,
-                    x + InventoryPlayerBattle.OFFSET + InventoryPlayerBattle.WEAPON_SETS,
+                    x + IInventoryPlayerBattle.OFFSET + IInventoryPlayerBattle.WEAPON_SETS,
                     118,
                     15 + x * 18,
                     false);

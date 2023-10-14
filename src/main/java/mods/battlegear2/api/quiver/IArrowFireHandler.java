@@ -13,7 +13,7 @@ public interface IArrowFireHandler {
 
     /**
      * Called from QuiverArrowRegistry.getArrowType, to decide if it is worth trying to build an EntityArrow
-     * 
+     *
      * @param arrow  the stack which should define the arrow as item
      * @param world
      * @param player player using a bow to fire an arrow
@@ -25,7 +25,7 @@ public interface IArrowFireHandler {
     /**
      * Called from QuiverArrowRegistry.getArrowType, return null if the EntityArrow couldn't be built, let pass to
      * another IArrowFireHandler
-     * 
+     *
      * @param arrow  the stack which should define the arrow as item
      * @param world
      * @param player player using a bow to fire an arrow

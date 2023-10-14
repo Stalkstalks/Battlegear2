@@ -9,7 +9,6 @@ import java.util.Objects;
 import java.util.Set;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.oredict.OreDictionary;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -20,7 +19,6 @@ import com.google.common.collect.Sets;
 
 import cpw.mods.fml.common.event.FMLInterModComms;
 import mods.battlegear2.api.ISensible;
-import mods.battlegear2.api.IUsableItem;
 import mods.battlegear2.api.StackHolder;
 
 /**
@@ -28,9 +26,8 @@ import mods.battlegear2.api.StackHolder;
  * Use only if your item is not recognized by default. Use of {@link IBattlegearWeapon} or {@link IUsableItem} are
  * preferred over this method. {@link NBTTagCompound} are supported by default, though can be bypassed through
  * /weaponwield sensitivity command by server op
- * 
- * @author GotoLink
  *
+ * @author GotoLink
  */
 public class WeaponRegistry {
 
@@ -43,7 +40,7 @@ public class WeaponRegistry {
 
     /**
      * Called by a {@link FMLInterModComms.IMCMessage} with key as type, and the {@link ItemStack} as value
-     * 
+     *
      * @param type  the key from the message, accepted values (case don't matter) are: "dual", "mainhand", "offhand",
      *              "both", "right", "left"
      * @param stack registered as either dual-wieldable, wieldable only in mainhand or in offhand
@@ -87,7 +84,7 @@ public class WeaponRegistry {
 
     /**
      * Adds a way to compare two {@link StackHolder} in this registry
-     * 
+     *
      * @param sensitivity the comparison to add
      * @return true if this new comparison could be added
      */
@@ -97,7 +94,7 @@ public class WeaponRegistry {
 
     /**
      * Removes a way to compare two {@link StackHolder} in this registry
-     * 
+     *
      * @param sensitivity the comparison to remove
      * @return true if this comparison has been removed
      */
@@ -107,7 +104,7 @@ public class WeaponRegistry {
 
     /**
      * Check if given {@link ItemStack} has been registered as any type of weapon
-     * 
+     *
      * @param stack the stack to check
      * @return true if an equivalent stack as been found in this registry
      */
@@ -120,7 +117,7 @@ public class WeaponRegistry {
     /**
      * Check if given {@link StackHolder} has been registered as any type of weapon, depending on given {@link Iterator}
      * of comparisons
-     * 
+     *
      * @param holder the stack wrapper to check
      * @return true if a comparable stack wrapper as been found in this registry
      */
@@ -131,7 +128,7 @@ public class WeaponRegistry {
 
     /**
      * Check if given {@link ItemStack} has been registered as a mainhand weapon
-     * 
+     *
      * @param stack the stack to check
      * @return true if an equivalent mainhand-wieldable stack as been found in this registry
      */
@@ -146,7 +143,7 @@ public class WeaponRegistry {
     /**
      * Check if given {@link StackHolder} has been registered as a mainhand weapon, depending on given {@link Iterator}
      * of comparisons
-     * 
+     *
      * @param holder the stack wrapper to check
      * @return true if a comparable mainhand-wieldable stack wrapper as been found in this registry
      */
@@ -164,7 +161,7 @@ public class WeaponRegistry {
 
     /**
      * Check if given {@link ItemStack} has been registered as an offhand weapon
-     * 
+     *
      * @param stack the stack to check
      * @return true if an equivalent offhand-wieldable stack as been found in this registry
      */
@@ -179,7 +176,7 @@ public class WeaponRegistry {
     /**
      * Check if given {@link StackHolder} has been registered as an offhand weapon depending on given {@link Iterator}
      * of comparisons
-     * 
+     *
      * @param holder the stack wrapper to check
      * @return true if a comparable offhand-wieldable stack wrapper as been found in this registry
      */

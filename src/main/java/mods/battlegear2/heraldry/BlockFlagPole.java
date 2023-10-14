@@ -21,7 +21,7 @@ import mods.battlegear2.api.heraldry.IFlagHolder;
 
 /**
  * User: nerd-boy Date: 2/08/13 Time: 11:53 AM
- *
+ * <p>
  * Block class for a flag pole
  */
 public class BlockFlagPole extends Block {

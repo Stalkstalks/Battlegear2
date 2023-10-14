@@ -11,9 +11,9 @@ public interface IOffhandDual {
 
     /**
      * Returns true if this item can be dual wielded in the offhand slot
-     * 
-     * @deprecated See {@link IOffhandWield#isOffhandWieldable(ItemStack, EntityPlayer)}
+     *
      * @param off The {@link ItemStack} holding this item
+     * @deprecated See {@link IOffhandWield#isOffhandWieldable(ItemStack, EntityPlayer)}
      */
     public boolean isOffhandHandDual(ItemStack off);
 
@@ -27,11 +27,11 @@ public interface IOffhandDual {
      * addition. Interactions with the entity have already been checked out, and cancelling the given event will only
      * let the right hand item be used.
      *
-     * @deprecated See {@link IOffhandListener#onAttackEntity(PlayerEventChild.OffhandAttackEvent)}
      * @param event        the OffhandAttackEvent that was generated
      * @param mainhandItem the {@link ItemStack} currently being held in the right hand
      * @param offhandItem  the {@link ItemStack} currently being held in the left hand, holding this item
      * @return true if the off hand swing animation should be performed
+     * @deprecated See {@link IOffhandListener#onAttackEntity(PlayerEventChild.OffhandAttackEvent)}
      */
     public boolean offhandAttackEntity(PlayerEventChild.OffhandAttackEvent event, ItemStack mainhandItem,
             ItemStack offhandItem);
@@ -41,12 +41,12 @@ public interface IOffhandDual {
      * client-side, then on server side if {@link PlayerEventChild.UseOffhandItemEvent} is not cancelled and offhandItem
      * is not null, following Forge rules for PlayerInteractEvent with Action==RIGHT_CLICK_AIR Note: PlayerInteractEvent
      * is already a shallow copy
-     * 
-     * @deprecated See {@link IOffhandListener#onClickAir(EntityPlayer, ItemStack, ItemStack)} for better control
+     *
      * @param event        the PlayerInteractEvent that was generated
      * @param mainhandItem the {@link ItemStack} currently being held in the right hand
      * @param offhandItem  the {@link ItemStack} currently being held in the left hand, holding this item
      * @return true if the off hand swing animation should be performed
+     * @deprecated See {@link IOffhandListener#onClickAir(EntityPlayer, ItemStack, ItemStack)} for better control
      */
     public boolean offhandClickAir(PlayerInteractEvent event, ItemStack mainhandItem, ItemStack offhandItem);
 
@@ -56,18 +56,18 @@ public interface IOffhandDual {
      * if {@link UseOffhandItemEvent} is not cancelled Note: {@link PlayerInteractEvent#useItem} is already set on
      * {@link Event.Result#DENY} before reaching this method, in order to avoid mainhandItem usage
      *
-     * @deprecated See {@link IHandListener#onClickBlock(PlayerInteractEvent, ItemStack, ItemStack, boolean)}
      * @param event        the PlayerInteractEvent that was generated
      * @param mainhandItem the {@link ItemStack} currently being held in the right hand
      * @param offhandItem  the {@link ItemStack} currently being held in the left hand, holding this item
      * @return true if the off hand swing animation should be performed
+     * @deprecated See {@link IHandListener#onClickBlock(PlayerInteractEvent, ItemStack, ItemStack, boolean)}
      */
     public boolean offhandClickBlock(PlayerInteractEvent event, ItemStack mainhandItem, ItemStack offhandItem);
 
     @SuppressWarnings("unused")
     /**
      * No-OP
-     * 
+     *
      * @See {Item#onUpdate(ItemStack, World, Entity, int, boolean)}
      */
     public void performPassiveEffects(Side effectiveSide, ItemStack mainhandItem, ItemStack offhandItem);
