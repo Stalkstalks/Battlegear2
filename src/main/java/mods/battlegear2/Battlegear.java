@@ -32,10 +32,7 @@ import mods.battlegear2.gui.BattlegearGUIHandeler;
 import mods.battlegear2.packet.BattlegearPacketHandeler;
 import mods.battlegear2.utils.BattlegearConfig;
 
-@Mod(
-        modid = Battlegear.MODID,
-        version = "GRADLETOKEN_VERSION",
-        guiFactory = "mods.battlegear2.gui.BattlegearGuiFactory")
+@Mod(modid = Battlegear.MODID, version = Tags.VERSION, guiFactory = "mods.battlegear2.gui.BattlegearGuiFactory")
 public class Battlegear {
 
     public static final String MODID = "battlegear2";

@@ -62,14 +62,14 @@ public class InventoryArrayAccessTransformer implements IClassTransformer {
 
     // spotless:off
     public InventoryArrayAccessTransformer() {
-        this.targetClassesAndMethods.put("net.minecraft.entity.ai.EntityAIControlledByPlayer", MethodMapping.ENTITYAICONTROLLEDBYPLAYER$UPDATETASK);
-        this.targetClassesAndMethods.put("net.minecraft.client.entity.EntityOtherPlayerMP", MethodMapping.ENTITYOTHERPLAYERMP$SETCURRENTITEMORARMOR);
-        this.targetClassesAndMethods.put("net.minecraft.entity.player.EntityPlayer", MethodMapping.ENTITYPLAYER$SETCURRENTITEMORARMOR);
-        this.targetClassesAndMethods.put("net.minecraft.server.management.ItemInWorldManager", MethodMapping.ITEMINWORLDMANAGER$TRYUSEITEM);
-        this.targetClassesAndMethods.put("net.minecraft.client.Minecraft", MethodMapping.MINECRAFT$RIGHTCLICKMOUSE);
-        this.targetClassesAndMethods.put("net.minecraft.client.network.NetHandlerPlayClient", MethodMapping.NETHANDLERPLAYCLIENT$HANDLESPAWNPLAYER);
-        this.targetClassesAndMethods.put("net.minecraft.network.NetHandlerPlayServer", MethodMapping.NETHANDLERPLAYSERVER$PROCESSPLAYERBLOCKPLACEMENT);
-        this.targetClassesAndMethods.put("net.minecraft.client.multiplayer.PlayerControllerMP", MethodMapping.PLAYERCONTROLLERMP$SENDUSEITEM);
+        this.targetClassesAndMethods.put("net.minecraft.entity.ai.EntityAIControlledByPlayer", MethodMapping.ENTITYAICONTROLLEDBYPLAYER_UPDATETASK);
+        this.targetClassesAndMethods.put("net.minecraft.client.entity.EntityOtherPlayerMP", MethodMapping.ENTITYOTHERPLAYERMP_SETCURRENTITEMORARMOR);
+        this.targetClassesAndMethods.put("net.minecraft.entity.player.EntityPlayer", MethodMapping.ENTITYPLAYER_SETCURRENTITEMORARMOR);
+        this.targetClassesAndMethods.put("net.minecraft.server.management.ItemInWorldManager", MethodMapping.ITEMINWORLDMANAGER_TRYUSEITEM);
+        this.targetClassesAndMethods.put("net.minecraft.client.Minecraft", MethodMapping.MINECRAFT_RIGHTCLICKMOUSE);
+        this.targetClassesAndMethods.put("net.minecraft.client.network.NetHandlerPlayClient", MethodMapping.NETHANDLERPLAYCLIENT_HANDLESPAWNPLAYER);
+        this.targetClassesAndMethods.put("net.minecraft.network.NetHandlerPlayServer", MethodMapping.NETHANDLERPLAYSERVER_PROCESSPLAYERBLOCKPLACEMENT);
+        this.targetClassesAndMethods.put("net.minecraft.client.multiplayer.PlayerControllerMP", MethodMapping.PLAYERCONTROLLERMP_SENDUSEITEM);
     }
     // spotless:on
 
@@ -111,7 +111,7 @@ public class InventoryArrayAccessTransformer implements IClassTransformer {
         int injectionCount = -1;
         for (final MethodNode methodNode : classNode.methods) {
             if ((methodNode.name + methodNode.desc).equals(targetMethod.getMapping())) {
-                if (targetMethod == MethodMapping.NETHANDLERPLAYSERVER$PROCESSPLAYERBLOCKPLACEMENT) {
+                if (targetMethod == MethodMapping.NETHANDLERPLAYSERVER_PROCESSPLAYERBLOCKPLACEMENT) {
                     cleanUnsafeArrayAccess(methodNode.instructions);
                     fixNetHandlerServerNPE(methodNode.instructions);
                 }
