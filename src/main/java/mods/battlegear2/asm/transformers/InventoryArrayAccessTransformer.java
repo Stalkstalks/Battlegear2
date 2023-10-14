@@ -113,7 +113,6 @@ public class InventoryArrayAccessTransformer implements IClassTransformer {
             if ((methodNode.name + methodNode.desc).equals(targetMethod.getMapping())) {
                 if (targetMethod == MethodMapping.NETHANDLERPLAYSERVER_PROCESSPLAYERBLOCKPLACEMENT) {
                     cleanUnsafeArrayAccess(methodNode.instructions);
-                    fixNetHandlerServerNPE(methodNode.instructions);
                 }
                 injectionCount = wrapInventoryAccess(methodNode.instructions);
             }
@@ -294,63 +293,6 @@ public class InventoryArrayAccessTransformer implements IClassTransformer {
                 }
             }
         }
-    }
-
-    /**
-     * <p>
-     * Fixes an NPE in "net.minecraft.network.NetHandlerPlayServer", variable 'slot' might be null.
-     * </p>
-     * <p>
-     * Captures the index of the 'slot' variable and injects a null check with a return after the line :
-     * </p>
-     *
-     * <pre>
-     * this.playerEntity.isChangingQuantityOnly = false;
-     * </pre>
-     * <p>
-     * Code after inject :
-     * </p>
-     *
-     * <pre>
-     * this.playerEntity.isChangingQuantityOnly = false;
-     * if (slot == null) {
-     *     return;
-     * }
-     * </pre>
-     */
-    private static void fixNetHandlerServerNPE(InsnList list) {
-        int slotVariableIndex = -1;
-        for (final AbstractInsnNode insnNode : list.toArray()) {
-            if (isGetSlotFromInventoryNode(insnNode)) {
-                final AbstractInsnNode secondNode = insnNode.getNext();
-                if (secondNode instanceof VarInsnNode && secondNode.getOpcode() == Opcodes.ASTORE) {
-                    slotVariableIndex = ((VarInsnNode) secondNode).var;
-                }
-            } else if (slotVariableIndex != -1 && isChangingQuantityOnlyFieldNode(insnNode)) {
-                final InsnList listToInject = new InsnList();
-                final LabelNode label = new LabelNode();
-                listToInject.add(new VarInsnNode(Opcodes.ALOAD, slotVariableIndex));
-                listToInject.add(new JumpInsnNode(Opcodes.IFNONNULL, label));
-                listToInject.add(new InsnNode(Opcodes.RETURN));
-                listToInject.add(label);
-                list.insert(insnNode, listToInject);
-            }
-        }
-    }
-
-    private static boolean isChangingQuantityOnlyFieldNode(AbstractInsnNode node) {
-        return node instanceof FieldInsnNode && node.getOpcode() == Opcodes.PUTFIELD
-                && ((FieldInsnNode) node).owner.equals(deobf("mw", "net/minecraft/entity/player/EntityPlayerMP"))
-                && ((FieldInsnNode) node).name.equals(deobf("g", "isChangingQuantityOnly"))
-                && ((FieldInsnNode) node).desc.equals("Z");
-    }
-
-    private static boolean isGetSlotFromInventoryNode(AbstractInsnNode node) {
-        return node instanceof MethodInsnNode && node.getOpcode() == Opcodes.INVOKEVIRTUAL
-                && ((MethodInsnNode) node).owner.equals(deobf("zs", "net/minecraft/inventory/Container"))
-                && ((MethodInsnNode) node).name.equals(deobf("a", "getSlotFromInventory"))
-                && ((MethodInsnNode) node).desc.equals(
-                        deobf("(Lrb;I)Laay;", "(Lnet/minecraft/inventory/IInventory;I)Lnet/minecraft/inventory/Slot;"));
     }
 
     private static boolean isLoadPlayerNode(AbstractInsnNode node) {
