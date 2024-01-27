@@ -26,7 +26,6 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
-import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
@@ -59,7 +58,6 @@ import mods.battlegear2.client.model.QuiverModel;
 import mods.battlegear2.client.utils.BattlegearRenderHelper;
 import mods.battlegear2.enchantments.BaseEnchantment;
 import mods.battlegear2.items.ItemWeapon;
-import mods.battlegear2.packet.PickBlockPacket;
 import mods.battlegear2.utils.BattlegearConfig;
 
 public final class BattlegearClientEvents {
@@ -292,48 +290,6 @@ public final class BattlegearClientEvents {
                 f1 *= f1;
             }
             event.newfov /= 1.0F - f1 * 0.15F;
-        }
-    }
-
-    /**
-     * Fixes pick block
-     */
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void replacePickBlock(MouseEvent event) {
-        if (event.buttonstate) {
-            Minecraft mc = FMLClientHandler.instance().getClient();
-            if (mc.thePlayer != null) {
-                if (event.button - 100 == mc.gameSettings.keyBindPickBlock.getKeyCode()) {
-                    event.setCanceled(true);
-                    if (!((IBattlePlayer) mc.thePlayer).battlegear2$isBattlemode()) {
-                        boolean isCreative = mc.thePlayer.capabilities.isCreativeMode;
-                        ItemStack stack = getItemFromPointedAt(mc.objectMouseOver, mc.thePlayer);
-                        if (stack != null) {
-                            int k = -1;
-                            ItemStack temp;
-                            for (int slot = 0; slot < MAIN_INV; slot++) {
-                                temp = mc.thePlayer.inventory.getStackInSlot(slot);
-                                if (temp != null && stack.isItemEqual(temp)
-                                        && ItemStack.areItemStackTagsEqual(stack, temp)) {
-                                    k = slot;
-                                    break;
-                                }
-                            }
-                            if (isCreative && k == -1) {
-                                k = mc.thePlayer.inventory.getFirstEmptyStack();
-                                if (k < 0 || k >= MAIN_INV) {
-                                    k = mc.thePlayer.inventory.currentItem;
-                                }
-                            }
-                            if (k >= 0 && k < MAIN_INV) {
-                                mc.thePlayer.inventory.currentItem = k;
-                                Battlegear.packetHandler
-                                        .sendPacketToServer(new PickBlockPacket(stack, k).generatePacket());
-                            }
-                        }
-                    }
-                }
-            }
         }
     }
 
