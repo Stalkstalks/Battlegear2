@@ -258,16 +258,16 @@ public class BattlegearConfig {
         for (int i = 0; i < 5; i++) {
             ToolMaterial material = ToolMaterial.values()[i];
             if (Arrays.binarySearch(disabledItems, itemNames[4]) < 0) {
-                warAxe[i] = new ItemWaraxe(material, itemNames[4], i == 4 ? 2 : 1);
+                warAxe[i] = new ItemWaraxe(material, itemNames[4], i + 1);
             }
             if (Arrays.binarySearch(disabledItems, itemNames[3]) < 0) {
                 dagger[i] = new ItemDagger(material, itemNames[3], 0.5F, -2);
             }
             if (Arrays.binarySearch(disabledItems, itemNames[5]) < 0) {
-                mace[i] = new ItemMace(material, itemNames[5], 0.05F + 0.05F * i);
+                mace[i] = new ItemMace(material, itemNames[5], 0.08F + 0.08F * i);
             }
             if (Arrays.binarySearch(disabledItems, itemNames[6]) < 0) {
-                spear[i] = new ItemSpear(material, itemNames[6], 3, 2.0F);
+                spear[i] = new ItemSpear(material, itemNames[6], i + 3, 2.0F);
             }
             if (Arrays.binarySearch(disabledItems, itemNames[7]) < 0) {
                 shield[i] = new ItemShield(types[i]);
@@ -311,7 +311,7 @@ public class BattlegearConfig {
 
         if (chain != null) {
             if (Arrays.binarySearch(disabledRecipies, itemNames[1]) < 0)
-                GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chain, 3), "I", "I", 'I', "ingotIron"));
+                GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(chain, 5), "I", "I", 'I', "ingotIron"));
             if (Arrays.binarySearch(disabledRecipies, "chain.armour") < 0) {
                 // Chain armor recipes
                 GameRegistry.addRecipe(new ItemStack(Items.chainmail_helmet), "LLL", "L L", 'L', chain);

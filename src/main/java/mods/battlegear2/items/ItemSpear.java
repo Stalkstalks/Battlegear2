@@ -30,7 +30,7 @@ public class ItemSpear extends TwoHandedWeapon implements IExtendedReachWeapon, 
         super(material, name);
         this.mounted_extra_damage = mount;
         // set the base damage to that of lower than usual (balance)
-        this.baseDamage -= 2;
+        this.baseDamage -= 1;
         GameRegistry.registerItem(this, this.name);
     }
 

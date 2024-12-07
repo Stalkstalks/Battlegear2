@@ -12,6 +12,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
+import net.minecraft.util.Vec3;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -121,12 +122,20 @@ public final class WeaponHookContainerClass {
                 }
             }
             ItemStack itemStack = ((EntityLivingBase) hurt.source.getEntity()).getHeldItem();
-            if (itemStack != null && itemStack.getItem() instanceof IPenetrateWeapon) {
-                hurt.entityLiving.hurtResistantTime = 0;
-                // Attack using the "generic" damage type (ignores armour)
-                hurt.entityLiving.attackEntityFrom(
-                        DamageSource.generic,
-                        ((IPenetrateWeapon) itemStack.getItem()).getPenetratingPower(itemStack));
+            if (itemStack != null) {
+                if (itemStack.getItem() instanceof IPenetrateWeapon) {
+                    hurt.entityLiving.hurtResistantTime = 0;
+                    // Attack using the "generic" damage type (ignores armour)
+                    hurt.entityLiving.attackEntityFrom(
+                            DamageSource.generic,
+                            ((IPenetrateWeapon) itemStack.getItem()).getPenetratingPower(itemStack));
+                }
+                if (itemStack.getItem() instanceof IBackStabbable && performBackStab(
+                        itemStack.getItem(),
+                        (EntityLivingBase) hurt.source.getEntity(),
+                        hurt.entityLiving)) {
+                    hurt.ammount *= 2;
+                }
             }
             hurt.entityLiving.hurtResistantTime = hurtResistanceTimeTemp;
         }
@@ -151,16 +160,26 @@ public final class WeaponHookContainerClass {
 
     public boolean performBackStab(Item item, EntityLivingBase entityHit, EntityLivingBase entityHitting) {
         // Get victim and murderer vector views at hit time
-        double[] victimView = new double[] { entityHit.getLookVec().xCoord, entityHit.getLookVec().zCoord };
-        double[] murdererView = new double[] { entityHitting.getLookVec().xCoord, entityHitting.getLookVec().zCoord };
-        // back-stab conditions: vectors are closely enough aligned, (fuzzy parameter might need testing)
-        // but not in opposite directions (face to face or sideways)
-        if (Math.abs(victimView[0] * murdererView[1] - victimView[1] * murdererView[0]) < backstabFuzzy
-                && Math.signum(victimView[0]) == Math.signum(murdererView[0])
-                && Math.signum(victimView[1]) == Math.signum(murdererView[1])) {
-            return ((IBackStabbable) item).onBackStab(entityHit, entityHitting); // Perform back stab effect
-        }
+
+        Vec3 attackVec = entityHitting.getLookVec();
+        Vec3 targetVec = entityHit.getLookVec();
+
+        double dp = (attackVec.xCoord * targetVec.xCoord) + (attackVec.yCoord * targetVec.yCoord)
+                + (attackVec.zCoord * targetVec.zCoord);
+
+        if (dp > 0.65) return true;
         return false;
+
+        /*
+         * //Get victim and murderer vector views at hit time double[] victimView = new double[] {
+         * entityHit.getLookVec().xCoord, entityHit.getLookVec().zCoord }; double[] murdererView = new double[] {
+         * entityHitting.getLookVec().xCoord, entityHitting.getLookVec().zCoord }; // back-stab conditions: vectors are
+         * closely enough aligned, (fuzzy parameter might need testing) // but not in opposite directions (face to face
+         * or sideways) if (Math.abs(victimView[0] * murdererView[1] - victimView[1] * murdererView[0]) < backstabFuzzy
+         * && Math.signum(victimView[0]) == Math.signum(murdererView[0]) && Math.signum(victimView[1]) ==
+         * Math.signum(murdererView[1])) { return ((IBackStabbable) item).onBackStab(entityHit, entityHitting); //
+         * Perform back stab effect } return false;
+         */
     }
 
     public void performEffects(Map<PotionEffect, Float> map, EntityLivingBase entityHit) {

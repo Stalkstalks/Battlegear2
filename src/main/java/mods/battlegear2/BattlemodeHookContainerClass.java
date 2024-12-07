@@ -380,7 +380,7 @@ public final class BattlemodeHookContainerClass {
                             float red = ((IShield) shield.getItem()).getDamageReduction(shield, event.source);
                             if (red < dmg) {
                                 player.inventory.currentItem += IInventoryPlayerBattle.WEAPON_SETS;
-                                shield.damageItem(Math.round(dmg - red), player);
+                                shield.damageItem(Math.round((dmg - red) / 4), player);
                                 if (shield.stackSize <= 0) {
                                     player.destroyCurrentEquippedItem();
                                 }

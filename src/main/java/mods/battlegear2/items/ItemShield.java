@@ -132,12 +132,13 @@ public class ItemShield extends Item
 
     @Override
     public float getDamageDecayRate(ItemStack shield, float amount) {
-        return enumShield.getDamageDecay() * amount;
+        int use = 1 + EnchantmentHelper.getEnchantmentLevel(BaseEnchantment.shieldUsage, shield);
+        return enumShield.getDamageDecay() * amount / use;
     }
 
     @Override
     public float getBlockAngle(ItemStack shield) {
-        return 60;
+        return 90;
     }
 
     @Override

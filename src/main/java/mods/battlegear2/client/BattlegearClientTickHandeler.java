@@ -60,7 +60,7 @@ public final class BattlegearClientTickHandeler {
     public static final BattlegearClientTickHandeler INSTANCE = new BattlegearClientTickHandeler();
 
     private BattlegearClientTickHandeler() {
-        drawWeapons = new KeyBinding("Draw Weapons", Keyboard.KEY_G, "key.categories.battlegear");
+        drawWeapons = new KeyBinding("Draw Weapons", Keyboard.KEY_R, "key.categories.battlegear");
         special = new KeyBinding("Special", Keyboard.KEY_NONE, "key.categories.battlegear");
         ClientRegistry.registerKeyBinding(drawWeapons);
         ClientRegistry.registerKeyBinding(special);
@@ -308,6 +308,8 @@ public final class BattlegearClientTickHandeler {
                 .sendPacketToServer(new OffhandPlaceBlockPacket(i, j, k, l, offhand, f, f1, f2).generatePacket());
         if (flag) {
             return true;
+        } else if (offhand == null) {
+            return false;
         } else {
             if (controller.isInCreativeMode()) {
                 i1 = offhand.getItemDamage();

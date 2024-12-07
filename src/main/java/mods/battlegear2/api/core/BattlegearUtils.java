@@ -277,7 +277,8 @@ public class BattlegearUtils {
             EnumAction useAction = itemStack.getItemUseAction();
             return useAction == EnumAction.bow || useAction == EnumAction.drink
                     || useAction == EnumAction.eat
-                    || isCommonlyUsable(itemStack.getItem());
+                    || isCommonlyUsable(itemStack.getItem())
+                    || (useAction == EnumAction.block && !isWeapon(itemStack));
         }
     }
 
@@ -296,7 +297,8 @@ public class BattlegearUtils {
             return useAction == EnumAction.bow || useAction == EnumAction.drink
                     || useAction == EnumAction.eat
                     || isCommonlyUsable(itemStack.getItem())
-                    || WeaponRegistry.useOverAttack(itemStack, off);
+                    || WeaponRegistry.useOverAttack(itemStack, off)
+                    || (useAction == EnumAction.block && !isWeapon(itemStack));
         }
     }
 
